@@ -9,6 +9,7 @@
 
     <ItemGroup>
         <PackageReference Include="Ardalis.SmartEnum" Version="7.0.0" />
+        <PackageReference Include="Blazor.Bootstrap" Version="1.10.2" />
         <PackageReference Include="Fluxor.Blazor.Web" Version="5.9.1" />
         <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="8.0.0-preview.7.23375.9" />
         <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="8.0.0-preview.7.23375.9" PrivateAssets="all" />
