@@ -1,19 +1,40 @@
-html, body {
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+:root {
+    --color-primary: #5F4AA6; /* Color primario */
+    --color-secondary: #373676; /* Color secundario */
+    --grey-heavy: #2E2C2C;
+    --grey-normal: #494747;
+    --grey-light: #B9B4B4;
+    --grey-ultralight: #F3F3F3;
+    --line-border-fill: #3498db;
+    --line-border-empty: #e0e0e0;
+    font-family: Plus Jakarta Sans, sans-serif;
+    
 }
+
+html, body, h1, h2, h3, a, button, p, th, td, span{
+    font-family: 'Plus Jakarta Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
 
 h1:focus {
     outline: none;
 }
 
+h3{
+    color: var(--grey-normal);
+    font-size: 16px;
+    font-weight: 600;
+    font-family: Plus Jakarta Sans, sans-serif;
+}
+
 a, .btn-link {
-    color: #0071c1;
+    color: var(--color-primary);
 }
 
 .btn-primary {
     color: #fff;
-    background-color: #1b6ec2;
-    border-color: #1861ac;
+    background-color: var(--color-primary);
+    border-color: var(--color-primary);
 }
 
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
@@ -97,3 +118,5 @@ a, .btn-link {
     .loading-progress-text:after {
         content: var(--blazor-load-percentage-text, "Loading");
     }
+
+    
