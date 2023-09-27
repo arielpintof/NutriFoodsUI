@@ -1,0 +1,17 @@
+﻿@page "/organism"
+
+<h3>Form</h3>
+
+
+<div class="d-flex row">
+    <TextField Title="Nombre" ValueChanged="HandleValueChanged"></TextField>
+</div>
+
+<b>Valor de Nombre: @childValue</b>
+
+@code {
+    private string childValue = "Inicial";
+
+    private void HandleValueChanged(string newValue) => childValue = newValue;
+    
+}

@@ -1,0 +1,10 @@
+﻿.title-section{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: var(--grey-heavy);
+}
+.nose{
+    display: flex;
+    align-items: center;
+}

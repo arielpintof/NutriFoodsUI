@@ -1,0 +1,76 @@
+﻿@page "/parent"
+
+
+
+@for (var i = 0; i < comidasForms.Count; i++)
+{
+    <div class="border p-3 mb-3">
+        <ComidaForm TipoComida="@comidas[i].Tipo" 
+                    HoraConsumo="@comidas[i].Hora" 
+                    PorcentajeCalorico="@comidas[i].PorcentajeCalorico" />
+    </div>
+}
+
+
+<div class="border p-3 mb-3">
+    <button type="button" class="btn btn-primary" @onclick="AgregarComida">Agregar Comida</button>
+</div>
+
+@if (comidas.Any())
+{
+    <h4>Comidas Agregadas:</h4>
+    <ul>
+        @foreach (var comida in comidas)
+        {
+            <li>@comida.Tipo - @comida.Hora - @comida.PorcentajeCalorico%</li>
+        }
+    </ul>
+}
+
+@code {
+    private List<Comida> comidas = new ();
+    private List<object> comidasForms = new List<object> { new object() }; 
+    private string tipoComida { get; set; }
+    private string horaConsumo { get; set; }
+    private int porcentajeCalorico { get; set; }
+    
+    protected override void OnInitialized()
+    {
+        comidas = new List<Comida> { new Comida("Desayuno", "8:00 AM", 25) }; 
+        comidasForms = new List<object> { new object() };
+    }
+    
+    private void AgregarComida()
+    {
+        var nuevaComida = new Comida(tipoComida, horaConsumo, porcentajeCalorico);
+        comidas.Add(nuevaComida);
+        comidasForms.Add(new object());
+        
+        tipoComida = string.Empty;
+        horaConsumo = string.Empty;
+        porcentajeCalorico = 0;
+        StateHasChanged();
+    }
+
+    [Parameter]
+    public Action<Comida> OnAgregarComida { get; set; } = null!;
+
+
+    public class Comida
+    {
+        public string Tipo { get; set; }
+        public string Hora { get; set; }
+        public int PorcentajeCalorico { get; set; }
+
+        public Comida(string tipo, string hora, int porcentaje)
+        {
+            Tipo = tipo;
+            Hora = hora;
+            PorcentajeCalorico = porcentaje;
+        }
+    } 
+    
+    
+
+
+}

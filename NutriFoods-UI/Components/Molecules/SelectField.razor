@@ -1,0 +1,24 @@
+﻿<select class="form-control" @bind="Value" @oninput="OnValueChanged">
+    @ChildContent
+</select>
+
+@code {
+    [Parameter]
+    public string Title { get; set; } = null!;
+    [Parameter] 
+    public string PlaceHolder { get; set; } = null!;
+    [Parameter]
+    public string Value { get; set; } = null!;
+    
+    [Parameter]
+    public EventCallback<string> ValueChanged { get; set; }
+    
+    private async Task OnValueChanged(ChangeEventArgs e)
+    {
+        Value = e.Value.ToString();
+        await ValueChanged.InvokeAsync(Value);
+    }
+    [Parameter]
+    public RenderFragment ChildContent { get; set;  }
+}
+

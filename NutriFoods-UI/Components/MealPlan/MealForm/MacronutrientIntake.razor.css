@@ -1,0 +1,18 @@
+﻿.container{
+    align-items: center;
+    display: inline-flex
+}
+
+span{
+    font-size: 1em;
+    font-weight: bold;
+    color: var(--grey-normal);
+}
+
+p{
+    color: var(--grey-light);
+    font-size: 12px;
+    font-family: Plus Jakarta Sans, serif;
+    font-weight: 300;
+    word-wrap: break-word
+}

@@ -1,0 +1,22 @@
+﻿
+
+<MudExpansionPanel>
+    <TitleContent>
+        <div class="d-flex">
+            <h3>@Title</h3>
+        </div>
+    </TitleContent>
+    <ChildContent>
+        @ChildContent
+    </ChildContent>
+</MudExpansionPanel>
+
+@code {
+
+    [Parameter]
+    public string Title { get; set; } = null!;
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+}

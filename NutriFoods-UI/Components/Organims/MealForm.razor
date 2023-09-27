@@ -1,0 +1,34 @@
+﻿@page "/col"
+<div class="px-5 py-5 gap-3">
+    <Collapse Title="Cálculo de la molécula calórica">
+        <select class="form-select" aria-label="Default select example">
+            <option selected>Abre este menú select</option>
+            <option value="1">Uno</option>
+            <option value="2">Dos</option>
+            <option value="3">Tres</option>
+        </select>
+    </Collapse>
+
+    <Collapse Title="Comidas del día">
+        <DailyMealSelect BindValue="@Comida"></DailyMealSelect>
+        <span>@Comida</span>
+    </Collapse>
+
+    <Collapse Title="Límite de micronutrientes">
+        <MudField>
+            Hola
+        </MudField>
+    </Collapse>
+</div>
+
+
+
+@code {
+    public int Value { get; set; }
+
+    public static List<string> Meals { get; set; } = new List<string> { "Desayuno", "Almuerzo", "Cena" };
+
+    public string Comida { get; set; } = "Prueba";
+
+
+}

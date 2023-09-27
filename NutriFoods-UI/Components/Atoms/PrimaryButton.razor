@@ -1,0 +1,31 @@
+﻿@page "/add"
+
+<button class="add-button" @onclick="OnClick">
+    <i class="@Icon"></i>
+    @Text
+</button>
+
+
+
+@code{
+
+    [Parameter]
+    public string Text { get; set; } = string.Empty;
+
+    [Parameter]
+    public string Icon { get; set; } = string.Empty;
+    
+    [Parameter]
+    public ButtonType Button { get; set; } = ButtonType.Secondary;
+    
+    [Parameter] 
+    public EventCallback OnClick { get; set; }
+
+    
+    public enum ButtonType
+    {
+        Primary = 1,
+        Secondary = 2,
+        Tertiary = 3
+    }
+}

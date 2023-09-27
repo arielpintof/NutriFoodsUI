@@ -1,0 +1,20 @@
+﻿.name-container{
+    display: flex;
+    flex-direction: row;
+    height: 56px;
+}
+.food-box{
+    flex-direction: row;
+    margin: 0 0 0 3px;
+    padding: 2px 2px;
+}
+.portion{
+    flex-direction: column;
+}
+small{
+    font-weight: 350;
+}
+span{
+    font-weight: 700;
+    color: var(--grey-normal);
+}

@@ -1,0 +1,26 @@
+﻿@page "/distribution"
+@using NutriFoods_UI.Data.Enums
+@using NutriFoods_UI.Data.Store
+@using Fluxor
+
+
+<MacronutrientIntake OnMacroValueChanged="HandleMacroValueChanged" MacroType="MacroTypeEnum.Carb"></MacronutrientIntake>
+<MacronutrientIntake OnMacroValueChanged="HandleMacroValueChanged" MacroType="MacroTypeEnum.Protein"></MacronutrientIntake>
+<MacronutrientIntake OnMacroValueChanged="HandleMacroValueChanged" MacroType="MacroTypeEnum.Lipid"></MacronutrientIntake>
+
+
+<span>Carbs: @MoleculaState.Value.CarbTarget</span>
+<span>Protein: @MoleculaState.Value.ProteinTarget</span>
+<span>Lipid: @MoleculaState.Value.LipidTarget</span>
+
+@code {
+
+    [Inject]
+    private IState<MoleculaState> MoleculaState { get; set; } = null!;
+
+    private void HandleMacroValueChanged()
+    {
+        StateHasChanged();
+    }
+
+}

@@ -1,0 +1,35 @@
+﻿
+
+<div class="name-container">
+    <img class="rounded-circle img-responsive" alt="avatar1" src="@Image" size=""/>
+    <div class="food-box align-self-center">
+        <span>@Name</span>
+        <div class="portion">
+            <small>@Portions </small>
+            @if (Portions > 1)
+            {
+                <small> porciones</small>
+            }
+            else
+            {
+                <small> porción</small>
+            }
+        </div>
+    </div>
+</div>
+
+
+@code {
+
+    [Parameter]
+    public string Name { get; set; } = string.Empty;
+
+    [Parameter]
+    public int Portions { get; set; }
+
+    [Parameter]
+    public string Image { get; set; } = null!;
+
+    
+}
+

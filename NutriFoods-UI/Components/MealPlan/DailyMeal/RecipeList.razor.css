@@ -1,0 +1,21 @@
+﻿th,
+td {
+    padding: 5px 10px;
+}
+.my-table{
+    border-collapse: collapse;
+    /*table-layout: fixed;*/
+    width:100%;
+}
+
+td{
+    color: var(--grey-heavy);
+    font-size: 14px;
+    font-weight: 450;
+}
+
+th{
+    color: var(--grey-light);
+    font-size: 12px;
+    border-bottom: 1px solid var(--grey-ultralight);
+}
