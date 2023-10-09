@@ -5,8 +5,10 @@
 
 span{
     font-size: 1em;
-    font-weight: bold;
+    font-family: Plus Jakarta Sans, serif;
+    font-weight: 500;
     color: var(--grey-normal);
+    
 }
 
 p{

@@ -1,0 +1,42 @@
+﻿@using Fluxor
+@using NutriFoods_UI.Data.Dto
+@using NutriFoods_UI.Data.Store.MicronutrientConfiguration
+@inject IState<MicronutrientState> MicroState
+@inject IDispatcher Dispatcher
+@inherits Fluxor.Blazor.Web.Components.FluxorComponent
+
+@page "/micro"
+
+@if (MicroState.Value.Initialized)
+{
+    for (var i = 0; i < MicroState.Value.Micronutrients.Count(); i++)
+    {
+        <div class="d-flex flex-column">
+             <MicroNutrientIntake Index="i"></MicroNutrientIntake>
+        </div>
+       
+    }
+    
+    <span>Nutriente en posicion 0: @MicroState.Value.Micronutrients.ElementAt(0).Name</span>
+}
+
+
+
+<MudButton OnClick="AddNewMicroNutrient">Añadir Micronutriente</MudButton>
+
+@code {
+
+
+    protected override Task OnInitializedAsync()
+    {
+        if (MicroState.Value.Initialized != false) return base.OnInitializedAsync();
+        Dispatcher.Dispatch(new InitializeMicronutrientAction());
+        return base.OnInitializedAsync();
+    }
+
+    private void AddNewMicroNutrient()
+    {
+        Dispatcher.Dispatch(new AddMicronutrientAction(new MicroNutrientDto()));
+    }
+    
+}

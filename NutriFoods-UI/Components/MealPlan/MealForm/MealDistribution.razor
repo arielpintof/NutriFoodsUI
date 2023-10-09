@@ -1,0 +1,31 @@
+﻿@using NutriFoods_UI.Utils.Enums
+@using NutriFoods_UI.Data.Store.MealsConfiguration
+@using Fluxor
+@page "/form-test"
+
+<div>
+    @for (var i = 0; i < MealTypes.Count; i++)
+    {
+        <MealTypeIntake  Position="i" MealType="MealTypes[i]"></MealTypeIntake>
+        <MudDivider  Class="mb-5 mt-2"/>
+    }
+</div>
+
+@code {
+
+    private List<MealTypeEnum> MealTypes { get; set; } = new()
+    {
+        MealTypeEnum.Breakfast, MealTypeEnum.Lunch, MealTypeEnum.Dinner
+    };
+    
+    private MealConfiguration CurrentMealConfiguration { get; set; } = new MealConfiguration();
+    
+    [Inject]
+    private IState<MealsConfigurationState> MealState { get; set; } = null!;
+
+    
+
+
+
+
+}

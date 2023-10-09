@@ -2,24 +2,44 @@
 @using NutriFoods_UI.Data.Enums
 @using NutriFoods_UI.Data.Store
 @using Fluxor
+@inherits Fluxor.Blazor.Web.Components.FluxorComponent
+
+<div class="px-3 mb-4">
+    <MacronutrientIntake MacroType="MacroTypeEnum.Carb"></MacronutrientIntake>
+    <MudDivider  Class="mb-5 mt-2"/>
+    <MacronutrientIntake MacroType="MacroTypeEnum.Protein"></MacronutrientIntake>
+    <MudDivider  Class="mb-5"/>
+    <MacronutrientIntake MacroType="MacroTypeEnum.Lipid"></MacronutrientIntake>
+    
+    <div >
+        <MudButton OnClick="ButtonHandler" ButtonType="ButtonType.Button" Variant="Variant.Filled" Color="Color.Primary">@ButtonText</MudButton>
+        @if (Active)
+        {
+            <span>Carbs: @MoleculaState.Value.CarbTarget</span>
+            <span>Protein: @MoleculaState.Value.ProteinTarget</span>
+            <span>Lipid: @MoleculaState.Value.LipidTarget</span>
+            <MacroChart></MacroChart> 
+        }
+    </div>
+</div>
 
 
-<MacronutrientIntake OnMacroValueChanged="HandleMacroValueChanged" MacroType="MacroTypeEnum.Carb"></MacronutrientIntake>
-<MacronutrientIntake OnMacroValueChanged="HandleMacroValueChanged" MacroType="MacroTypeEnum.Protein"></MacronutrientIntake>
-<MacronutrientIntake OnMacroValueChanged="HandleMacroValueChanged" MacroType="MacroTypeEnum.Lipid"></MacronutrientIntake>
 
 
-<span>Carbs: @MoleculaState.Value.CarbTarget</span>
-<span>Protein: @MoleculaState.Value.ProteinTarget</span>
-<span>Lipid: @MoleculaState.Value.LipidTarget</span>
 
 @code {
 
     [Inject]
     private IState<MoleculaState> MoleculaState { get; set; } = null!;
+    
+    private string ButtonText { get; set; } = "Ver gráfico";
 
-    private void HandleMacroValueChanged()
+    private bool Active { get; set; } = false;
+
+    private void ButtonHandler()
     {
+        Active = !Active;
+        ButtonText = Active ? "Ocultar gráfico" : "Ver gráfico";
         StateHasChanged();
     }
 
