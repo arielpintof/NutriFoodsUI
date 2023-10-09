@@ -1,58 +1,58 @@
 ﻿@page "/plan"
-<MudPaper Class="pl-6 pr-4 pt-4 pb-4" Style="background-color: #FFFFFF" Width="70%" Height="50%" Elevation="0"
-          Outlined="true">
-    <div class="title-section-container">
-        <TitleSection></TitleSection>
-    </div>
-    <table class="my-table">
-        <thead>
-        <tr>
-            <th scope="col" style="width: 300px">Nombre</th>
-            <th scope="col" class="ml-9 mr-9">Energía</th>
-            <th scope="col" class="ml-3 mr-3">Proteínas</th>
-            <th scope="col" class="ml-3 mr-3">Carbohidratos</th>
-            <th scope="col" class="ml-3 mr-3">Lípidos</th>
-        </tr>
-      </thead>
-        <tbody>
-                @foreach (var receta in listaDeRecetas)
-                {
-                    <tr>
-                        <td>
-                            <Recipe Name="@receta.Nombre" Image="@receta.Imagen" Portions="@receta.Porcion" />
-                        </td>
-                        <td>@receta.Energia kcal</td>
-                        <td>@receta.Carbs g</td>
-                        <td>@receta.Lipidos g</td>
-                        <td>@receta.Proteinas g</td>
-                    </tr>
-                }
-            </tbody>
-      
-    </table>
-</MudPaper>
+@using NutriFoods_UI.Data.Dto
 
+<table class="my-table">
+    <thead>
+    <tr>
+        <th scope="col" class="ml-2" style="width: 300px">Nombre</th>
+        <th scope="col" class="ml-9 mr-9">Energía</th>
+        <th scope="col" class="ml-3 mr-3">Proteínas</th>
+        <th scope="col" class="ml-3 mr-3">Carbohidratos</th>
+        <th scope="col" class="ml-3 mr-3">Lípidos</th>
+    </tr>
+    </thead>
+    <tbody class="mt-2">
+    @if (Recipes is not null)
+    {
+        @foreach (var menu in Recipes)
+        {
+            <tr>
+                <td>
+                    <Recipe Name="@menu.Recipe.Name" Image="https://cdn7.kiwilimon.com/brightcove/6838/640x640/6838.jpg.webp"
+                            Portions="@menu.Portions"/>
+                </td>
+                <td>12 kcal</td>
+                <td>12 g</td>
+                <td>12 g</td>
+                <td>12 g</td>
+            </tr>
+        }
+    }
+    else
+    {
+        
+            <tr>
+                <td>
+                    <div class="center">
+                        <div class="lds-ellipsis">
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                        </div>
+                    </div>
+                </td>
+
+            </tr>
+    }
+    </tbody>
+
+</table>
 
 
 @code {
-  List<RecetaInfo> listaDeRecetas = new ()
-  {
-    new RecetaInfo { Nombre = "Pasta Carbonara", Imagen = "https://cdn7.kiwilimon.com/brightcove/6838/640x640/6838.jpg.webp", Porcion = 4, Energia = 3003 , Carbs = 30, Lipidos = 20, Proteinas = 15 },
-    new RecetaInfo { Nombre = "Ensalada César", Imagen = "https://cdn7.kiwilimon.com/brightcove/6838/640x640/6838.jpg.webp", Porcion = 4, Energia = 150, Carbs = 10, Lipidos = 12, Proteinas = 5 },
-  
-  };
-  public class RecetaInfo
-  {
-    public string Nombre { get; set; }
-    public string Imagen { get; set; }
-    public int Porcion { get; set; }
-    public double Energia { get; set; }
-    public double Carbs { get; set; }
-    public double Lipidos { get; set; }
-    public double Proteinas { get; set; }
-  }
+
+    [Parameter]
+    public IList<MenuRecipeDto>? Recipes { get; set; }
+    
 }
-
-
-
-

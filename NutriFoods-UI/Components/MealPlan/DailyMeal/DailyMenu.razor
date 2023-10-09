@@ -1,0 +1,36 @@
+﻿@using NutriFoods_UI.Data.Dto
+@using NutriFoods_UI.Data.Store.DailyMeal
+@using Fluxor
+@inherits Fluxor.Blazor.Web.Components.FluxorComponent
+@inject IState<DailyMealState> MealState
+
+
+<MudPaper Class="pl-6 pr-4 pt-4 pb-4 rounded" Style="background-color: #FFFFFF" Width="100%" Height="100%" Elevation="0" Outlined="true">
+    <div class="title-section-container">
+        <TitleSection Index="@Index" MealTypeName="@DailyMenuDto.MealType"></TitleSection>
+        
+        @if (MealState.Value.MealLoading.ElementAt(Index))
+        {
+            <div style="width: 100%; height: 100%">
+                <RecipeList></RecipeList> 
+            </div>
+             
+        }
+        else
+        {
+            <RecipeList Recipes="DailyMenuDto.MenuRecipes"></RecipeList>
+        }
+        
+    </div>
+</MudPaper>
+
+@code {
+
+    [Parameter]
+    public int Index { get; set; }
+    
+    [Parameter]
+    public DailyMenuDto DailyMenuDto { get; set; } = null!;
+
+
+}

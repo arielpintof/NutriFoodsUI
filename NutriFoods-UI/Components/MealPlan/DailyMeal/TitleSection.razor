@@ -1,14 +1,23 @@
-﻿<div class="title-section">
+﻿@using NutriFoods_UI.Utils.Enums
+
+<div class="title-section">
     <div class="d-flex gr-3 nose">
-        <RecipeTitle MealName="Desayuno"></RecipeTitle>
+        <RecipeTitle MealName="@MealTypeName"></RecipeTitle>
         <span class="badge bg-primary align-self-center" style="font-weight: 450;">
             <i class="bi bi-calendar"></i>
             8:00
         </span>
     </div>
-    <Panel></Panel>
+    <Panel Index="@Index"></Panel>
 </div>
 
+
 @code {
+    
+    [Parameter]
+    public string? MealTypeName { get; set; }
+    
+    [Parameter]
+    public int Index { get; set; }
     
 }
