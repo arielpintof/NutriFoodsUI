@@ -7,39 +7,57 @@
 @inject IDispatcher Dispatcher
 @inherits Fluxor.Blazor.Web.Components.FluxorComponent
 
-<div class="d-flex gap-3 align-items-center">
-    <span>@Index</span>
-    <MudSelectExtended ItemCollection="_states" SearchBox="true"
-                       SearchBoxAutoFocus="true"
-                       T="string" Label="Nutriente"
-                       AnchorOrigin="Origin.BottomCenter"
-                       Variant="Variant.Outlined"
-                       SearchBoxClearable="true"
-                       @bind-Value="NameHandler"
-                       Margin="Margin.Dense"/>
+<div class="d-flex flex-wrap flex-column flex-sm-row gap-3 align-items-center">
+    <span class="flex-shrink-0">@Index</span>
+    <MudSelectExtended 
+        ItemCollection="_states" 
+        SearchBox="true"
+        SearchBoxAutoFocus="true"
+        T="string" 
+        Label="Nutriente"
+        AnchorOrigin="Origin.BottomCenter"
+        Variant="Variant.Outlined"
+        SearchBoxClearable="true"
+        @bind-Value="NameHandler"
+        Margin="Margin.Dense"
+        Class="flex-grow-1"
+    />
+    <div style="flex-basis: 20%;">
+        <MudNumericField 
+            HideSpinButtons="true"
+            @bind-Value="@QuantityHandler"
+            Label="Cantidad"
+            Variant="Variant.Outlined"
+            Margin="Margin.Dense"
+            Min="0.0"
+        />
+    </div>
 
-    <MudNumericField HideSpinButtons="true"
-                     @bind-Value="@QuantityHandler"
-                     Label="Cantidad"
-                     Variant="Variant.Outlined"
-                     Margin="Margin.Dense"
-                     Min="0.0"/>
-
-    <MudComboBox @bind-Value="@UnitHandler"
-                 Variant="Variant.Outlined"
-                 Label="Unidad de medida"
-                 Dense="Dense.Standard"
-                 Margin="Margin.Dense">
-
+    <MudComboBox 
+        @bind-Value="@UnitHandler"
+        Variant="Variant.Outlined"
+        Label="Unidad de medida"
+        Dense="Dense.Standard"
+        Margin="Margin.Dense"
+        Style="flex-basis: 30% !important;"
+    >
         @foreach (var units in UnitEnumValues())
         {
-            <MudComboBoxItem Value="@units"
-                             Text="@units.ReadableName">
+            <MudComboBoxItem 
+                Value="@units"
+                Text="@units.ReadableName"
+            >
                 @units.ReadableName
             </MudComboBoxItem>
         }
     </MudComboBox>
-    <MudIconButton OnClick="DeleteNutrient" Icon="@Icons.Material.Outlined.Delete" Title="Eliminar nutriente">@Index</MudIconButton>
+    <MudIconButton 
+        OnClick="DeleteNutrient" 
+        Icon="@Icons.Material.Outlined.Delete" 
+        Title="Eliminar nutriente"
+    >
+        @Index
+    </MudIconButton>
 </div>
 
 

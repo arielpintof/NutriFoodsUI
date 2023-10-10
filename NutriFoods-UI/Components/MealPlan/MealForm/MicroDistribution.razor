@@ -7,22 +7,34 @@
 
 @page "/micro"
 
-@if (MicroState.Value.Initialized)
-{
-    for (var i = 0; i < MicroState.Value.Micronutrients.Count(); i++)
-    {
-        <div class="d-flex flex-column">
-             <MicroNutrientIntake Index="i"></MicroNutrientIntake>
-        </div>
-       
-    }
-    
-    <span>Nutriente en posicion 0: @MicroState.Value.Micronutrients.ElementAt(0).Name</span>
-}
 
+<MudGrid Class="px-3">
+    <MudItem xs="4" Class="d-flex flex-column gap-2">
+        <span>Límite de consumo</span>
+        <p>Lorem ipsum dolor sit amet</p>
+    </MudItem>
+    <MudItem xs="8">
+        <MudStack>
+            @if (MicroState.Value.Initialized)
+            {
+                for (var i = 0; i < MicroState.Value.Micronutrients.Count(); i++)
+                {
+                    <div class="d-flex flex-column">
+                        <MicroNutrientIntake Index="i"></MicroNutrientIntake>
+                    </div>
+                }
+            }
+            <div class="ml-6">
+                <MudButton Size="Size.Small" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Add" Variant="Variant.Outlined"
+                           OnClick="AddNewMicroNutrient" Style="width: 250px">
+                    Añadir Macronutriente
+                </MudButton>
+            </div>
 
+        </MudStack>
+    </MudItem>
+</MudGrid>
 
-<MudButton OnClick="AddNewMicroNutrient">Añadir Micronutriente</MudButton>
 
 @code {
 
@@ -38,5 +50,5 @@
     {
         Dispatcher.Dispatch(new AddMicronutrientAction(new MicroNutrientDto()));
     }
-    
+
 }

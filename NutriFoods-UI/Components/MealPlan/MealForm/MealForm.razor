@@ -7,7 +7,7 @@
 @using MudExtensions.Utilities
 
 
-<MudStepper @ref="_stepper" Class="mud-width-full" ContentStyle="min-height: 400px" Linear="true" Vertical="_vertical" Color="_color" Variant="_variant"
+<MudStepper @ref="_stepper" Class="mud-width-full my-4 px-4" ContentStyle="min-height: 400px" Linear="true" Vertical="_vertical" Color="_color" Variant="_variant"
             DisableAnimation="_disableAnimation" DisablePreviousButton="_disablePreviousButton" DisableNextButton="_disableNextButton"
             DisableSkipButton="_disableSkipButton" DisableStepResultIndicator="_disableStepResultIndicator" HeaderBadgeView="_headerBadgeView"
             HeaderTextView="_headerTextView" PreventStepChangeAsync="new Func<StepChangeDirection, Task<bool>>(CheckChange)" LocalizedStrings="GetLocalizedStrings()"
@@ -25,13 +25,13 @@
                     </Collapse>
 
                     <Collapse Title="Límite de micronutrientes">
-
+                        <MicroDistribution></MicroDistribution>
                     </Collapse>
                 </div>
             </ChildContent>
         </MudStep>
         
-        <MudStep Title="Plan alimenticio" Icon="@Icons.Material.Filled.MoreVert" Optional="true">
+        <MudStep Title="Plan alimenticio" Icon="@Icons.Material.Filled.FoodBank" Optional="true">
             <ChildContent>
                 <DailyMeal></DailyMeal>
             </ChildContent>

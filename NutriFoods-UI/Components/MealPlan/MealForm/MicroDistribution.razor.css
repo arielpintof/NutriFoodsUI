@@ -1,0 +1,14 @@
+﻿span{
+    font-size: 1em;
+    font-family: Plus Jakarta Sans, serif;
+    font-weight: 500;
+    color: var(--grey-normal);
+}
+
+p{
+    color: var(--grey-light);
+    font-size: 12px;
+    font-family: Plus Jakarta Sans, serif;
+    font-weight: 300;
+    word-wrap: break-word
+}
