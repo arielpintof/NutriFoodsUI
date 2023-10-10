@@ -1,20 +1,54 @@
 ﻿@inherits LayoutComponentBase
 
-<MudThemeProvider/>
+<MudThemeProvider Theme="myTheme"/>
 <MudDialogProvider/>
 <MudSnackbarProvider/>
 
 
-<div class="page">
-    <div class="sidebar">
-        <NavMenu/>
-    </div>
+<MudLayout Style="background: #F8F8F8">
 
-    <main>
-        <div class="top-row px-4">
-            <a href="https://learn.microsoft.com/aspnet/core/" target="_blank">About</a>
-        </div>
-        @Body
-        
-    </main>
-</div>
+    <NavMenu @bind-CanMiniSideMenuDrawer="_canMiniSideMenuDrawer"
+             @bind-SideMenuDrawerOpen="_sideMenuDrawerOpen"
+             User="@_user"/>
+
+
+    <MudMainContent >
+        <MudContainer>
+            @Body
+        </MudContainer>
+    </MudMainContent>
+</MudLayout>
+
+@code{
+
+    private readonly NavMenu.UserModel _user = new()
+    {
+        Avatar = "./sample-data/avatar.png",
+        DisplayName = "MudDemo",
+        Email = "muddemo@demo.com.au",
+        Role = "Admin"
+    };
+
+    private bool _canMiniSideMenuDrawer = true;
+    private bool _commandPaletteOpen;
+    private bool _sideMenuDrawerOpen;
+    
+    private MudTheme myTheme = new()
+    {
+        Palette = new Palette
+        {
+            Primary = "#5F4AA6",
+            Secondary = "#B0B006",
+            Tertiary = "#5B06B0",
+            Info = "#928B8B",
+            Success = "#2ECC40",
+            Warning = "#FF851B",
+            Error = "#F012BE",
+            AppbarBackground = "#35A14B",
+            DarkLighten = "#545252",
+            Background = "#f9f9f9"
+
+        }
+    };
+
+}
