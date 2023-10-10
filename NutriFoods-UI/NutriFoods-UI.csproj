@@ -24,7 +24,12 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Components\Templates\" />
+      <_ContentIncludedByDefault Remove="Components\Molecules\Prueba.razor" />
+      <_ContentIncludedByDefault Remove="Components\Molecules\SelectField.razor" />
+      <_ContentIncludedByDefault Remove="Components\Molecules\TextField.razor" />
+      <_ContentIncludedByDefault Remove="Components\Atoms\Chip.razor" />
+      <_ContentIncludedByDefault Remove="Components\Atoms\ChipGroup.razor" />
+      <_ContentIncludedByDefault Remove="Components\Atoms\PrimaryButton.razor" />
     </ItemGroup>
 
 </Project>
