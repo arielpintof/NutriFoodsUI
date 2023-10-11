@@ -4,10 +4,8 @@
            Class="side-menu"
            Elevation="0"
            MiniWidth="100px"
-           Open="SideMenuDrawerOpen"
-           OpenChanged="@(e => SideMenuDrawerOpenChanged.InvokeAsync(e))"
-           OpenMiniOnHover="true"
-           Variant="@(CanMiniSideMenuDrawer ? DrawerVariant.Mini : DrawerVariant.Responsive)"
+           Open="true"
+           Variant="@(DrawerVariant.Responsive)"
            Width="280px">
     <MudDrawerHeader Class="align-center d-flex justify-center pa-0">
 
@@ -208,7 +206,7 @@
     
     public enum PageStatus
     {
-        [Description("Coming Soon")] ComingSoon,
+        [Description("En construcción")] ComingSoon,
         [Description("WIP")] Wip,
         [Description("New")] New,
         [Description("Completed")] Completed
