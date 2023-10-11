@@ -4,7 +4,9 @@
     justify-content: space-between;
     color: var(--grey-heavy);
 }
-.nose{
-    display: flex;
-    align-items: center;
+
+.custom-span{
+    font-weight: 450; 
+    background: var(--mud-palette-primary-hover); 
+    color: var(--mud-palette-primary);
 }
