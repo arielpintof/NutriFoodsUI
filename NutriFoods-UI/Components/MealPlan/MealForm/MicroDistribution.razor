@@ -10,7 +10,16 @@
 
 <MudGrid Class="px-3">
     <MudItem xs="4" Class="d-flex flex-column gap-2">
-        <span>Límite de consumo</span>
+        <div class="d-flex align-items-center">
+            <span>Límite de consumo</span>
+            <MudChip Class="mr-4"
+                     Color="@Color.Primary"
+                     Size="Size.Small"
+                     Variant="Variant.Text">
+                    Máximo 4
+            </MudChip>
+        </div>
+        
         <p>Lorem ipsum dolor sit amet</p>
     </MudItem>
     <MudItem xs="8">
@@ -52,3 +61,13 @@
     }
 
 }
+
+<style>
+    .mud-chip.mud-chip-size-small
+    {
+        font-family: Plus Jakarta Sans, serif;
+        font-size: 10px;
+        height: 18px;
+    }
+    
+</style>
