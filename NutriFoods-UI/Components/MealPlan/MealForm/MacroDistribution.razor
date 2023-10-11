@@ -11,8 +11,14 @@
     <MudDivider  Class="mb-5"/>
     <MacronutrientIntake MacroType="MacroTypeEnum.Lipid"></MacronutrientIntake>
     
-    <div >
-        <MudButton OnClick="ButtonHandler" ButtonType="ButtonType.Button" Variant="Variant.Filled" Color="Color.Primary">@ButtonText</MudButton>
+    <div class="mt-5">
+        <MudButton OnClick="ButtonHandler"
+                   ButtonType="ButtonType.Button"
+                   Variant="Variant.Outlined"
+                   Color="Color.Primary"
+                   Size="Size.Small">
+            @ButtonText
+        </MudButton>
         @if (Active)
         {
             <span>Carbs: @MoleculaState.Value.CarbTarget</span>
