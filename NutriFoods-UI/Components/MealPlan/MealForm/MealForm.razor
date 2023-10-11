@@ -7,14 +7,33 @@
 @using MudExtensions.Utilities
 
 
-<MudStepper @ref="_stepper" Class="mud-width-full my-4 px-4" ContentStyle="min-height: 400px" Linear="true" Vertical="_vertical" Color="_color" Variant="_variant"
-            DisableAnimation="_disableAnimation" DisablePreviousButton="_disablePreviousButton" DisableNextButton="_disableNextButton"
-            DisableSkipButton="_disableSkipButton" DisableStepResultIndicator="_disableStepResultIndicator" HeaderBadgeView="_headerBadgeView"
-            HeaderTextView="_headerTextView" PreventStepChangeAsync="new Func<StepChangeDirection, Task<bool>>(CheckChange)" LocalizedStrings="GetLocalizedStrings()"
-            MobileView="_mobileView" IconActionButtons="_iconActionButtons" Loading="_loading" HeaderSize="_headerSize" HeaderIcon="false">
+<MudStepper @ref="_stepper"
+            Class="mud-width-full my-4 px-4"
+            ContentStyle="min-height: 400px"
+            Linear="true" Vertical="_vertical"
+            Color="_color" Variant="_variant"
+            DisableAnimation="_disableAnimation"
+            DisablePreviousButton="_disablePreviousButton"
+            DisableNextButton="_disableNextButton"
+            DisableSkipButton="_disableSkipButton"
+            DisableStepResultIndicator="_disableStepResultIndicator"
+            HeaderBadgeView="_headerBadgeView"
+            HeaderTextView="_headerTextView"
+            PreventStepChangeAsync="new Func<StepChangeDirection, Task<bool>>(CheckChange)"
+            LocalizedStrings="GetLocalizedStrings()"
+            MobileView="_mobileView"
+            IconActionButtons="_iconActionButtons"
+            Loading="_loading"
+            HeaderSize="_headerSize"
+            HeaderIcon="false">
+    
     <ChildContent>
-        <MudStep Icon="@Icons.Material.Filled.Settings" Title="Configuración" StatusChanged="StatusChanged">
+        
+        <MudStep Icon="@Icons.Material.Filled.Settings"
+                 Title="Configuración"
+                 StatusChanged="StatusChanged">
             <ChildContent>
+
                 <div class="container">
                     <Collapse Title="Cálculo de la molécula calórica">
                         <MacroDistribution></MacroDistribution>
@@ -30,13 +49,13 @@
                 </div>
             </ChildContent>
         </MudStep>
-        
+
         <MudStep Title="Plan alimenticio" Icon="@Icons.Material.Filled.FoodBank" Optional="true">
             <ChildContent>
-                <DailyMeal></DailyMeal>
+                <DailyMeal ActiveIndex="_stepper.GetActiveIndex() == 1"></DailyMeal>
             </ChildContent>
         </MudStep>
-        
+
 
         @if (_addResultStep)
         {
@@ -57,7 +76,11 @@
         }
         <MudSpacer/>
     </ActionContent>
+
+
 </MudStepper>
+
+
 
 
 @code {
