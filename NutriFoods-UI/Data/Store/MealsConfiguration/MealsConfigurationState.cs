@@ -21,11 +21,11 @@ public class MealsConfigurationState
 public class MealConfiguration
 {
 
-    public MealTypeEnum? MealType { get; set; }  
+    public MealTypeEnum? MealType { get; set; }
 
-    [Required(ErrorMessage = "El campo MealTime es obligatorio.")]
-    public string? MealTime { get; set; } 
-    
     [Range(0, 100, ErrorMessage = "El porcentaje debe estar entre 0 y 100.")]
     public double? Percentage { get; set; }
+    
+    [Required(ErrorMessage = "El campo MealTime es obligatorio.")]
+    public TimeSpan? MealTime { get; set; }
 }
