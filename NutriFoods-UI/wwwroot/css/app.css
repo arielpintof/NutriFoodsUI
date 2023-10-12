@@ -11,11 +11,13 @@
     
 }
 
-html, body, h1, h2, h3, a, button, p, th, td, span{
+html, body, h1, h2, h3, a, button, p, th, td, span, label{
     font-family: 'Plus Jakarta Sans', sans-serif;
 }
 
-
+label{
+    font-size: 12px;
+}
 h1:focus {
     outline: none;
 }

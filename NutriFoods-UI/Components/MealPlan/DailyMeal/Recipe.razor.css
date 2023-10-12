@@ -14,7 +14,9 @@
 small{
     font-weight: 350;
 }
+
 span{
     font-weight: 700;
     color: var(--grey-normal);
 }
+

@@ -16,15 +16,16 @@
     {
         @foreach (var menu in Recipes)
         {
-            <tr>
+            <tr class="fila-hover" @onmouseover="() => HandleHover(true)" @onmouseout="() => HandleHover(false)" >
                 <td>
-                    <Recipe Name="@menu.Recipe.Name" Image="https://cdn7.kiwilimon.com/brightcove/6838/640x640/6838.jpg.webp"
+                    <Recipe Hovered="@IsHovered" Name="@menu.Recipe.Name" Image="https://cdn7.kiwilimon.com/brightcove/6838/640x640/6838.jpg.webp"
                             Portions="@menu.Portions"/>
                 </td>
-                <td>12 kcal</td>
-                <td>12 g</td>
-                <td>12 g</td>
-                <td>12 g</td>
+                
+                <td>@menu.Recipe.Nutrients.ToList().Find(n => n.Nutrient.Name == "Energía")?.Quantity.ToString("F1") kcal</td>
+                <td>@menu.Recipe.Nutrients.ToList().Find(n => n.Nutrient.Name == "Proteína, total")?.Quantity.ToString("F1") g</td>
+                <td>@menu.Recipe.Nutrients.ToList().Find(n => n.Nutrient.Name == "Carbohidratos, total")?.Quantity.ToString("F1") g</td>
+                <td>@menu.Recipe.Nutrients.ToList().Find(n => n.Nutrient.Name == "Ácidos grasos, total")?.Quantity.ToString("F1") g</td>
             </tr>
         }
     }
@@ -54,5 +55,12 @@
 
     [Parameter]
     public IList<MenuRecipeDto>? Recipes { get; set; }
+    
+    private bool IsHovered { get; set; }
+
+    private void HandleHover(bool isHovered)
+    {
+        IsHovered = isHovered;
+    }
     
 }

@@ -2,7 +2,7 @@
 <div class="name-container">
     <img class="rounded-circle img-responsive" alt="avatar1" src="@Image" size=""/>
     <div class="food-box align-self-center">
-        <span>@Name</span>
+        <span class="@GetSpanClass()">@Name</span>
         <div class="portion">
             <small>@Portions </small>
             @if (Portions > 1)
@@ -28,7 +28,12 @@
 
     [Parameter]
     public string Image { get; set; } = null!;
-
     
+    [Parameter] public bool Hovered { get; set; }
+    
+    private string GetSpanClass()
+    {
+        return Hovered ? "span-hovered" : "";
+    }
 }
 

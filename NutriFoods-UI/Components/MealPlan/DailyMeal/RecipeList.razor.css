@@ -81,3 +81,10 @@ th{
         transform: translate(24px, 0);
     }
 }
+
+.fila-hover:hover td{
+    background-color: var(--mud-palette-primary-hover);
+    color: var(--mud-palette-primary);
+}
+
+
