@@ -8,18 +8,22 @@
 @inject IDispatcher Dispatcher
 
 
-@if (MealState.Value.Initialized && ActiveIndex)
+@if(ActiveIndex)
 {
-    <div class="d-flex flex-column align-items-center mud-width-full">
-        @* DailyMeal debe mostrar las distintas comidas del día*@
+    if (MealState.Value.Initialized)
+    {
+        <div class="d-flex flex-column align-items-center mud-width-full">
+            @* DailyMeal debe mostrar las distintas comidas del día*@
 
-        @for (var i = 0; i < MealState.Value.DailyMenu.Count(); i++)
-        {
-            <div class="my-1">
-                <DailyMenu Index="i" DailyMenuDto="@MealState.Value.DailyMenu.ElementAt(i)"></DailyMenu>
-            </div>
-        }
-    </div>
+            @for (var i = 0; i < MealState.Value.DailyMenu.Count(); i++)
+            {
+                <div class="my-1">
+                    <DailyMenu Index="i" DailyMenuDto="@MealState.Value.DailyMenu.ElementAt(i)"></DailyMenu>
+                </div>
+            }
+        </div> 
+    }
+    
 }
 
 else
@@ -38,14 +42,15 @@ else
     
     [Parameter]
     public bool ActiveIndex { get; set; }
-    
+
     protected override Task OnInitializedAsync()
     {
-        Dispatcher.Dispatch(new LoadMealPlanAction());
-        return Task.CompletedTask;
+        LoadMealState();
+        return base.OnInitializedAsync();
     }
 
-    
-
-
+    private void LoadMealState()
+    {
+        Dispatcher.Dispatch(new LoadMealPlanAction());
+    }
 }
