@@ -19,11 +19,10 @@
                     Máximo 4
             </MudChip>
         </div>
-        
         <p>Lorem ipsum dolor sit amet</p>
     </MudItem>
     <MudItem xs="8">
-        <MudStack>
+        <MudStack Class="mb-5">
             @if (MicroState.Value.Initialized)
             {
                 for (var i = 0; i < MicroState.Value.Micronutrients.Count(); i++)
@@ -33,8 +32,8 @@
                     </div>
                 }
             }
-            <div class="ml-6">
-                <MudButton Size="Size.Small" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Add" Variant="Variant.Outlined"
+            <div class="ml-6 mt-3 mb-2">
+                <MudButton Disabled="@IsDisabled" Size="Size.Small" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Add" Variant="Variant.Outlined"
                            OnClick="AddNewMicroNutrient" Style="width: 250px">
                     Añadir Macronutriente
                 </MudButton>
@@ -47,6 +46,7 @@
 
 @code {
 
+    private bool IsDisabled => MicroState.Value.Micronutrients.Count() >= 4;
 
     protected override Task OnInitializedAsync()
     {

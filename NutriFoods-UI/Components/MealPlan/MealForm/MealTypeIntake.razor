@@ -1,32 +1,58 @@
 ﻿@using NutriFoods_UI.Utils.Enums
 @using NutriFoods_UI.Data.Store.MealsConfiguration
 @using Fluxor
+@using MudExtensions.Enums
 @inject IState<MealsConfigurationState> MealState
 @inject IDispatcher Dispatcher
 
 
 <div class="d-flex my-3 mx-3 align-items-center justify-space-between">
-    <div class="d-flex " style="width: 20%">
+    <div class="d-flex " style="width: 10%">
         <span>@MealType.ReadableName</span>
     </div>
+    <div class="d-flex flex-row gap-2" style="width: 63%">
+        <div style="width: 40%">
+            <span class="label" style="font-size: 13px;">Hora</span>
+            <MudTimePicker Class=" mr-3" AmPm="true" @bind-Time="TimeHandler" style="margin-top: 0">
+                
+            </MudTimePicker>
+        </div>
 
-    <div class="d-flex gap-3 mx-1" style="width: 50%">
-        <MudSlider Size="Size.Medium" @bind-Value="PercentageHandler"
-                   Variant="Variant.Filled" Min="0" Max="100" Step="1">
-        </MudSlider>
-        <input type="number" min="0" max="100" @bind-value="PercentageHandler"/>
-        @* <input type="range" min="0" max="100" step="1" id="name" @bind-Value="MealConfiguration.Percentage" @bind="PercentageHandler"/> *@
-        @* <input type="number" min="0" max="100" @bind-Value="MealConfiguration.Percentage" @bind="PercentageHandler"> *@
+        <div class="d-flex gap-3 mx-1 align-end mud-width-full">
+            <div class="d-flex flex-column mud-width-full">
+                <span class="label" style="font-size: 13px;">Distribución</span>
+                            <MudSlider Size="Size.Medium" @bind-Value="PercentageHandler"
+                                       Variant="Variant.Filled" Min="0" Max="100" Step="1"
+                                       Class="mt-2 mb-1"></MudSlider>
+            </div>
+            
+            <input class="custom form-control" type="number" min="0" max="100" @bind-value="PercentageHandler"/>
+            @* <input type="range" min="0" max="100" step="1" id="name" @bind-Value="MealConfiguration.Percentage" @bind="PercentageHandler"/> *@
+            @* <input type="number" min="0" max="100" @bind-Value="MealConfiguration.Percentage" @bind="PercentageHandler"> *@
+        </div>
     </div>
+
 
 </div>
 
 
 @code {
-    
+
+    TimeSpan? _time = new TimeSpan(00, 45, 00);
+
+    private TimeSpan? TimeHandler
+    {
+        get => _time;
+        set
+        {
+            if (_time == value) return;
+            _time = value;
+            UpdateMealConfiguration();
+        }
+    }
+
     [Parameter]
     public MealTypeEnum MealType { get; set; } = null!;
-    
 
     [Parameter]
     public int Position { get; set; }
@@ -40,10 +66,22 @@
         {
             if (_percentage == value) return;
             _percentage = value;
-            var action = new MealsConfigurationAction(new MealConfiguration(), Position);
-            Dispatcher.Dispatch(action);
+            UpdateMealConfiguration();
         }
     }
 
-    
+    private void UpdateMealConfiguration()
+    {
+        var action = new MealsConfigurationAction(new MealConfiguration
+        {
+            MealType = MealType,
+            MealTime = _time,
+            Percentage = _percentage,
+        }, Position);
+
+        Dispatcher.Dispatch(action);
+    }
+
+
+
 }

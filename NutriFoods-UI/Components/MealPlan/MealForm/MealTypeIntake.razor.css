@@ -8,3 +8,14 @@
 .container{
     display: inline-flex
 }
+
+.custom{
+    font-weight: 450;
+    background: var(--mud-palette-primary-hover);
+    color: var(--mud-palette-primary);
+}
+
+input{
+    width: 70px;
+    height: 30px;
+}

@@ -1,16 +1,18 @@
 ﻿
+<MudExpansionPanels Elevation="1">
+   <MudExpansionPanel Dense="true" Class="mt-3 rounded">
+       <TitleContent>
+           <div class="d-flex mt-1 pl-3">
+               <h3>@Title</h3>
+           </div>
+       </TitleContent>
+       <ChildContent>
+           <MudDivider DividerType="DividerType.Middle" Class="mb-5"/>
+           @ChildContent
+       </ChildContent>
+   </MudExpansionPanel> 
+</MudExpansionPanels>   
 
-<MudExpansionPanel Dense="true" Class="mt-3 rounded" >
-    <TitleContent>
-        <div class="d-flex mt-1 pl-3">
-            <h3>@Title</h3>
-        </div>
-    </TitleContent>
-    <ChildContent>
-        <MudDivider DividerType="DividerType.Middle" Class="mb-5"/>
-        @ChildContent
-    </ChildContent>
-</MudExpansionPanel>
 
 @code {
 
