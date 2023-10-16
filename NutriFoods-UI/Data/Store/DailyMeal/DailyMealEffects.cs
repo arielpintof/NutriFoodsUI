@@ -43,7 +43,7 @@ public class DailyMealEffects
     }
 
     [EffectMethod(typeof(LoadMealPlanAction))]
-    public async Task LoadMealPlan(IDispatcher dispatcher)
+    public async Task GetMealPlan(IDispatcher dispatcher)
     {
         var mealPlanResponse = await _dailyMealPlanService.GenerateDailyMealPlan(
             energyTarget: 2000,
@@ -62,4 +62,6 @@ public class DailyMealEffects
             dispatcher.Dispatch(action);
         }
     }
+    
+    
 }
