@@ -17,11 +17,12 @@
                        Class="mt-2 ">
             </MudSlider>
         </div>
-        <div>
-            <i class="fas fa-dollar-sign trailing"></i>
+        <div class="d-flex gap-1 align-items-center">
             <input class="custom form-control " type="number" min="0" max="3" step="0.1"
                    @bind="MacroValueHandler" inputmode="numeric">
+            <label class="form-label">g/kg</label>
         </div>
+       
     </div>
 </div>
 
