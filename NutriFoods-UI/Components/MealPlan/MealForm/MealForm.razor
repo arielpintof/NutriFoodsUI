@@ -2,9 +2,13 @@
 
 @inject ISnackbar Snackbar
 @inject NavigationManager NavigationManager
-@using MudBlazor.Extensions
 @using MudExtensions.Enums
 @using MudExtensions.Utilities
+@using NutriFoods_UI.Data.Dto
+@using Fluxor
+@using NutriFoods_UI.Data.Store.MicronutrientConfiguration
+@inject IState<MicronutrientState> MicroNutrientState;
+
 
 
 <MudStepper @ref="_stepper"
@@ -21,12 +25,11 @@
             HeaderTextView="_headerTextView"
             PreventStepChangeAsync="new Func<StepChangeDirection, Task<bool>>(CheckChange)"
             LocalizedStrings="GetLocalizedStrings()"
-            MobileView="_mobileView"
             IconActionButtons="_iconActionButtons"
             Loading="_loading"
             HeaderSize="_headerSize"
             HeaderIcon="false">
-    
+
     <ChildContent>
         
         <MudStep Icon="@Icons.Material.Filled.Settings"
@@ -44,7 +47,9 @@
                     </Collapse>
 
                     <Collapse Title="Límite de micronutrientes">
-                        <MicroDistribution></MicroDistribution>
+                        <MudForm @ref="_form" Model="@NutrientModel">
+                            <MicroDistribution></MicroDistribution>
+                        </MudForm>
                     </Collapse>
                 </div>
             </ChildContent>
@@ -52,13 +57,18 @@
 
         <MudStep Title="Plan alimenticio" Icon="@Icons.Material.Filled.FoodBank" Optional="true">
             <ChildContent>
-                <DailyMeal ActiveIndex="_stepper.GetActiveIndex() == 1"></DailyMeal>
+                @if (_stepper.GetActiveIndex() == 1)
+                {
+                    <DailyMeal ActiveIndex="_stepper.GetActiveIndex() == 1"></DailyMeal>
+                }
+
             </ChildContent>
         </MudStep>
 
 
         @if (_addResultStep)
         {
+            
             <MudStep Icon="@Icons.Material.Filled.Alarm" Title="Result Step" IsResultStep="true">
                 <ChildContent>
                     <div class="d-flex flex-column align-center justify-center" style="height: 200px">
@@ -81,15 +91,13 @@
 </MudStepper>
 
 
-
-
 @code {
+    private MicroNutrientDto NutrientModel;
     MudStepper _stepper;
     MudForm _form;
     MudForm _form2;
-    bool _checkValidationBeforeComplete = false;
+    bool _checkValidationBeforeComplete = true;
     bool _linear;
-    bool _mobileView;
     bool _iconActionButtons;
     Variant _variant = Variant.Filled;
     HeaderBadgeView _headerBadgeView = HeaderBadgeView.All;
@@ -97,7 +105,7 @@
     bool _disableAnimation = false;
     bool _disablePreviousButton = false;
     bool _disableNextButton = false;
-    bool _disableSkipButton = false;
+    bool _disableSkipButton = true;
     bool _disableStepResultIndicator = false;
     bool _addResultStep = true;
     bool _customLocalization = true;
@@ -111,25 +119,27 @@
 
     private async Task<bool> CheckChange(StepChangeDirection direction)
     {
-        if (_checkValidationBeforeComplete == true)
+        if (_checkValidationBeforeComplete)
         {
-        // Always allow stepping backwards, even if forms are invalid
+    // Always allow stepping backwards, even if forms are invalid
             if (direction == StepChangeDirection.Backward)
             {
                 return false;
             }
+            
             if (_stepper.GetActiveIndex() == 0)
             {
                 _loading = true;
                 StateHasChanged();
                 await Task.Delay(1000);
-                await _form.Validate();
                 _loading = false;
                 StateHasChanged();
-                return !_form.IsValid;
+                
+                return !MicroNutrientState.Value.StateIsValid;
             }
-            else if (_stepper.GetActiveIndex() == 2)
+            else if (_stepper.GetActiveIndex() == 1)
             {
+                _stepper.DisableSkipButton = true;
                 _loading = true;
                 StateHasChanged();
                 await Task.Delay(1000);
@@ -151,7 +161,7 @@
 
     private void StatusChanged(StepStatus status)
     {
-        //Snackbar.Add($"First step {status.ToDescriptionString()}.", Severity.Info);
+    //Snackbar.Add($"First step {status.ToDescriptionString()}.", Severity.Info);
     }
 
     private StepperLocalizedStrings GetLocalizedStrings()
