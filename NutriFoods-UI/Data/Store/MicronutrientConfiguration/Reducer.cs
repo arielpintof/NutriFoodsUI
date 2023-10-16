@@ -39,8 +39,10 @@ public class Reducer
     {
         var updateList = state.Micronutrients.ToList();
         updateList[action.Index] = action.MicroNutrientDto;
-
-        return new MicronutrientState(updateList);
+        var stateIsValid = updateList.All(nutrient => nutrient.IsValid);
+        Console.Write($"Validez de {action.MicroNutrientDto.Name} es {stateIsValid}");
+        
+        return new MicronutrientState(updateList, true, stateIsValid);
     }
 
     

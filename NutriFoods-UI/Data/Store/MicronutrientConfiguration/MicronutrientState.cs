@@ -9,13 +9,17 @@ public class MicronutrientState
 {
     public bool Initialized { get; } = false;
     public IEnumerable<MicroNutrientDto> Micronutrients { get; } 
+    
+    public bool StateIsValid { get; }
 
     public MicronutrientState(){}
     
-    public MicronutrientState(IEnumerable<MicroNutrientDto> micronutrients, bool initialized = true)
+    public MicronutrientState(IEnumerable<MicroNutrientDto> micronutrients, 
+        bool initialized = true, bool stateIsValid = false)
     {
         Micronutrients = micronutrients;
         Initialized = initialized;
+        StateIsValid = stateIsValid;
     }
 
     

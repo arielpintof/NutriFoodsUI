@@ -12,10 +12,10 @@
     <MudItem xs="4" Class="d-flex flex-column gap-2">
         <div class="d-flex align-items-center">
             <span>Límite de consumo</span>
-            <MudChip Class="mr-4"
-                     Color="@Color.Primary"
+            <MudChip Color="@Color.Primary"
                      Size="Size.Small"
-                     Variant="Variant.Text">
+                     Variant="Variant.Text"
+                     Style="font-family: 'Plus Jakarta Sans', sans-serif;font-weight: 700">
                     Máximo 4
             </MudChip>
         </div>
@@ -32,12 +32,20 @@
                     </div>
                 }
             }
-            <div class="ml-6 mt-3 mb-2">
-                <MudButton Disabled="@IsDisabled" Size="Size.Small" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Add" Variant="Variant.Outlined"
-                           OnClick="AddNewMicroNutrient" Style="width: 250px">
-                    Añadir Macronutriente
+            <div class="mb-2">
+                <MudButton
+                    Disabled="@IsDisabled"
+                    Size="Size.Small"
+                    Color="Color.Primary"
+                    StartIcon="@Icons.Material.Outlined.AddCircle"
+                    Variant="Variant.Text"
+                    OnClick="AddNewMicroNutrient"
+                    Style="text-transform: none; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700;">
+                    Añadir micronutriente
                 </MudButton>
             </div>
+            
+            <span>Validez del State: @MicroState.Value.StateIsValid</span>
 
         </MudStack>
     </MudItem>
