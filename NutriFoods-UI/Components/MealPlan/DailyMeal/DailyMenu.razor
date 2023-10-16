@@ -2,11 +2,11 @@
 @using NutriFoods_UI.Data.Store.DailyMeal
 @using Fluxor
 @inherits Fluxor.Blazor.Web.Components.FluxorComponent
-@inject IState<DailyMealState> MealState
 
 
-<MudPaper Class="pl-6 pr-4 pt-4 pb-4 rounded-2" Style="background-color: #FFFFFF" Width="100%" Height="100%" Elevation="0" Outlined="true">
-    <div class="title-section-container">
+
+<MudPaper Class="pl-6 pr-4 pt-4 pb-4 rounded-2 mud-width-full" Style="background-color: #FFFFFF" Width="100%" Height="100%" Elevation="0" Outlined="true">
+    <div class="">
         <TitleSection Index="@Index" MealTypeName="@DailyMenuDto.MealType"></TitleSection>
         
         @if (MealState.Value.MealLoading.ElementAt(Index))
@@ -26,6 +26,9 @@
 
 @code {
 
+    [Inject] 
+    public IState<DailyMealState> MealState { get; set; }
+    
     [Parameter]
     public int Index { get; set; }
     
