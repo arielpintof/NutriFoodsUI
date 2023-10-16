@@ -7,29 +7,59 @@
 @inject IState<DailyMealState> MealState
 @inject IDispatcher Dispatcher
 
-<div class="icon-section">
-    
-    <button @onclick="MealRenew" class="btn-sm">
-        <i class="bi bi-arrow-clockwise"></i>
-    </button>
-    
-    <button class="btn-sm">
-        <i class="bi bi-gear"></i>
-    </button>
 
-    <button class="btn-sm">
-        <i class="bi bi-three-dots-vertical"></i>
-    </button>
+<div class="icon-section d-flex align-items-center gap-1">
+    <MudTooltip Placement="Placement.Top" Text="@RenewText()">
+        <MudIconButton
+            Icon="@Icons.Material.Outlined.Autorenew"
+            Size="Size.Small"
+            @onclick="MealRenew">
+        </MudIconButton>
+    </MudTooltip>
+    
+    <MudTooltip Placement="Placement.Top" Text="@ConfigText()">
+        <MudMenu 
+            Icon="@Icons.Material.Outlined.Settings" 
+            Size="Size.Small">
+        </MudMenu>
+    </MudTooltip>
 
+    <MudTooltip Placement="Placement.Top" Text="@OptionsText()">
+        <MudMenu 
+            Icon="@Icons.Material.Filled.MoreVert" 
+            Size="Size.Small">
+            <MudMenuItem 
+                Icon="@Icons.Material.Outlined.AccessTime"
+                IconSize="Size.Small">
+                <span
+                    style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 14px">
+                    Modificar hora
+                </span>
+            </MudMenuItem>
+            <MudMenuItem 
+                Icon="@Icons.Material.Outlined.Delete"
+                IconSize="Size.Small">
+                <span 
+                    style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 14px">
+                    Eliminar @MealState.Value.DailyMenu.ElementAt(Index).MealType
+                </span>
+
+            </MudMenuItem>
+        </MudMenu>
+    </MudTooltip>
 </div>
-        
+
 @code {
+
+    private string RenewText() => $"Renovar {MealState.Value.DailyMenu.ElementAt(Index).MealType.ToLower()}";
+
+    private string ConfigText() => $"Configurar {MealState.Value.DailyMenu.ElementAt(Index).MealType.ToLower()}";
+
+    private string OptionsText() => $"Opciones para {MealState.Value.DailyMenu.ElementAt(Index).MealType.ToLower()}";
     
     [Parameter]
     public int Index { get; set; }
-    
-    private void MealRenew() =>  Dispatcher.Dispatch(new RenewMenuAction(Index));
-   
-    
-}
 
+    private void MealRenew() => Dispatcher.Dispatch(new RenewMenuAction(Index));
+
+}
