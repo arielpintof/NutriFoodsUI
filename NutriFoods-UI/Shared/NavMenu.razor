@@ -161,8 +161,13 @@
                 {
                     Title = "Plan Alimentario",
                     Icon = Icons.Material.Filled.FoodBank,
-                    Href = "/form",
-                    
+                    Href = "/form"
+                },
+                new()
+                {
+                    Title = "Anamnesis",
+                    Icon = Icons.Material.Filled.FoodBank,
+                    Href = "/anamnesis"
                 },
             }
         },
@@ -172,34 +177,37 @@
     [EditorRequired] [Parameter] public EventCallback<bool> SideMenuDrawerOpenChanged { get; set; }
     [EditorRequired] [Parameter] public bool CanMiniSideMenuDrawer { get; set; }
     [EditorRequired] [Parameter] public EventCallback<bool> CanMiniSideMenuDrawerChanged { get; set; }
-    [EditorRequired] [Parameter] public UserModel User { get; set; }
+
+    [EditorRequired]
+    [Parameter]
+    public UserModel User { get; set; } = new();
 
     public class UserModel
     {
-        public string Avatar { get; set; }
-        public string DisplayName { get; set; }
-        public string Email { get; set; }
-        public string Role { get; set; }
+        public string Avatar { get; set; } = string.Empty;
+        public string DisplayName { get; set; } = string.Empty;
+        public string Email { get; set; } = string.Empty;
+        public string Role { get; set; } = string.Empty;
     }
     
     public class MenuSectionModel
     {
-        public string Title { get; set; }
-        public List<MenuSectionItemModel> SectionItems { get; set; }
+        public string Title { get; set; } = string.Empty;
+        public List<MenuSectionItemModel> SectionItems { get; set; } = new();
     }
     public class MenuSectionItemModel
     {
-        public string Title { get; set; }
-        public string Icon { get; set; }
-        public string Href { get; set; }
+        public string Title { get; set; } = string.Empty;
+        public string Icon { get; set; } = string.Empty;
+        public string Href { get; set; } = string.Empty;
         public PageStatus PageStatus { get; set; } = PageStatus.Completed;
         public bool IsParent { get; set; }
-        public List<MenuSectionSubItemModel> MenuItems { get; set; }
+        public List<MenuSectionSubItemModel> MenuItems { get; set; } = new();
     }
     public class MenuSectionSubItemModel
     {
-        public string Title { get; set; }
-        public string Href { get; set; }
+        public string Title { get; set; } = string.Empty;
+        public string Href { get; set; } = string.Empty;
 
         public PageStatus PageStatus { get; set; } = PageStatus.Completed;
     }
