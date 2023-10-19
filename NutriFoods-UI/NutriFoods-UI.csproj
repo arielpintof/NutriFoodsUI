@@ -32,4 +32,8 @@
       <_ContentIncludedByDefault Remove="Components\Atoms\PrimaryButton.razor" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Components\Anamnesis\FoodHistory\" />
+    </ItemGroup>
+
 </Project>
