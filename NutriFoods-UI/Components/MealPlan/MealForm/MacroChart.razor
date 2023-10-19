@@ -1,23 +1,19 @@
-﻿@page "/chart"
-@using NutriFoods_UI.Data.Store
+﻿@using NutriFoods_UI.Data.Store
 @using Fluxor
+@using MudExtensions.Components.TypographyM3
 @inherits Fluxor.Blazor.Web.Components.FluxorComponent
+@inject IState<MoleculaState> MoleculaState
 
 <MudChart ChartType="ChartType.Pie" InputData="@Data" @bind-SelectedIndex="Index" InputLabels="@labels" Width="300px" Height="300px" />
 
 
 @code {
     private int Index = -1; 
-    int dataSize = 3;
+    private int DataSize => labels.Length;
     
     string[] labels = { "Carbohidratos", "Proteínas", "Lípidos" };
 
     private double[] Data => new [] 
     { MoleculaState.Value.CarbTarget, MoleculaState.Value.ProteinTarget, MoleculaState.Value.LipidTarget };
-
-    [Inject]
-    private IState<MoleculaState> MoleculaState { get; set; } = null!;
-    
-    
     
 }

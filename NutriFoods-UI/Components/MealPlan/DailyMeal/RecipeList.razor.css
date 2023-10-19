@@ -10,7 +10,7 @@ td {
 
 td{
     color: var(--grey-heavy);
-    font-size: 14px;
+    font-size: 1em;
     font-weight: 450;
 }
 

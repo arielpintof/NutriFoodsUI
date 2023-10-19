@@ -4,13 +4,15 @@
 @using NutriFoods_UI.Data.Dto
 @using NutriFoods_UI.Data.Store.MicronutrientConfiguration
 @using NutriFoods_UI.Utils.Enums
+@using System.Collections.Immutable
 @inject IState<MicronutrientState> MicroNutrientState
 @inject IDispatcher Dispatcher
 @inherits Fluxor.Blazor.Web.Components.FluxorComponent
 
 <MudForm id="@NutrientModel.Id" @ref="_form" @bind-IsValid="@IsValidHandler" Model="@NutrientModel">
-    <div class="d-flex mb-3 flex-wrap flex-column flex-sm-row gap-3 align-items-center">
-        <span>@(Index + 1)</span>
+    <div class="d-flex mb-3 flex-wrap flex-column flex-sm-row gap-3">
+
+        <span class="align-self-center">@(Index + 1)</span>
         <MudSelectExtended
             ItemCollection="_nutrients"
             SearchBox="true"
@@ -22,66 +24,71 @@
             SearchBoxClearable="true"
             @bind-Value="NutrientModel.Name"
             Margin="Margin.Dense"
-            Class="flex-grow-1"
-            Validation="@NutrientModel.Name"/>
-        
-        <div style="flex-basis: 20%;">
+            Required="true"
+            Class="flex-grow-1"/>
+
+
+        <div style="flex-basis: 30%;">
             <MudNumericField
-                HideSpinButtons="true"
+                HideSpinButtons="false"
                 @bind-Value="@NutrientModel.Quantity"
                 Label="Cantidad"
                 Variant="Variant.Outlined"
                 Margin="Margin.Dense"
                 Min="0.0"
                 Required="true"
-                Class="rounded"/>
+                Class="rounded"
+                Adornment="Adornment.End"
+                AdornmentColor="Color.Primary"
+                AdornmentText="@GetMeasure()"
+                />
         </div>
-         
-        <MudComboBox
-            @bind-Value="@NutrientModel.Measure"
-            Variant="Variant.Outlined"
-            Label="Unidad de medida"
-            Dense="Dense.Standard"
-            Margin="Margin.Dense"
-            Style="flex-basis: 30% !important;">
-            @foreach (var units in UnitEnumValues())
-            {
-                <MudComboBoxItem
-                    Value="@units"
-                    Text="@units.ReadableName">
-                    @units.ReadableName
-                </MudComboBoxItem>
-            }
-        </MudComboBox>
         
         <MudIconButton
             OnClick="DeleteNutrient"
-            Icon="@Icons.Material.Outlined.Delete"
+            Icon="@Icons.Material.Filled.DeleteForever"
             Title="Eliminar nutriente"
-            Size="Size.Small">
+            Size="Size.Medium">
             @Index
         </MudIconButton>
         
+        
+
+
     </div>
 
-    <ValidationSummary/>
 </MudForm>
-
-<span>@IsValid</span>
-<span>Name:@NutrientModel.Name</span>
-<span>Quantity:@NutrientModel.Quantity</span>
-<span>Measure:@NutrientModel.Measure</span>
 
 
 @code {
-    private string sub { get; set; } = string.Empty;
-    private MicroNutrientDto NutrientModel => MicroNutrientState.Value.Micronutrients.ElementAt(Index);
+    private string Sub { get; set; } = string.Empty;
+
+    private MicroNutrientDto NutrientModel { get; set; } = new();
+
+    protected override void OnInitialized()
+    {
+        if (MicroNutrientState != null && MicroNutrientState.Value != null)
+        {
+            if (Index >= 0 && Index < MicroNutrientState.Value.Micronutrients.Count())
+            {
+                NutrientModel = MicroNutrientState.Value.Micronutrients.ElementAt(Index);
+            }
+            else
+            {
+                NutrientModel = MicroNutrientState.Value.Micronutrients.ElementAt(Index);
+            }
+        }
+
+        base.OnInitialized();
+    }
+
     MudForm _form = null!;
+
     [Parameter]
     public int Index { get; set; }
 
     public bool IsValid;
-    
+
     private bool IsValidHandler
     {
         get => IsValid;
@@ -92,23 +99,23 @@
             UpdateMicronutrient();
         }
     }
-    
+
     private IEnumerable<UnitEnum?> UnitEnumValues() => UnitEnum.NonNullValues;
-    
-    private string[] _nutrients =
+
+    private static List<MicroNutrientDto> Nutrients => new()
     {
-        "Sodio", "Azúcar total", "Potasio", "Vitamina C",
+        new MicroNutrientDto { Name = "Sodio", Measure = UnitEnum.Milligrams },
+        new MicroNutrientDto { Name = "Calcio", Measure = UnitEnum.Milligrams },
+        new MicroNutrientDto { Name = "Azúcar Total", Measure = UnitEnum.Grams },
+        new MicroNutrientDto { Name = "Vitamina B12", Measure = UnitEnum.Micrograms }
     };
 
-    private void DeleteNutrient()
-    {
-        Console.WriteLine(Index);
-        Dispatcher.Dispatch(new DeleteMicronutrientAction(Index));
-    }
+    private string?[] _nutrients = Nutrients.Select(nutrient => nutrient.Name).ToArray();
+
+    private void DeleteNutrient() => Dispatcher.Dispatch(new DeleteMicronutrientAction(Index));
 
     private void UpdateMicronutrient()
     {
-        Console.WriteLine("State actualizado");
         var action = new ChangeMicronutrientAction(Index, new MicroNutrientDto
         {
             Measure = NutrientModel.Measure,
@@ -118,6 +125,20 @@
         });
 
         Dispatcher.Dispatch(action);
+    }
+
+
+    private string GetMeasure()
+    {
+        if (NutrientModel.Name == string.Empty) return string.Empty;
+        var nutrientName = NutrientModel.Name;
+        var selectedNutrient = Nutrients.FirstOrDefault(n => n.Name == nutrientName);
+        if (selectedNutrient != null)
+        {
+            NutrientModel.Measure = selectedNutrient.Measure;
+        }
+
+        return NutrientModel.Measure.ReadableName;
     }
 
 }

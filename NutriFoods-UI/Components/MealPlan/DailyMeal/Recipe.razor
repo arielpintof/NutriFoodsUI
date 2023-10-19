@@ -31,9 +31,7 @@
     
     [Parameter] public bool Hovered { get; set; }
     
-    private string GetSpanClass()
-    {
-        return Hovered ? "span-hovered" : "";
-    }
+    private string GetSpanClass() => Hovered ? "span-hovered" : "";
+    
 }
 

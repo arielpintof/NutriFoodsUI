@@ -54,7 +54,7 @@
 
 @code {
 
-    private bool IsDisabled => MicroState.Value.Micronutrients.Count() >= 4;
+    private bool IsDisabled => MicroState?.Value?.Micronutrients?.Count() >= 4;
 
     protected override Task OnInitializedAsync()
     {

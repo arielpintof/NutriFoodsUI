@@ -10,21 +10,27 @@
     <div class="d-flex " style="width: 10%">
         <span>@MealType.ReadableName</span>
     </div>
-    <div class="d-flex flex-row gap-2" style="width: 63%">
+    <div class="d-flex flex-row gap-3" style="width: 63%">
         <div style="width: 40%">
             <span class="label" style="font-size: 13px;">Hora</span>
-            <MudTimePicker Class=" mr-3" 
+            <MudTimePicker Class=""
+                           Placeholder="Hora de consumo"
                            AmPm="true" 
                            @bind-Time="TimeHandler" 
-                           Style="margin-top: 0">
+                           Style="margin-top: 0"
+                           Variant="Variant.Outlined"
+                           Margin="Margin.Dense"
+                           >
             </MudTimePicker>
         </div>
 
         <div class="d-flex gap-3 mx-1 align-end mud-width-full">
             <div class="d-flex flex-column mud-width-full">
                 <span class="label" style="font-size: 13px;">Distribución</span>
-                <MudSlider Size="Size.Medium" @bind-Value="PercentageHandler"
-                           Variant="Variant.Filled" Min="0" Max="100" Step="1"
+                <MudSlider Size="Size.Medium" 
+                           @bind-Value="PercentageHandler"
+                           Variant="Variant.Filled"
+                           Min="0" Max="100" Step="1"
                            Class="mt-2 mb-1">
                 </MudSlider>
             </div>

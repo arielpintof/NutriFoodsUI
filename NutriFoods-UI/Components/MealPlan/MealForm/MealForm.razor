@@ -12,7 +12,7 @@
 
 
 <MudStepper @ref="_stepper"
-            Class="mud-width-full my-4 px-4"
+            Class="mud-width-full"
             ContentStyle="min-height: 400px"
             Linear="true" Vertical="_vertical"
             Color="_color" Variant="_variant"
@@ -55,7 +55,9 @@
             </ChildContent>
         </MudStep>
 
-        <MudStep Title="Plan alimenticio" Icon="@Icons.Material.Filled.FoodBank" Optional="true">
+        <MudStep Title="Plan alimenticio" 
+                 Icon="@Icons.Material.Filled.FoodBank" 
+                 Optional="false">
             <ChildContent>
                 @if (_stepper.GetActiveIndex() == 1)
                 {
@@ -121,7 +123,7 @@
     {
         if (_checkValidationBeforeComplete)
         {
-    // Always allow stepping backwards, even if forms are invalid
+            // Always allow stepping backwards, even if forms are invalid
             if (direction == StepChangeDirection.Backward)
             {
                 return false;

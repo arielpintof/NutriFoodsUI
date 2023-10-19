@@ -1,10 +1,10 @@
 ﻿@page "/plan"
 @using NutriFoods_UI.Data.Dto
 
-<table class="my-table">
+<table class="my-table mud-width-full">
     <thead>
     <tr>
-        <th scope="col" class="ml-2" style="width: 300px">Nombre</th>
+        <th scope="col" class="ml-2" style="width: 50%">Nombre</th>
         <th scope="col" class="ml-9 mr-9">Energía</th>
         <th scope="col" class="ml-3 mr-3">Proteínas</th>
         <th scope="col" class="ml-3 mr-3">Carbohidratos</th>
@@ -58,9 +58,7 @@
     
     private bool IsHovered { get; set; }
 
-    private void HandleHover(bool isHovered)
-    {
-        IsHovered = isHovered;
-    }
+    private void HandleHover(bool isHovered) => IsHovered = isHovered;
+    
     
 }
