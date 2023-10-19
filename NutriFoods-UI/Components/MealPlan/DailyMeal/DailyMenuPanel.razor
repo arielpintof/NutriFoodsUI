@@ -6,6 +6,7 @@
 @using NutriFoods_UI.Utils.Enums
 @inject IState<DailyMealState> MealState
 @inject IDispatcher Dispatcher
+@inherits Fluxor.Blazor.Web.Components.FluxorComponent
 
 
 <div class="icon-section d-flex align-items-center gap-1">
@@ -13,7 +14,8 @@
         <MudIconButton
             Icon="@Icons.Material.Outlined.Autorenew"
             Size="Size.Small"
-            @onclick="MealRenew">
+            @onclick="MealRenew"
+            Disabled="MealState.Value.MealLoading.ElementAt(Index)">
         </MudIconButton>
     </MudTooltip>
     
