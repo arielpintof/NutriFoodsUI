@@ -1,0 +1,216 @@
+﻿@page "/anamnesis"
+@using NutriFoods_UI.Data.Dto
+@using MudExtensions.Enums
+@using MudExtensions.Utilities
+@using MudBlazor.Extensions
+@inject ISnackbar Snackbar
+
+<MudStepper @ref="_stepper"
+            Class="mud-width-full my-4 px-4"
+            ContentStyle="min-height: 400px"
+            Linear="false"
+            Vertical="_vertical"
+            Color="_color"
+            Variant="_variant"
+            DisableAnimation="_disableAnimation"
+            DisablePreviousButton="_disablePreviousButton"
+            DisableNextButton="_disableNextButton"
+            DisableSkipButton="_disableSkipButton"
+            DisableStepResultIndicator="_disableStepResultIndicator"
+            HeaderBadgeView="_headerBadgeView"
+            HeaderTextView="_headerTextView"
+            PreventStepChangeAsync="new Func<StepChangeDirection, Task<bool>>(CheckChange)"
+            LocalizedStrings="GetLocalizedStrings()"
+            IconActionButtons="_iconActionButtons"
+            Loading="_loading"
+            HeaderSize="_headerSize">
+
+    <ChildContent>
+        <MudStep Icon="@Icons.Material.Filled.Settings"
+                 Title="Clínica"
+                 StatusChanged="StatusChanged">
+            <ChildContent>
+                <div class="container">
+                    <Collapse Title="Patologías">
+                        <PathologiesGroup></PathologiesGroup>
+                    </Collapse>
+                    <Collapse Title="Medicamentos">
+                    </Collapse>
+                    <Collapse Title="Suplementos">
+                    </Collapse>
+                </div>
+
+            </ChildContent>
+        </MudStep>
+
+        <MudStep Title="Alimentaria"
+                 Icon="@Icons.Material.Filled.FoodBank"
+                 Optional="false">
+            <ChildContent>
+
+            </ChildContent>
+        </MudStep>
+
+        <MudStep Title="Antropométrica"
+                 Icon="@Icons.Material.Filled.FoodBank"
+                 Optional="false">
+            <ChildContent>
+
+            </ChildContent>
+        </MudStep>
+
+        <MudStep Title="Recordatorio"
+                 Icon="@Icons.Material.Filled.FoodBank"
+                 Optional="false">
+            <ChildContent>
+
+            </ChildContent>
+        </MudStep>
+
+
+        @if (_addResultStep)
+        {
+            <MudStep Icon="@Icons.Material.Filled.Alarm" Title="Result Step" IsResultStep="true">
+                <ChildContent>
+                    <div class="d-flex flex-column align-center justify-center" style="height: 200px">
+                        <MudIconButton Icon="@Icons.Material.Filled.DoneAll" Size="Size.Large" Variant="Variant.Filled" Color="Color.Success"/>
+                        <MudText>El plan alimenticio ha sido guardado</MudText>
+                    </div>
+                </ChildContent>
+            </MudStep>
+        }
+    </ChildContent>
+    <ActionContent>
+        @if (!_stepper.IsAllStepsCompleted() && _showCustomButton)
+        {
+            <MudButton Color="Color.Secondary" Variant="_variant" OnClick="@(() => Snackbar.Add("Custom cancel button clicked.", Severity.Info))">Cancel</MudButton>
+        }
+        <MudSpacer/>
+    </ActionContent>
+
+
+</MudStepper>
+
+
+@code {
+    private MicroNutrientDto NutrientModel;
+    private MudStepper _stepper;
+    private MudForm _form;
+    private MudForm _form2;
+    private bool _checkValidationBeforeComplete = true;
+    public bool Linear;
+    public bool _iconActionButtons;
+    private Variant _variant = Variant.Filled;
+    private HeaderBadgeView _headerBadgeView = HeaderBadgeView.All;
+    private HeaderTextView _headerTextView = HeaderTextView.All;
+    private  bool _disableAnimation = false;
+    private bool _disablePreviousButton = false;
+    private bool _disableNextButton = false;
+    private bool _disableSkipButton = true;
+    private bool _disableStepResultIndicator = false;
+    private bool _addResultStep = true;
+    private bool _customLocalization = true;
+    private Color _color = Color.Primary;
+    public int ActiveIndex = 0;
+    bool _loading;
+    public bool ShowStaticContent = false;
+    private bool _showCustomButton = false;
+    private bool _vertical = false;
+    private Size _headerSize = Size.Medium;
+
+    private async Task<bool> CheckChange(StepChangeDirection direction)
+    {
+        if (_checkValidationBeforeComplete)
+        {
+            
+            if (direction == StepChangeDirection.Backward)
+            {
+                return false;
+            }
+
+            if (_stepper.GetActiveIndex() == 0)
+            {
+                _loading = true;
+                StateHasChanged();
+                await Task.Delay(1000);
+                _loading = false;
+                StateHasChanged();
+
+                return false;
+            }
+            else if (_stepper.GetActiveIndex() == 1)
+            {
+                _loading = true;
+                StateHasChanged();
+                await Task.Delay(1000);
+                _loading = false;
+                StateHasChanged();
+
+                return false;
+            }
+            else if (_stepper.GetActiveIndex() == 2)
+            {
+                _loading = true;
+                StateHasChanged();
+                await Task.Delay(1000);
+                _loading = false;
+                StateHasChanged();
+
+                return false;
+            }
+            else if (_stepper.GetActiveIndex() == 3)
+            {
+                _loading = true;
+                StateHasChanged();
+                await Task.Delay(1000);
+                _loading = false;
+                StateHasChanged();
+
+                return false;
+            }
+            else
+            {
+                _loading = true;
+                StateHasChanged();
+                await Task.Delay(1000);
+                _loading = false;
+                StateHasChanged();
+
+                return false;
+            }
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+
+
+    private void StatusChanged(StepStatus status)
+    {
+        Snackbar.Add($"First step {status.ToDescriptionString()}.", Severity.Info);
+    }
+
+    private StepperLocalizedStrings GetLocalizedStrings()
+    {
+        if (_customLocalization == false)
+        {
+            return new StepperLocalizedStrings();
+        }
+        else
+        {
+            return new StepperLocalizedStrings()
+            {
+                Completed = "Completado",
+                Finish = "Terminar",
+                Next = "Siguiente",
+                Optional = "Opcional",
+                Previous = "Retroceder",
+                Skip = "Omitir",
+                Skipped = "Omitido",
+            };
+        }
+    }
+
+}
