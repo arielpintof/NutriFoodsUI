@@ -63,5 +63,29 @@ public class DailyMealEffects
         }
     }
     
+    [EffectMethod(typeof(RenewDailyMealPlanAction))]
+    public async Task RenewMealPlan( IDispatcher dispatcher)
+    {
+
+        var mealPlanResponse = await _dailyMealPlanService.GenerateDailyMealPlan(
+            energyTarget: 2000,
+            isLunchFilling: true,
+            breakfast: Satiety.Normal,
+            dinner: Satiety.Normal,
+            includeBrunch: false,
+            includeLinner: false
+            );
+
+        var dailyMealPlan = await mealPlanResponse!.Content.ReadFromJsonAsync<DailyMealPlanDto>();
+
+        if (dailyMealPlan != null)
+        {
+            var action = new InitializeDailyMealAction(dailyMealPlan.DailyMenus);
+            dispatcher.Dispatch(action);
+        }
+        
+        dispatcher.Dispatch(new StopOnLoadingMenuAction());
+    }
+    
     
 }
