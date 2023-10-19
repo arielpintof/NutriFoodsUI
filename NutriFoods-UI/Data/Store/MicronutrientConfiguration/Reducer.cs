@@ -17,8 +17,8 @@ public class Reducer
     {
         var updateList = state.Micronutrients.ToList();
         updateList.Add(action.MicroNutrient);
-        
-        return new MicronutrientState(updateList);
+        var stateIsValid = updateList.All(nutrient => nutrient.IsValid);
+        return new MicronutrientState(updateList, stateIsValid: stateIsValid);
     }
 
     [ReducerMethod]
@@ -26,11 +26,19 @@ public class Reducer
         DeleteMicronutrientAction action)
     {
         var updateList = state.Micronutrients.ToList();
-        //Console.WriteLine($"Indice en el reducer: {action.Index}");
-        //Console.WriteLine($"Eliminado nutriente: {updateList.ElementAt(action.Index).Name} con cantidad de: {updateList.ElementAt(action.Index).Quantity}");
-        updateList.RemoveAt(action.Index);
-        //Console.WriteLine($"Nutriente en posicion {action.Index}: {updateList.ElementAt(action.Index).Name} con cantidad de: {updateList.ElementAt(action.Index).Quantity}");
-        return new MicronutrientState(updateList);
+        try
+        {
+            updateList.RemoveAt(action.Index);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Se produjo una excepción: {ex.Message}");
+        }
+        
+        
+        var stateIsValid = updateList.All(nutrient => nutrient.IsValid);
+        
+        return new MicronutrientState(updateList, stateIsValid: stateIsValid);
     }
 
     [ReducerMethod]
@@ -39,9 +47,9 @@ public class Reducer
     {
         var updateList = state.Micronutrients.ToList();
         updateList[action.Index] = action.MicroNutrientDto;
-        var stateIsValid = updateList.All(nutrient => nutrient.IsValid);
-        Console.Write($"Validez de {action.MicroNutrientDto.Name} es {stateIsValid}");
         
+        var stateIsValid = updateList.All(nutrient => nutrient.IsValid);
+
         return new MicronutrientState(updateList, true, stateIsValid);
     }
 
