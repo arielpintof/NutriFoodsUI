@@ -8,15 +8,16 @@ namespace NutriFoods_UI.Data.Store.Pathologies;
 public class PathologyState
 {
     public bool Initialized { get; } = false;
-    public IEnumerable<PathologyDto> Micronutrients { get; }
+    
+    public IEnumerable<PathologyDto> Pathologies { get; } 
     public bool StateIsValid { get; }
 
     public PathologyState(){}
 
-    public PathologyState(bool initialized, IEnumerable<PathologyDto> micronutrients, bool stateIsValid)
+    public PathologyState(bool initialized, IEnumerable<PathologyDto> pathologies, bool stateIsValid)
     {
         Initialized = initialized;
-        Micronutrients = micronutrients;
+        Pathologies = pathologies;
         StateIsValid = stateIsValid;
     }
     
