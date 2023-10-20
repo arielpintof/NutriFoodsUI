@@ -7,7 +7,7 @@
 @using System.Collections.Immutable
 @inject IState<MicronutrientState> MicroNutrientState
 @inject IDispatcher Dispatcher
-@inherits Fluxor.Blazor.Web.Components.FluxorComponent
+
 
 <MudForm id="@NutrientModel.Id" @ref="_form" @bind-IsValid="@IsValidHandler" Model="@NutrientModel">
     <div class="d-flex mb-3 flex-wrap flex-column flex-sm-row gap-3">
@@ -40,10 +40,9 @@
                 Class="rounded"
                 Adornment="Adornment.End"
                 AdornmentColor="Color.Primary"
-                AdornmentText="@GetMeasure()"
-                />
+                AdornmentText="@GetMeasure()"/>
         </div>
-        
+
         <MudIconButton
             OnClick="DeleteNutrient"
             Icon="@Icons.Material.Filled.DeleteForever"
@@ -51,8 +50,6 @@
             Size="Size.Medium">
             @Index
         </MudIconButton>
-        
-        
 
 
     </div>
@@ -61,24 +58,14 @@
 
 
 @code {
-    private string Sub { get; set; } = string.Empty;
 
-    private MicroNutrientDto NutrientModel { get; set; } = new();
+    private MicroNutrientDto NutrientModel => Index < MicroNutrientState.Value.Micronutrients.Count() ? 
+            MicroNutrientState.Value.Micronutrients.ElementAt(Index) : 
+            new MicroNutrientDto();
 
     protected override void OnInitialized()
     {
-        if (MicroNutrientState != null && MicroNutrientState.Value != null)
-        {
-            if (Index >= 0 && Index < MicroNutrientState.Value.Micronutrients.Count())
-            {
-                NutrientModel = MicroNutrientState.Value.Micronutrients.ElementAt(Index);
-            }
-            else
-            {
-                NutrientModel = MicroNutrientState.Value.Micronutrients.ElementAt(Index);
-            }
-        }
-
+        Console.WriteLine($"Index {Index} actualizado");
         base.OnInitialized();
     }
 

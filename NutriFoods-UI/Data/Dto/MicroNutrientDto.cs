@@ -5,12 +5,12 @@ namespace NutriFoods_UI.Data.Dto;
 
 public class MicroNutrientDto
 {
-    
-    public string? Name { get; set; }
+
+    public string? Name { get; set; } = string.Empty;
     [Required]
     [Range(10, 50, ErrorMessage = "La cantidad debe estar entre 10 y 50")]
     public double? Quantity { get; set; } 
-    [Required(ErrorMessage = "Especifíque una unidad de medida")]
+    
     public UnitEnum Measure { get; set; } = null!;
     
     public Guid Id { get; set; } = Guid.NewGuid();
