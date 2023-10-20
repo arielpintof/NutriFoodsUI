@@ -7,13 +7,16 @@ namespace NutriFoods_UI.Data.Store.MealsConfiguration;
 [FeatureState]
 public class MealsConfigurationState
 {
-    public IEnumerable<MealConfiguration> Meals { get; }
+    public IEnumerable<MealConfiguration> Meals { get; } 
+
+    public bool IsValid => Meals.Sum(x => x.Percentage) == 100;
     
     public MealsConfigurationState(){}
 
     public MealsConfigurationState(IEnumerable<MealConfiguration> meals)
     {
         Meals = meals;
+        
     }
 }
 
@@ -22,10 +25,8 @@ public class MealConfiguration
 {
 
     public MealTypeEnum? MealType { get; set; }
-
-    [Range(0, 100, ErrorMessage = "El porcentaje debe estar entre 0 y 100.")]
-    public double? Percentage { get; set; }
     
-    [Required(ErrorMessage = "El campo MealTime es obligatorio.")]
+    public int? Percentage { get; set; }
+    
     public TimeSpan? MealTime { get; set; }
 }
