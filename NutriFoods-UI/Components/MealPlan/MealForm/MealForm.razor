@@ -35,23 +35,8 @@
         <MudStep Icon="@Icons.Material.Filled.Settings"
                  Title="Configuración"
                  StatusChanged="StatusChanged">
-            <ChildContent>
-
-                <div class="container">
-                    <Collapse Title="Cálculo de la molécula calórica">
-                        <MacroDistribution></MacroDistribution>
-                    </Collapse>
-
-                    <Collapse Title="Comidas del día">
-                        <MealDistribution></MealDistribution>
-                    </Collapse>
-
-                    <Collapse Title="Límite de micronutrientes">
-                        <MudForm @ref="_form" Model="@NutrientModel">
-                            <MicroDistribution></MicroDistribution>
-                        </MudForm>
-                    </Collapse>
-                </div>
+            <ChildContent class="container">
+                <ConfigurationGroup></ConfigurationGroup>
             </ChildContent>
         </MudStep>
 

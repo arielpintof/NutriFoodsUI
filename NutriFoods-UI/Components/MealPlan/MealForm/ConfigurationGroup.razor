@@ -1,0 +1,57 @@
+﻿<MudExpansionPanels MultiExpansion="false" Elevation="1">
+    
+    @foreach (var item in _collapseItemModels)
+    {
+        <MudExpansionPanel Dense="true" Class="mt-3 rounded">
+            <TitleContent>
+                <CollapseTitle Title="@item.Title"></CollapseTitle>
+            </TitleContent>
+            <ChildContent>
+                <MudDivider DividerType="DividerType.Middle" Class="mb-5"/>
+                @item.ChildContent
+            </ChildContent>
+        </MudExpansionPanel>
+    }
+
+</MudExpansionPanels>
+
+
+
+@code{
+
+    private List<CollapseItemModel> _collapseItemModels = new()
+    {
+        new CollapseItemModel
+        {
+            Title = "Cálculo de la molécula calórica",
+            ChildContent = __builder =>
+            {
+                <MacroDistribution></MacroDistribution>
+            }
+        },
+        new CollapseItemModel()
+        {
+            Title = "Comidas del día",
+            ChildContent = __builder =>
+            {
+                <MealDistribution></MealDistribution>
+            }
+        },
+        new CollapseItemModel()
+        {
+            Title = "Límite de micronutrientes",
+            ChildContent = __builder =>
+            {
+                <MicroDistribution></MicroDistribution>
+            }
+        }
+    };
+
+    public class CollapseItemModel
+    {
+        public string Title { get; init; } = string.Empty;
+        public RenderFragment? ChildContent { get; set; }
+    }
+
+}
+
