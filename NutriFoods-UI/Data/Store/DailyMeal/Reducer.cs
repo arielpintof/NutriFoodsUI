@@ -10,7 +10,7 @@ public class Reducer
     {
         var updatedDailyMenu = state.DailyMenu.ToList();
         updatedDailyMenu[action.Position] = action.DailyMenu;
-        
+
         return new DailyMealState(updatedDailyMenu, state.MealLoading, true);
     }
 
