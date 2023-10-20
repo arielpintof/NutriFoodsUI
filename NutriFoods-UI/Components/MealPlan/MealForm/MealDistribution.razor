@@ -6,7 +6,7 @@
 <div class="mb-4 my-3">
     @for (var i = 0; i < MealTypes.Count; i++)
     {
-        <MealTypeIntake Position="i" MealType="MealTypes[i]"></MealTypeIntake>
+        <MealTypeIntake Index="i" MealType="MealTypes[i]"></MealTypeIntake>
         <MudDivider Class="mb-5 mt-2"/>
     }
     
@@ -24,7 +24,7 @@
 
 
 @code {
-
+    
     private List<MealTypeEnum> MealTypes { get; set; } = new()
     {
         MealTypeEnum.Breakfast,
