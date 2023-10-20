@@ -49,18 +49,16 @@
 
 
 @code {
-
     
-
     [Parameter]
     public MealTypeEnum MealType { get; set; } = null!;
 
     [Parameter]
-    public int Position { get; set; }
+    public int Index { get; set; }
 
-    private double _percentage;
+    private int _percentage;
 
-    private double PercentageHandler
+    private int PercentageHandler
     {
         get => _percentage;
         set
@@ -90,7 +88,7 @@
             MealType = MealType,
             MealTime = _time,
             Percentage = _percentage,
-        }, Position);
+        }, Index);
 
         Dispatcher.Dispatch(action);
     }
