@@ -1,7 +1,20 @@
-﻿
+﻿@using NutriFoods_UI.Utils.Enums
+@using System.Collections.Immutable
+
 
 <PersonalPathologies></PersonalPathologies>
+<InheritedPathologies></InheritedPathologies>
 
-@code {
+@foreach (var item in InheritancesNames)
+{
+    <MudStack>
+        <span class="bg-dark">@item.Value</span>
+    </MudStack>
     
+}
+@code {
+
+    private static ICollection<Inheritance> InheritancesNames =>
+        IEnum<Inheritance, InheritanceToken>.Values().ToList();
+
 }

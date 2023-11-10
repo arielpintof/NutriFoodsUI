@@ -1,0 +1,74 @@
+﻿@using NutriFoods_UI.Data.Model
+@using NutriFoods_UI.Utils.Enums
+@using MudExtensions.Enums
+@using System.Collections.Immutable
+
+<MudForm>
+    <div class="d-flex mb-3 flex-wrap flex-column flex-sm-row gap-3">
+        <span class="align-self-center">@(Index + 1)</span>
+        <MudSelectExtended
+            ItemCollection="_diseases"
+            SearchBox="true"
+            SearchBoxAutoFocus="true"
+            T="string"
+            Label="Selecciona una patología"
+            AnchorOrigin="Origin.BottomCenter"
+            Variant="Variant.Outlined"
+            SearchBoxClearable="true"
+            @bind-Value="PersonalPathology.Name"
+            Margin="Margin.Dense"
+            Required="true"
+            Class="flex-grow-1"/>
+
+        <MudComboBox
+            MultiSelection="true"
+            SearchBox="true"
+            SearchBoxAutoFocus="true"
+            T="string"
+            Label="Selecciona una o más herencia"
+            AnchorOrigin="Origin.BottomCenter"
+            Variant="Variant.Outlined"
+            SearchBoxClearable="true"
+            @bind-Value="PersonalPathology.Name"
+            Margin="Margin.Dense"
+            Required="true"
+            Class="flex-grow-1"
+            InputPresenter="ValuePresenter.Chip">
+            <ChildContent>
+                @foreach (var item in InheritancesNames)
+                {
+                    <MudComboBoxItem Value="@item" Text="@item"></MudComboBoxItem>
+                }
+            </ChildContent>
+        </MudComboBox>
+
+        <MudIconButton
+            Icon="@Icons.Material.Filled.DeleteForever"
+            Title="Eliminar patología"
+            Size="Size.Medium">
+            @Index
+        </MudIconButton>
+
+    </div>
+
+</MudForm>
+
+@code {
+    private Disease PersonalPathology { get; set; } = new();
+
+    private static ICollection<string> InheritancesNames => IEnum<Inheritance, InheritanceToken>
+            .ReadableNameDictionary()
+            .Select(x => x.Key)
+            .Skip(1).ToImmutableList();
+
+    [Parameter]
+    public int Index { get; set; } = 1;
+
+    private string[] _diseases =
+    {
+        "Diabetes", "Hipertensión", "Asma", "Cancer"
+    };
+
+
+
+}

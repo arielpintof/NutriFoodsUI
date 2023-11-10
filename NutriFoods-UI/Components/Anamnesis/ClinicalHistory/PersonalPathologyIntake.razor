@@ -1,0 +1,79 @@
+﻿@using NutriFoods_UI.Data.Model
+@using Fluxor
+@using NutriFoods_UI.Data.Store.Pathologies
+@using NutriFoods_UI.Utils.Enums
+@inject IState<PersonalPathologiesState> PersonalPathologiesState
+@inject IDispatcher Dispatcher
+@page "/patologia"
+<MudForm @ref="_form" @bind-IsValid="@IsValidHandler" Model="@PersonalPathology">
+    <div class="d-flex mb-3 flex-wrap flex-column flex-sm-row gap-3">
+        <span class="align-self-center">@(Index + 1)</span>
+        <MudSelectExtended
+            ItemCollection="_diseases"
+            SearchBox="true"
+            SearchBoxAutoFocus="true"
+            T="string"
+            Label="Patología"
+            AnchorOrigin="Origin.BottomCenter"
+            Variant="Variant.Outlined"
+            SearchBoxClearable="true"
+            @bind-Value="PersonalPathology.Name"
+            Margin="Margin.Dense"
+            Required="true"
+            Class="flex-grow-1"/>
+        
+        <MudIconButton
+            OnClick="DeletePathology"
+            Icon="@Icons.Material.Filled.DeleteForever"
+            Title="Eliminar patología"
+            Size="Size.Medium">
+            @Index
+        </MudIconButton>
+
+    </div>
+
+</MudForm>
+
+@code {
+
+    private Disease PersonalPathology => Index < PersonalPathologiesState.Value.Pathologies.Count() ?
+        PersonalPathologiesState.Value.Pathologies.ElementAt(Index) :
+        new Disease();
+
+    private string[] _diseases =
+    {
+        "Diabetes", "Hipertensión", "Asma", "Cancer"
+    };
+
+    private MudForm _form = new();
+
+    [Parameter]
+    public int Index { get; set; } 
+
+    public bool IsValid;
+
+    private bool IsValidHandler
+    {
+        get => IsValid;
+        set
+        {
+            if (IsValid == value) return;
+            IsValid = value;
+            UpdatePathology();
+        }
+    }
+
+    private void UpdatePathology()
+    {
+        var action = new ChangePersonalPathologyAction(Index, new Disease
+        {
+            Name = PersonalPathology.Name,
+            Inheritances = new List<Inheritance> { Inheritance.Direct },
+            IsValid = IsValid
+        });
+
+        Dispatcher.Dispatch(action);
+    }
+
+    private void DeletePathology() => Dispatcher.Dispatch(new DeletePersonalPathologyAction(Index));
+}

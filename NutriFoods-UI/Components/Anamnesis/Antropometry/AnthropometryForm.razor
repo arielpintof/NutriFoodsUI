@@ -1,0 +1,24 @@
+﻿@using NutriFoods_UI.Data.Model
+
+<MudExpansionPanel Dense="true" Class="mt-3 rounded">
+        <TitleContent>
+            <CollapseTitle Title="@_anthropometryItem.Title"></CollapseTitle>
+        </TitleContent>
+        <ChildContent>
+            <MudDivider DividerType="DividerType.Middle" Class="mb-5"/>
+            @_anthropometryItem.ChildContent
+        </ChildContent>
+    </MudExpansionPanel>
+
+@code {
+
+    private readonly CollapseItemModel _anthropometryItem = new CollapseItemModel
+    {
+        Title = "Medidas",
+        ChildContent = __builder =>
+        {
+            <AnthropometryGroup></AnthropometryGroup>
+        }
+    };
+
+}

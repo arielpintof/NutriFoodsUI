@@ -1,4 +1,7 @@
-﻿<MudExpansionPanels MultiExpansion="false" Elevation="1">
+﻿@using NutriFoods_UI.Data.Model
+
+
+<MudExpansionPanels MultiExpansion="false" Elevation="1">
     
     @foreach (var item in _collapseItemModels)
     {
@@ -47,11 +50,7 @@
         }
     };
 
-    public class CollapseItemModel
-    {
-        public string Title { get; init; } = string.Empty;
-        public RenderFragment? ChildContent { get; set; }
-    }
+    
 
 }
 

@@ -17,8 +17,8 @@
             DisableNextButton="_disableNextButton"
             DisableSkipButton="_disableSkipButton"
             DisableStepResultIndicator="_disableStepResultIndicator"
-            HeaderBadgeView="_headerBadgeView"
-            HeaderTextView="_headerTextView"
+            HeaderBadgeView="HeaderBadgeView.All"
+            HeaderTextView="HeaderTextView.All"
             PreventStepChangeAsync="new Func<StepChangeDirection, Task<bool>>(CheckChange)"
             LocalizedStrings="GetLocalizedStrings()"
             IconActionButtons="_iconActionButtons"
@@ -30,16 +30,9 @@
                  Title="Clínica"
                  StatusChanged="StatusChanged">
             <ChildContent>
-                <div class="container">
-                    <Collapse Title="Patologías">
-                        <PathologiesGroup></PathologiesGroup>
-                    </Collapse>
-                    <Collapse Title="Medicamentos">
-                    </Collapse>
-                    <Collapse Title="Suplementos">
-                    </Collapse>
-                </div>
-
+                
+                <ClinicalCollapseGroup></ClinicalCollapseGroup>
+                
             </ChildContent>
         </MudStep>
 
@@ -47,7 +40,7 @@
                  Icon="@Icons.Material.Filled.FoodBank"
                  Optional="false">
             <ChildContent>
-
+            
             </ChildContent>
         </MudStep>
 
@@ -55,7 +48,7 @@
                  Icon="@Icons.Material.Filled.FoodBank"
                  Optional="false">
             <ChildContent>
-
+                <AnthropometryForm></AnthropometryForm>
             </ChildContent>
         </MudStep>
 
@@ -93,18 +86,17 @@
 
 
 @code {
-    private MicroNutrientDto NutrientModel;
-    private MudStepper _stepper;
+   
+    private MudStepper _stepper = null!;
     private MudForm _form;
     private MudForm _form2;
     private bool _checkValidationBeforeComplete = true;
-    public bool Linear;
+    
     public bool _iconActionButtons;
     private Variant _variant = Variant.Filled;
-    private HeaderBadgeView _headerBadgeView = HeaderBadgeView.All;
-    private HeaderTextView _headerTextView = HeaderTextView.All;
-    private  bool _disableAnimation = false;
-    private bool _disablePreviousButton = false;
+   
+    private readonly bool _disableAnimation = false;
+    private readonly bool _disablePreviousButton = false;
     private bool _disableNextButton = false;
     private bool _disableSkipButton = true;
     private bool _disableStepResultIndicator = false;
@@ -122,7 +114,6 @@
     {
         if (_checkValidationBeforeComplete)
         {
-            
             if (direction == StepChangeDirection.Backward)
             {
                 return false;
@@ -184,7 +175,6 @@
             return false;
         }
     }
-
 
 
     private void StatusChanged(StepStatus status)

@@ -1,0 +1,30 @@
+﻿@inject IDispatcher Dispatcher
+@using Fluxor
+@using NutriFoods_UI.Data.Store.Pathologies
+@inherits Fluxor.Blazor.Web.Components.FluxorComponent
+@inject IState<PersonalPathologiesState> PersonalState
+
+<MudGrid Class="px-3">
+    <MudItem xs="4" Class="d-flex flex-column gap-2">
+        <div class="d-flex align-items-center">
+            <CollapseSubtitle Title="Patologías Indirectas"></CollapseSubtitle>
+        </div>
+    </MudItem>
+    <MudItem xs="8">
+        <MudStack Class="mb-5">
+            <InheritedPathologyIntake Index="1"></InheritedPathologyIntake>
+        </MudStack>
+    </MudItem>
+</MudGrid>
+
+@code {
+
+    protected override Task OnInitializedAsync()
+    {
+        if (PersonalState.Value.Initialized != false) return base.OnInitializedAsync();
+        Dispatcher.Dispatch(new InitializePersonalPathologiesAction());
+        return base.OnInitializedAsync();
+    }
+
+
+}

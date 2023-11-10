@@ -1,20 +1,22 @@
 ﻿using Fluxor;
 using NutriFoods_UI.Data.Dto;
+using NutriFoods_UI.Data.Model;
 
 namespace NutriFoods_UI.Data.Store.Pathologies;
 
 
 [FeatureState]
-public class PathologyState
+public class PersonalPathologiesState
 {
     public bool Initialized { get; } = false;
     
-    public IEnumerable<PathologyDto> Pathologies { get; } 
+    public IEnumerable<Disease> Pathologies { get; } 
     public bool StateIsValid { get; }
 
-    public PathologyState(){}
+    public PersonalPathologiesState(){}
 
-    public PathologyState(bool initialized, IEnumerable<PathologyDto> pathologies, bool stateIsValid)
+    public PersonalPathologiesState(IEnumerable<Disease> pathologies, 
+        bool initialized = true, bool stateIsValid = true)
     {
         Initialized = initialized;
         Pathologies = pathologies;

@@ -42,7 +42,19 @@
                 AdornmentColor="Color.Primary"
                 AdornmentText="@GetMeasure()"/>
         </div>
-
+        
+        <MudSelectExtended
+            ItemCollection="Thresholds"
+            SearchBoxAutoFocus="true"
+            T="string"
+            Label="Límite"
+            AnchorOrigin="Origin.BottomCenter"
+            Variant="Variant.Outlined"
+            SearchBoxClearable="true"
+            Margin="Margin.Dense"
+            Required="true"
+            Class="flex-grow-1"/>
+        
         <MudIconButton
             OnClick="DeleteNutrient"
             Icon="@Icons.Material.Filled.DeleteForever"
@@ -50,6 +62,8 @@
             Size="Size.Medium">
             @Index
         </MudIconButton>
+        
+        
 
 
     </div>
@@ -62,6 +76,11 @@
     private MicroNutrientDto NutrientModel => Index < MicroNutrientState.Value.Micronutrients.Count() ? 
             MicroNutrientState.Value.Micronutrients.ElementAt(Index) : 
             new MicroNutrientDto();
+
+    private static ICollection<string> Thresholds => IEnum<Threshold, ThresholdToken>
+        .ReadableNameDictionary()
+        .Select(e => e.Key)
+        .Skip(1).ToImmutableList();
 
     protected override void OnInitialized()
     {

@@ -3,7 +3,7 @@
 public class SupplementState
 {
     public bool Initialized { get; } = false;
-    public IEnumerable<string> Supplements { get; }
+    public IEnumerable<string>? Supplements { get; } = new List<string>();
     public bool StateIsValid { get; }
 
     public SupplementState(){}

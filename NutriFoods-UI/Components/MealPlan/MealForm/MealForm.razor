@@ -1,10 +1,8 @@
 ﻿@page "/form"
 
 @inject ISnackbar Snackbar
-@inject NavigationManager NavigationManager
 @using MudExtensions.Enums
 @using MudExtensions.Utilities
-@using NutriFoods_UI.Data.Dto
 @using Fluxor
 @using NutriFoods_UI.Data.Store.MicronutrientConfiguration
 @inject IState<MicronutrientState> MicroNutrientState;
@@ -14,21 +12,22 @@
 <MudStepper @ref="_stepper"
             Class="mud-width-full"
             ContentStyle="min-height: 400px"
-            Linear="true" Vertical="_vertical"
-            Color="_color" Variant="_variant"
-            DisableAnimation="_disableAnimation"
-            DisablePreviousButton="_disablePreviousButton"
-            DisableNextButton="_disableNextButton"
-            DisableSkipButton="_disableSkipButton"
-            DisableStepResultIndicator="_disableStepResultIndicator"
-            HeaderBadgeView="_headerBadgeView"
-            HeaderTextView="_headerTextView"
+            Linear="true" 
+            Vertical="false"
+            Color="_color" 
+            Variant="Variant.Filled"
+            DisableAnimation="false"
+            DisablePreviousButton="false"
+            DisableNextButton="false"
+            DisableSkipButton="true"
+            DisableStepResultIndicator="DisableStepResultIndicator"
+            HeaderBadgeView="HeaderBadgeView.All"
+            HeaderTextView="HeaderTextView.All"
             PreventStepChangeAsync="new Func<StepChangeDirection, Task<bool>>(CheckChange)"
             LocalizedStrings="GetLocalizedStrings()"
-            IconActionButtons="_iconActionButtons"
+            IconActionButtons="false"
             Loading="_loading"
-            HeaderSize="_headerSize"
-            HeaderIcon="false">
+            HeaderSize="Size.Medium">
 
     <ChildContent>
         
@@ -53,7 +52,7 @@
         </MudStep>
 
 
-        @if (_addResultStep)
+        @if (AddResultStep)
         {
             
             <MudStep Icon="@Icons.Material.Filled.Alarm" Title="Result Step" IsResultStep="true">
@@ -67,9 +66,13 @@
         }
     </ChildContent>
     <ActionContent>
-        @if (!_stepper.IsAllStepsCompleted() && _showCustomButton)
+        @if (!_stepper.IsAllStepsCompleted() && ShowCustomButton)
         {
-            <MudButton Color="Color.Secondary" Variant="_variant" OnClick="@(() => Snackbar.Add("Custom cancel button clicked.", Severity.Info))">Cancel</MudButton>
+            <MudButton Color="Color.Secondary"
+                       Variant="Variant.Filled"
+                       OnClick="@(() => Snackbar.Add("Custom cancel button clicked.", Severity.Info))">
+                Cancel
+            </MudButton>
         }
         <MudSpacer/>
     </ActionContent>
@@ -79,30 +82,20 @@
 
 
 @code {
-    private MicroNutrientDto NutrientModel;
     MudStepper _stepper;
     MudForm _form;
     MudForm _form2;
-    bool _checkValidationBeforeComplete = true;
-    bool _linear;
-    bool _iconActionButtons;
-    Variant _variant = Variant.Filled;
-    HeaderBadgeView _headerBadgeView = HeaderBadgeView.All;
-    HeaderTextView _headerTextView = HeaderTextView.All;
-    bool _disableAnimation = false;
-    bool _disablePreviousButton = false;
-    bool _disableNextButton = false;
-    bool _disableSkipButton = true;
-    bool _disableStepResultIndicator = false;
-    bool _addResultStep = true;
+    private bool _checkValidationBeforeComplete = true;
+    
+    
+        private const bool DisableStepResultIndicator = false;
+        private const bool AddResultStep = true;
     bool _customLocalization = true;
     Color _color = Color.Primary;
     int _activeIndex = 0;
     bool _loading;
-    bool _showStaticContent = false;
-    bool _showCustomButton = false;
-    bool _vertical = false;
-    Size _headerSize = Size.Medium;
+        private const bool ShowCustomButton = false;
+    
 
     private async Task<bool> CheckChange(StepChangeDirection direction)
     {

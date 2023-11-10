@@ -1,0 +1,47 @@
+﻿@using NutriFoods_UI.Data.Model
+
+<MudExpansionPanels MultiExpansion="false" Elevation="1">
+
+@foreach (var item in _collapseItemModels)
+{
+    <MudExpansionPanel Dense="true" Class="mt-3 rounded">
+        <TitleContent>
+            <CollapseTitle Title="@item.Title"></CollapseTitle>
+        </TitleContent>
+        <ChildContent>
+            <MudDivider DividerType="DividerType.Middle" Class="mb-5"/>
+            @item.ChildContent
+        </ChildContent>
+    </MudExpansionPanel>
+}
+</MudExpansionPanels>
+
+@code {
+    private List<CollapseItemModel> _collapseItemModels = new()
+    {
+        new CollapseItemModel
+        {
+            Title = "Patologías",
+            ChildContent = __builder =>
+            {
+                <PathologiesGroup></PathologiesGroup>
+            }
+        },
+        new CollapseItemModel
+        {
+            Title = "Medicamentos",
+            ChildContent = __builder =>
+            {
+                
+            }
+        },
+        new CollapseItemModel
+        {
+            Title = "Suplementos",
+            ChildContent = __builder =>
+            {
+                
+            }
+        }
+    };
+}

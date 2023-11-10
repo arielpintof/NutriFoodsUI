@@ -3,10 +3,9 @@ namespace NutriFoods_UI.Data.Store.MealsConfiguration;
 
 public class Reducer
 {
-    /*[ReducerMethod]
+    [ReducerMethod]
     public static MealsConfigurationState ReduceMealsConfigurationState(MealsConfigurationState state, MealsConfigurationAction action)
     {
-        
-        return null;
-    }*/
+        return new MealsConfigurationState();
+    }
 }
