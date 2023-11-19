@@ -1,0 +1,59 @@
+﻿@page "/dashboard"
+<MudTabs Class="d-flex tabs-container"
+         Elevation="0"
+         Outlined="false"
+         Rounded="true"
+         PanelClass="py-6"
+         Style="">
+    
+    <ChildContent>
+        <MudTabPanel Text="General"
+                     Style="font-size:1em; text-transform: none; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700;">
+        </MudTabPanel>
+
+        <MudTabPanel Text="Datos Clínicos"
+                     Style="font-size:1em; text-transform: none; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700;">
+            <ClinicDashboard/>
+        </MudTabPanel>
+
+        <MudTabPanel Text="Datos Alimentarios" 
+                     Style="font-size:1em; text-transform: none; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700;">
+            <AlimentaryDashboard/>
+        </MudTabPanel>
+
+        <MudTabPanel Text="Consultas"
+                     Style="font-size:1em; text-transform: none; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700;">
+        </MudTabPanel>
+
+        <MudButton Class="overlay-button rounded-pill"
+                   Size="Size.Small"
+                   Color="Color.Primary"
+                   Variant="Variant.Filled"
+                   StartIcon="@Icons.Material.Outlined.AddCircle"
+                   DisableElevation="true"
+                   Style="text-transform: none; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700;">
+            Nueva consulta
+        </MudButton>
+
+    </ChildContent>
+</MudTabs>
+
+@code {
+    //Modelo de usuario
+}
+
+<style>
+    .mud-tabs-toolbar {
+        position: relative;
+        background-color: #F8F8F8;
+    }
+    .tabs-container {
+        position: relative;
+    }
+    .overlay-button {
+        position: absolute;
+        top: 0;
+        right: 0;
+        margin: -40px 30px; 
+    }
+</style>

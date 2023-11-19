@@ -11,7 +11,7 @@
     
 }
 
-html, body, h1, h2, h3, a, button, p, th, td, span, label{
+html, body, h1, h2, h3, h4,h5, a, button, p, th, td, span, label, li{
     font-family: 'Plus Jakarta Sans', sans-serif;
 }
 

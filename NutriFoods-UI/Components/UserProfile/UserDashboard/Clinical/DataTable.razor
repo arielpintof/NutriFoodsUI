@@ -1,0 +1,123 @@
+﻿@page "/table"
+<MudPaper Elevation="2">
+<MudTable Breakpoint="Breakpoint.Sm"
+          Class="ma-2"
+          CustomHeader="true"
+          Elevation="0"
+          Items="_invoices">
+    <ToolBarContent>
+        <div class="align-center d-flex"
+             style="height: 60px">
+            <MudText Typo="Typo.h6">
+                New Invoice
+            </MudText>
+        </div>
+    </ToolBarContent>
+    <HeaderContent>
+        <MudTHeadRow Class="custom-header">
+            <MudTh Class="custom-header-cell  custom-header-cell-first">
+                <b>Invoice ID</b>
+            </MudTh>
+            <MudTh Class="custom-header-cell">
+                <b>Category</b>
+            </MudTh>
+            <MudTh Class="custom-header-cell">
+                <b>Price</b>
+            </MudTh>
+            <MudTh Class="custom-header-cell">
+                <b>Status</b>
+            </MudTh>
+        </MudTHeadRow>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd DataLabel="InvoiceId">@context.InvoiceId</MudTd>
+        <MudTd DataLabel="Category">@context.Category</MudTd>
+        <MudTd DataLabel="Price">@($"${context.Price}")</MudTd>
+        <MudTd DataLabel="Status">
+            @switch (context.Status)
+            {
+                case InvoiceStatus.Control:
+                    <MudChip Color="Color.Success"
+                             Size="Size.Small"
+                             Variant="Variant.Text">
+                        Control
+                    </MudChip>
+                    break;
+                case InvoiceStatus.Consulta:
+                    <MudChip Color="Color.Warning"
+                             Size="Size.Small"
+                             Variant="Variant.Text">
+                        Consulta
+                    </MudChip>
+                    break;
+                case InvoiceStatus.Inicial:
+                    <MudChip Color="Color.Error"
+                             Size="Size.Small"
+                             Variant="Variant.Text">
+                        Inicial
+                    </MudChip>
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        </MudTd>
+    </RowTemplate>
+</MudTable>
+</MudPaper>
+
+@code {
+
+    private readonly List<InvoiceModel> _invoices = new()
+    {
+        new InvoiceModel
+        {
+            InvoiceId = Guid.NewGuid(),
+            Category = "Android",
+            Price = 16.99,
+            Status = InvoiceStatus.Control
+        },
+        new InvoiceModel
+        {
+            InvoiceId = Guid.NewGuid(),
+            Category = "Windows",
+            Price = 35.99,
+            Status = InvoiceStatus.Consulta
+        },
+        new InvoiceModel
+        {
+            InvoiceId = Guid.NewGuid(),
+            Category = "Mac",
+            Price = 14.99,
+            Status = InvoiceStatus.Inicial
+        },
+        new InvoiceModel
+        {
+            InvoiceId = Guid.NewGuid(),
+            Category = "Windows",
+            Price = 19.99,
+            Status = InvoiceStatus.Consulta
+        },
+        new InvoiceModel
+        {
+            InvoiceId = Guid.NewGuid(),
+            Category = "Windows",
+            Price = 99.99,
+            Status = InvoiceStatus.Control
+        }
+    };
+    
+    public class InvoiceModel
+    {
+        public Guid InvoiceId { get; set; }
+        public string Category { get; set; }
+        public double Price { get; set; }
+        public InvoiceStatus Status { get; set; }
+    }
+    
+    public enum InvoiceStatus
+    {
+        Control,
+        Consulta,
+        Inicial
+    }
+}

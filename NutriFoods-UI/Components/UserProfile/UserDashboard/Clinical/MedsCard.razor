@@ -1,0 +1,62 @@
+﻿@page "/med-card"
+
+<MudPaper Class="pa-6 d-flex flex-column gap-4"
+          Elevation="0"
+          Style="height: auto;">
+    <section id="header" >
+        <div class="d-flex justify-content-between flex-row-1 align-items-center">
+            <h5 class="">Medicamentos</h5>
+            <MudButton
+                Size="Size.Small"
+                Color="Color.Primary"
+                StartIcon="@Icons.Material.Outlined.AddCircle"
+                Variant="Variant.Text"
+                Style="text-transform: none; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700;">
+                Añadir medicamentos
+            </MudButton>
+        </div>
+    </section>
+    
+    <div class="d-flex flex-column">
+                <IntakeList></IntakeList>
+            </div>
+    <div class="d-flex justify-content-between">
+        <MudButton
+            Size="Size.Small"
+            Color="Color.Primary"
+            EndIcon="@Icons.Material.Filled.ArrowForward"
+            Variant="Variant.Text"
+            Style="font-size:1em; 
+            text-transform: none; 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            font-weight: 700;">
+            Ver lista completa (5)
+        </MudButton>
+    </div>
+</MudPaper>
+
+@code {
+
+    [Parameter]
+    public string Title { get; set; } = string.Empty;
+
+    [Parameter]
+    public string AddText { get; set; } = string.Empty;
+    
+    [Parameter]
+    public string ListText { get; set; } = string.Empty;
+    
+
+}
+
+<style>
+    .light-bold {
+        font-weight: 500;
+    }
+    
+    .strong-bold{
+        font-weight: 700;
+    }
+    
+    
+</style>
