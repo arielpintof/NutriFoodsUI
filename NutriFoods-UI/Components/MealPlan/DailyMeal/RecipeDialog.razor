@@ -1,0 +1,96 @@
+﻿@using Fluxor
+@using NutriFoods_UI.Data.Store.RecipeDialog
+@inject IState<RecipeDialogState> RecipeState
+
+<MudDialog>
+    <DialogContent>
+        <div class="d-flex flex-column align-center px-3 py-3 ">
+            <div class="d-flex flex-wrap flex-grow-1 my-3" style="width: 350px">
+                <h5 class="align-self-center" style="font-weight: bold">@RecipeState.Value.MenuRecipe.Recipe.Name</h5>
+            </div>
+            <div class="image-container">
+                <img class="rounded-lg"
+                     src="https://cdn7.kiwilimon.com/brightcove/6838/640x640/6838.jpg.webp"
+                     alt=""/>
+            </div>
+
+            <div class="d-flex overlay-chips">
+                <MudChip Color="@Color.Primary"
+                         Size="Size.Small"
+                         Class="py-3"
+                         Variant="Variant.Text"
+                         Style="font-family: 'Plus Jakarta Sans', sans-serif;font-weight: 700"
+                         Icon="@Icons.Material.Filled.AccessTime">
+                    @RecipeState.Value.MenuRecipe.Recipe.PreparationTime min
+                </MudChip>
+
+                <MudChip Color="@Color.Primary"
+                         Size="Size.Small"
+                         Variant="Variant.Text"
+                         Class="py-3"
+                         Style="font-family: 'Plus Jakarta Sans', sans-serif;font-weight: 700"
+                         Icon="@Icons.Material.Outlined.Person">
+                    @RecipeState.Value.MenuRecipe.Recipe.Portions porciones
+                </MudChip>
+
+                <MudChip Color="@Color.Primary"
+                         Size="Size.Small"
+                         Variant="Variant.Text"
+                         Class="py-3"
+                         Style="font-family: 'Plus Jakarta Sans', sans-serif;font-weight: 700"
+                         Icon="@Icons.Material.Outlined.Person">
+                    @RecipeState.Value.MenuRecipe.Recipe.Author
+                </MudChip>
+            </div>
+
+            <MacroListDialog></MacroListDialog>
+
+            <MudTabs Class="d-flex flex-column tabs-container mt-5"
+                     Elevation="0"
+                     TabHeaderClass="rounded"
+                     Outlined="false"
+                     Rounded="true"
+                     PanelClass="py-6"
+                     Style="">
+                <MudTabPanel Text="Ingredientes"
+                             Style="font-size:1em; text-transform: none; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700;">
+                    <IngredientsListDialog></IngredientsListDialog>
+                </MudTabPanel>
+
+                <MudTabPanel Text="Receta"
+                             Style="font-size:1em; text-transform: none; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700;">
+                </MudTabPanel>
+            </MudTabs>
+        </div>
+
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel">Salir</MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+
+    [CascadingParameter]
+    MudDialogInstance MudDialog { get; set; } = null!;
+
+    void Cancel() => MudDialog.Cancel();
+}
+
+<style>
+    .mud-chip.mud-chip-size-small
+        {
+            font-family: Plus Jakarta Sans, serif;
+            font-size: 10px;
+            height: 18px;
+        
+        }
+    .overlay-chips {
+            position: relative;
+            top: 0;
+            right: 0;
+            margin: 10px 2px; 
+        } 
+        
+    
+</style>

@@ -1,0 +1,32 @@
+﻿@using Fluxor
+@using NutriFoods_UI.Data.Store.RecipeDialog
+@inject IState<RecipeDialogState> RecipeState
+
+<div class="d-flex gap-10 align-self-center mt-2">
+    <div class="macro-item">
+        <span class="macro-number">@RecipeState.Value.MenuRecipe.Recipe.Nutrients.ToList().Find(n => n.Nutrient.Name == "Energía")?.Quantity.ToString("F1")</span>
+        <span class="macro-label">kcal</span>
+    </div>
+    <div class="macro-item">
+        <span class="macro-number">
+            @RecipeState.Value.MenuRecipe.Recipe.Nutrients.ToList().Find(n => n.Nutrient.Name == "Carbohidratos, total")?.Quantity.ToString("F1")g
+        </span>
+        <span class="macro-label">Carbs</span>
+    </div>
+    <div class="macro-item">
+        <span class="macro-number">
+            @RecipeState.Value.MenuRecipe.Recipe.Nutrients.ToList().Find(n => n.Nutrient.Name == "Proteína, total")?.Quantity.ToString("F1")g
+        </span>
+        <span class="macro-label">Proteína</span>
+    </div>
+    <div class="macro-item">
+        <span class="macro-number">
+            @RecipeState.Value.MenuRecipe.Recipe.Nutrients.ToList().Find(n => n.Nutrient.Name == "Ácidos grasos, total")?.Quantity.ToString("F1")g
+        </span>
+        <span class="macro-label">Lípidos</span>
+    </div>
+</div>
+
+@code {
+
+}

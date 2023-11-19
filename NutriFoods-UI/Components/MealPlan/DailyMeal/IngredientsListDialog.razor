@@ -1,0 +1,36 @@
+﻿@using Fluxor
+@using NutriFoods_UI.Data.Store.RecipeDialog
+@inject IState<RecipeDialogState> RecipeState
+
+<table class="table table-borderless">
+  <thead>
+    <tr>
+      <th>Ingrediente</th>
+      <th>Cantidad</th>
+      <th>Medida</th>
+    </tr>
+  </thead>
+  <tbody>
+  @foreach (var ing in RecipeState.Value.MenuRecipe.Recipe.Measures){
+  <tr>
+        
+        <th scope="row">@ing.IngredientMeasure.Ingredient.Name</th>
+        <td>@ing.IntegerPart </td>
+        <td>@ing.IngredientMeasure.Name</td>
+    </tr>
+  }
+  @foreach(var ing in RecipeState.Value.MenuRecipe.Recipe.Quantities){
+      <tr>
+            
+            <th scope="row">@ing.Ingredient.Name</th>
+            <td>@ing.Grams</td>
+            <td>Gramos</td>
+        </tr>
+      }
+  </tbody>
+</table>
+
+
+@code {
+
+}
