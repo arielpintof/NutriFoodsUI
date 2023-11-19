@@ -14,12 +14,11 @@
     {
         <div class="d-flex flex-column container" style="width: 80%">
             @* DailyMeal debe mostrar las distintas comidas del día*@
-            
+
             <div class="d-flex align-items-center justify-content-between gap-2">
-                <MudText Typo="Typo.h4"
-                         Style="font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 500; color: var(--grey-normal)">
+                <h4 style="font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; color: var(--grey-normal)">
                     Plan Alimentario
-                    </MudText>
+                </h4>
                 <MudButton @onclick="RenewMealPlan"
                            Variant="Variant.Text"
                            StartIcon="@Icons.Material.Filled.Autorenew"
@@ -29,8 +28,8 @@
                     Renovar plan
                 </MudButton>
             </div>
-            
-            
+
+
             @for (var i = 0; i < MealState.Value.DailyMenu.Count(); i++)
             {
                 <div class="my-1 mud-width-full">
@@ -67,6 +66,6 @@ else
     private void LoadMealState() => Dispatcher.Dispatch(new LoadMealPlanAction());
 
     private void RenewMealPlan() => Dispatcher.Dispatch(new RenewDailyMealPlanAction());
-    
+
 
 }

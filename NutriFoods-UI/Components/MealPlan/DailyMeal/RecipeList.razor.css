@@ -25,18 +25,22 @@ th{
     display: flex;
     justify-content: center;
     align-items: center;
+    position: relative;
 }
 .lds-ellipsis {
     display: inline-block;
     position: relative;
     width: 80px;
     height: 80px;
+    top: 10px;
+    left: 100px;
 }
 .lds-ellipsis div {
     position: absolute;
     top: 33px;
     width: 13px;
     height: 13px;
+    margin: -3px 120px;
     border-radius: 50%;
     background: black;
     animation-timing-function: cubic-bezier(0, 1, 1, 0);
@@ -85,6 +89,7 @@ th{
 .fila-hover:hover td{
     background-color: var(--mud-palette-primary-hover);
     color: var(--mud-palette-primary);
+    cursor: pointer;
 }
 
 
