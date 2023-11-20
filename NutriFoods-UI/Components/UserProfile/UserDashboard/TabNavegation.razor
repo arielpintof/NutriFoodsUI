@@ -4,25 +4,27 @@
          Outlined="false"
          Rounded="true"
          PanelClass="py-6"
-         Style="">
+         Style=""
+         MinimumTabWidth="20px">
     
     <ChildContent>
         <MudTabPanel Text="General"
-                     Style="font-size:1em; text-transform: none; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700;">
+                     Class="tab-style">
+            <GeneralDashboard></GeneralDashboard>
         </MudTabPanel>
 
         <MudTabPanel Text="Datos Clínicos"
-                     Style="font-size:1em; text-transform: none; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700;">
+                     Class="tab-style">
             <ClinicDashboard/>
         </MudTabPanel>
 
         <MudTabPanel Text="Datos Alimentarios" 
-                     Style="font-size:1em; text-transform: none; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700;">
+                     Class="tab-style">
             <AlimentaryDashboard/>
         </MudTabPanel>
 
         <MudTabPanel Text="Consultas"
-                     Style="font-size:1em; text-transform: none; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700;">
+                     Class="tab-style">
         </MudTabPanel>
 
         <MudButton Class="overlay-button rounded-pill"
@@ -54,6 +56,16 @@
         position: absolute;
         top: 0;
         right: 0;
-        margin: -40px 30px; 
+        margin: -40px 30px;
     }
+    
+    .tab-style{
+        font-size:1em;
+        text-transform: none;
+        font-family: 'Plus Jakarta Sans', sans-serif;
+        font-weight: 500;
+        border-radius: 15px;
+        color: var(--grey-light);
+    }
+
 </style>
