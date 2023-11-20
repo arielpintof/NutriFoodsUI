@@ -1,5 +1,12 @@
 ﻿@page "/plan"
 @using NutriFoods_UI.Data.Dto
+@using Fluxor
+@using NutriFoods_UI.Data.Images
+@using NutriFoods_UI.Data.Store.RecipeDialog
+@inject IDialogService Dialog
+@inject IState<RecipeDialogState> RecipeState
+@inject IDispatcher Dispatcher
+
 
 <table class="my-table mud-width-full">
     <thead>
@@ -16,7 +23,9 @@
     {
         @foreach (var menu in Recipes)
         {
-            <tr class="fila-hover" @onmouseover="() => HandleHover(true)" @onmouseout="() => HandleHover(false)" >
+            <tr class="fila-hover" @onmouseover="() => HandleHover(true)" 
+                @onmouseout="() => HandleHover(false)" 
+                @onclick="@((e) => OpenDialog(noHeader, menu))">
                 <td>
                     <Recipe Hovered="@IsHovered" Name="@menu.Recipe.Name" Image="https://cdn7.kiwilimon.com/brightcove/6838/640x640/6838.jpg.webp"
                             Portions="@menu.Portions"/>
@@ -55,10 +64,17 @@
 
     [Parameter]
     public IList<MenuRecipeDto>? Recipes { get; set; }
-    
+
     private bool IsHovered { get; set; }
 
     private void HandleHover(bool isHovered) => IsHovered = isHovered;
-    
-    
+
+    DialogOptions noHeader = new DialogOptions() { NoHeader = true };
+
+    private void OpenDialog(DialogOptions options, MenuRecipeDto recipe)
+    {
+        Dispatcher.Dispatch(new UpdateDialogAction(recipe));
+        Dialog.Show<RecipeDialog>("Custom Options Dialog", options);
+    }
+
 }

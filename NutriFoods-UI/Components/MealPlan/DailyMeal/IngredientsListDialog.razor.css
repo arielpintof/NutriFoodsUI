@@ -1,0 +1,7 @@
+.ingredient{
+    font-weight: 500;
+    color: var(--grey-normal);
+}
+.measure-quantity{
+    color: var(--grey-normal);
+}

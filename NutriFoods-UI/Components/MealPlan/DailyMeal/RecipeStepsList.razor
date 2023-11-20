@@ -1,0 +1,21 @@
+﻿@using Fluxor
+@using NutriFoods_UI.Data.Dto
+@using NutriFoods_UI.Data.Store.RecipeDialog
+@inject IState<RecipeDialogState> RecipeState
+
+
+<div style="max-width: 350px">
+    @foreach (var step in Steps)
+    {
+        <div class="d-flex flex-row flex-grow-1 my-2">
+            <span class="fw-bold mr-1">@step.Step</span>
+            <span>@step.Description</span>
+        </div>
+    }
+</div>
+
+@code
+{
+    IEnumerable<RecipeStepDto> Steps => 
+        RecipeState.Value.MenuRecipe.Recipe.Steps.OrderBy(e => e.Step);
+}

@@ -1,0 +1,18 @@
+.macro-item{
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    align-items: center;
+}   
+
+.macro-number{
+    color: var(--color-primary);
+    font-size: 1.1em;
+    font-weight: 700;
+}
+
+.macro-label{
+    color: var(--grey-normal);
+    font-weight: 500;
+    font-size: 0.9em;
+}

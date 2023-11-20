@@ -1,0 +1,113 @@
+﻿@page "/freq-card"
+
+<MudPaper Elevation="2" Style="border-radius: 10px">
+    <MudTable Breakpoint="Breakpoint.Sm"
+              Class="ma-2"
+              CustomHeader="true"
+              Elevation="0"
+              Items="_invoices">
+        <ToolBarContent>
+            <div class="align-center d-flex"
+                 style="height: 60px">
+                <MudText Typo="Typo.h6">
+                    Frecuencia de alimentos
+                </MudText>
+            </div>
+        </ToolBarContent>
+        <HeaderContent>
+            <MudTHeadRow Class="custom-header">
+                <MudTh Class="custom-header-cell  custom-header-cell-first">
+                    <b>Grupo</b>
+                </MudTh>
+                <MudTh Class="custom-header-cell">
+                    <b>Frecuencia</b>
+                </MudTh>
+                
+                <MudTh Class="custom-header-cell custom-header-cell-last"></MudTh>
+            </MudTHeadRow>
+        </HeaderContent>
+        <RowTemplate>
+            <MudTd DataLabel="Grupo">@context.Name</MudTd>
+            <MudTd DataLabel="Frecuencia">@context.Frequency</MudTd>
+            <MudTd>
+                <MudMenu Dense="true"
+                         Icon="@Icons.Material.Filled.MoreVert"
+                         Size="Size.Small">
+                    <div>
+                        <MudMenuItem>
+                            <div class="d-flex">
+                                <MudIcon Class="mx-2"
+                                         Icon="@Icons.Material.Filled.Download"
+                                         Size="Size.Small"/>
+                                <MudText>Download</MudText>
+                            </div>
+                        </MudMenuItem>
+                        <MudMenuItem>
+                            <div class="d-flex">
+                                <MudIcon Class="mx-2"
+                                         Icon="@Icons.Material.Filled.Share"
+                                         Size="Size.Small"/>
+                                <MudText>Share</MudText>
+                            </div>
+                        </MudMenuItem>
+                        <MudMenuItem>
+                            <div class="d-flex">
+                                <MudIcon Class="mx-2"
+                                         Icon="@Icons.Material.Filled.Archive"
+                                         Size="Size.Small"/>
+                                <MudText>Archive</MudText>
+                            </div>
+                        </MudMenuItem>
+                        <MudDivider/>
+                        <MudMenuItem>
+                            <div class="d-flex">
+                                <MudIcon Class="mx-2"
+                                         Icon="@Icons.Material.Filled.Delete"
+                                         Size="Size.Small"
+                                         Color="Color.Error"/>
+                                <MudText Color="Color.Error">Delete</MudText>
+                            </div>
+                        </MudMenuItem>
+                    </div>
+                </MudMenu>
+            </MudTd>
+        </RowTemplate>
+    </MudTable>
+</MudPaper>
+
+@code {
+
+    private readonly List<FrequencyModel> _invoices = new()
+    {
+        new FrequencyModel
+        {
+            Name = "Carnes rojas",
+            Frequency = "2 veces a la semana"
+        },
+        new FrequencyModel
+        {
+            Name = "Pescado",
+            Frequency = "2 veces al mes"
+        },
+        new FrequencyModel
+        {
+            Name = "Verduras",
+            Frequency = "5-7 veces a la semana"
+        },
+        new FrequencyModel
+        {
+            Name = "Legumbres",
+            Frequency = "2 veces a la semana"
+        },
+    };
+    
+    public class FrequencyModel
+    {
+        public string Name { get; set; } = string.Empty;
+        public string Frequency { get; set; } = string.Empty;
+    }
+    
+}
+@code {
+    
+}
