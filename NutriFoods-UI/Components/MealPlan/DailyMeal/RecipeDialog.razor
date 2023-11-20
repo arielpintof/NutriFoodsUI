@@ -44,8 +44,10 @@
             </div>
 
             <MacroListDialog></MacroListDialog>
-
-            <MudTabs Class="d-flex flex-column tabs-container mt-5"
+            
+            <MudDivider class="my-5"></MudDivider>
+            
+            <MudTabs Class="d-flex flex-column tabs-container"
                      Elevation="0"
                      TabHeaderClass="rounded"
                      Outlined="false"
@@ -59,13 +61,14 @@
 
                 <MudTabPanel Text="Receta"
                              Style="font-size:1em; text-transform: none; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700;">
+                    <RecipeStepsList></RecipeStepsList>
                 </MudTabPanel>
             </MudTabs>
         </div>
 
     </DialogContent>
     <DialogActions>
-        <MudButton OnClick="Cancel">Salir</MudButton>
+        <MudButton OnClick="Cancel" Variant="Variant.Text">Salir</MudButton>
     </DialogActions>
 </MudDialog>
 
