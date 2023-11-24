@@ -1,4 +1,5 @@
 ﻿using Fluxor;
+using NutriFoods_UI.Data.Model;
 
 namespace NutriFoods_UI.Data.Store.Medicines;
 
@@ -6,12 +7,12 @@ namespace NutriFoods_UI.Data.Store.Medicines;
 public class MedicineState
 {
     public bool Initialized { get; } = false;
-    public IEnumerable<string> Medicines { get; }
+    public IEnumerable<Ingestible> Medicines { get; }
     public bool StateIsValid { get; }
 
     public MedicineState(){}
 
-    public MedicineState(bool initialized, IEnumerable<string> medicines, bool stateIsValid)
+    public MedicineState(bool initialized, IEnumerable<Ingestible> medicines, bool stateIsValid)
     {
         Initialized = initialized;
         Medicines = medicines;
