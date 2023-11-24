@@ -1,0 +1,55 @@
+﻿<table class="my-table mud-width-full justify-space-beetween flex-grow-1 gap-2">
+    <thead>
+    <tr>
+        <th scope="col" style="width: 60%">Grupo</th>
+        <th scope="col">Frecuencia</th>
+    </tr>
+    </thead>
+    <tbody class="mt-2">
+    
+    @foreach (var freq in _invoices)
+    {
+        <tr>
+            <td>@freq.Name</td>
+            <td>@freq.Frequency</td>
+        </tr>
+        
+    }
+    
+    </tbody>
+
+</table>
+
+@code
+{
+    private readonly List<FrequencyModel> _invoices = new()
+    {
+        new FrequencyModel
+        {
+            Name = "Carnes rojas",
+            Frequency = "2 veces a la semana"
+        },
+        new FrequencyModel
+        {
+            Name = "Pescado",
+            Frequency = "2 veces al mes"
+        },
+        new FrequencyModel
+        {
+            Name = "Verduras",
+            Frequency = "5-7 veces a la semana"
+        },
+        new FrequencyModel
+        {
+            Name = "Legumbres",
+            Frequency = "2 veces a la semana"
+        },
+    };
+    
+    public class FrequencyModel
+    {
+        public string Name { get; set; } = string.Empty;
+        public string Frequency { get; set; } = string.Empty;
+    }
+
+}

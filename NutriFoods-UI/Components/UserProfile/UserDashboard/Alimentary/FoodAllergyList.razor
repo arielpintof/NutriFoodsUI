@@ -1,0 +1,31 @@
+﻿@using NutriFoods_UI.Utils.Enums
+
+<table class="my-table mud-width-full justify-space-beetween flex-grow-1 gap-2">
+    <thead>
+    <tr>
+        <th scope="col" style="width: 70%">Alimento</th>
+        <th scope="col">Reacción</th>
+    </tr>
+    </thead>
+    <tbody class="mt-2">
+    <tr>
+        <td>Salmón</td>
+        <td>Alérgico</td>
+    </tr>
+    <tr >
+        <td>Maní</td>
+        <td>Alérgico</td>
+    </tr>
+    <tr >
+        <td>Gluten</td>
+        <td>Intolerante</td>
+
+    </tr>
+    </tbody>
+
+</table>
+
+@code {
+
+    public string Allergic => FoodReactions.Allergic.ReadableName;
+}
