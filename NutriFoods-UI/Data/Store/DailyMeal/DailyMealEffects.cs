@@ -51,8 +51,7 @@ public class DailyMealEffects
             breakfast: Satiety.Normal,
             dinner: Satiety.Normal,
             includeBrunch: false,
-            includeLinner: false,
-            dayOfWeek: DayOfTheWeek.Friday);
+            includeLinner: false);
 
         var dailyMealPlan = await mealPlanResponse!.Content.ReadFromJsonAsync<DailyMealPlanDto>();
 

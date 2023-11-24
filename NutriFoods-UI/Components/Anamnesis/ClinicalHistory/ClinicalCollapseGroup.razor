@@ -1,8 +1,9 @@
 ﻿@using NutriFoods_UI.Data.Model
 
-<MudExpansionPanels MultiExpansion="false" Elevation="1">
+<MudExpansionPanels MultiExpansion="false" Elevation="0">
 
-@foreach (var item in _collapseItemModels)
+    
+    @foreach (var item in _collapseItemModels)
 {
     <MudExpansionPanel Dense="true" Class="mt-3 rounded">
         <TitleContent>
@@ -14,9 +15,12 @@
         </ChildContent>
     </MudExpansionPanel>
 }
+ 
 </MudExpansionPanels>
 
 @code {
+   
+
     private List<CollapseItemModel> _collapseItemModels = new()
     {
         new CollapseItemModel
@@ -32,7 +36,7 @@
             Title = "Medicamentos",
             ChildContent = __builder =>
             {
-                
+                <Medication></Medication>
             }
         },
         new CollapseItemModel

@@ -8,5 +8,5 @@ public class GuestUserDto
     public double? Weight { get; set; }
     public int? Age { get; set; }
     public GenderEnum? Gender { get; set; }
-    public PhysicalActivityEnum PhysicalActivity { get; set; } = null!;
+    public PhysicalActivities PhysicalActivity { get; set; } = null!;
 }
