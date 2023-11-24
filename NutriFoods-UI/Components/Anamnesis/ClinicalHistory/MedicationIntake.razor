@@ -3,72 +3,97 @@
 @using System.Collections.Immutable
 @using MudExtensions.Enums
 
-<MudForm>
-    <div class="d-flex mb-3 flex-wrap flex-column flex-sm-row gap-3">
-        <span class="align-self-center">@(Index + 1)</span>
-        <MudSelectExtended
-            ItemCollection="_diseases"
-            SearchBox="true"
-            SearchBoxAutoFocus="true"
-            T="string"
-            Label="Selecciona una patología"
-            AnchorOrigin="Origin.BottomCenter"
-            Variant="Variant.Outlined"
-            SearchBoxClearable="true"
-            @bind-Value="PersonalPathology.Name"
-            Margin="Margin.Dense"
-            Required="true"
-            Class="flex-grow-1"/>
 
-        <MudComboBox
-            MultiSelection="true"
-            SearchBox="true"
-            SearchBoxAutoFocus="true"
-            T="string"
-            Label="Selecciona una o más herencia"
-            AnchorOrigin="Origin.BottomCenter"
-            Variant="Variant.Outlined"
-            SearchBoxClearable="true"
-            @bind-Value="PersonalPathology.Name"
-            Margin="Margin.Dense"
-            Required="true"
-            Class="flex-grow-1"
-            InputPresenter="ValuePresenter.Chip">
-            <ChildContent>
-                @foreach (var item in InheritancesNames)
-                {
-                    <MudComboBoxItem Value="@item" Text="@item"></MudComboBoxItem>
-                }
-            </ChildContent>
-        </MudComboBox>
+<MudDialog Class="container  px-3 py-3 ">
+    <DialogContent>
+        <h5 class="align-self-center fw-bold">Añadir medicamento</h5>
+        <MudDivider DividerType="DividerType.Inset" Class="my-2"></MudDivider>
+        <MudForm Class="mt-5" Style="color: var(--grey-light)">
+            <MudGrid>
+                <MudItem md="12" sm="12" xs="12">
+                    <div class="d-flex align-content-center gap-3">
+                        <MudTextField T="string"
+                                      Placeholder="Nombre del medicamento"
+                                      Label="Nombre"
+                                      Variant="Variant.Outlined"
+                                      @bind-Value="Name"
+                                      Margin="Margin.Dense"
+                                      Required="true"/>
+                    </div>
+                </MudItem>
 
-        <MudIconButton
-            Icon="@Icons.Material.Filled.DeleteForever"
-            Title="Eliminar patología"
-            Size="Size.Medium">
-            @Index
-        </MudIconButton>
+                <MudItem md="6" sm="6" xs="12">
+                    <MudNumericField @bind-Value="@Dosis" Text="0"
+                                     Label="Dosis"
+                                     Placeholder="Cantidad de la dosis"
+                                     Margin="Margin.Dense"
+                                     Variant="Variant.Outlined"/>
+                </MudItem>
 
-    </div>
+                <MudItem md="6" sm="6" xs="12">
+                    <MudTextField T="string"
+                                  Placeholder="Unidad de medida"
+                                  Label="Unidad"
+                                  Variant="Variant.Outlined"
+                                  Margin="Margin.Dense"
+                                  Required="true"/>
+                </MudItem>
+                <MudItem md="12" sm="12" xs="12">
+                    <MudSelectExtended ItemCollection="Adherence"
+                                       T="string"
+                                       Label="Adherencia"
+                                       Placeholder="Frecuencia de consumo"
+                                       AnchorOrigin="Origin.BottomCenter"
+                                       Margin="Margin.Dense"
+                                       Variant="Variant.Outlined"
+                                       Required="true"/>
+                </MudItem>
+                <MudItem md="4" sm="6" xs="12">
+                    <MudTimePicker AmPm="true"
+                                   Variant="Variant.Outlined"
+                                   Margin="Margin.Dense"
+                                   Editable="true"
+                                   Placeholder="Frecuencia de consumo"
+                                   Label="Hora">
+                    </MudTimePicker>
+                </MudItem>
+                <MudItem Class="d-flex gap-3" md="12" sm="12" xs="12">
+                    <MudTextField T="string" Text=" "
+                                  Label="Observaciones"
+                                  Variant="Variant.Outlined"
+                                  Margin="Margin.Dense"/>
+                </MudItem>
 
-</MudForm>
+
+            </MudGrid>
+        </MudForm>
+
+        <div class="d-flex gap-2 pt-6">
+            <MudButton Color="Color.Primary" Variant="Variant.Filled">
+                Guardar medicamento
+            </MudButton>
+            <MudButton Variant="Variant.Text">Cancelar</MudButton>
+        </div>
+    </DialogContent>
+</MudDialog>
+
 
 @code {
+    string Name { get; set; } = string.Empty;
+
     private Disease PersonalPathology { get; set; } = new();
 
-    private static ICollection<string> InheritancesNames => IEnum<Inheritance, InheritanceToken>
-            .ReadableNameDictionary()
-            .Select(x => x.Key)
-            .Skip(1).ToImmutableList();
+    ICollection<string> Adherence => IEnum<Frequencies, FrequencyToken>
+        .TokenDictionary()
+        .Select(e => e.Value.ReadableName)
+        .Skip(1)
+        .ToList();
+
+
+    int? Dosis { get; set; }
 
     [Parameter]
     public int Index { get; set; } = 0;
 
-    private string[] _diseases =
-    {
-        "Diabetes", "Hipertensión", "Asma", "Cancer"
-    };
-
-
-
+   
 }
