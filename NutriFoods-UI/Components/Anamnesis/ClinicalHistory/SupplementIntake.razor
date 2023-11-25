@@ -1,12 +1,10 @@
 ﻿@using NutriFoods_UI.Data.Model
-@using NutriFoods_UI.Utils.Enums
-@using Fluxor
 @using NutriFoods_UI.Data.Store.Medicines
-@inject IDispatcher Dispatcher
+@using NutriFoods_UI.Utils.Enums
 
 <MudDialog Class="container  px-3 py-3 ">
     <DialogContent>
-        <h5 class="align-self-center fw-bold mb-3">Añadir un nuevo medicamento</h5>
+        <h5 class="align-self-center fw-bold mb-3">Añadir un nuevo suplemento</h5>
         <MudDivider Class="my-2"></MudDivider>
         <MudForm Class="mt-5" Style="color: var(--grey-light)" Model="IngestibleModel">
             <MudGrid>
@@ -116,12 +114,11 @@
 
     private void Submit()
     {
-        IngestibleModel.Type = IngestibleTypes.Pharmaceutical;
-        Dispatcher.Dispatch(new AddMedicineAction(IngestibleModel));
+        //Dispatcher.Dispatch(new AddMedicineAction(IngestibleModel));
         MudDialogInstance.Close(DialogResult.Ok(true));
     }
 
-    public void AddAdministrationTime()
+    private void AddAdministrationTime()
     {
         IngestibleModel.AdministrationTimes.Add(new TimeSpan());
         StateHasChanged();
@@ -132,10 +129,7 @@
         IngestibleModel.AdministrationTimes.Add(new TimeSpan());
         base.OnInitialized();
     }
-
-    string Name { get; set; } = string.Empty;
-
-    private Disease PersonalPathology { get; set; } = new();
+    
 
     ICollection<Frequencies> Adherence => IEnum<Frequencies, FrequencyToken>
         .TokenDictionary()

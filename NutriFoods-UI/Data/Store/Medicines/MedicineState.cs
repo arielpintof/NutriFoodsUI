@@ -12,7 +12,7 @@ public class MedicineState
 
     public MedicineState(){}
 
-    public MedicineState(bool initialized, IEnumerable<Ingestible> medicines, bool stateIsValid)
+    public MedicineState(IEnumerable<Ingestible> medicines, bool initialized =  true, bool stateIsValid = true)
     {
         Initialized = initialized;
         Medicines = medicines;

@@ -1,0 +1,27 @@
+﻿.supplements-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.supplement-item {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.index {
+    align-self: center;
+}
+
+.supplement-details {
+
+}
+
+.supplement-name {
+    font-weight: bold;
+}
+
+.supplement-actions {
+
+}
