@@ -5,6 +5,7 @@
 @inject IState<PersonalPathologiesState> PersonalPathologiesState
 @inject IDispatcher Dispatcher
 @page "/patologia"
+
 <MudForm @ref="_form" @bind-IsValid="@IsValidHandler" Model="@PersonalPathology">
     <div class="d-flex mb-3 flex-wrap flex-column flex-sm-row gap-3">
         <span class="align-self-center">@(Index + 1)</span>
@@ -20,7 +21,7 @@
             @bind-Value="PersonalPathology.Name"
             Margin="Margin.Dense"
             Required="true"
-            Class="flex-grow-1"/>
+            Class="flex-grow-1 rounded-lg"/>
         
         <MudIconButton
             OnClick="DeletePathology"
@@ -29,7 +30,6 @@
             Size="Size.Medium">
             @Index
         </MudIconButton>
-
     </div>
 
 </MudForm>
@@ -68,7 +68,7 @@
         var action = new ChangePersonalPathologyAction(Index, new Disease
         {
             Name = PersonalPathology.Name,
-            Inheritances = new List<Inheritance> { Inheritance.Direct },
+            Inheritances = new List<InheritanceTypes> { InheritanceTypes.Direct },
             IsValid = IsValid
         });
 

@@ -56,10 +56,12 @@
 @code {
     private Disease PersonalPathology { get; set; } = new();
 
-    private static ICollection<string> InheritancesNames => IEnum<Inheritance, InheritanceToken>
-            .ReadableNameDictionary()
-            .Select(x => x.Key)
-            .Skip(1).ToImmutableList();
+    private static IEnumerable<string> InheritancesNames => IEnum<InheritanceTypes, InheritanceToken>
+        .TokenDictionary()
+        .Select(e => e.Value.ReadableName)
+        .Skip(1)
+        .ToList();
+    
 
     [Parameter]
     public int Index { get; set; } = 1;

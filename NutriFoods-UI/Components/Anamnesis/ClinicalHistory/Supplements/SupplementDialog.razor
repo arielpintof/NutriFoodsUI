@@ -1,0 +1,161 @@
+﻿@using NutriFoods_UI.Data.Model
+@using NutriFoods_UI.Data.Store.Supplements
+@using NutriFoods_UI.Utils.Enums
+@using Fluxor
+@inject IDispatcher Dispatcher
+@inject IState<SupplementState> SupplementState
+
+
+<MudDialog Class="container px-3 py-3 ">
+    <DialogContent>
+        <h5 class="align-self-center fw-bold mb-3">
+            @ModeType.ReadableName suplemento
+        </h5>
+        <MudDivider Class="my-2"></MudDivider>
+        <MudForm Class="mt-5" Style="color: var(--grey-light)" Model="IngestibleModel">
+            <MudGrid>
+                <MudItem md="12" sm="12" xs="12">
+                    <div class="d-flex align-content-center">
+                        <MudTextField T="string"
+                                      Placeholder="Nombre del suplemento"
+                                      Label="Nombre"
+                                      Variant="Variant.Outlined"
+                                      @bind-Value="IngestibleModel.Name"
+                                      Margin="Margin.Dense"
+                                      Required="true"/>
+                    </div>
+                </MudItem>
+
+                <MudItem md="6" sm="6" xs="12">
+                    <MudNumericField @bind-Value="IngestibleModel.Dosage"
+                                     Label="Dosis"
+                                     Placeholder="Cantidad de la dosis"
+                                     Margin="Margin.Dense"
+                                     Variant="Variant.Outlined"
+                                     Required="true"/>
+                </MudItem>
+
+                <MudItem md="6" sm="6" xs="12">
+                    <MudTextField T="string"
+                                  Placeholder="Unidad de medida"
+                                  Label="Unidad"
+                                  Variant="Variant.Outlined"
+                                  Margin="Margin.Dense"
+                                  Required="true"/>
+                </MudItem>
+                <MudItem md="12" sm="12" xs="12">
+                    <MudSelect @bind-Value="IngestibleModel.Adherence"
+                               T="Frequencies"
+                               Label="Adherencia"
+                               Placeholder="Frecuencia de consumo"
+                               AnchorOrigin="Origin.BottomCenter"
+                               Margin="Margin.Dense"
+                               Variant="Variant.Outlined"
+                               Required="true">
+                        @foreach (var freq in Adherence)
+                        {
+                            <MudSelectItem Value="@freq">@freq.ReadableName</MudSelectItem>
+                        }
+                    </MudSelect>
+                </MudItem>
+
+
+                @foreach (var time in IngestibleModel.AdministrationTimes.Select((value, index) => new { Value = value, Index = index }))
+                {
+                    <MudItem md="4" sm="6" xs="12">
+                        <MudTimePicker AmPm="true"
+                                       @bind-Time="IngestibleModel.AdministrationTimes[time.Index]"
+                                       Variant="Variant.Outlined"
+                                       Margin="Margin.Dense"
+                                       Editable="true"
+                                       Placeholder="Hora"
+                                       Label="Hora"
+                                       Required="true">
+                        </MudTimePicker>
+                    </MudItem>
+                }
+                <div class="d-flex flex-wrap">
+                    <MudButton
+                        Size="Size.Small"
+                        Color="Color.Primary"
+                        StartIcon="@Icons.Material.Outlined.AddCircle"
+                        IconSize="Size.Medium"
+                        Variant="Variant.Text"
+                        Style="text-transform: none; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700;"
+                        OnClick="AddAdministrationTime">
+                    </MudButton>
+                </div>
+
+
+                <MudItem Class="d-flex gap-3" md="12" sm="12" xs="12">
+                    <MudTextField T="string" Text=" "
+                                  Label="Observaciones"
+                                  Variant="Variant.Outlined"
+                                  Margin="Margin.Dense"/>
+                </MudItem>
+            </MudGrid>
+        </MudForm>
+        <div class="d-flex gap-2 pt-6">
+            <MudButton Color="Color.Primary"
+                       Variant="Variant.Filled"
+                       OnClick="Submit">
+                Guardar medicamento
+            </MudButton>
+            <MudButton Variant="Variant.Text"
+                       OnClick="() => MudDialogInstance.Cancel()">
+                Cancelar
+            </MudButton>
+        </div>
+    </DialogContent>
+</MudDialog>
+
+
+@code {
+    [CascadingParameter]
+    MudDialogInstance MudDialogInstance { get; set; } = null!;
+
+    Ingestible IngestibleModel { get; set; } = new();
+    
+    [Parameter]
+    public int Index { get; set; }
+
+    [Parameter]
+    public ModeTypeEnum ModeType { get; set; } = null!;
+    
+    protected override Task OnInitializedAsync()
+    {
+        if (ModeType == ModeTypeEnum.Edit && SupplementState.Value.Supplements != null)
+        {
+            IngestibleModel = SupplementState.Value.Supplements.ElementAt(Index);
+        }
+        
+        return base.OnInitializedAsync();
+    }
+
+    private void Submit()
+    {
+        IngestibleModel.Type = IngestibleTypes.Supplement;
+        Dispatcher.Dispatch(new AddSupplementAction(IngestibleModel));
+        MudDialogInstance.Close(DialogResult.Ok(true));
+    }
+
+    private void AddAdministrationTime()
+    {
+        IngestibleModel.AdministrationTimes.Add(new TimeSpan());
+        StateHasChanged();
+    }
+
+    protected override void OnInitialized()
+    {
+        IngestibleModel.AdministrationTimes.Add(new TimeSpan());
+        base.OnInitialized();
+    }
+    
+
+    static IEnumerable<Frequencies> Adherence => IEnum<Frequencies, FrequencyToken>
+        .TokenDictionary()
+        .Select(e => e.Value)
+        .Skip(1)
+        .ToList();
+
+}

@@ -5,16 +5,9 @@
 <PersonalPathologies></PersonalPathologies>
 <InheritedPathologies></InheritedPathologies>
 
-@foreach (var item in InheritancesNames)
-{
-    <MudStack>
-        <span class="bg-dark">@item.Value</span>
-    </MudStack>
-    
-}
 @code {
 
-    private static ICollection<Inheritance> InheritancesNames =>
-        IEnum<Inheritance, InheritanceToken>.Values().ToList();
+    private static ICollection<InheritanceTypes> InheritancesNames =>
+        IEnum<InheritanceTypes, InheritanceToken>.Values().ToList();
 
 }

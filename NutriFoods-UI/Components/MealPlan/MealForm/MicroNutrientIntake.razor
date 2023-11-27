@@ -77,7 +77,7 @@
             MicroNutrientState.Value.Micronutrients.ElementAt(Index) : 
             new MicroNutrientDto();
 
-    private static ICollection<string> Thresholds => IEnum<Threshold, ThresholdToken>
+    private static ICollection<string> Thresholds => IEnum<ThresholdTypes, ThresholdToken>
         .ReadableNameDictionary()
         .Select(e => e.Key)
         .Skip(1).ToImmutableList();

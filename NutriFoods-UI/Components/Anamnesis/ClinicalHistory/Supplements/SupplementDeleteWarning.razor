@@ -1,0 +1,32 @@
+﻿@using Fluxor
+@using NutriFoods_UI.Data.Store.Supplements
+@inject IDispatcher Dispatcher
+
+<MudDialog>
+    <DialogContent>
+        <p class="col-12">Se eliminará el suplemento de forma permanente y la información no podrá recuperarse</p>
+    </DialogContent>
+    <DialogActions>
+        <div class="flex-row col 12 action">
+            <MudButton OnClick="Cancel">Cancelar</MudButton>
+            <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="Submit">Eliminar</MudButton>
+        </div>
+    </DialogActions>
+</MudDialog>
+
+@code {
+
+    [Parameter]
+    public int Index { get; set; }
+
+    [CascadingParameter]
+    MudDialogInstance MudDialog { get; set; } = null!;
+
+    void Submit()
+    {
+        Dispatcher.Dispatch(new DeleteSupplementAction(Index));
+        MudDialog.Close(DialogResult.Ok(true));
+    }
+
+    void Cancel() => MudDialog.Cancel();
+}
