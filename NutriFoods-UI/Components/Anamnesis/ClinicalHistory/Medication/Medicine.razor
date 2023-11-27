@@ -1,0 +1,82 @@
+﻿@using Fluxor
+@using NutriFoods_UI.Data.Store.Medicines  <!-- Cambiado de Supplements a Medicines -->
+@inject IDialogService Dialog
+@inject IState<MedicineState> MedicineState  
+@inherits Fluxor.Blazor.Web.Components.FluxorComponent
+@inject IDispatcher Dispatcher
+
+<MudGrid Class="px-3 mb-5">
+    <MudItem xs="4" Class="flex-column">
+        <div class="d-flex align-items-center">
+            <CollapseSubtitle Title="Medicamentos"></CollapseSubtitle>  
+        </div>
+    </MudItem>
+    <MudItem xs="8" Class="flex-column">
+        @if (MedicineState?.Value.Medicines != null)  
+        {
+            <div class="medicine-container">  
+                @foreach (var time in MedicineState.Value.Medicines.Select((value, index) => new { Value = value, Index = index })) 
+                {
+                    <div class="medicine-item d-flex mb-3 gap-3">  
+                        <span class="index align-self-center">@(time.Index + 1)</span>
+                        <div class="medicine-details d-flex rounded-lg border px-3 py-3 gap-3 col-10 align-items-center"> 
+                            <span class="medicine-name fw-bold">@time.Value.Name</span>  
+                        </div>
+
+                        <div class="medicine-actions d-flex align-items-center gap-1">  
+                            <MudIconButton Icon="@Icons.Material.Filled.Edit"
+                                           Title="Editar medicamento"  
+                                           OnClick="() => EditMedicineDialog(_noHeader, time.Index)"  
+                                           Size="Size.Small">
+                            </MudIconButton>
+
+                            <MudIconButton Icon="@Icons.Material.Filled.Delete"
+                                           OnClick="() => DeleteMedicine(time.Index)"  
+                                           Title="Eliminar medicamento" 
+                                           Size="Size.Small"
+                                           Class="animation-button">
+                            </MudIconButton>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+        <div>
+            <MudButton
+                Size="Size.Small"
+                Color="Color.Primary"
+                StartIcon="@Icons.Material.Outlined.AddCircle"
+                Variant="Variant.Text"
+                Style="text-transform: none; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700;"
+                OnClick="() => AddMedicine(_noHeader)">  <!-- Cambiado de AddSupplement a AddMedicine -->
+                Añadir un medicamento  <!-- Cambiado de "suplemento" a "medicamento" -->
+            </MudButton>
+        </div>
+    </MudItem>
+
+</MudGrid>
+
+
+@code {
+
+    readonly DialogOptions _noHeader = new () { NoHeader = true };
+
+    private void AddMedicine(DialogOptions options) 
+    {
+        var parameters = new DialogParameters<MedicineDialog> {{ x => x.ModeType, ModeTypeEnum.Add }};
+        Dialog.Show<MedicineDialog>("Custom Options Dialog", parameters, options);
+    }
+
+    void DeleteMedicine(int index)  
+    {
+        var parameters = new DialogParameters<MedicineDialog> {{ x => x.Index, index }};
+        Dialog.Show<MedicineDeleteWarning>("¿Estás seguro de eliminar el medicamento?", parameters);
+    }
+
+    void EditMedicineDialog(DialogOptions options, int index) 
+    {
+        var parameters = new DialogParameters<MedicineDialog> {{ x => x.Index, index }, 
+            {y => y.ModeType, ModeTypeEnum.Edit}};
+        Dialog.Show<MedicineDialog>("Editar medicamento", parameters, options);  <!-- Cambiado de "suplemento" a "medicamento" -->
+    }
+}

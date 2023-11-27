@@ -1,17 +1,23 @@
 ﻿@using NutriFoods_UI.Data.Model
-@using NutriFoods_UI.Data.Store.Medicines
+@using NutriFoods_UI.Data.Store.Medicines 
 @using NutriFoods_UI.Utils.Enums
+@using Fluxor
+@inject IDispatcher Dispatcher
+@inject IState<MedicineState> MedicineState 
 
-<MudDialog Class="container  px-3 py-3 ">
+
+<MudDialog Class="container px-3 py-3 ">
     <DialogContent>
-        <h5 class="align-self-center fw-bold mb-3">Añadir un nuevo suplemento</h5>
+        <h5 class="align-self-center fw-bold mb-3">
+            @ModeType.ReadableName medicamento 
+        </h5>
         <MudDivider Class="my-2"></MudDivider>
         <MudForm Class="mt-5" Style="color: var(--grey-light)" Model="IngestibleModel">
             <MudGrid>
                 <MudItem md="12" sm="12" xs="12">
-                    <div class="d-flex align-content-center gap-3">
+                    <div class="d-flex align-content-center">
                         <MudTextField T="string"
-                                      Placeholder="Nombre del medicamento"
+                                      Placeholder="Nombre del medicamento" 
                                       Label="Nombre"
                                       Variant="Variant.Outlined"
                                       @bind-Value="IngestibleModel.Name"
@@ -53,7 +59,6 @@
                     </MudSelect>
                 </MudItem>
 
-
                 @foreach (var time in IngestibleModel.AdministrationTimes.Select((value, index) => new { Value = value, Index = index }))
                 {
                     <MudItem md="4" sm="6" xs="12">
@@ -80,7 +85,6 @@
                     </MudButton>
                 </div>
 
-
                 <MudItem Class="d-flex gap-3" md="12" sm="12" xs="12">
                     <MudTextField T="string" Text=" "
                                   Label="Observaciones"
@@ -103,18 +107,32 @@
     </DialogContent>
 </MudDialog>
 
-
 @code {
-    public int LoopIndex { get; set; }
-
     [CascadingParameter]
     MudDialogInstance MudDialogInstance { get; set; } = null!;
 
     Ingestible IngestibleModel { get; set; } = new();
+    
+    [Parameter]
+    public int Index { get; set; }
+
+    [Parameter]
+    public ModeTypeEnum ModeType { get; set; } = null!;
+    
+    protected override Task OnInitializedAsync()
+    {
+        if (ModeType == ModeTypeEnum.Edit && MedicineState.Value?.Medicines != null) 
+        {
+            IngestibleModel = MedicineState.Value.Medicines.ElementAt(Index); 
+        }
+        
+        return base.OnInitializedAsync();
+    }
 
     private void Submit()
     {
-        //Dispatcher.Dispatch(new AddMedicineAction(IngestibleModel));
+        IngestibleModel.Type = IngestibleTypes.Pharmaceutical;  
+        Dispatcher.Dispatch(new AddMedicineAction(IngestibleModel)); 
         MudDialogInstance.Close(DialogResult.Ok(true));
     }
 
@@ -129,17 +147,10 @@
         IngestibleModel.AdministrationTimes.Add(new TimeSpan());
         base.OnInitialized();
     }
-    
 
-    ICollection<Frequencies> Adherence => IEnum<Frequencies, FrequencyToken>
+    static IEnumerable<Frequencies> Adherence => IEnum<Frequencies, FrequencyToken>
         .TokenDictionary()
         .Select(e => e.Value)
         .Skip(1)
         .ToList();
-
-
-    [Parameter]
-    public int Index { get; set; } = 0;
-
-
 }

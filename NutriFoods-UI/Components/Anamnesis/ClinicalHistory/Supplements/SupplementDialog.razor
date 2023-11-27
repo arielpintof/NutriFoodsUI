@@ -1,19 +1,23 @@
 ﻿@using NutriFoods_UI.Data.Model
+@using NutriFoods_UI.Data.Store.Supplements
 @using NutriFoods_UI.Utils.Enums
 @using Fluxor
-@using NutriFoods_UI.Data.Store.Medicines
 @inject IDispatcher Dispatcher
+@inject IState<SupplementState> SupplementState
 
-<MudDialog Class="container  px-3 py-3 ">
+
+<MudDialog Class="container px-3 py-3 ">
     <DialogContent>
-        <h5 class="align-self-center fw-bold mb-3">Añadir un nuevo medicamento</h5>
+        <h5 class="align-self-center fw-bold mb-3">
+            @ModeType.ReadableName suplemento
+        </h5>
         <MudDivider Class="my-2"></MudDivider>
         <MudForm Class="mt-5" Style="color: var(--grey-light)" Model="IngestibleModel">
             <MudGrid>
                 <MudItem md="12" sm="12" xs="12">
-                    <div class="d-flex align-content-center gap-3">
+                    <div class="d-flex align-content-center">
                         <MudTextField T="string"
-                                      Placeholder="Nombre del medicamento"
+                                      Placeholder="Nombre del suplemento"
                                       Label="Nombre"
                                       Variant="Variant.Outlined"
                                       @bind-Value="IngestibleModel.Name"
@@ -107,21 +111,35 @@
 
 
 @code {
-    public int LoopIndex { get; set; }
-
     [CascadingParameter]
     MudDialogInstance MudDialogInstance { get; set; } = null!;
 
     Ingestible IngestibleModel { get; set; } = new();
+    
+    [Parameter]
+    public int Index { get; set; }
+
+    [Parameter]
+    public ModeTypeEnum ModeType { get; set; } = null!;
+    
+    protected override Task OnInitializedAsync()
+    {
+        if (ModeType == ModeTypeEnum.Edit && SupplementState.Value.Supplements != null)
+        {
+            IngestibleModel = SupplementState.Value.Supplements.ElementAt(Index);
+        }
+        
+        return base.OnInitializedAsync();
+    }
 
     private void Submit()
     {
-        IngestibleModel.Type = IngestibleTypes.Pharmaceutical;
-        Dispatcher.Dispatch(new AddMedicineAction(IngestibleModel));
+        IngestibleModel.Type = IngestibleTypes.Supplement;
+        Dispatcher.Dispatch(new AddSupplementAction(IngestibleModel));
         MudDialogInstance.Close(DialogResult.Ok(true));
     }
 
-    public void AddAdministrationTime()
+    private void AddAdministrationTime()
     {
         IngestibleModel.AdministrationTimes.Add(new TimeSpan());
         StateHasChanged();
@@ -132,20 +150,12 @@
         IngestibleModel.AdministrationTimes.Add(new TimeSpan());
         base.OnInitialized();
     }
+    
 
-    string Name { get; set; } = string.Empty;
-
-    private Disease PersonalPathology { get; set; } = new();
-
-    ICollection<Frequencies> Adherence => IEnum<Frequencies, FrequencyToken>
+    static IEnumerable<Frequencies> Adherence => IEnum<Frequencies, FrequencyToken>
         .TokenDictionary()
         .Select(e => e.Value)
         .Skip(1)
         .ToList();
-
-
-    [Parameter]
-    public int Index { get; set; } = 0;
-
 
 }
