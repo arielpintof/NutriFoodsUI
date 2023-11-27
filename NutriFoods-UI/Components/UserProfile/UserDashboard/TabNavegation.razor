@@ -1,12 +1,13 @@
 ﻿@page "/dashboard"
+
 <MudTabs Class="d-flex tabs-container"
          Elevation="0"
-         Outlined="false"
+         Outlined="true"
          Rounded="true"
          PanelClass="py-6"
          Style=""
          MinimumTabWidth="20px">
-    
+
     <ChildContent>
         <MudTabPanel Text="General"
                      Class="tab-style">
@@ -18,7 +19,7 @@
             <ClinicDashboard/>
         </MudTabPanel>
 
-        <MudTabPanel Text="Datos Alimentarios" 
+        <MudTabPanel Text="Datos Alimentarios"
                      Class="tab-style">
             <AlimentaryDashboard/>
         </MudTabPanel>
@@ -26,7 +27,6 @@
         <MudTabPanel Text="Consultas"
                      Class="tab-style">
         </MudTabPanel>
-
         <MudButton Class="overlay-button rounded-pill"
                    Size="Size.Small"
                    Color="Color.Primary"
@@ -36,9 +36,10 @@
                    Style="text-transform: none; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700;">
             Nueva consulta
         </MudButton>
-
     </ChildContent>
 </MudTabs>
+
+
 
 @code {
     //Modelo de usuario
@@ -48,6 +49,16 @@
     .mud-tabs-toolbar {
         position: relative;
         background-color: #F8F8F8;
+    }
+    .mud-tab.mud-tab-active{
+        font-weight: bold;
+    }
+    .mud-paper-outlined{
+        border-bottom: 1px solid var(--mud-palette-lines-default);
+        border-top: 0 solid var(--mud-palette-lines-default) ;
+        border-left: 0 solid var(--mud-palette-lines-default) ;
+        border-right: 0 solid var(--mud-palette-lines-default) ;
+        
     }
     .tabs-container {
         position: relative;
@@ -67,5 +78,7 @@
         border-radius: 15px;
         color: var(--grey-light);
     }
+    
+    
 
 </style>
