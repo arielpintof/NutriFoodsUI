@@ -11,6 +11,8 @@ public class MicroNutrientDto
     [Range(10, 50, ErrorMessage = "La cantidad debe estar entre 10 y 50")]
     public double? Quantity { get; set; } 
     
+    public ThresholdTypes? ThresholdType { get; set; }
+    
     public UnitEnum Measure { get; set; } = null!;
     
     public Guid Id { get; set; } = Guid.NewGuid();
