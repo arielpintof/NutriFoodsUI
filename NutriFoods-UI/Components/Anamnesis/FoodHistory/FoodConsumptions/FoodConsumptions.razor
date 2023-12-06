@@ -1,0 +1,47 @@
+@using Fluxor
+@using NutriFoods_UI.Data.Store.FoodConsumptions
+@using NutriFoods_UI.Data.Dto
+@inject IDispatcher Dispatcher
+@inject IState<FoodConsumptionState> FoodConsumptionState
+@inherits Fluxor.Blazor.Web.Components.FluxorComponent
+
+<MudGrid Class="px-3">
+    <MudItem xs="4" Class="d-flex flex-column gap-2">
+        <div class="d-flex align-items-center">
+            <CollapseSubtitle Title="Signos clínicos"></CollapseSubtitle>
+        </div>
+        <p>Lorem ipsum dolor sit amet</p>
+    </MudItem>
+    <MudItem xs="8">
+        <MudStack Class="mb-5">
+                @for(var i = 0; i < FoodConsumptionState.Value.FoodConsumptions.Count; i++)
+                {
+                    <div class="d-flex flex-column">
+                        <FoodConsumptionIntake Index="i"></FoodConsumptionIntake>
+                    </div>
+                }
+                
+            <div class="mb-2">
+                <MudButton
+                    Size="Size.Small"
+                    Color="Color.Primary"
+                    StartIcon="@Icons.Material.Outlined.AddCircle"
+                    Variant="Variant.Text"
+                    OnClick="AddFoodConsumption"
+                    Style="text-transform: none; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700;">
+                    Añadir grupo de consumo
+                </MudButton>
+            </div>
+        </MudStack>
+    </MudItem>
+</MudGrid>
+
+
+@code {
+
+    private void AddFoodConsumption()
+    {
+        Dispatcher.Dispatch(new AddFoodConsumptionAction(new FoodConsumptionDto()));
+    }
+
+}

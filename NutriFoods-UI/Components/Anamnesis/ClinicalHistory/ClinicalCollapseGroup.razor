@@ -28,12 +28,12 @@
             Title = "Patologías",
             ChildContent = __builder =>
             {
-                <PathologiesGroup></PathologiesGroup>
+                <PersonalPathologies></PersonalPathologies>
             }
         },
         new CollapseItemModel
         {
-            Title = "Medicamentos y suplementos ",
+            Title = "Ingeribles",
             ChildContent = __builder =>
             {
                 <Medicine></Medicine>
@@ -43,10 +43,10 @@
         },
         new CollapseItemModel
         {
-            Title = "Suplementos",
+            Title = "Signos clínicos",
             ChildContent = __builder =>
             {
-                
+                <ClinicalSigns></ClinicalSigns>
             }
         }
     };

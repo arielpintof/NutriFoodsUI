@@ -1,0 +1,99 @@
+@using Fluxor
+@using NutriFoods_UI.Data.Store.ClinicalSigns
+@using NutriFoods_UI.Data.Dto
+@using NutriFoods_UI.Data.Store.FoodConsumptions
+@using NutriFoods_UI.Utils.Enums
+@inject IState<FoodConsumptionState> FoodConsumptionState
+@inherits Fluxor.Blazor.Web.Components.FluxorComponent
+@inject IDispatcher Dispatcher
+
+<MudForm @bind-IsValid="@IsValidHandler" Model="@FoodConsumptionModel">
+    <MudGrid>
+        <MudItem md="4" sm="6" xs="12">
+            <div class="d-flex gap-3">
+                <span class="align-self-center">@(Index + 1)</span>
+                <MudSelectExtended @bind-Value="FoodConsumptionModel.FoodGroup"
+                                   Label="Nombre"
+                                   Variant="Variant.Outlined"
+                                   Margin="Margin.Dense"
+                                   Required="true"
+                                   SearchBox="true">
+                    @foreach (var foodGroup in FoodGroupCollection)
+                    {
+                        <MudSelectItemExtended Value="foodGroup" Text="@foodGroup"></MudSelectItemExtended>
+                    }
+
+                </MudSelectExtended>
+            </div>
+
+        </MudItem>
+        <MudItem md="8" sm="4" xs="12">
+            <div class="d-flex gap-3">
+                <MudSelectExtended @bind-Value="FoodConsumptionModel.Frequency"
+                                   Label="Nombre"
+                                   Variant="Variant.Outlined"
+                                   Margin="Margin.Dense"
+                                   Required="true">
+                    @foreach (var freq in FrequenciesCollection)
+                    {
+                        <MudSelectItemExtended Value="freq" Text="@freq"></MudSelectItemExtended>
+                    }
+
+                </MudSelectExtended>
+
+                <MudIconButton OnClick="DeleteFoodConsumption"
+                               Icon="@Icons.Material.Filled.Delete"
+                               Title="Eliminar grupo alimenticio"
+                               Size="Size.Medium">
+                    @Index
+                </MudIconButton>
+            </div>
+        </MudItem>
+    </MudGrid>
+</MudForm>
+
+
+@code {
+
+    private FoodConsumptionDto FoodConsumptionModel => Index < FoodConsumptionState.Value.FoodConsumptions.Count() ?
+        FoodConsumptionState.Value.FoodConsumptions.ElementAt(Index) :
+        new FoodConsumptionDto();
+
+    [Parameter]
+    public int Index { get; set; }
+
+    private ICollection<string> FoodGroupCollection => IEnum<FoodGroups, FoodGroupToken>
+        .TokenDictionary.Select(e => e.Value.ReadableName).Skip(1).ToList();
+
+    private ICollection<string> FrequenciesCollection => IEnum<Frequencies, FrequencyToken>
+        .TokenDictionary.Select(e => e.Value.ReadableName).Skip(1).ToList();
+
+    private void DeleteFoodConsumption() => Dispatcher.Dispatch(new DeleteFoodConsumptionAction(Index));
+
+    private void UpdateFoodConsumption()
+    {
+        var action = new ChangeFoodConsumptionAction(new FoodConsumptionDto
+        {
+            FoodGroup = FoodConsumptionModel.FoodGroup,
+            Frequency = FoodConsumptionModel.Frequency
+        }, Index);
+
+        Dispatcher.Dispatch(action);
+    }
+
+    private bool _isValid;
+
+    private bool IsValidHandler
+    {
+        get => _isValid;
+        set
+        {
+            if (_isValid == value) return;
+            _isValid = value;
+            UpdateFoodConsumption();
+        }
+    }
+
+
+
+}

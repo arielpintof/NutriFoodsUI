@@ -149,7 +149,7 @@
     }
 
     static IEnumerable<Frequencies> Adherence => IEnum<Frequencies, FrequencyToken>
-        .TokenDictionary()
+        .TokenDictionary
         .Select(e => e.Value)
         .Skip(1)
         .ToList();
