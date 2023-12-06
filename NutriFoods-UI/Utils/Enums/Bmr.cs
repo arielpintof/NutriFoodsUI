@@ -103,10 +103,10 @@ public static class BmrExtensions
         BasalMetabolicRate(bmr, ToToken(sex), weight, height, age);
 
     public static double TotalMetabolicRate(this Bmr bmr, BiologicalSexToken token, int age, double weight, int height,
-        int multiplier) =>
+        double multiplier) =>
         BasalMetabolicRate(bmr, token, weight, height, age) * multiplier;
 
     public static double TotalMetabolicRate(this Bmr bmr, BiologicalSexes sex, int age, double weight, int height,
-        int multiplier) =>
+        double multiplier) =>
         BasalMetabolicRate(bmr, ToToken(sex), weight, height, age) * multiplier;
 }

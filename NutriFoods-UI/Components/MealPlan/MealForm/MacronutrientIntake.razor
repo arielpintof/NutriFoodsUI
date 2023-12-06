@@ -13,14 +13,14 @@
         <div class="d-flex flex-column mud-width-full">
             <label class="form-label">Distribución</label>
             <MudSlider Size="Size.Medium" @bind-Value="MacroValueHandler" ValueLabel="true"
-                       Variant="Variant.Filled" Min="0" Max="3" Step="0.1"
+                       Variant="Variant.Filled" Min="0" Max="100" Step="1"
                        Class="mt-2 ">
             </MudSlider>
         </div>
         <div class="d-flex gap-1 align-items-center">
-            <input class="custom form-control " type="number" min="0" max="3" step="0.1"
+            <input class="custom form-control " type="number" min="1" max="100" step="1"
                    @bind="MacroValueHandler" inputmode="numeric">
-            <label class="form-label">g/kg</label>
+            <label class="form-label">%</label>
         </div>
        
     </div>
@@ -35,9 +35,9 @@
     [Parameter]
     public double PatientWeight { get; set; }
 
-    private double _macroValue;
+    private int _macroValue;
 
-    private double MacroValueHandler
+    private int MacroValueHandler
     {
         get => _macroValue;
         set

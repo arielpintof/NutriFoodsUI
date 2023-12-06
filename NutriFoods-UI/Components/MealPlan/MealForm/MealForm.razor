@@ -32,6 +32,14 @@
     <ChildContent>
         
         <MudStep Icon="@Icons.Material.Filled.Settings"
+                         Title="Energía calórica"
+                         StatusChanged="StatusChanged">
+                    <ChildContent>
+                        <CaloriesConfiguration></CaloriesConfiguration>
+                    </ChildContent>
+                </MudStep>
+
+        <MudStep Icon="@Icons.Material.Filled.Settings"
                  Title="Configuración"
                  StatusChanged="StatusChanged">
             <ChildContent>
@@ -39,8 +47,8 @@
             </ChildContent>
         </MudStep>
 
-        <MudStep Title="Plan alimenticio" 
-                 Icon="@Icons.Material.Filled.FoodBank" 
+        <MudStep Title="Plan alimenticio"
+                 Icon="@Icons.Material.Filled.FoodBank"
                  Optional="false">
             <ChildContent>
                 @if (_stepper.GetActiveIndex() == 1)
@@ -54,7 +62,7 @@
 
         @if (AddResultStep)
         {
-            
+
             <MudStep Icon="@Icons.Material.Filled.Alarm" Title="Result Step" IsResultStep="true">
                 <ChildContent>
                     <div class="d-flex flex-column align-center justify-center" style="height: 200px">
@@ -65,7 +73,7 @@
             </MudStep>
         }
     </ChildContent>
-    <ActionContent>
+    <ActionContent >
         @if (!_stepper.IsAllStepsCompleted() && ShowCustomButton)
         {
             <MudButton Color="Color.Secondary"
@@ -82,9 +90,9 @@
 
 
 @code {
-    MudStepper _stepper;
-    MudForm _form;
-    MudForm _form2;
+    MudStepper _stepper = new();
+    MudForm _form = new();
+    MudForm _form2 = new();
     private bool _checkValidationBeforeComplete = true;
     
     
@@ -92,7 +100,6 @@
         private const bool AddResultStep = true;
     bool _customLocalization = true;
     Color _color = Color.Primary;
-    int _activeIndex = 0;
     bool _loading;
         private const bool ShowCustomButton = false;
     
@@ -117,7 +124,7 @@
                 
                 return !MicroNutrientState.Value.StateIsValid;
             }
-            else if (_stepper.GetActiveIndex() == 1)
+            else if (_stepper.GetActiveIndex() == 2)
             {
                 _stepper.DisableSkipButton = true;
                 _loading = true;

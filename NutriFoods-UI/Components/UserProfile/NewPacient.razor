@@ -1,0 +1,79 @@
+﻿@page "/new"
+<MudPaper>
+    <MudForm>
+        <MudGrid>
+            <MudItem xs="12" sm="12" md="6">
+                <MudTextField Margin="Margin.Dense"
+                              Label="Nombres"
+                              Variant="Variant.Outlined"
+                              T="string">
+                </MudTextField>
+            </MudItem>
+            <MudItem xs="12" sm="12" md="6">
+                <MudTextField Margin="Margin.Dense"
+                              Label="Apellidos"
+                              Variant="Variant.Outlined"
+                              T="string">
+                </MudTextField>
+            </MudItem>
+
+            <MudItem xs="12" sm="12" md="6">
+                <MudDatePicker Label="Fecha de nacimiento"
+                               @bind-Date="Date"
+                               Variant="Variant.Outlined"
+                               Margin="Margin.Dense"/>
+            </MudItem>
+
+            <MudItem xs="12" sm="12" md="6">
+                <MudTextField Margin="Margin.Dense"
+                              Label="Rut"
+                              Variant="Variant.Outlined"
+                              T="string">
+                </MudTextField>
+            </MudItem>
+            <MudItem xs="12" sm="12" md="6">
+                <MudTextField Margin="Margin.Dense"
+                              Label="Correo"
+                              Variant="Variant.Outlined"
+                              T="string">
+                </MudTextField>
+            </MudItem>
+            <MudItem xs="12" sm="12" md="6">
+                <MudTextField Margin="Margin.Dense"
+                              Label="Celular"
+                              Variant="Variant.Outlined"
+                              T="string">
+                </MudTextField>
+            </MudItem>
+            <MudItem xs="12" sm="12" md="6">
+                <MudTextField Margin="Margin.Dense"
+                              Label="Ciudad"
+                              Variant="Variant.Outlined"
+                              T="string">
+                </MudTextField>
+            </MudItem>
+            <MudItem xs="12" sm="12" md="6">
+                <MudTextField Margin="Margin.Dense"
+                              Label="Calle"
+                              Variant="Variant.Outlined"
+                              T="string">
+                </MudTextField>
+            </MudItem>
+        </MudGrid>
+        <div class="flex-row gap-2 pt-6">
+            <MudButton Color="Color.Primary"
+                       Variant="Variant.Filled">
+                Guardar medicamento
+            </MudButton>
+            <MudButton Variant="Variant.Text">
+                Cancelar
+            </MudButton>
+        </div>
+    </MudForm>
+
+</MudPaper>
+
+
+@code {
+    DateTime? Date { get; set; }
+}

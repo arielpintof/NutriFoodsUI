@@ -11,8 +11,8 @@
         <PackageReference Include="Ardalis.SmartEnum" Version="7.0.0" />
         <PackageReference Include="CodeBeam.MudBlazor.Extensions" Version="6.6.0" />
         <PackageReference Include="Fluxor.Blazor.Web" Version="5.9.1" />
-        <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="8.0.0-preview.7.23375.9" />
-        <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="8.0.0-preview.7.23375.9" PrivateAssets="all" />
+        <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="8.0.0" />
+        <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="8.0.0" PrivateAssets="all" />
         <PackageReference Include="Microsoft.Extensions.Http" Version="8.0.0-rc.1.23419.4" />
         <PackageReference Include="MudBlazor" Version="6.9.0" />
     </ItemGroup>
@@ -30,10 +30,8 @@
       <_ContentIncludedByDefault Remove="Components\Atoms\Chip.razor" />
       <_ContentIncludedByDefault Remove="Components\Atoms\ChipGroup.razor" />
       <_ContentIncludedByDefault Remove="Components\Atoms\PrimaryButton.razor" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Components\Anamnesis\FoodHistory\" />
+      <_ContentIncludedByDefault Remove="Components\MealPlan\Steps\ProgressBar.razor" />
+      <_ContentIncludedByDefault Remove="Components\MealPlan\Steps\StepChip.razor" />
     </ItemGroup>
 
 </Project>
