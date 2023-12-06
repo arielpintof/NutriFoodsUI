@@ -1,0 +1,49 @@
+﻿@using Fluxor
+@using NutriFoods_UI.Data.Dto
+@using NutriFoods_UI.Data.Store.ClinicalSigns
+@inject IDispatcher Dispatcher
+@inject IState<ClinicalSignState> ClinicalSignState
+@inherits Fluxor.Blazor.Web.Components.FluxorComponent
+
+@page "/signs"
+<MudGrid Class="px-3">
+    <MudItem xs="4" Class="d-flex flex-column gap-2">
+        <div class="d-flex align-items-center">
+            <CollapseSubtitle Title="Signos clínicos"></CollapseSubtitle>
+        </div>
+        <p>Lorem ipsum dolor sit amet</p>
+    </MudItem>
+    <MudItem xs="8">
+        <MudStack Class="mb-5">
+                @for(var i = 0; i < ClinicalSignState.Value.ClinicalSigns.Count; i++)
+                {
+                    <div class="d-flex flex-column">
+                        <ClinicalSignIntake Index="i"></ClinicalSignIntake>
+                    </div>
+                }
+                
+           
+            <div class="mb-2">
+                <MudButton
+                    Size="Size.Small"
+                    Color="Color.Primary"
+                    StartIcon="@Icons.Material.Outlined.AddCircle"
+                    Variant="Variant.Text"
+                    OnClick="AddClinicalSign"
+                    Style="text-transform: none; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700;">
+                    Añadir signo clínico
+                </MudButton>
+            </div>
+        </MudStack>
+    </MudItem>
+</MudGrid>
+
+
+@code {
+
+    private void AddClinicalSign()
+    {
+        Dispatcher.Dispatch(new AddClinicalSignAction(new ClinicalSignDto()));
+    }
+
+}

@@ -1,13 +1,8 @@
-﻿using NutriFoods_UI.Data.Model;
+﻿using NutriFoods_UI.Data.Dto;
 
 namespace NutriFoods_UI.Data.Store.Pathologies;
 
-public class AddPersonalPathologyAction
+public class AddPersonalPathologyAction(DiseaseDto disease)
 {
-    public Disease Disease { get; }
-    
-    public AddPersonalPathologyAction(Disease disease)
-    {
-        Disease = disease;
-    }
+    public DiseaseDto Disease { get; } = disease;
 }

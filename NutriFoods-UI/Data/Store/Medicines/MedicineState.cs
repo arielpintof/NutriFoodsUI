@@ -7,7 +7,7 @@ namespace NutriFoods_UI.Data.Store.Medicines;
 public class MedicineState
 {
     public bool Initialized { get; } = false;
-    public IEnumerable<Ingestible> Medicines { get; }
+    public IEnumerable<Ingestible> Medicines { get; } = new List<Ingestible>();
     public bool StateIsValid { get; }
 
     public MedicineState(){}

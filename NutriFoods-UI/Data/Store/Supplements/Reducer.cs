@@ -1,9 +1,7 @@
 ﻿using Fluxor;
 using NutriFoods_UI.Data.Model;
 using NutriFoods_UI.Data.Store.Medicines;
-
 namespace NutriFoods_UI.Data.Store.Supplements;
-
 
 public class Reducer
 {

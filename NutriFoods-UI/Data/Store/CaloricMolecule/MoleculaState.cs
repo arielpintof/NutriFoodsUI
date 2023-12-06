@@ -7,16 +7,18 @@ namespace NutriFoods_UI.Data.Store;
 [FeatureState]
 public class MoleculaState
 {
-    public double CarbTarget { get; }
-    public double ProteinTarget { get; }
-    public double LipidTarget { get; }
+    public int CarbTarget { get; }
+    public int ProteinTarget { get; }
+    public int LipidTarget { get; }
     
     public MoleculaState(){}
     
-    public MoleculaState(double carbs, double proteins, double lipids)
+    public MoleculaState(int carbs, int proteins, int lipids)
     {
         CarbTarget = carbs;
         ProteinTarget = proteins;
         LipidTarget = lipids;
     }
+    
+    public bool IsValid => CarbTarget + ProteinTarget + LipidTarget == 100;
 }

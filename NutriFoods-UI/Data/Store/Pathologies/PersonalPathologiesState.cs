@@ -9,13 +9,13 @@ namespace NutriFoods_UI.Data.Store.Pathologies;
 public class PersonalPathologiesState
 {
     public bool Initialized { get; } = false;
-    
-    public IEnumerable<Disease> Pathologies { get; } 
+
+    public List<DiseaseDto> Pathologies { get; } = new();
     public bool StateIsValid { get; }
 
     public PersonalPathologiesState(){}
 
-    public PersonalPathologiesState(IEnumerable<Disease> pathologies, 
+    public PersonalPathologiesState(List<DiseaseDto> pathologies, 
         bool initialized = true, bool stateIsValid = true)
     {
         Initialized = initialized;

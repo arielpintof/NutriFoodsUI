@@ -4,7 +4,7 @@ using NutriFoods_UI.Utils.Enums;
 
 namespace NutriFoods_UI.Data.Store.MicronutrientConfiguration;
 
-public class Reducer
+public static class Reducer
 {
     
     [ReducerMethod(typeof(InitializeMicronutrientAction))]
