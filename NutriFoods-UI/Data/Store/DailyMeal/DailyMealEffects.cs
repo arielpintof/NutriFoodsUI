@@ -51,7 +51,7 @@ public class DailyMealEffects(IDailyMenuService dailyMenuService, IDailyMealPlan
         var physicalActivityLevel = _tmrState.Value.TmrConfiguration.PhysicalActivityLevel;
         var physicalActivityFactor = _tmrState.Value.TmrConfiguration.Multiplier;
         var adjustmentFactor = _tmrState.Value.TmrConfiguration.Factor;
-        var basalMetabolicRate = 1500;
+        var basalMetabolicRate = _tmrState.Value.GetBmr;
         var energy = _tmrState.Value.GetTmr;
         var mealConfigurations = _mealConfigurationState.Value.Meals;
         
