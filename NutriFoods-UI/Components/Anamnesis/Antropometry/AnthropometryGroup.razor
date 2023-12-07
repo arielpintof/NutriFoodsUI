@@ -1,10 +1,115 @@
-﻿
-<div class="d-flex flex-column gap-3 mb-5">
-    <HeightInput></HeightInput>
-    <WeightInput></WeightInput>
-    <WaistInput></WaistInput>
-</div>
+﻿@using NutriFoods_UI.Data.Dto
+@using NutriFoods_UI.Data.Store.AdverseFoodReactions
+@using NutriFoods_UI.Data.Store.Anthropometry
+@inject IDispatcher Dispatcher
+@using Fluxor
+@inject IState<AnthropometryState> AnthropometryState
+
+<MudForm Model="AnthropometryModel" IsValid="IsValidHandler">
+    <div class="d-flex flex-column gap-3 mb-5">
+        <MudGrid Class="px-3">
+            <MudItem xs="4" md="4" Class="d-flex flex-column gap-2">
+                <div class="d-flex align-items-center">
+                    <CollapseSubtitle Title="Altura"></CollapseSubtitle>
+                </div>
+            </MudItem>
+            <MudItem md="8">
+                <MudNumericField bind-Value="AnthropometryModel.Height"
+                                 HideSpinButtons="true"
+                                 Label="Altura"
+                                 Variant="Variant.Outlined"
+                                 Margin="Margin.Dense"
+                                 Min="0"
+                                 Required="true"
+                                 Adornment="Adornment.End"
+                                 AdornmentColor="Color.Primary"
+                                 AdornmentText="cm"/>
+            </MudItem>
+
+            <MudItem md="4" Class="d-flex flex-column gap-2">
+                <div class="d-flex align-items-center">
+                    <CollapseSubtitle Title="Cintura"></CollapseSubtitle>
+                </div>
+            </MudItem>
+            <MudItem md="8">
+                <MudNumericField bind-Value="AnthropometryModel.WaistCircumference"
+                                 HideSpinButtons="true"
+                                 Label="Cintura"
+                                 Variant="Variant.Outlined"
+                                 Margin="Margin.Dense"
+                                 Min="0"
+                                 Required="true"
+                                 Class="rounded"
+                                 Adornment="Adornment.End"
+                                 AdornmentColor="Color.Primary"
+                                 AdornmentText="cm"/>
+            </MudItem>
+
+            <MudItem xs="4" Class="d-flex flex-column gap-2">
+                <div class="d-flex align-items-center">
+                    <CollapseSubtitle Title="Peso"></CollapseSubtitle>
+                </div>
+            </MudItem>
+            <MudItem xs="8">
+                <MudNumericField
+                    HideSpinButtons="true"
+                    bind-Value="AnthropometryModel.Weight"
+                    Label="Peso"
+                    Variant="Variant.Outlined"
+                    Margin="Margin.Dense"
+                    Required="true"
+                    Min="0"
+                    Class="rounded"
+                    Adornment="Adornment.End"
+                    AdornmentColor="Color.Primary"
+                    AdornmentText="kg"/>
+            </MudItem>
+
+            <MudItem xs="4" Class="d-flex flex-column gap-2">
+                <div class="d-flex align-items-center">
+                    <CollapseSubtitle Title="Masa muscular"></CollapseSubtitle>
+                </div>
+            </MudItem>
+            <MudItem xs="8">
+                <MudNumericField
+                    HideSpinButtons="true"
+                    bind-Value="AnthropometryModel.MuscleMassPercentage"
+                    Label="Masa muscular"
+                    Variant="Variant.Outlined"
+                    Margin="Margin.Dense"
+                    Required="true"
+                    Min="0"
+                    Class="rounded"
+                    Adornment="Adornment.End"
+                    AdornmentColor="Color.Primary"
+                    AdornmentText="%"/>
+            </MudItem>
+        </MudGrid>
+    </div>
+</MudForm>
+
 
 @code {
+    public AnthropometryDto AnthropometryModel => AnthropometryState.Value.Anthropometry;
+
+    private void UpdateAnthropometry()
+    {
+        var action = new ChangeAnthropometryAction(AnthropometryModel);
+
+        Dispatcher.Dispatch(action);
+    }
+
+    private bool _isValid;
+
+    private bool IsValidHandler
+    {
+        get => _isValid;
+        set
+        {
+            if (_isValid == value) return;
+            _isValid = value;
+            UpdateAnthropometry();
+        }
+    }
 
 }
