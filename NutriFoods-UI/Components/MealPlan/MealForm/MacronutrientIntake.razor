@@ -3,10 +3,11 @@
 @using Fluxor
 @using NutriFoods_UI.Data.Store
 @using NutriFoods_UI.Pages
+@using NutriFoods_UI.Utils.Enums
 
 <div class="d-flex justify-space-between">
     <div class="d-flex flex-column gap-1" style="width: 20%">
-        <span>@MacroType.ReadableName</span>
+        <span>@MacroNutrient.ReadableName</span>
         <p>Lorem ipsum dolor sit amet</p>
     </div>
     <div class="d-flex gap-3 mx-1 align-end mb-1" style="width: 50%">
@@ -30,7 +31,7 @@
 @code {
 
     [Parameter]
-    public MacroTypeEnum MacroType { get; set; } = null!;
+    public Nutrients MacroNutrient { get; set; } = null!;
 
     [Parameter]
     public double PatientWeight { get; set; }
@@ -44,7 +45,7 @@
         {
             if (_macroValue == value) return;
             _macroValue = value;
-            var action = new ChangeMoleculaAction(_macroValue, MacroType);
+            var action = new ChangeMoleculaAction(_macroValue, MacroNutrient);
             Dispatcher.Dispatch(action);
         }
     }
