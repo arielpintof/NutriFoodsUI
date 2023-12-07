@@ -1,0 +1,55 @@
+﻿@page "/login"
+
+<section Class="MainContainer">
+    <section class="LoginContainer">
+        <section class="CompanyContainer">
+
+        </section>
+        <section class="LoginHeaderContainer">
+            <div class="LoginHeaderTitle">
+                Iniciar Sesión
+            </div>
+            <div class="LoginHeaderSubTitle">
+                Bienvenido a <b>Nutrifoods!</b> Indica tus datos para iniciar sesión
+            </div>
+        </section>
+        <section class="FormContainer">
+            <div class="d-flex flex-column gap-3">
+                <MudTextField InputType="InputType.Email"
+                              Variant="Variant.Outlined"
+                              Label="Normal"
+                              T="string">
+                </MudTextField>
+                <MudTextField T="string" Label="Password"
+                              InputType="InputType.Password"
+                              Required="true"
+                              Variant="Variant.Outlined"
+                              RequiredError="Password is required!"/>
+            </div>
+
+            <div class="InputContainer RememberForgotContainer">
+                <div class="flex-row align-items-center">
+                    <input type="checkbox" class="CheckboxInput align-self-center">
+                    <label style="padding-left: 5px;">
+                        <b>Recordar contraseña</b>
+                    </label>
+                </div>
+                <div class="ForgotPasswordContainer">
+                    <a>¿Olvidaste tu contraseña?</a>
+                </div>
+            </div>
+        </section>
+        <section class="ButtonsContainer">
+            <div class="SignInButtonContainer">
+                <button class="SigninButton">Iniciar Sesión</button>
+            </div>
+        </section>
+        <section class="FooterContainer">
+            ¿No tienes una cuenta aún? <a class="SignUpLink">¡Crear una cuenta!</a>
+        </section>
+    </section>
+</section>
+
+@code {
+
+}

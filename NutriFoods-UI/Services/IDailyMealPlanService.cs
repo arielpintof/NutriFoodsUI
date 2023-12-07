@@ -1,11 +1,12 @@
-using NutriFoods_UI.Data.Dto;
+using System.ComponentModel.DataAnnotations;
+using NutriFoods_UI.Data.Store.DailyMeal;
 using NutriFoods_UI.Utils.Enums;
 
 namespace NutriFoods_UI.Services;
 
 public interface IDailyMealPlanService
 {
-    Task<HttpResponseMessage?> GenerateDailyMealPlan(double energyTarget,
-        bool isLunchFilling, Satiety breakfast, Satiety dinner,
-        bool? includeBrunch = false, bool? includeLinner = false, DayOfTheWeek? dayOfWeek = DayOfTheWeek.None);
+    Task<HttpResponseMessage?> GenerateDailyMealPlan(int day, double basalMetabolicRate, 
+        int activityLevel, double activityFactor, PlanConfiguration planConfiguration, 
+        double adjustmentFactor = 1e-1);
 }

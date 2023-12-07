@@ -1,5 +1,83 @@
-﻿<h3>Vitamins</h3>
+﻿@using Fluxor
+@using NutriFoods_UI.Data.Store.Vitamins
+@inject IDialogService Dialog
+@inject IState<VitaminState> VitaminState
+@inherits Fluxor.Blazor.Web.Components.FluxorComponent
+@inject IDispatcher Dispatcher
+
+<MudGrid Class="px-3 mb-5">
+    <MudItem xs="4" Class="flex-column">
+        <div class="d-flex align-items-center">
+            <CollapseSubtitle Title="Vitaminas"></CollapseSubtitle>
+        </div>
+    </MudItem>
+    <MudItem xs="8" Class="flex-column">
+        @if (VitaminState?.Value.Vitamins != null)
+        {
+            <div class="vitamin-container">
+                @foreach (var vitamin in VitaminState.Value.Vitamins.Select((value, index) => new { Value = value, Index = index }))
+                {
+                    <div class="vitamin-item d-flex mb-3 gap-3">
+                        <span class="index align-self-center">@(vitamin.Index + 1)</span>
+                        <div class="vitamin-details d-flex rounded-lg border px-3 py-3 gap-3 col-10 align-items-center">
+                            <span class="vitamin-name fw-bold">@vitamin.Value.Name</span>
+                        </div>
+
+                        <div class="vitamin-actions d-flex align-items-center gap-1">
+                            <MudIconButton Icon="@Icons.Material.Filled.Edit"
+                                           Title="Editar vitamina"
+                                           OnClick="() => EditVitaminDialog(_noHeader, vitamin.Index)"
+                                           Size="Size.Small">
+                            </MudIconButton>
+
+                            <MudIconButton Icon="@Icons.Material.Filled.Delete"
+                                           OnClick="() => DeleteVitamin(vitamin.Index)"
+                                           Title="Eliminar vitamina"
+                                           Size="Size.Small"
+                                           Class="animation-button">
+                            </MudIconButton>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+        <div>
+            <MudButton
+                Size="Size.Small"
+                Color="Color.Primary"
+                StartIcon="@Icons.Material.Outlined.AddCircle"
+                Variant="Variant.Text"
+                Style="text-transform: none; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700;"
+                OnClick="() => AddVitamin(_noHeader)">
+                Añadir una vitamina
+            </MudButton>
+        </div>
+    </MudItem>
+
+</MudGrid>
+
 
 @code {
+
+    readonly DialogOptions _noHeader = new () { NoHeader = true };
+
+    private void AddVitamin(DialogOptions options)
+    {
+        var parameters = new DialogParameters<VitaminDialog> {{ x => x.ModeType, ModeTypeEnum.Add }};
+        Dialog.Show<VitaminDialog>("Custom Options Dialog", parameters, options);
+    }
+
+    void DeleteVitamin(int index)
+    {
+        var parameters = new DialogParameters<VitaminDialog> {{ x => x.Index, index }};
+        Dialog.Show<VitaminDeleteWarning>("¿Estás seguro de eliminar la vitamina?", parameters);
+    }
+
+    void EditVitaminDialog(DialogOptions options, int index)
+    {
+        var parameters = new DialogParameters<VitaminDialog> {{ x => x.Index, index }, 
+            {y => y.ModeType, ModeTypeEnum.Edit}};
+        Dialog.Show<VitaminDialog>("Editar vitamina", parameters, options);
+    }
     
 }

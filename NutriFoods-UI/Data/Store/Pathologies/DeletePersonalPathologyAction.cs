@@ -1,11 +1,6 @@
 ﻿namespace NutriFoods_UI.Data.Store.Pathologies;
 
-public class DeletePersonalPathologyAction
+public class DeletePersonalPathologyAction(int index)
 {
-    public int Index { get; }
-
-    public DeletePersonalPathologyAction(int index)
-    {
-        Index = index;
-    }
+    public int Index { get; } = index;
 }

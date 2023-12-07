@@ -1,0 +1,29 @@
+.vitamins-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+
+
+.vitamin-item {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+}
+
+.index {
+    align-self: center;
+}
+
+.vitamin-details {
+
+}
+
+.vitamin-name {
+    font-weight: bold;
+}
+
+.vitamin-actions {
+
+}

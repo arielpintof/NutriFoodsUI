@@ -3,24 +3,25 @@
 @using Fluxor
 @using NutriFoods_UI.Data.Store
 @using NutriFoods_UI.Pages
+@using NutriFoods_UI.Utils.Enums
 
 <div class="d-flex justify-space-between">
     <div class="d-flex flex-column gap-1" style="width: 20%">
-        <span>@MacroType.ReadableName</span>
-        <p>Lorem ipsum dolor sit amet</p>
+        <span>@MacroNutrient.ReadableName</span>
+        <p>Distribución porcentual de @MacroNutrient.AlternativeName</p>
     </div>
     <div class="d-flex gap-3 mx-1 align-end mb-1" style="width: 50%">
         <div class="d-flex flex-column mud-width-full">
             <label class="form-label">Distribución</label>
             <MudSlider Size="Size.Medium" @bind-Value="MacroValueHandler" ValueLabel="true"
-                       Variant="Variant.Filled" Min="0" Max="3" Step="0.1"
+                       Variant="Variant.Filled" Min="0" Max="100" Step="1"
                        Class="mt-2 ">
             </MudSlider>
         </div>
         <div class="d-flex gap-1 align-items-center">
-            <input class="custom form-control " type="number" min="0" max="3" step="0.1"
+            <input class="custom form-control " type="number" min="1" max="100" step="1"
                    @bind="MacroValueHandler" inputmode="numeric">
-            <label class="form-label">g/kg</label>
+            <label class="form-label">%</label>
         </div>
        
     </div>
@@ -30,21 +31,21 @@
 @code {
 
     [Parameter]
-    public MacroTypeEnum MacroType { get; set; } = null!;
+    public Nutrients MacroNutrient { get; set; } = null!;
 
     [Parameter]
     public double PatientWeight { get; set; }
 
-    private double _macroValue;
+    private int _macroValue;
 
-    private double MacroValueHandler
+    private int MacroValueHandler
     {
         get => _macroValue;
         set
         {
             if (_macroValue == value) return;
             _macroValue = value;
-            var action = new ChangeMoleculaAction(_macroValue, MacroType);
+            var action = new ChangeMoleculaAction(_macroValue, MacroNutrient);
             Dispatcher.Dispatch(action);
         }
     }

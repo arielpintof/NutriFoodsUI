@@ -9,6 +9,14 @@
     display: inline-flex
 }
 
+p{
+    color: var(--grey-light);
+    font-size: 12px;
+    font-family: Plus Jakarta Sans, serif;
+    font-weight: 300;
+    word-wrap: break-word
+}
+
 .custom{
     font-weight: 450;
     background: var(--mud-palette-primary-hover);

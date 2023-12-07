@@ -1,5 +1,6 @@
 ﻿using Fluxor;
 using NutriFoods_UI.Data.Enums;
+using NutriFoods_UI.Utils.Enums;
 
 namespace NutriFoods_UI.Data.Store;
 
@@ -13,16 +14,16 @@ public static class Reducer
         var newProteinTarget = state.ProteinTarget;
         var newLipidTarget = state.LipidTarget;
 
-        
-        switch (action.Macro.Token)
+        var token = IEnum<Nutrients, NutrientToken>.ToToken(action.Macro);
+        switch (token)
         {
-            case MacroType.Carb:
+            case NutrientToken.Carbohydrates:
                 newCarbTarget = newValue;
                 break;
-            case MacroType.Protein:
+            case NutrientToken.Proteins:
                 newProteinTarget = newValue;
                 break;
-            case MacroType.Lipid:
+            case NutrientToken.FattyAcids:
                 newLipidTarget = newValue;
                 break;
             

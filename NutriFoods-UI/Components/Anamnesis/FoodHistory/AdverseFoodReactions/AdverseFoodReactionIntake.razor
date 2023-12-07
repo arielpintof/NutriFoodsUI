@@ -1,0 +1,105 @@
+@using Fluxor
+@using NutriFoods_UI.Data.Dto
+@using NutriFoods_UI.Data.Store.AdverseFoodReactions
+@using NutriFoods_UI.Data.Store.FoodConsumptions
+@using NutriFoods_UI.Utils.Enums
+@inject IState<AdverseFoodReactionState> AdverseFoodReactionState
+@inherits Fluxor.Blazor.Web.Components.FluxorComponent
+@inject IDispatcher Dispatcher
+
+<MudForm @bind-IsValid="@IsValidHandler" Model="@FoodConsumptionModel">
+    <MudGrid>
+        <MudItem md="6" sm="6" xs="12">
+            <div class="d-flex gap-3">
+                <span class="align-self-center">@(Index + 1)</span>
+                <MudSelectExtended @bind-Value="FoodConsumptionModel.FoodGroup"
+                                   ItemCollection="FoodGroupCollection"
+                                   SearchBoxVariant="Variant.Outlined"
+                                   SearchBoxAdornment="Adornment.End"
+                                   SearchBoxAutoFocus="true"
+                                   Label="Nombre"
+                                   Variant="Variant.Outlined"
+                                   Margin="Margin.Dense"
+                                   Required="true"
+                                   SearchBox="true"
+                                   AnchorOrigin="Origin.BottomCenter">
+                    @foreach (var foodGroup in FoodGroupCollection)
+                    {
+                        <MudSelectItemExtended Value="foodGroup" Text="@foodGroup"></MudSelectItemExtended>
+                    }
+
+                </MudSelectExtended>
+            </div>
+
+        </MudItem>
+        <MudItem md="6" sm="4" xs="12">
+            <div class="d-flex gap-3">
+                <MudSelectExtended @bind-Value="FoodConsumptionModel.Type"
+                                   Label="Tipo"
+                                   Variant="Variant.Outlined"
+                                   Margin="Margin.Dense"
+                                   Required="true"
+                                   AnchorOrigin="Origin.BottomCenter">
+                    @foreach (var freq in TypeCollection)
+                    {
+                        <MudSelectItemExtended Value="freq" Text="@freq"></MudSelectItemExtended>
+                    }
+
+                </MudSelectExtended>
+
+                <MudIconButton OnClick="DeleteAdverseFoodReaction"
+                               Icon="@Icons.Material.Filled.Delete"
+                               Title="Eliminar grupo alimenticio"
+                               Size="Size.Medium">
+                    @Index
+                </MudIconButton>
+            </div>
+        </MudItem>
+    </MudGrid>
+</MudForm>
+
+
+@code {
+
+    private AdverseFoodReactionDto FoodConsumptionModel => Index < AdverseFoodReactionState.Value.AdverseFoodReactions.Count() ?
+        AdverseFoodReactionState.Value.AdverseFoodReactions.ElementAt(Index) :
+        new AdverseFoodReactionDto();
+
+    [Parameter]
+    public int Index { get; set; }
+
+    private ICollection<string> FoodGroupCollection => IEnum<FoodGroups, FoodGroupToken>
+        .TokenDictionary.Select(e => e.Value.ReadableName).Skip(1).ToList();
+
+    private ICollection<string> TypeCollection => IEnum<FoodReactions, FoodReactionToken>
+        .TokenDictionary.Select(e => e.Value.ReadableName).Skip(1).ToList();
+
+    private void DeleteAdverseFoodReaction() => Dispatcher.Dispatch(new DeleteAdverseFoodReactionAction(Index));
+
+    private void UpdateAdverseFoodReaction()
+    {
+        var action = new ChangeAdverseFoodReactionAction(new AdverseFoodReactionDto
+        {
+            FoodGroup = FoodConsumptionModel.FoodGroup,
+            Type = FoodConsumptionModel.Type
+        }, Index);
+
+        Dispatcher.Dispatch(action);
+    }
+
+    private bool _isValid;
+
+    private bool IsValidHandler
+    {
+        get => _isValid;
+        set
+        {
+            if (_isValid == value) return;
+            _isValid = value;
+            UpdateAdverseFoodReaction();
+        }
+    }
+
+
+
+}

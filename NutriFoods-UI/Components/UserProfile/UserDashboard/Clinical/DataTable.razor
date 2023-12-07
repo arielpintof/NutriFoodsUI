@@ -67,9 +67,9 @@
 
 @code {
 
-    private readonly List<InvoiceModel> _invoices = new()
+    private readonly List<DataTable.InvoiceModel> _invoices = new()
     {
-        new InvoiceModel
+        new DataTable.InvoiceModel
         {
             InvoiceId = Guid.NewGuid(),
             Category = "Android",
@@ -109,7 +109,7 @@
     public class InvoiceModel
     {
         public Guid InvoiceId { get; set; }
-        public string Category { get; set; }
+        public string Category { get; set; } = string.Empty;
         public double Price { get; set; }
         public InvoiceStatus Status { get; set; }
     }

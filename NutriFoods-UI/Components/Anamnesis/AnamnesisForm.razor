@@ -1,5 +1,4 @@
 ﻿@page "/anamnesis"
-@using NutriFoods_UI.Data.Dto
 @using MudExtensions.Enums
 @using MudExtensions.Utilities
 @using MudBlazor.Extensions
@@ -21,7 +20,7 @@
             HeaderTextView="HeaderTextView.All"
             PreventStepChangeAsync="new Func<StepChangeDirection, Task<bool>>(CheckChange)"
             LocalizedStrings="GetLocalizedStrings()"
-            IconActionButtons="_iconActionButtons"
+            IconActionButtons="IconActionButtons"
             Loading="_loading"
             HeaderSize="_headerSize">
 
@@ -40,7 +39,7 @@
                  Icon="@Icons.Material.Filled.FoodBank"
                  Optional="false">
             <ChildContent>
-            
+                <FoodHistoryCollapseGroup></FoodHistoryCollapseGroup>
             </ChildContent>
         </MudStep>
 
@@ -88,11 +87,8 @@
 @code {
    
     private MudStepper _stepper = null!;
-    private MudForm _form;
-    private MudForm _form2;
     private bool _checkValidationBeforeComplete = true;
-    
-    public bool _iconActionButtons;
+    public bool IconActionButtons;
     private Variant _variant = Variant.Filled;
    
     private readonly bool _disableAnimation = false;
@@ -103,9 +99,7 @@
     private bool _addResultStep = true;
     private bool _customLocalization = true;
     private Color _color = Color.Primary;
-    public int ActiveIndex = 0;
     bool _loading;
-    public bool ShowStaticContent = false;
     private bool _showCustomButton = false;
     private bool _vertical = false;
     private Size _headerSize = Size.Medium;

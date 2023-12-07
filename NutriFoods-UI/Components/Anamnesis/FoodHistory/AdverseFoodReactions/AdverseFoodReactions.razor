@@ -1,0 +1,47 @@
+@using Fluxor
+@using NutriFoods_UI.Data.Dto
+@using NutriFoods_UI.Data.Store.AdverseFoodReactions
+@inject IDispatcher Dispatcher
+@inject IState<AdverseFoodReactionState> AdverseFoodReactionState
+@inherits Fluxor.Blazor.Web.Components.FluxorComponent
+
+<MudGrid Class="px-3">
+    <MudItem xs="4" Class="d-flex flex-column gap-2">
+        <div class="d-flex align-items-center">
+            <CollapseSubtitle Title="Reacción alimenticia"></CollapseSubtitle>
+        </div>
+        <p>Lorem ipsum dolor sit amet</p>
+    </MudItem>
+    <MudItem xs="8">
+        <MudStack Class="mb-5">
+                @for(var i = 0; i < AdverseFoodReactionState.Value.AdverseFoodReactions.Count; i++)
+                {
+                    <div class="d-flex flex-column">
+                        <AdverseFoodReactionIntake Index="i"></AdverseFoodReactionIntake>
+                    </div>
+                }
+                
+            <div class="mb-2">
+                <MudButton
+                    Size="Size.Small"
+                    Color="Color.Primary"
+                    StartIcon="@Icons.Material.Outlined.AddCircle"
+                    Variant="Variant.Text"
+                    OnClick="AddAdverseFoodReaction"
+                    Style="text-transform: none; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700;">
+                    Añadir una reacción alimenticia
+                </MudButton>
+            </div>
+        </MudStack>
+    </MudItem>
+</MudGrid>
+
+
+@code {
+
+    private void AddAdverseFoodReaction()
+    {
+        Dispatcher.Dispatch(new AddAdverseFoodReactionAction(new AdverseFoodReactionDto()));
+    }
+
+}

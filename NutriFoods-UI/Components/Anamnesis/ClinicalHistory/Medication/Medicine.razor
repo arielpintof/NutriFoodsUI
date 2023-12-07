@@ -1,5 +1,5 @@
 ﻿@using Fluxor
-@using NutriFoods_UI.Data.Store.Medicines  <!-- Cambiado de Supplements a Medicines -->
+@using NutriFoods_UI.Data.Store.Medicines
 @inject IDialogService Dialog
 @inject IState<MedicineState> MedicineState  
 @inherits Fluxor.Blazor.Web.Components.FluxorComponent
@@ -48,8 +48,8 @@
                 StartIcon="@Icons.Material.Outlined.AddCircle"
                 Variant="Variant.Text"
                 Style="text-transform: none; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700;"
-                OnClick="() => AddMedicine(_noHeader)">  <!-- Cambiado de AddSupplement a AddMedicine -->
-                Añadir un medicamento  <!-- Cambiado de "suplemento" a "medicamento" -->
+                OnClick="() => AddMedicine(_noHeader)">  
+                Añadir un medicamento  
             </MudButton>
         </div>
     </MudItem>
@@ -77,6 +77,6 @@
     {
         var parameters = new DialogParameters<MedicineDialog> {{ x => x.Index, index }, 
             {y => y.ModeType, ModeTypeEnum.Edit}};
-        Dialog.Show<MedicineDialog>("Editar medicamento", parameters, options);  <!-- Cambiado de "suplemento" a "medicamento" -->
+        Dialog.Show<MedicineDialog>("Editar medicamento", parameters, options);  
     }
 }

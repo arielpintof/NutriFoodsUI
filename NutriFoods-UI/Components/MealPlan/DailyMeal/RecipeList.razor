@@ -31,10 +31,10 @@
                             Portions="@menu.Portions"/>
                 </td>
                 
-                <td>@menu.Recipe.Nutrients.ToList().Find(n => n.Nutrient.Name == "Energía")?.Quantity.ToString("F1") kcal</td>
-                <td>@menu.Recipe.Nutrients.ToList().Find(n => n.Nutrient.Name == "Proteína, total")?.Quantity.ToString("F1") g</td>
-                <td>@menu.Recipe.Nutrients.ToList().Find(n => n.Nutrient.Name == "Carbohidratos, total")?.Quantity.ToString("F1") g</td>
-                <td>@menu.Recipe.Nutrients.ToList().Find(n => n.Nutrient.Name == "Ácidos grasos, total")?.Quantity.ToString("F1") g</td>
+                <td>0 kcal</td>
+                <td>0 g</td>
+                <td>0 g</td>
+                <td>0 g</td>
             </tr>
         }
     }
@@ -63,7 +63,7 @@
 @code {
 
     [Parameter]
-    public IList<MenuRecipeDto>? Recipes { get; set; }
+    public ICollection<MenuRecipeDto>? Recipes { get; set; }
 
     private bool IsHovered { get; set; }
 

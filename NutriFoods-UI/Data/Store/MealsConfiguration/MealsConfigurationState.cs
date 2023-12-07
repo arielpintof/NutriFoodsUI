@@ -23,10 +23,13 @@ public class MealsConfigurationState
 
 public class MealConfiguration
 {
-
-    public MealTypeEnum? MealType { get; set; }
+    public MealTypes MealType { get; set; } = null!;
     
     public int? Percentage { get; set; }
     
     public TimeSpan? MealTime { get; set; }
+    
 }
+
+
+

@@ -8,8 +8,28 @@ public class Reducer
     [ReducerMethod]
     public static MedicineState AddMedicine(MedicineState state, AddMedicineAction action)
     {
-        var updatedList = state.Medicines?.ToList() ?? new List<Ingestible>();
+        var updatedList = state.Medicines.ToList();
         updatedList.Add(action.Ingestible);
+
+        return new MedicineState(updatedList);
+        
+    }
+
+    [ReducerMethod]
+    public static MedicineState ChangeMedicine(MedicineState state, ChangeMedicineAction action)
+    {
+        var updatedList = state.Medicines.ToList();
+        updatedList[action.Index] = action.Ingestible;
+
+        return new MedicineState(updatedList);
+    }
+
+    [ReducerMethod]
+    public static MedicineState DeleteMedicine(MedicineState state, DeleteMedicineAction action)
+    {
+        var updatedList = state.Medicines.ToList();
+        updatedList.RemoveAt(action.Index);
+
         return new MedicineState(updatedList);
     }
 }

@@ -1,0 +1,86 @@
+@using Fluxor
+@using NutriFoods_UI.Data.Store.HarmfulHabits
+@using NutriFoods_UI.Data.Dto
+@using NutriFoods_UI.Utils.Enums
+@inject IState<HarmfulHabitState> HarmfulHabitState
+@inherits Fluxor.Blazor.Web.Components.FluxorComponent
+@inject IDispatcher Dispatcher
+
+<MudForm @bind-IsValid="@IsValidHandler" Model="@HarmfulHabitModel">
+    <MudGrid>
+        <MudItem md="4" sm="6" xs="12">
+            <div class="d-flex gap-3">
+                <span class="align-self-center">@(Index + 1)</span>
+                <MudSelectExtended @bind-Value="HarmfulHabitModel.Name"
+                                   Label="Tipo de hábito"
+                                   Variant="Variant.Outlined"
+                                   Margin="Margin.Dense"
+                                   Required="true"
+                                   SearchBox="true">
+                    @foreach (var habitType in HarmfulHabitCollection)
+                    {
+                        <MudSelectItemExtended Value="habitType" Text="@habitType"></MudSelectItemExtended>
+                    }
+
+                </MudSelectExtended>
+            </div>
+
+        </MudItem>
+        <MudItem md="8" sm="4" xs="12">
+            <div class="d-flex gap-3">
+                <MudTextField @bind-Value="HarmfulHabitModel.Observations"
+                              Label="Observación"
+                              Variant="Variant.Outlined"
+                              Margin="Margin.Dense"/>
+
+                <MudIconButton OnClick="DeleteHarmfulHabit"
+                               Icon="@Icons.Material.Filled.Delete"
+                               Title="Eliminar hábito perjudicial"
+                               Size="Size.Medium">
+                    @Index
+                </MudIconButton>
+            </div>
+        </MudItem>
+    </MudGrid>
+</MudForm>
+
+@code {
+
+    private HarmfulHabitDto HarmfulHabitModel => Index < HarmfulHabitState.Value.HarmfulHabits.Count() ?
+        HarmfulHabitState.Value.HarmfulHabits.ElementAt(Index) :
+        new HarmfulHabitDto();
+
+    [Parameter]
+    public int Index { get; set; }
+
+    private static IEnumerable<string> HarmfulHabitCollection => IEnum<Utils.Enums.HarmfulHabits, HarmfulHabitToken>
+        .TokenDictionary.Select(e => e.Value.ReadableName).Skip(1).ToList();
+
+
+    private void DeleteHarmfulHabit() => Dispatcher.Dispatch(new DeleteHarmfulHabitAction(Index));
+
+    private void UpdateHarmfulHabit()
+    {
+        var action = new ChangeHarmfulHabitAction(new HarmfulHabitDto
+        {
+            Name = HarmfulHabitModel.Name,
+            Observations = HarmfulHabitModel.Observations
+        }, Index);
+
+        Dispatcher.Dispatch(action);
+    }
+
+    private bool _isValid;
+
+    private bool IsValidHandler
+    {
+        get => _isValid;
+        set
+        {
+            if (_isValid == value) return;
+            _isValid = value;
+            UpdateHarmfulHabit();
+        }
+    }
+
+}

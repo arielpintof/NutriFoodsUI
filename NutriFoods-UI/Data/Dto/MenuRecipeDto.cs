@@ -1,7 +1,9 @@
-﻿namespace NutriFoods_UI.Data.Dto;
+﻿using NutriFoods_UI.Data.Dto.Abridged;
+
+namespace NutriFoods_UI.Data.Dto;
 
 public class MenuRecipeDto
 {
-    public RecipeDto Recipe { get; set; } = null!;
+    public RecipeAbridged Recipe { get; set; } = null!;
     public int Portions { get; set; }
 }

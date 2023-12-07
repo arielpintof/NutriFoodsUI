@@ -1,0 +1,46 @@
+@using Fluxor
+@using NutriFoods_UI.Data.Store.HarmfulHabits
+@using NutriFoods_UI.Data.Dto
+@inject IDispatcher Dispatcher
+@inject IState<HarmfulHabitState> HarmfulHabitState
+@inherits Fluxor.Blazor.Web.Components.FluxorComponent
+
+<MudGrid Class="px-3">
+    <MudItem xs="4" Class="d-flex flex-column gap-2">
+        <div class="d-flex align-items-center">
+            <CollapseSubtitle Title="Hábitos perjudiciales"></CollapseSubtitle>
+        </div>
+        <p>Lorem ipsum dolor sit amet</p>
+    </MudItem>
+    <MudItem xs="8">
+        <MudStack Class="mb-5">
+            @for(var i = 0; i < HarmfulHabitState.Value.HarmfulHabits.Count; i++)
+            {
+                <div class="d-flex flex-column">
+                    <HarmfulHabitIntake Index="i"></HarmfulHabitIntake>
+                </div>
+            }
+                
+            <div class="mb-2">
+                <MudButton
+                    Size="Size.Small"
+                    Color="Color.Primary"
+                    StartIcon="@Icons.Material.Outlined.AddCircle"
+                    Variant="Variant.Text"
+                    OnClick="@AddHarmfulHabit"
+                    Style="text-transform: none; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700;">
+                    Añadir un hábito perjudicial
+                </MudButton>
+            </div>
+        </MudStack>
+    </MudItem>
+</MudGrid>
+
+@code {
+
+    private void AddHarmfulHabit()
+    {
+        Dispatcher.Dispatch(new AddHarmfulHabitAction(new HarmfulHabitDto()));
+    }
+
+}

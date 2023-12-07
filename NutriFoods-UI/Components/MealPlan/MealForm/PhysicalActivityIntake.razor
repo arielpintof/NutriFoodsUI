@@ -1,0 +1,160 @@
+﻿@using NutriFoods_UI.Utils.Enums
+@using NutriFoods_UI.Data.Model
+@using NutriFoods_UI.Data.Store.TotalMetabolicRate
+@using Fluxor
+@inject IState<TmrState> TmrState
+@inject IDispatcher Dispatcher
+
+<MudForm Model="TmrConfigurationModel" @bind-IsValid="@IsValidHandler">
+    <MudGrid>
+        <MudItem xs="12" sm="12" md="4">
+            <CollapseSubtitle Title="Actividad física"/>
+        </MudItem>
+
+        <MudItem xs="12" sm="12" md="3" Class="align-items-center">
+            <MudSelect Margin="Margin.Dense"
+                       Label="Actividad física"
+                       Variant="Variant.Outlined"
+                       @bind-Value="PhysicalActivityHandler"
+                       T="PhysicalActivities"
+                       Required="true">
+                @foreach (var physicalActivity in PhysicalActivitiesCollection)
+                {
+                    <MudSelectItem Value="physicalActivity">@physicalActivity.ReadableName</MudSelectItem>
+                }
+            </MudSelect>
+        </MudItem>
+        <MudItem xs="12" sm="12" md="5" Class="align-content-center">
+            <MudNumericField HideSpinButtons="false"
+                             @bind-Value="@ValueHandler"
+                             Label="Factor recomendado"
+                             Variant="Variant.Outlined"
+                             Margin="Margin.Dense"
+                             Min="0.0"
+                             Step="0.1"
+                             Required="true"
+                             Class="rounded"
+                             AdornmentColor="Color.Primary"/>
+        </MudItem>
+
+        <MudItem xs="12" sm="12" md="4">
+            <CollapseSubtitle Title="Factor de ajuste"/>
+        </MudItem>
+
+        <MudItem xs="12" sm="12" md="8" Class="align-items-center">
+            <MudNumericField HideSpinButtons="false"
+                             @bind-Value="@TmrConfigurationModel.Factor"
+                             Label="Cifra"
+                             Variant="Variant.Outlined"
+                             Margin="Margin.Dense"
+                             Min="0.0"
+                             Required="true"
+                             Adornment="Adornment.End"
+                             AdornmentColor="Color.Primary"
+                             T="double"/>
+        </MudItem>
+    </MudGrid>
+</MudForm>
+
+
+@code {
+
+    private TmrConfiguration TmrConfigurationModel => TmrState.Value.TmrConfiguration;
+
+    ICollection<PhysicalActivities> PhysicalActivitiesCollection => IEnum<PhysicalActivities, PhysicalActivityToken>
+        .TokenDictionary
+        .Select(e => e.Value)
+        .Skip(1)
+        .ToList();
+
+    PhysicalActivities? _physicalActivity;
+
+    public bool IsValid;
+
+    private bool IsValidHandler
+    {
+        get => IsValid;
+        set
+        {
+            if (IsValid == value) return;
+            IsValid = value;
+            Console.WriteLine("Validez");
+            UpdateTmr();
+            StateHasChanged();
+        }
+    }
+
+    private void UpdateTmr()
+    {
+        var action = new ChangeTmrAction(new TmrConfiguration()
+        {
+            Bmr = TmrConfigurationModel.Bmr,
+            BiologicalSex = BiologicalSexes.Male,
+            Age = 22,
+            Weight = 70,
+            Height = 173,
+            Multiplier = TmrConfigurationModel.Multiplier,
+            Factor = TmrConfigurationModel.Factor,
+            PhysicalActivityLevel = PhysicalActivityHandler!.Value
+        });
+
+        Dispatcher.Dispatch(action);
+    }
+
+    private PhysicalActivities? PhysicalActivityHandler
+    {
+        get => _physicalActivity;
+        set
+        {
+            if (_physicalActivity == value) return;
+            _physicalActivity = value;
+            MapEnumToSliderValue();
+        }
+    }
+
+    double _value;
+
+    private double ValueHandler
+    {
+        get => _value;
+        set
+        {
+            if (_value == value) return;
+            _value = value;
+        }
+    }
+
+    double _upperValue;
+
+    private double UpperValueHandler
+    {
+        get => _upperValue;
+        set
+        {
+            if (_upperValue == value) return;
+            _upperValue = value;
+        }
+    }
+
+    private void MapEnumToSliderValue()
+    {
+        UpperValueHandler = _physicalActivity.UpperRatio;
+        ValueHandler = _physicalActivity.LowerRatio;
+        StateHasChanged();
+    }
+
+    double factor;
+
+
+}
+
+<style>
+    .mud-slider>.mud-typography {
+        margin-top: 0;
+    }
+    
+    .mud-range-container {
+        align-items: center;
+        margin: 0 0;
+    }
+</style>

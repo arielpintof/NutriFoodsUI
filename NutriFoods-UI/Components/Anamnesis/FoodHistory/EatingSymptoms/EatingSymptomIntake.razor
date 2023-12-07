@@ -1,0 +1,85 @@
+@using Fluxor
+@using NutriFoods_UI.Data.Dto
+@using NutriFoods_UI.Data.Store.EatingSymptom
+@using NutriFoods_UI.Utils.Enums
+@inject IState<EatingSymptomState> EatingSymptomState
+@inherits Fluxor.Blazor.Web.Components.FluxorComponent
+@inject IDispatcher Dispatcher
+
+<MudForm @bind-IsValid="@IsValidHandler" Model="@EatingSymptomModel">
+    <MudGrid>
+        <MudItem md="4" sm="6" xs="12">
+            <div class="d-flex gap-3">
+                <span class="align-self-center">@(Index + 1)</span>
+                <MudSelectExtended @bind-Value="EatingSymptomModel.Name"
+                                   Label="Nombre"
+                                   Variant="Variant.Outlined"
+                                   Margin="Margin.Dense"
+                                   Required="true"
+                                   SearchBox="true">
+                    @foreach (var e in EatingSymptomCollection)
+                    {
+                        <MudSelectItemExtended Value="e" Text="@e"></MudSelectItemExtended>
+                    }
+
+                </MudSelectExtended>
+            </div>
+
+        </MudItem>
+        <MudItem md="8" sm="4" xs="12">
+            <div class="d-flex gap-3">
+                <MudTextField @bind-Value="EatingSymptomModel.Observations"
+                              Label="Observación"
+                              Variant="Variant.Outlined"
+                              Margin="Margin.Dense"/>
+
+                <MudIconButton OnClick="@DeleteEatingSymptom"
+                               Icon="@Icons.Material.Filled.Delete"
+                               Title="Eliminar grupo alimenticio"
+                               Size="Size.Medium">
+                    @Index
+                </MudIconButton>
+            </div>
+        </MudItem>
+    </MudGrid>
+</MudForm>
+
+@code {
+
+    private EatingSymptomDto EatingSymptomModel => Index < EatingSymptomState.Value.EatingSymptoms.Count ?
+        EatingSymptomState.Value.EatingSymptoms.ElementAt(Index) :
+        new EatingSymptomDto();
+
+    private ICollection<string> EatingSymptomCollection => IEnum<Utils.Enums.EatingSymptoms, EatingSymptomToken>
+        .TokenDictionary.Select(e => e.Value.ReadableName).Skip(1).ToList();
+    
+    [Parameter]
+    public int Index { get; set; }
+    
+    private void DeleteEatingSymptom() => Dispatcher.Dispatch(new DeleteEatingSymptomAction(Index));
+
+    private void UpdateEatingSymptom()
+    {
+        var action = new ChangeEatingSymptomAction(new EatingSymptomDto
+        {
+            Name = EatingSymptomModel.Name,
+            Observations = EatingSymptomModel.Observations
+        }, Index);
+
+        Dispatcher.Dispatch(action);
+    }
+
+    private bool _isValid;
+
+    private bool IsValidHandler
+    {
+        get => _isValid;
+        set
+        {
+            if (_isValid == value) return;
+            _isValid = value;
+            UpdateEatingSymptom();
+        }
+    }
+
+}

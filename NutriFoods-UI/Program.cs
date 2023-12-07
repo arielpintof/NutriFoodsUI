@@ -34,10 +34,6 @@ builder.Services.AddHttpClient<IRecipeService, RecipeService>(client =>
 {
     client.BaseAddress = new Uri("https://localhost:7212/");
 });
-builder.Services.AddHttpClient<IUserService, UserService>(client =>
-{
-    client.BaseAddress = new Uri("https://localhost:7212/");
-});
 builder.Services.AddHttpClient<IDailyMenuService, DailyMenuService>(client =>
 {
     client.BaseAddress = new Uri("https://localhost:7212/");
