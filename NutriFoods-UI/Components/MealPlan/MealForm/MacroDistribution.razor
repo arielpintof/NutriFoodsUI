@@ -2,17 +2,18 @@
 @using NutriFoods_UI.Data.Enums
 @using NutriFoods_UI.Data.Store
 @using Fluxor
+@using NutriFoods_UI.Utils.Enums
 @inherits Fluxor.Blazor.Web.Components.FluxorComponent
 
 <div class="px-3 mb-4">
-    <MacronutrientIntake MacroType="MacroTypeEnum.Carb"></MacronutrientIntake>
+    <MacronutrientIntake MacroNutrient="Nutrients.Carbohydrates"></MacronutrientIntake>
     <MudDivider  Class="mb-5 mt-2"/>
-    <MacronutrientIntake MacroType="MacroTypeEnum.Protein"></MacronutrientIntake>
+    <MacronutrientIntake MacroNutrient="Nutrients.Proteins"></MacronutrientIntake>
     <MudDivider  Class="mb-5 mt-2"/>
-    <MacronutrientIntake MacroType="MacroTypeEnum.Lipid"></MacronutrientIntake>
+    <MacronutrientIntake MacroNutrient="Nutrients.FattyAcids"></MacronutrientIntake>
     
     <div class="mt-5">
-        <MudButton OnClick="ButtonHandler"
+        <MudButton OnClick="@ButtonHandler"
                    StartIcon="@Icons.Material.Filled.RemoveRedEye"
                    ButtonType="ButtonType.Button"
                    Variant="Variant.Text"
