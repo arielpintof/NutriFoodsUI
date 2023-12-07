@@ -13,19 +13,21 @@ namespace NutriFoods_UI.Data.Store.DailyMeal;
 
 public class DailyMealEffects(IDailyMenuService dailyMenuService, IDailyMealPlanService dailyMealPlanService,
     IState<DailyMealState> dailyMealstate, IState<TmrState> tmrState,
-    IState<MealsConfigurationState> mealsConfigurationState)
+    IState<MealsConfigurationState> mealsConfigurationState, IState<MoleculaState> moleculaState)
 {
+    private readonly IState<MoleculaState> _moleculaState = moleculaState;
     private readonly IDailyMenuService _dailyMenuService = dailyMenuService;
     private readonly IDailyMealPlanService _dailyMealPlanService = dailyMealPlanService;
     private readonly IState<DailyMealState> _mealState = dailyMealstate;
     private readonly IState<TmrState> _tmrState = tmrState;
     private readonly IState<MealsConfigurationState> _mealConfigurationState = mealsConfigurationState;
+    
 
 
     [EffectMethod]
     public async Task RenewDailyMenu(RenewMenuAction action, IDispatcher dispatcher)
     {
-        dispatcher.Dispatch(new OnLoadingMenuAction(action.Index));
+        /*dispatcher.Dispatch(new OnLoadingMenuAction(action.Index));
 
         var energyTarget = _mealState.Value.DailyMenu.ElementAt(action.Index).EnergyTotal;
         var mealType = MealTypeEnum.FromReadableName(_mealState.Value.DailyMenu.ElementAt(action.Index).MealType)!
@@ -39,46 +41,88 @@ public class DailyMealEffects(IDailyMenuService dailyMenuService, IDailyMealPlan
             dispatcher.Dispatch(new ChangeDailyMealAction(dailyMenuContent, action.Index));
         }
 
-        dispatcher.Dispatch(new StopOnLoadingMenuAction());
+        dispatcher.Dispatch(new StopOnLoadingMenuAction());*/
     }
 
     [EffectMethod(typeof(LoadMealPlanAction))]
     public async Task GetMealPlan(IDispatcher dispatcher)
     {
-        var day = Days.Monday.ReadableName;
-        //cambiar a int (enum value) desde el componente
+        var day = Days.Monday.Value;
         var physicalActivityLevel = _tmrState.Value.TmrConfiguration.PhysicalActivityLevel;
         var physicalActivityFactor = _tmrState.Value.TmrConfiguration.Multiplier;
         var adjustmentFactor = _tmrState.Value.TmrConfiguration.Factor;
+        var basalMetabolicRate = 1500;
         var energy = _tmrState.Value.GetTmr;
+        var mealConfigurations = _mealConfigurationState.Value.Meals;
         
-        var planConfiguration = new PlanConfiguration()
+        IList<MealConfigurationDto> meals = mealConfigurations
+            .Select(mc => new MealConfigurationDto
+            {
+                MealType = mc.MealType.ReadableName,
+                Hour = mc.MealTime.ToString(),
+                IntakePercentage = (double)mc.Percentage!
+            })
+            .ToList();
+        
+        var planConfiguration = new PlanConfiguration
         {
-            
+            Distribution = _moleculaState.Value.Distribution(energy),
+            MealConfigurations = meals
         };
 
+        var dailyMealPlanResponse = await _dailyMealPlanService.GenerateDailyMealPlan(
+            day, basalMetabolicRate, physicalActivityLevel, physicalActivityFactor, planConfiguration,
+            adjustmentFactor);
+        
+        var dailyMealPlan = await dailyMealPlanResponse!.Content.ReadFromJsonAsync<DailyPlanDto>();
+        
+        if (dailyMealPlan != null)
+        {
+            var action = new InitializeDailyMealAction(dailyMealPlan.Menus);
+            dispatcher.Dispatch(action);
+        }
+        
+        dispatcher.Dispatch(new StopOnLoadingMenuAction());
     }
 
     [EffectMethod(typeof(RenewDailyMealPlanAction))]
     public async Task RenewMealPlan(IDispatcher dispatcher)
     {
-        var mealPlanResponse = await _dailyMealPlanService.GenerateDailyMealPlan(
-            energyTarget: 2000,
-            isLunchFilling: true,
-            breakfast: Satiety.Normal,
-            dinner: Satiety.Normal,
-            includeBrunch: false,
-            includeLinner: false
-        );
+        var day = Days.Monday.Value;
+        var physicalActivityLevel = _tmrState.Value.TmrConfiguration.PhysicalActivityLevel;
+        var physicalActivityFactor = _tmrState.Value.TmrConfiguration.Multiplier;
+        var adjustmentFactor = _tmrState.Value.TmrConfiguration.Factor;
+        var basalMetabolicRate = _tmrState.Value.GetBmr;
+        var energy = _tmrState.Value.GetTmr;
+        var mealConfigurations = _mealConfigurationState.Value.Meals;
+        
+        IList<MealConfigurationDto> meals = mealConfigurations
+            .Select(mc => new MealConfigurationDto
+            {
+                MealType = mc.MealType.ReadableName,
+                Hour = mc.MealTime.ToString(),
+                IntakePercentage = (double)mc.Percentage!
+            })
+            .ToList();
+        
+        var planConfiguration = new PlanConfiguration
+        {
+            Distribution = _moleculaState.Value.Distribution(energy),
+            MealConfigurations = meals
+        };
 
-        var dailyMealPlan = await mealPlanResponse!.Content.ReadFromJsonAsync<DailyMealPlanDto>();
-
+        var dailyMealPlanResponse = await _dailyMealPlanService.GenerateDailyMealPlan(
+            day, basalMetabolicRate, physicalActivityLevel, physicalActivityFactor, planConfiguration,
+            adjustmentFactor);
+        
+        var dailyMealPlan = await dailyMealPlanResponse!.Content.ReadFromJsonAsync<DailyPlanDto>();
+        
         if (dailyMealPlan != null)
         {
-            var action = new InitializeDailyMealAction(dailyMealPlan.DailyMenus);
+            var action = new InitializeDailyMealAction(dailyMealPlan.Menus);
             dispatcher.Dispatch(action);
         }
-
+        
         dispatcher.Dispatch(new StopOnLoadingMenuAction());
     }
 }
@@ -86,10 +130,10 @@ public class DailyMealEffects(IDailyMenuService dailyMenuService, IDailyMealPlan
 public class PlanConfiguration
 {
     public IDictionary<string, double> Distribution { get; set; } = null!;
-    public IList<MealConfiguration> MealConfigurations { get; set; } = null!;
+    public IList<MealConfigurationDto> MealConfigurations { get; set; } = null!;
 }
 
-public class MealConfiguration
+public class MealConfigurationDto
 {
     public string MealType { get; set; } = null!;
     public string Hour { get; set; } = null!;
