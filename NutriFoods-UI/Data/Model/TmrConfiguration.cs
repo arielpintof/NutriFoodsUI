@@ -4,7 +4,7 @@ namespace NutriFoods_UI.Data.Model;
 
 public class TmrConfiguration
 {
-    public Bmr Bmr { get; set; } = null!;
+    public Bmr Bmr = Bmr.HarrisBenedict;
     public BiologicalSexes  BiologicalSex { get; set;} = null!;
     public int Age { get; set; } 
     public double Weight { get; set;} 
