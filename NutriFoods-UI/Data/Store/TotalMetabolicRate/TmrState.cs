@@ -13,6 +13,12 @@ public class TmrState
 
     public double GetTmr => IsValid ? TmrConfiguration.Bmr.TotalMetabolicRate(TmrConfiguration.BiologicalSex, 
         TmrConfiguration.Age, TmrConfiguration.Weight, TmrConfiguration.Height, TmrConfiguration.Multiplier) : 0;
+
+    public double GetBmr => IsValid
+        ? TmrConfiguration.Bmr.BasalMetabolicRate(TmrConfiguration.BiologicalSex,
+            TmrConfiguration.Age, TmrConfiguration.Weight, TmrConfiguration.Height)
+        : 0;
+    
     public TmrState(TmrConfiguration tmrConfiguration)
     {
         TmrConfiguration = tmrConfiguration;
