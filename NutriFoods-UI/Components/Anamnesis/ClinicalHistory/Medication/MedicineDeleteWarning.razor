@@ -1,6 +1,5 @@
 ﻿@using Fluxor
 @using NutriFoods_UI.Data.Store.Medicines
-@using NutriFoods_UI.Data.Store.Supplements
 @inject IDispatcher Dispatcher
 
 <MudDialog>
@@ -9,7 +8,7 @@
     </DialogContent>
     <DialogActions>
         <MudButton OnClick="Cancel">Cancelar</MudButton>
-        <MudButton Color="Color.Primary" OnClick="Submit">Eliminar</MudButton>
+        <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="Submit">Eliminar</MudButton>
     </DialogActions>
 </MudDialog>
 
