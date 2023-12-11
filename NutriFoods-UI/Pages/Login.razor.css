@@ -1,5 +1,7 @@
 ﻿.LoginContainer{
-    width: 400px;
+    width: fit-content;
+    padding: 30px;
+    background: white;
 }
 
 .MainContainer{
@@ -7,7 +9,8 @@
     justify-content: center;
     align-items: center;
     padding: 20px;
-    background: white;
+    width: 100%;
+    height: 100%;
 }
 
 .CompanyContainer{
@@ -34,18 +37,26 @@
     font-size: 25px;
     padding-bottom: 5px;
     font-weight: bold;
+    display: flex;
+    justify-content: center;
+    gap: 2em;
 }
 
 .FormContainer{
     padding-top: 20px;
     padding-bottom: 20px;
-    height: max-content;
+    display: flex;
+    flex-direction: column;
+    gap: 2em;
 }
 
 .FormContainer .InputContainer{
     padding-top: 10px;
     padding-bottom: 10px;
     height: max-content;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 }
 
 .InputContainer .label{
@@ -54,60 +65,13 @@
     padding-bottom: 5px;
 }
 
-.InputContainer .input{
-    width: calc(100% - 6px);
-    line-height: var(--input-height);
-    font-size: large;
-    border-radius: 5px;
-    border: 1px solid grey;
-}
-
-.InputContainer .PasswordInputContainer{
+.InputContainer .remember-box{
     display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    margin: 0px;
+    flex-direction: row;
+    align-content: center;
 }
 
-.InputContainer .PasswordInputContainer .input{
-    width: 90%;
-    border-top-right-radius: 0px;
-    border-bottom-right-radius: 0px;
-    border-right: 0px;
-}
 
-.InputContainer .PasswordInputContainer .ShowPasswordButton{
-    cursor: pointer;
-    width: 10%;
-    height: calc(var(--input-height) + 4px);
-    border-top-right-radius: 5px;
-    border-bottom-right-radius: 5px;
-    border: 1px solid grey;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: white;
-    border-left: 0px;
-}
-
-.InputContainer .PasswordInputContainer .ShowPasswordButton:hover svg{
-    fill: black;
-}
-
-.InputContainer .PasswordLabel{
-    font-weight: bold;
-    color: grey;
-    font-size: 13px;
-    padding-top: 5px;
-}
-
-.InputContainer.RememberForgotContainer{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-}
 
 .InputContainer .CheckboxInput{
     margin: 0px;

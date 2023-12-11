@@ -1,25 +1,23 @@
-﻿@page "/login"
+﻿@layout LoginLayout
+@page "/login"
 
-<section Class="MainContainer">
-    <section class="LoginContainer">
-        <section class="CompanyContainer">
-
-        </section>
+<section Class="MainContainer ">
+    <section class="LoginContainer border rounded-3">
         <section class="LoginHeaderContainer">
             <div class="LoginHeaderTitle">
                 Iniciar Sesión
             </div>
-            <div class="LoginHeaderSubTitle">
+            <div class="LoginHeaderSubTitle mt-2">
                 Bienvenido a <b>Nutrifoods!</b> Indica tus datos para iniciar sesión
             </div>
         </section>
         <section class="FormContainer">
             <div class="d-flex flex-column gap-3">
-                <MudTextField InputType="InputType.Email"
-                              Variant="Variant.Outlined"
-                              Label="Normal"
-                              T="string">
-                </MudTextField>
+                <MudTextFieldExtended T="string"
+                                      Label="E-mail" 
+                                      Variant="Variant.Outlined" 
+                                      Margin="Margin.Normal">
+                                </MudTextFieldExtended>
                 <MudTextField T="string" Label="Password"
                               InputType="InputType.Password"
                               Required="true"
@@ -28,8 +26,8 @@
             </div>
 
             <div class="InputContainer RememberForgotContainer">
-                <div class="flex-row align-items-center">
-                    <input type="checkbox" class="CheckboxInput align-self-center">
+                <div class="remember-box">
+                    <input type="checkbox" class="CheckboxInput">
                     <label style="padding-left: 5px;">
                         <b>Recordar contraseña</b>
                     </label>
