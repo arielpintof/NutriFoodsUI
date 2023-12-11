@@ -1,16 +1,20 @@
 ﻿@page "/user-dashboard"
+@page "/patients/profile/{PatientId:int}"
 
 <nav class="mb-4" aria-label="breadcrumb">
   <ol class="breadcrumb">
-    <li class="breadcrumb-item "><a class="bi bi-arrow-left" href="#"> Pacientes</a></li>
+    <li class="breadcrumb-item "><a class="bi bi-arrow-left" href="/patients"> Pacientes</a></li>
     <li class="breadcrumb-item active" aria-current="page">Perfil de Ariel Pinto</li>
   </ol>
 </nav>
 
 <h2 class="mb-6 mt-10 ml-2 fw-bold">Perfil de Ariel Pinto</h2>
+
 <TabNavegation></TabNavegation>
 
 @code {
     
+  [Parameter]
+  public int PatientId { get; set; }
 }
 
