@@ -1,0 +1,102 @@
+﻿@page "/patients"
+
+<nav class="mb-4" aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item "><a class="bi bi-arrow-left" href="/">Inicio</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Pacientes</li>
+    </ol>
+</nav>
+
+@if (PatientsCollection.Any())
+{
+    <h2 class="mb-6 mt-10 ml-2 fw-bold">Pacientes</h2>
+    <MudTable Items="@PatientsCollection"
+              Hover="true"
+              Striped="true"
+              Filter="new Func<Element, bool>(FilterFunc1)"
+              @bind-SelectedItem="selectedItem1"
+              Outlined="false"
+              Elevation="0"
+              Class="px-5 py-3 rounded-3 border">
+        <ToolBarContent>
+            <MudText Typo="Typo.h6">Listado de pacientes</MudText>
+            <MudSpacer></MudSpacer>
+            <div class="wrapper">
+                <div class="searchBar">
+                    <input id="searchQueryInput" type="text" name="searchQueryInput" placeholder="Buscar un paciente" @bind="SearchString1"/>
+                    <button id="searchQuerySubmit" type="submit" name="searchQuerySubmit">
+                        <svg style="width:24px;height:24px" viewBox="0 0 24 24">
+                            <path fill="#666666" d="M9.5,3A6.5,6.5 0 0,1 16,9.5C16,11.11 15.41,12.59 14.44,13.73L14.71,14H15.5L20.5,19L19,20.5L14,15.5V14.71L13.73,14.44C12.59,15.41 11.11,16 9.5,16A6.5,6.5 0 0,1 3,9.5A6.5,6.5 0 0,1 9.5,3M9.5,5C7,5 5,7 5,9.5C5,12 7,14 9.5,14C12,14 14,12 14,9.5C14,7 12,5 9.5,5Z"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+    
+    
+        </ToolBarContent>
+        <HeaderContent>
+            <MudTh>#</MudTh>
+            <MudTh>Nombre</MudTh>
+            <MudTh>Sexo</MudTh>
+            <MudTh>Edad</MudTh>
+            <MudTh>Dirección</MudTh>
+            <MudTh>Última consulta</MudTh>
+        </HeaderContent>
+        <RowTemplate>
+            <MudTd DataLabel="#">1</MudTd>
+            <MudTd DataLabel="Nombre">@context.Name</MudTd>
+            <MudTd DataLabel="Sexo">@context.Sex</MudTd>
+            <MudTd DataLabel="Edad">@context.Edad</MudTd>
+            <MudTd DataLabel="Dirección">@context.Direccion</MudTd>
+            <MudTd DataLabel="Última consulta">@context.UltimaConsulta</MudTd>
+        </RowTemplate>
+        <PagerContent>
+            <MudTablePager/>
+        </PagerContent>
+    </MudTable>
+}
+
+else
+{
+    <EmptyPatientList></EmptyPatientList>
+}
+
+
+
+@code {
+
+    private string SearchString1 { get; set; } = "";
+    private Element selectedItem1 = null;
+    private HashSet<Element> selectedItems = new HashSet<Element>();
+
+    public IEnumerable<Element> PatientsCollection = new List<Element>();
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        
+    }
+
+
+    private bool FilterFunc1(Element element) => FilterFunc(element, SearchString1);
+
+    private bool FilterFunc(Element element, string searchString)
+    {
+        if (string.IsNullOrWhiteSpace(searchString))
+            return true;
+
+        if (element.Name.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+        return false;
+    }
+
+    public class Element
+    {
+        public string? Name { get; set; }
+        public string? Sex { get; set; }
+        public int Edad { get; set; }
+        public string? Direccion { get; set; }
+        public string? UltimaConsulta { get; set; }
+    }
+
+}

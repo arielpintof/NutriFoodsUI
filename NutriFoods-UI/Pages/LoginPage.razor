@@ -1,0 +1,36 @@
+﻿@page "/log"
+
+<div class="d-flex justify-content-center align-items-center px-5 py-5" style="background-color: white">
+    <div class="d-flex flex-column">
+        <MudForm>
+            <MudGrid>
+                <MudItem md="8" sm="4" xs="12">
+                    <MudTextField Label="Correo electrónico"
+                                  T="string"
+                                  Variant="Variant.Outlined"
+                                  @bind-Value="email">
+                    </MudTextField>
+                </MudItem>
+                <MudItem md="8" sm="4" xs="12">
+                    <MudTextField Label="Correo electrónico"
+                                  T="string"
+                                  Variant="Variant.Outlined"
+                                  @bind-Value="email">
+                    </MudTextField>
+                </MudItem>
+            </MudGrid>
+
+
+            <MudTextField Label="Contraseña"
+                          T="string"
+                          Variant="Variant.Outlined"
+                          InputType="InputType.Password">
+            </MudTextField>
+        </MudForm>
+
+    </div>
+</div>
+
+@code {
+    string email { get; set; }
+}

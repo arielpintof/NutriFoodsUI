@@ -1,0 +1,23 @@
+﻿@page "/patients/add"
+
+<nav class="mb-4" aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="d-flex gap-1 breadcrumb-item ">
+      <a class="bi bi-arrow-left mr-1" href="/patients">
+        Pacientes
+      </a>
+    </li>
+    <li class="breadcrumb-item active" aria-current="page">Añadir un paciente</li>
+  </ol>
+</nav>
+
+<MudStack Spacing="1 " Class="mb-6 mt-10 ml-2">
+  <h2 class="fw-bold">Añadir un paciente</h2>
+  <p class="fst-italic">Los campos obligatorios estan marcados con un asterisco (*)</p>
+</MudStack>
+
+<AddPacientForm></AddPacientForm>
+
+@code {
+    
+}
