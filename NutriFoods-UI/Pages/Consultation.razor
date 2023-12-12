@@ -1,4 +1,4 @@
-﻿@page "/consultation"
+﻿@page "/consultation/{PatientId:guid}"
 
 <nav class="mb-6" aria-label="breadcrumb">
   <ol class="breadcrumb">
@@ -7,13 +7,13 @@
         Pacientes
       </a>
     </li>
-    <li class="breadcrumb-item active" aria-current="page" href="/user-dashboard">Perfil de @PatientName</li>
+    <li class="breadcrumb-item active" aria-current="page" href="/user-dashboard">Perfil</li>
     <li class="breadcrumb-item active" aria-current="page">Nueva consulta</li>
   </ol>
 </nav>
 
-<AddConsultation></AddConsultation>
+<AddConsultation PatientId="PatientId"></AddConsultation>
 
 @code {
-  [Parameter] public string PatientName { get; set; } = "Ariel Pinto";
+  [Parameter] public Guid PatientId { get; set; }
 }

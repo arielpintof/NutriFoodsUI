@@ -4,6 +4,7 @@
 @using NutriFoods_UI.Data.Store.LogIn
 @using NutriFoods_UI.Utils.Date
 @inject IState<CredentialsState> CredentialState
+@inject NavigationManager Nav
 
 <nav class="mb-4" aria-label="breadcrumb">
     <ol class="breadcrumb">
@@ -20,7 +21,8 @@
               Hover="true"
               Striped="true"
               Filter="new Func<PatientDto, bool>(FilterFunc1)"
-              @bind-SelectedItem="_selectedItem1"
+              @bind-SelectedItem="SelectedItem1"
+              MultiSelection="false"
               Outlined="false"
               Elevation="0"
               Class="px-5 py-3 rounded-3">
@@ -57,15 +59,21 @@
             <MudTh>Dirección</MudTh>
         </HeaderContent>
         <RowTemplate>
-            <MudTd DataLabel="Nombre">@context.PersonalInfo.Names @context.PersonalInfo.LastNames</MudTd>
-            <MudTd DataLabel="Sexo">@context.PersonalInfo.BiologicalSex</MudTd>
-            <MudTd DataLabel="Edad">@DateOnlyUtils.CalculateAge(context.PersonalInfo.Birthdate)</MudTd>
-            <MudTd DataLabel="Dirección">@context.Address.Street, @context.Address.Number</MudTd>
+            <MudTd DataLabel="Nombre">@context.PersonalInfo!.Names @context.PersonalInfo.LastNames</MudTd>
+            <MudTd DataLabel="Sexo">@context.PersonalInfo!.BiologicalSex</MudTd>
+            <MudTd DataLabel="Edad">@DateOnlyUtils.CalculateAge(context.PersonalInfo!.Birthdate)</MudTd>
+            <MudTd DataLabel="Dirección">@context.Address!.Street, @context.Address.Number</MudTd>
         </RowTemplate>
         <PagerContent>
             <MudTablePager/>
         </PagerContent>
     </MudTable>
+        
+    @if (SelectedItem1.PersonalInfo != null)
+    {
+        <span>Paciente seleccionado: @SelectedItem1.PersonalInfo.Names</span>
+    }
+    
 }
 
 else
@@ -77,8 +85,19 @@ else
 @code {
 
     private string SearchString1 { get; set; } = "";
+    
     private PatientDto _selectedItem1 = new();
-    private HashSet<Element> selectedItems = new HashSet<Element>();
+
+    public PatientDto SelectedItem1
+    {
+        get => _selectedItem1;
+        set
+        {
+            _selectedItem1 = value;
+            Nav.NavigateTo($"/patients/profile/{SelectedItem1.Id}");
+            
+        }
+    }
 
     public IEnumerable<PatientDto> PatientsCollection = new List<PatientDto>();
 
@@ -132,18 +151,9 @@ else
         if (string.IsNullOrWhiteSpace(searchString))
             return true;
 
-        if (element.PersonalInfo.Names.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+        if (element.PersonalInfo!.Names.Contains(searchString, StringComparison.OrdinalIgnoreCase))
             return true;
         return false;
     }
-
-    public class Element
-    {
-        public string? Name { get; set; }
-        public string? Sex { get; set; }
-        public int Edad { get; set; }
-        public string? Direccion { get; set; }
-        public string? UltimaConsulta { get; set; }
-    }
-
+    
 }

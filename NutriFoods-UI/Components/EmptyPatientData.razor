@@ -1,3 +1,4 @@
+ @inject NavigationManager Nav
  <MudCard Elevation="0" Class="p-5 rounded-lg" Style="max-width: 900px" >
      <MudGrid>
          <MudItem md="6">
@@ -11,7 +12,7 @@
                             Variant="Variant.Filled"
                             DisableElevation="true"
                             Class="rounded-lg"
-                            
+                            OnClick="() => Redirect()"
                             Style="max-width: 50%;min-width: 150px; text-transform: none; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 500;">
                      Realizar consulta
                  </MudButton>
@@ -261,5 +262,10 @@
  </MudCard>
 
 @code {
-    
+    [Parameter] public Guid PatientId { get; set; }
+
+    void Redirect()
+    {
+        Nav.NavigateTo($"/consultation/{PatientId}");
+    }
 }

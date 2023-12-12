@@ -1,6 +1,5 @@
 ﻿@page "/user-dashboard"
 @page "/patients/profile/{PatientId:guid}"
-@using NutriFoods_UI.Data
 @using NutriFoods_UI.Data.Dto
 @using NutriFoods_UI.Services
 @inject IPatientService PatientService
@@ -23,9 +22,8 @@
 
 else
 {
-  <EmptyPatientData></EmptyPatientData>
+  <EmptyPatientData PatientId="PatientId"></EmptyPatientData>
 }
-
 
 
 @code {
