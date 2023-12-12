@@ -2,24 +2,25 @@
 
 <nav class="mb-4" aria-label="breadcrumb">
     <ol class="breadcrumb">
-        <li class="breadcrumb-item "><a class="bi bi-arrow-left" href="/">Inicio</a></li>
+        <li class="breadcrumb-item ">
+            <a class="bi bi-arrow-left" href="/">Inicio</a>
+        </li>
         <li class="breadcrumb-item active" aria-current="page">Pacientes</li>
     </ol>
 </nav>
 
 @if (PatientsCollection.Any())
 {
-    <h2 class="mb-6 mt-10 ml-2 fw-bold">Pacientes</h2>
     <MudTable Items="@PatientsCollection"
               Hover="true"
               Striped="true"
               Filter="new Func<Element, bool>(FilterFunc1)"
-              @bind-SelectedItem="selectedItem1"
+              @bind-SelectedItem="_selectedItem1"
               Outlined="false"
               Elevation="0"
-              Class="px-5 py-3 rounded-3 border">
+              Class="px-5 py-3 rounded-3">
         <ToolBarContent>
-            <MudText Typo="Typo.h6">Listado de pacientes</MudText>
+            <h2 class="fw-bold">Pacientes</h2>
             <MudSpacer></MudSpacer>
             <div class="wrapper">
                 <div class="searchBar">
@@ -31,8 +32,18 @@
                     </button>
                 </div>
             </div>
-    
-    
+            <div>
+                <MudButton
+                    Size="Size.Small"
+                    Color="Color.Primary"
+                    StartIcon="@Icons.Material.Outlined.AddCircle"
+                    Variant="Variant.Filled"
+                    Href="/patients/add"
+                    DisableElevation="true"
+                    Style="text-transform: none; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700;">
+                    Añadir un paciente
+                </MudButton>
+            </div>
         </ToolBarContent>
         <HeaderContent>
             <MudTh>#</MudTh>
@@ -62,11 +73,10 @@ else
 }
 
 
-
 @code {
 
     private string SearchString1 { get; set; } = "";
-    private Element selectedItem1 = null;
+    private Element _selectedItem1 = new();
     private HashSet<Element> selectedItems = new HashSet<Element>();
 
     public IEnumerable<Element> PatientsCollection = new List<Element>();
@@ -74,7 +84,42 @@ else
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        
+        PatientsCollection = new List<Element>()
+        {
+            new Element()
+            {
+                Name = "Ariel Pinto",
+                Sex = "Masculino",
+                Edad = 19,
+                Direccion = "La Serena",
+                UltimaConsulta = "27 de noviembre"
+            },
+            new Element()
+            {
+                Name = "Carolina Soto",
+                Sex = "Femenino",
+                Edad = 25,
+                Direccion = "Santiago",
+                UltimaConsulta = "15 de octubre"
+            },
+            new Element()
+            {
+                Name = "Martín Torres",
+                Sex = "Masculino",
+                Edad = 32,
+                Direccion = "Valparaíso",
+                UltimaConsulta = "10 de diciembre"
+            },
+            new Element()
+            {
+                Name = "Camila Araya",
+                Sex = "Femenino",
+                Edad = 22,
+                Direccion = "Concepción",
+                UltimaConsulta = "5 de noviembre"
+            },
+            // Puedes agregar más elementos según sea necesario
+        };
     }
 
 

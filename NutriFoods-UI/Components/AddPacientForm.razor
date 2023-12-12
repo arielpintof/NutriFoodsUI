@@ -5,6 +5,13 @@
 @using NutriFoods_UI.Utils.Validators.Patients
 
 <MudPaper Class="d-flex flex-column px-10 py-5 gap-4" Elevation="0">
+    <div class="d-flex flex-column gap-1">
+        <div class="d-flex flex-column">
+            <h2 class="fw-bold">Añadir un paciente</h2>
+            <p class="fst-italic">Los campos obligatorios estan marcados con un asterisco (*)</p>
+        </div>
+        <MudDivider></MudDivider>
+    </div>
     <MudForm Model="PersonalInfoModel" @ref="@PersonalForm" Validation="PersonalInfoValidator.ValidateValue">
         <h3>Información personal</h3>
         <MudGrid Class="mt-2" Spacing="2">
@@ -36,7 +43,7 @@
                                    Variant="Variant.Outlined"
                                    Margin="Margin.Dense"
                                    Label="Sexo biológico">
-                    
+
                 </MudSelectExtended>
             </MudItem>
             <MudItem xs="12" md="6">
@@ -57,7 +64,6 @@
 
     <MudForm Model="AddressModel" @ref="@AddressForm" Validation="AddressValidator.ValidateValue">
         <h3>Dirección</h3>
-        
         <MudGrid Class="mt-2" Spacing="2">
             <MudItem md="6" xs="12">
                 <MudTextField @bind-Value="AddressModel.Street"
@@ -126,24 +132,24 @@
             <MudItem md="6" xs="12">
                 <MudTextField @bind-Value="ContactInfoModel.MobilePhone"
                               For="@(() => ContactInfoModel.MobilePhone)"
-                                      Label="Celular"
-                                      Margin="Margin.Dense"
-                                      Variant="Variant.Outlined"
-                                      T="string"
-                                      InputType="InputType.Text">
-                        </MudTextField>
+                              Label="Celular"
+                              Margin="Margin.Dense"
+                              Variant="Variant.Outlined"
+                              T="string"
+                              InputType="InputType.Text">
+                </MudTextField>
             </MudItem>
             <MudItem md="6" xs="12">
                 <MudTextField @bind-Value="ContactInfoModel.FixedPhone"
                               For="@(() => ContactInfoModel.FixedPhone)"
-                                      Label="Teléfono fijo"
-                                      Margin="Margin.Dense"
-                                      Variant="Variant.Outlined"
-                                      T="string?"
-                                      InputType="InputType.Text">
-                        </MudTextField>
+                              Label="Teléfono fijo"
+                              Margin="Margin.Dense"
+                              Variant="Variant.Outlined"
+                              T="string?"
+                              InputType="InputType.Text">
+                </MudTextField>
             </MudItem>
-            
+
         </MudGrid>
     </MudForm>
     <div class="d-flex mt-3 justify-content-end">
@@ -151,6 +157,7 @@
                    Variant="Variant.Filled"
                    Color="Color.Primary"
                    DisableElevation="true"
+                   Style="text-transform: none; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700;"
                    OnClick="@Submit">
             Añadir paciente
         </MudButton>
@@ -171,17 +178,17 @@
         .TokenDictionary.Select(e => e.Value.ReadableName).Skip(1);
 
     MudForm PersonalForm { get; set; } = new();
-    
+
     PersonalInfoValidator PersonalInfoValidator { get; } = new();
-    
+
     MudForm AddressForm { get; set; } = new();
-    
+
     AddressValidator AddressValidator { get; } = new();
-    
+
     MudForm ContactForm { get; set; } = new();
-    
+
     ContactInfoValidator ContactInfoValidator { get; } = new();
-    
+
     private async Task Submit()
     {
         await Task.WhenAll(PersonalForm.Validate(), AddressForm.Validate(), ContactForm.Validate());
@@ -190,4 +197,5 @@
             Console.WriteLine("Valido...Submit");
         }
     }
+
 }
