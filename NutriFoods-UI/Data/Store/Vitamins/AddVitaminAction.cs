@@ -1,13 +1,9 @@
-﻿using NutriFoods_UI.Data.Model;
+﻿using NutriFoods_UI.Data.Dto;
+using NutriFoods_UI.Data.Model;
 
 namespace NutriFoods_UI.Data.Store.Vitamins;
 
-public class AddVitaminAction
+public class AddVitaminAction(IngestibleDto ingestible)
 {
-    public Ingestible Ingestible { get; }
-
-    public AddVitaminAction(Ingestible ingestible)
-    {
-        Ingestible = ingestible;
-    }
+    public IngestibleDto Ingestible { get; } = ingestible;
 }

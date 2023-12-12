@@ -1,12 +1,13 @@
-﻿using NutriFoods_UI.Data.Model;
+﻿using NutriFoods_UI.Data.Dto;
+using NutriFoods_UI.Data.Model;
 
 namespace NutriFoods_UI.Data.Store.Supplements;
 
 public class AddSupplementAction
 {
-    public Ingestible Ingestible { get; }
+    public IngestibleDto Ingestible { get; }
 
-    public AddSupplementAction(Ingestible ingestible)
+    public AddSupplementAction(IngestibleDto ingestible)
     {
         Ingestible = ingestible;
     }
