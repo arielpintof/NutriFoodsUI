@@ -1,4 +1,9 @@
 ﻿@page "/patients"
+@using Fluxor
+@using NutriFoods_UI.Data
+@using NutriFoods_UI.Data.Store.LogIn
+@using NutriFoods_UI.Utils.Date
+@inject IState<CredentialsState> CredentialState
 
 <nav class="mb-4" aria-label="breadcrumb">
     <ol class="breadcrumb">
@@ -14,7 +19,7 @@
     <MudTable Items="@PatientsCollection"
               Hover="true"
               Striped="true"
-              Filter="new Func<Element, bool>(FilterFunc1)"
+              Filter="new Func<PatientDto, bool>(FilterFunc1)"
               @bind-SelectedItem="_selectedItem1"
               Outlined="false"
               Elevation="0"
@@ -46,20 +51,16 @@
             </div>
         </ToolBarContent>
         <HeaderContent>
-            <MudTh>#</MudTh>
             <MudTh>Nombre</MudTh>
             <MudTh>Sexo</MudTh>
             <MudTh>Edad</MudTh>
             <MudTh>Dirección</MudTh>
-            <MudTh>Última consulta</MudTh>
         </HeaderContent>
         <RowTemplate>
-            <MudTd DataLabel="#">1</MudTd>
-            <MudTd DataLabel="Nombre">@context.Name</MudTd>
-            <MudTd DataLabel="Sexo">@context.Sex</MudTd>
-            <MudTd DataLabel="Edad">@context.Edad</MudTd>
-            <MudTd DataLabel="Dirección">@context.Direccion</MudTd>
-            <MudTd DataLabel="Última consulta">@context.UltimaConsulta</MudTd>
+            <MudTd DataLabel="Nombre">@context.PersonalInfo.Names @context.PersonalInfo.LastNames</MudTd>
+            <MudTd DataLabel="Sexo">@context.PersonalInfo.BiologicalSex</MudTd>
+            <MudTd DataLabel="Edad">@DateOnlyUtils.CalculateAge(context.PersonalInfo.Birthdate)</MudTd>
+            <MudTd DataLabel="Dirección">@context.Address.Street, @context.Address.Number</MudTd>
         </RowTemplate>
         <PagerContent>
             <MudTablePager/>
@@ -76,15 +77,16 @@ else
 @code {
 
     private string SearchString1 { get; set; } = "";
-    private Element _selectedItem1 = new();
+    private PatientDto _selectedItem1 = new();
     private HashSet<Element> selectedItems = new HashSet<Element>();
 
-    public IEnumerable<Element> PatientsCollection = new List<Element>();
+    public IEnumerable<PatientDto> PatientsCollection = new List<PatientDto>();
 
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        PatientsCollection = new List<Element>()
+        PatientsCollection = CredentialState.Value.NutritionistCredentials.Patients;
+        /*PatientsCollection = new List<Element>()
         {
             new Element()
             {
@@ -119,18 +121,18 @@ else
                 UltimaConsulta = "5 de noviembre"
             },
             // Puedes agregar más elementos según sea necesario
-        };
+        };*/
     }
 
 
-    private bool FilterFunc1(Element element) => FilterFunc(element, SearchString1);
+    private bool FilterFunc1(PatientDto element) => FilterFunc(element, SearchString1);
 
-    private bool FilterFunc(Element element, string searchString)
+    private bool FilterFunc(PatientDto element, string searchString)
     {
         if (string.IsNullOrWhiteSpace(searchString))
             return true;
 
-        if (element.Name.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+        if (element.PersonalInfo.Names.Contains(searchString, StringComparison.OrdinalIgnoreCase))
             return true;
         return false;
     }
