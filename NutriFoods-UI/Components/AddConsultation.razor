@@ -1,0 +1,55 @@
+﻿<MudPaper Class="d-flex flex-column px-10 py-5 gap-4" Elevation="0" MaxWidth="800px">
+    <MudForm>
+        <MudStack Spacing="3">
+            <div class="d-flex flex-column gap-2">
+                <h2 class="fw-bold">Nueva consulta</h2>
+                <MudDivider></MudDivider>
+            </div>
+            <div class="subtitle">
+                <h3>Anamnesis</h3>
+                <p>Incluye anamnesis clínica, alimentaria y antropométrica</p>
+            </div>
+            <div>
+                <MudButton Variant="Variant.Outlined"
+                           Color="Color.Primary"
+                           Href="/anamnesis"
+                           Style="text-transform: none; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700;">
+                    Iniciar Anamnesis
+                </MudButton>
+            </div>
+
+        </MudStack>
+
+        <MudDivider Class="mt-5"></MudDivider>
+
+    </MudForm>
+
+    <MudForm>
+        <MudStack Spacing="1">
+            <div class="subtitle">
+                <h3>Plan alimenticio</h3>
+                <p>Puedes crear más de uno, para distintos días de la semana</p>
+            </div>
+
+            <div>
+                <MudButton Variant="Variant.Outlined"
+                           Color="Color.Primary"
+                           Href="/generate/mealplan"
+                           Style="text-transform: none; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700;">
+                    Generar un plan alimenticio
+                </MudButton>
+            </div>
+        </MudStack>
+
+        <MudDivider Class="mt-5"></MudDivider>
+
+    </MudForm>
+
+</MudPaper>
+
+@code {
+
+    [Parameter] public Guid PatientId { get; set; }
+
+    [Parameter] public Guid NutritionistId { get; set; }
+}

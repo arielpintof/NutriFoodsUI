@@ -1,0 +1,10 @@
+.subtitle{
+    display: flex;
+    flex-direction: column;
+    gap: 0 0;
+}
+.subtitle p{
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 0.95em;
+    color: var(--grey-normal);
+}
