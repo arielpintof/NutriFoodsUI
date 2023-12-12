@@ -33,6 +33,21 @@ public static class DateOnlyUtils
         return isAbsolute ? Math.Abs(difference) : difference;
     }
     
+    public static int CalculateAge(string dateOfBirth)
+    {
+        
+        var date = DateTime.ParseExact(dateOfBirth, "yyyy-MM-dd", null);
+        var currentDate = DateTime.Now;
+        var age = currentDate.Year - date.Year;
+        
+        if (currentDate.Month < date.Month || (currentDate.Month == date.Month && currentDate.Day < date.Day))
+        {
+            age--;
+        }
+
+        return age;
+    }
+    
     public static DateTime CurrentPsTime() =>
         TimeZoneInfo.ConvertTime(DateTime.Now, TimeZoneInfo.FindSystemTimeZoneById("Pacific Standard Time"));
 
