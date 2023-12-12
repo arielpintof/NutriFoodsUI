@@ -4,8 +4,15 @@
 @using NutriFoods_UI.Data.Store.LogIn
 @inject IState<CredentialsState> CredentialState
 @inherits Fluxor.Blazor.Web.Components.FluxorComponent
+@inject NavigationManager Nav
 
+
+@if (Nutritionist.Email == null)
+{
+    Nav.NavigateTo("/login");
+}
 <h2>Credenciales</h2>
+
 <MudStack>
     <span>Email: @Nutritionist.Email</span>
     <span>Id: @Nutritionist.Id</span>
@@ -15,5 +22,5 @@
 @code{
 
     NutritionistDto Nutritionist => CredentialState != null ? CredentialState.Value.NutritionistCredentials : new();
-
+    
 }
