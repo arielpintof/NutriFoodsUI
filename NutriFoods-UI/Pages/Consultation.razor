@@ -1,4 +1,7 @@
 ﻿@page "/consultation/{PatientId:guid}"
+@using NutriFoods_UI.Data
+@using NutriFoods_UI.Services
+@inject IPatientService PatientService
 
 <nav class="mb-6" aria-label="breadcrumb">
   <ol class="breadcrumb">
@@ -7,7 +10,9 @@
         Pacientes
       </a>
     </li>
-    <li class="breadcrumb-item active" aria-current="page" href="/user-dashboard">Perfil</li>
+    <li class="breadcrumb-item active" aria-current="page" href="/user-dashboard">Perfil de
+      @FirstWord(Names) @FirstWord(LastNames)
+    </li>
     <li class="breadcrumb-item active" aria-current="page">Nueva consulta</li>
   </ol>
 </nav>
@@ -16,4 +21,29 @@
 
 @code {
   [Parameter] public Guid PatientId { get; set; }
+
+  string Names { get; set; } = string.Empty;
+  string LastNames { get; set; } = string.Empty;
+
+  PatientDto Patient { get; set; } = new();
+
+  protected override async Task OnInitializedAsync()
+  {
+    var response = await PatientService.FindPatient(PatientId);
+
+    if (response != null)
+    {
+      var content = await response.Content.ReadFromJsonAsync<PatientDto>();
+      Patient = content!;
+      Names = FirstWord(Patient.PersonalInfo.Names);
+      LastNames = FirstWord(Patient.PersonalInfo.LastNames);
+    }
+  }
+
+  static string FirstWord(string name)
+  {
+    return new string(name.TakeWhile(c => !char.IsWhiteSpace(c)).ToArray());
+
+  }
+
 }
