@@ -8,8 +8,10 @@
 @using NutriFoods_UI.Data.Model
 @using NutriFoods_UI.Data.Store.LogIn
 @inject INutritionistService NutritionistService
+@inject IPatientService PatientService
 @inject IState<CredentialsState> Credentials
 @inject IDispatcher Dispatcher
+@inject NavigationManager Nav
 
 <MudPaper Class="d-flex flex-column px-10 py-5 gap-4" Elevation="0">
     <div class="d-flex flex-column gap-1">
@@ -29,6 +31,7 @@
                               Variant="Variant.Outlined"
                               T="string"
                               Margin="Margin.Dense"
+                              Required="true"
                               InputType="InputType.Text">
                 </MudTextField>
             </MudItem>
@@ -39,6 +42,7 @@
                               Variant="Variant.Outlined"
                               Margin="Margin.Dense"
                               T="string"
+                              Required="true"
                               InputType="InputType.Text">
                 </MudTextField>
             </MudItem>
@@ -49,6 +53,7 @@
                                    For="@(() => PersonalInfoModel.BiologicalSex)"
                                    Variant="Variant.Outlined"
                                    Margin="Margin.Dense"
+                                   Required="true"
                                    Label="Sexo biológico">
 
                 </MudSelectExtended>
@@ -60,6 +65,7 @@
                               Variant="Variant.Outlined"
                               Margin="Margin.Dense"
                               T="string"
+                              Required="true"
                               InputType="InputType.Date">
                 </MudTextField>
             </MudItem>
@@ -70,6 +76,7 @@
                               Variant="Variant.Outlined"
                               Margin="Margin.Dense"
                               T="string"
+                              Required="true"
                               InputType="InputType.Text">
 
                 </MudTextField>
@@ -90,6 +97,7 @@
                               Margin="Margin.Dense"
                               Variant="Variant.Outlined"
                               T="string"
+                              Required="true"
                               InputType="InputType.Text">
                 </MudTextField>
             </MudItem>
@@ -100,6 +108,7 @@
                               Margin="Margin.Dense"
                               Variant="Variant.Outlined"
                               T="int"
+                              Required="true"
                               InputType="InputType.Text">
                 </MudTextField>
             </MudItem>
@@ -109,7 +118,8 @@
                                    For="@(() => AddressModel.Province)"
                                    Variant="Variant.Outlined"
                                    Margin="Margin.Dense"
-                                   Label="Provincia">
+                                   Label="Provincia"
+                                   Required="true">
                     @foreach (var item in ProvincesCollection)
                     {
                         <MudSelectItemExtended Value="@item"></MudSelectItemExtended>
@@ -186,7 +196,9 @@
 @code {
 
     PersonalInfoDto PersonalInfoModel { get; set; } = new();
+    
     AddressDto AddressModel { get; set; } = new();
+    
     ContactInfoDto ContactInfoModel { get; set; } = new();
 
     static ICollection<string> BiologicalSexesCollection => IEnum<BiologicalSexes, BiologicalSexToken>
@@ -219,11 +231,13 @@
                     PersonalInfo = PersonalInfoModel,
                     ContactInfo = ContactInfoModel,
                     Address = AddressModel,
-                    Consultations = new List<Consultation>()
+                    Consultations = new List<ConsultationDto>()
                 });
 
             var content = await response!.Content.ReadFromJsonAsync<NutritionistDto>();
             Dispatcher.Dispatch(new UpdateNutritionistAction(content!));
+            var patientId = content!.Patients.FirstOrDefault()!.Id;
+            Nav.NavigateTo($"/patients/profile/{patientId}");
             
         }
     }
