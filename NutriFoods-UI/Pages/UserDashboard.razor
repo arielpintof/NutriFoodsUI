@@ -1,5 +1,11 @@
 ﻿@page "/user-dashboard"
-@page "/patients/profile/{PatientId:int}"
+@page "/patients/profile/{PatientId:guid}"
+@using NutriFoods_UI.Data
+@using NutriFoods_UI.Data.Dto
+@using NutriFoods_UI.Services
+@inject IPatientService PatientService
+
+
 
 <nav class="mb-4" aria-label="breadcrumb">
   <ol class="breadcrumb">
@@ -8,13 +14,33 @@
   </ol>
 </nav>
 
-<h2 class="mb-6 mt-10 ml-2 fw-bold">Perfil de Ariel Pinto</h2>
+@if (Consultations.Any())
+{
+  <h2 class="mb-6 mt-10 ml-2 fw-bold">Perfil de Ariel Pinto</h2>
 
-<TabNavegation></TabNavegation>
+  <TabNavegation></TabNavegation>
+}
+
+else
+{
+  <EmptyPatientData></EmptyPatientData>
+}
+
+
 
 @code {
     
   [Parameter]
-  public int PatientId { get; set; }
+  public Guid PatientId { get; set; }
+
+  public IEnumerable<ConsultationDto> Consultations { get; set; } = new List<ConsultationDto>();
+
+  protected override async Task OnInitializedAsync()
+  {
+    var response = await PatientService.FindConsultations(PatientId);
+    Consultations = await response.Content.ReadFromJsonAsync<IEnumerable<ConsultationDto>>();
+  }
+
+  
 }
 
