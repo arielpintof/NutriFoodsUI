@@ -1,7 +1,19 @@
 ﻿@page "/"
+@using Fluxor
+@using NutriFoods_UI.Data.Dto
+@using NutriFoods_UI.Data.Store.LogIn
+@inject IState<CredentialsState> CredentialState
+@inherits Fluxor.Blazor.Web.Components.FluxorComponent
 
-<PageTitle>Index</PageTitle>
+<h2>Credenciales</h2>
+<MudStack>
+    <span>Email: @Nutritionist.Email</span>
+    <span>Id: @Nutritionist.Id</span>
+</MudStack>
 
-<h1>Hello, world!</h1>
 
-Bienvenido a Nutrifoods!
+@code{
+
+    NutritionistDto Nutritionist => CredentialState != null ? CredentialState.Value.NutritionistCredentials : new();
+
+}
