@@ -36,7 +36,8 @@ builder.Services
 builder.Services.AddSingleton(new JsonSerializerSettings()
 {
     ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
-    ContractResolver = new CamelCasePropertyNamesContractResolver()
+    ContractResolver = new CamelCasePropertyNamesContractResolver(),
+    Formatting = Formatting.Indented
 });
 
 builder.Services.AddHttpClient<IIngredientService, IngredientService>(client =>
