@@ -2,20 +2,21 @@
 @page "/patients/profile/{PatientId:guid}"
 @using NutriFoods_UI.Data.Dto
 @using NutriFoods_UI.Services
+@using NutriFoods_UI.Data
 @inject IPatientService PatientService
 
 
 
 <nav class="mb-4" aria-label="breadcrumb">
   <ol class="breadcrumb">
-    <li class="breadcrumb-item "><a class="bi bi-arrow-left" href="/patients"> Pacientes</a></li>
-    <li class="breadcrumb-item active" aria-current="page">Perfil de Ariel Pinto</li>
+    <li class="breadcrumb-item "><a class="bi bi-arrow-left mr-1" href="/patients">Pacientes</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Perfil de @PatientName</li>
   </ol>
 </nav>
 
 @if (Consultations.Any())
 {
-  <h2 class="mb-6 mt-10 ml-2 fw-bold">Perfil de Ariel Pinto</h2>
+  <h2 class="mb-6 mt-10 ml-2 fw-bold">Perfil de @PatientName</h2>
 
   <TabNavegation></TabNavegation>
 }
@@ -31,12 +32,16 @@ else
   [Parameter]
   public Guid PatientId { get; set; }
 
-  public IEnumerable<ConsultationDto> Consultations { get; set; } = new List<ConsultationDto>();
+  [Parameter] public string PatientName { get; set; } = string.Empty;
+
+  List<ConsultationDto> Consultations { get; set; } = [];
 
   protected override async Task OnInitializedAsync()
   {
-    var response = await PatientService.FindConsultations(PatientId);
-    Consultations = await response.Content.ReadFromJsonAsync<IEnumerable<ConsultationDto>>();
+    var response = await PatientService.FindPatient(PatientId);
+    var content = await response!.Content.ReadFromJsonAsync<PatientDto>();
+    Consultations = content!.Consultations;
+    PatientName = new string(content.PersonalInfo!.Names.TakeWhile(c => !char.IsWhiteSpace(c)).ToArray());
   }
 
   
