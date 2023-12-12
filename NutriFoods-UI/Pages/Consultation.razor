@@ -1,0 +1,19 @@
+﻿@page "/consultation"
+
+<nav class="mb-6" aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="d-flex gap-1 breadcrumb-item ">
+      <a class="bi bi-arrow-left mr-1" href="/patients">
+        Pacientes
+      </a>
+    </li>
+    <li class="breadcrumb-item active" aria-current="page" href="/user-dashboard">Perfil de @PatientName</li>
+    <li class="breadcrumb-item active" aria-current="page">Nueva consulta</li>
+  </ol>
+</nav>
+
+<AddConsultation></AddConsultation>
+
+@code {
+  [Parameter] public string PatientName { get; set; } = "Ariel Pinto";
+}

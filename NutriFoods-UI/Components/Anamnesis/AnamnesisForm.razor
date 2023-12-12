@@ -25,7 +25,7 @@
             HeaderSize="_headerSize">
 
     <ChildContent>
-        <MudStep Icon="@Icons.Material.Filled.Settings"
+        <MudStep Icon="@Icons.Material.Filled.LocalHospital"
                  Title="Clínica"
                  StatusChanged="StatusChanged">
             <ChildContent>
@@ -36,7 +36,7 @@
         </MudStep>
 
         <MudStep Title="Alimentaria"
-                 Icon="@Icons.Material.Filled.FoodBank"
+                 Icon="@Icons.Custom.Uncategorized.FoodApple"
                  Optional="false">
             <ChildContent>
                 <FoodHistoryCollapseGroup></FoodHistoryCollapseGroup>
@@ -44,7 +44,7 @@
         </MudStep>
 
         <MudStep Title="Antropométrica"
-                 Icon="@Icons.Material.Filled.FoodBank"
+                 Icon="@Icons.Material.Filled.BarChart"
                  Optional="false">
             <ChildContent>
                 <AnthropometryForm></AnthropometryForm>
@@ -171,6 +171,7 @@
     }
 
 
+    [Obsolete("Obsolete")]
     private void StatusChanged(StepStatus status)
     {
         Snackbar.Add($"First step {status.ToDescriptionString()}.", Severity.Info);
