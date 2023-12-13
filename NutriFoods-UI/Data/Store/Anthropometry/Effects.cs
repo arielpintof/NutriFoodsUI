@@ -59,9 +59,10 @@ public class Effects(
         
     }
     
+    [EffectMethod]
     public async Task PostAlimentary(PostAlimentaryAction action, IDispatcher dispatcher)
     {
-        
+        Console.WriteLine("Por hacer la llamada...");
         var response = await patientService.AddNutritionalAnamnesis(
             action.PatientId, action.ConsultationId, new NutritionalAnamnesisDto
             {
