@@ -38,7 +38,7 @@ public class PatientService(HttpClient httpClient, JsonSerializerSettings settin
         var json = JsonConvert.SerializeObject(clinicalAnamnesisDto, settings);
         var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-        return await httpClient.PostAsync
+        return await httpClient.PutAsync
             ($"{patientId}/consultations/{consultationId}/clinical-anamnesis/", content);
     }
 
@@ -48,7 +48,7 @@ public class PatientService(HttpClient httpClient, JsonSerializerSettings settin
         var json = JsonConvert.SerializeObject(nutritionalAnamnesisDto, settings);
         var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-        return await httpClient.PostAsync(
+        return await httpClient.PutAsync(
             $"{patientId}/consultations/{consultationId}/nutritional-anamnesis/", content);
     }
 
@@ -58,7 +58,7 @@ public class PatientService(HttpClient httpClient, JsonSerializerSettings settin
         var json = JsonConvert.SerializeObject(anthropometryDto, settings);
         var content = new StringContent(json, Encoding.UTF8, "application/json");
         
-        return await httpClient.PostAsync(
+        return await httpClient.PutAsync(
             $"{patientId}/consultations/{consultationId}/anthropometry/", content);
     }
 }
