@@ -2,12 +2,7 @@
 
 namespace NutriFoods_UI.Data.Store.Medicines;
 
-public class DeleteMedicineAction
+public class DeleteMedicineAction(int index)
 {
-    public int Index { get; }
-
-    public DeleteMedicineAction(int index)
-    {
-        Index = index;
-    }
+    public int Index { get; } = index;
 }

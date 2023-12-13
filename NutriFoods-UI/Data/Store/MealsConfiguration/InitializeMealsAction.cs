@@ -1,6 +1,6 @@
 ﻿namespace NutriFoods_UI.Data.Store.MealsConfiguration;
 
-public class InitializeMealsAction
+public class InitializeMealsAction(List<MealConfiguration> meals)
 {
-    public MealConfiguration Meal { get; } = new();
+    public List<MealConfiguration> Meals { get; } = meals;
 }

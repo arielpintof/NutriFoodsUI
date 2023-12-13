@@ -1,6 +1,9 @@
 ﻿@using NutriFoods_UI.Utils.Enums
 @using NutriFoods_UI.Data.Store.MealsConfiguration
 @using Fluxor
+@inject IDispatcher Dispatcher
+@inherits Fluxor.Blazor.Web.Components.FluxorComponent
+@inject IState<MealsConfigurationState> MealState
 
 
 <div class="mb-4 my-3">
@@ -25,17 +28,48 @@
 
 @code {
     
-    private List<MealTypes> MealTypesCollection { get; set; } = new()
-    {
+    private List<MealTypes> MealTypesCollection { get; set; } =
+    [
         MealTypes.Breakfast,
         MealTypes.Lunch,
         MealTypes.Dinner
-    };
+    ];
+
+    protected override Task OnInitializedAsync()
+    {
+        var action = new List<MealConfiguration>
+        {
+            new MealConfiguration
+            {
+                MealType = MealTypes.Breakfast,
+                MealTime = new TimeSpan(),
+                Percentage = 0
+             
+            },
+            new MealConfiguration
+            {
+                MealType = MealTypes.Lunch,
+                MealTime = new TimeSpan(),
+                Percentage = 0
+             
+            },
+            new MealConfiguration
+            {
+                MealType = MealTypes.Dinner,
+                MealTime = new TimeSpan(),
+                Percentage = 0
+             
+            }
+        };
+
+        Dispatcher.Dispatch(new InitializeMealsAction(action));
+        
+        return base.OnInitializedAsync();
+    }
 
     private MealConfiguration CurrentMealConfiguration { get; set; } = new ();
 
-    [Inject]
-    private IState<MealsConfigurationState> MealState { get; set; } = null!;
+    
 
 
 

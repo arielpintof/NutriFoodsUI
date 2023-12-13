@@ -1,0 +1,245 @@
+﻿@using NutriFoods_UI.Data
+@using NutriFoods_UI.Data.Dto
+@using NutriFoods_UI.Data.Dto.Abridged
+@using NutriFoods_UI.Services
+@using NutriFoods_UI.Utils.Enums
+@using NutriFoods_UI.Utils.Validators.Patients
+@using Fluxor
+@using NutriFoods_UI.Data.Model
+@using NutriFoods_UI.Data.Store.LogIn
+@inject INutritionistService NutritionistService
+@inject IPatientService PatientService
+@inject IState<CredentialsState> Credentials
+@inject IDispatcher Dispatcher
+@inject NavigationManager Nav
+
+<MudPaper Class="d-flex flex-column px-10 py-5 gap-4" Elevation="0">
+    <div class="d-flex flex-column gap-1">
+        <div class="d-flex flex-column">
+            <h2 class="fw-bold">Añadir un paciente</h2>
+            <p class="fst-italic">Los campos obligatorios estan marcados con un asterisco (*)</p>
+        </div>
+        <MudDivider></MudDivider>
+    </div>
+    <MudForm Model="PersonalInfoModel" @ref="@PersonalForm" Validation="PersonalInfoValidator.ValidateValue">
+        <h3>Información personal</h3>
+        <MudGrid Class="mt-2" Spacing="2">
+            <MudItem xs="12" md="6">
+                <MudTextField @bind-Value="PersonalInfoModel.Names"
+                              For="@(() => PersonalInfoModel.Names)"
+                              Label="Nombres"
+                              Variant="Variant.Outlined"
+                              T="string"
+                              Margin="Margin.Dense"
+                              Required="true"
+                              InputType="InputType.Text">
+                </MudTextField>
+            </MudItem>
+            <MudItem xs="12" md="6">
+                <MudTextField @bind-Value="PersonalInfoModel.LastNames"
+                              For="@(() => PersonalInfoModel.LastNames)"
+                              Label="Apellidos"
+                              Variant="Variant.Outlined"
+                              Margin="Margin.Dense"
+                              T="string"
+                              Required="true"
+                              InputType="InputType.Text">
+                </MudTextField>
+            </MudItem>
+            <MudItem xs="12" md="6">
+                <MudSelectExtended T="string"
+                                   @bind-Value="PersonalInfoModel.BiologicalSex"
+                                   ItemCollection="BiologicalSexesCollection"
+                                   For="@(() => PersonalInfoModel.BiologicalSex)"
+                                   Variant="Variant.Outlined"
+                                   Margin="Margin.Dense"
+                                   Required="true"
+                                   Label="Sexo biológico">
+
+                </MudSelectExtended>
+            </MudItem>
+            <MudItem xs="12" md="6">
+                <MudTextField @bind-Value="PersonalInfoModel.Birthdate"
+                              For="@(() => PersonalInfoModel.Birthdate)"
+                              Label="Fecha de nacimiento"
+                              Variant="Variant.Outlined"
+                              Margin="Margin.Dense"
+                              T="string"
+                              Required="true"
+                              InputType="InputType.Date">
+                </MudTextField>
+            </MudItem>
+            <MudItem md="12">
+                <MudTextField @bind-Value="PersonalInfoModel.Rut"
+                              For="@(() => PersonalInfoModel.Rut)"
+                              Label="Rut"
+                              Variant="Variant.Outlined"
+                              Margin="Margin.Dense"
+                              T="string"
+                              Required="true"
+                              InputType="InputType.Text">
+
+                </MudTextField>
+            </MudItem>
+            <MudDivider></MudDivider>
+        </MudGrid>
+
+
+    </MudForm>
+
+    <MudForm Model="AddressModel" @ref="@AddressForm" Validation="AddressValidator.ValidateValue">
+        <h3>Dirección</h3>
+        <MudGrid Class="mt-2" Spacing="2">
+            <MudItem md="6" xs="12">
+                <MudTextField @bind-Value="AddressModel.Street"
+                              For="@(() => AddressModel.Street)"
+                              Label="Calle"
+                              Margin="Margin.Dense"
+                              Variant="Variant.Outlined"
+                              T="string"
+                              Required="true"
+                              InputType="InputType.Text">
+                </MudTextField>
+            </MudItem>
+            <MudItem md="6" xs="12">
+                <MudTextField @bind-Value="AddressModel.Number"
+                              For="@(() => AddressModel.Number)"
+                              Label="Número"
+                              Margin="Margin.Dense"
+                              Variant="Variant.Outlined"
+                              T="int"
+                              Required="true"
+                              InputType="InputType.Text">
+                </MudTextField>
+            </MudItem>
+            <MudItem md="6" xs="12">
+                <MudSelectExtended T="string"
+                                   @bind-Value="AddressModel.Province"
+                                   For="@(() => AddressModel.Province)"
+                                   Variant="Variant.Outlined"
+                                   Margin="Margin.Dense"
+                                   Label="Provincia"
+                                   Required="true">
+                    @foreach (var item in ProvincesCollection)
+                    {
+                        <MudSelectItemExtended Value="@item"></MudSelectItemExtended>
+                    }
+                </MudSelectExtended>
+            </MudItem>
+            <MudItem md="6" xs="12">
+                <MudTextField @bind-Value="AddressModel.PostalCode"
+                              For="@(() => AddressModel.PostalCode)"
+                              Label="Código postal"
+                              Variant="Variant.Outlined"
+                              Margin="Margin.Dense"
+                              T="int?"
+                              InputType="InputType.Number">
+                </MudTextField>
+            </MudItem>
+            <MudDivider></MudDivider>
+        </MudGrid>
+
+
+    </MudForm>
+
+    <MudForm Model="ContactInfoModel" @ref="ContactForm" Validation="ContactInfoValidator.ValidateValue">
+        <h3>Contacto</h3>
+        <MudGrid Class="mt-2" Spacing="2">
+            <MudItem md="12">
+                <MudTextField @bind-Value="ContactInfoModel.Email"
+                              For="@(() => ContactInfoModel.Email)"
+                              Label="E-mail"
+                              Variant="Variant.Outlined"
+                              T="string"
+                              Required="true"
+                              RequiredError="Ingrese un email"
+                              Margin="Margin.Dense"
+                              InputType="InputType.Email">
+                </MudTextField>
+            </MudItem>
+            <MudItem md="6" xs="12">
+                <MudTextField @bind-Value="ContactInfoModel.MobilePhone"
+                              For="@(() => ContactInfoModel.MobilePhone)"
+                              Label="Celular"
+                              Margin="Margin.Dense"
+                              Variant="Variant.Outlined"
+                              T="string"
+                              InputType="InputType.Text">
+                </MudTextField>
+            </MudItem>
+            <MudItem md="6" xs="12">
+                <MudTextField @bind-Value="ContactInfoModel.FixedPhone"
+                              For="@(() => ContactInfoModel.FixedPhone)"
+                              Label="Teléfono fijo"
+                              Margin="Margin.Dense"
+                              Variant="Variant.Outlined"
+                              T="string?"
+                              InputType="InputType.Text">
+                </MudTextField>
+            </MudItem>
+
+        </MudGrid>
+    </MudForm>
+    <div class="d-flex mt-3 justify-content-end">
+        <MudButton Class=""
+                   Variant="Variant.Filled"
+                   Color="Color.Primary"
+                   DisableElevation="true"
+                   Style="text-transform: none; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700;"
+                   OnClick="@Submit">
+            Añadir paciente
+        </MudButton>
+    </div>
+
+</MudPaper>
+
+@code {
+
+    PersonalInfoDto PersonalInfoModel { get; set; } = new();
+    
+    AddressDto AddressModel { get; set; } = new();
+    
+    ContactInfoDto ContactInfoModel { get; set; } = new();
+
+    static ICollection<string> BiologicalSexesCollection => IEnum<BiologicalSexes, BiologicalSexToken>
+        .TokenDictionary.Select(e => e.Value.ReadableName).Skip(1).ToList();
+
+    static IEnumerable<string> ProvincesCollection => IEnum<Provinces, ProvinceToken>
+        .TokenDictionary.Select(e => e.Value.ReadableName).Skip(1);
+
+    MudForm PersonalForm { get; set; } = new();
+
+    PersonalInfoValidator PersonalInfoValidator { get; } = new();
+
+    MudForm AddressForm { get; set; } = new();
+
+    AddressValidator AddressValidator { get; } = new();
+
+    MudForm ContactForm { get; set; } = new();
+
+    ContactInfoValidator ContactInfoValidator { get; } = new();
+
+    private async Task Submit()
+    {
+        await Task.WhenAll(PersonalForm.Validate(), AddressForm.Validate(), ContactForm.Validate());
+
+        if (PersonalForm.IsValid && AddressForm.IsValid && ContactForm.IsValid)
+        {
+            var response = await NutritionistService.AddPatient(
+                Credentials.Value.NutritionistCredentials.Id, new PatientDto
+                {
+                    PersonalInfo = PersonalInfoModel,
+                    ContactInfo = ContactInfoModel,
+                    Address = AddressModel,
+                    Consultations = new List<ConsultationDto>()
+                });
+
+            var content = await response!.Content.ReadFromJsonAsync<NutritionistDto>();
+            Dispatcher.Dispatch(new UpdateNutritionistAction(content!));
+            var patientId = content!.Patients.FirstOrDefault()!.Id;
+            Nav.NavigateTo($"/patients/profile/{patientId}");
+            
+        }
+    }
+
+}

@@ -2,6 +2,8 @@
 @using NutriFoods_UI.Data.Store.Vitamins
 @using NutriFoods_UI.Utils.Enums
 @using Fluxor
+@using NutriFoods_UI.Data.Dto
+@using NutriFoods_UI.Utils.Validators.Anamnesis
 @inject IDispatcher Dispatcher
 @inject IState<VitaminState> VitaminState 
 
@@ -12,7 +14,8 @@
             @ModeType.ReadableName vitamina
         </h5>
         <MudDivider Class="my-2"></MudDivider>
-        <MudForm Class="mt-5" Style="color: var(--grey-light)" Model="IngestibleModel">
+        <MudForm Class="mt-5" Style="color: var(--grey-light)" Model="IngestibleModel" Validation="IngestibleValidator.ValidateValue"
+                 @ref="VitaminsForm">
             <MudGrid>
                 <MudItem md="12" sm="12" xs="12">
                     <div class="d-flex align-content-center">
@@ -21,6 +24,7 @@
                                       Label="Nombre"
                                       Variant="Variant.Outlined"
                                       @bind-Value="IngestibleModel.Name"
+                                      For="@(() => IngestibleModel.Name)"
                                       Margin="Margin.Dense"
                                       Required="true"/>
                     </div>
@@ -28,6 +32,7 @@
 
                 <MudItem md="6" sm="6" xs="12">
                     <MudNumericField @bind-Value="IngestibleModel.Dosage"
+                                     For="@(() => IngestibleModel.Dosage)"
                                      Label="Dosis"
                                      Placeholder="Cantidad de la dosis"
                                      Margin="Margin.Dense"
@@ -45,7 +50,8 @@
                 </MudItem>
                 <MudItem md="12" sm="12" xs="12">
                     <MudSelect @bind-Value="IngestibleModel.Adherence"
-                               T="Frequencies"
+                               For="@(() => IngestibleModel.Adherence)"
+                               T="string"
                                Label="Adherencia"
                                Placeholder="Frecuencia de consumo"
                                AnchorOrigin="Origin.BottomCenter"
@@ -54,7 +60,7 @@
                                Required="true">
                         @foreach (var freq in Frequencies)
                         {
-                            <MudSelectItem Value="@freq">@freq.ReadableName</MudSelectItem>
+                            <MudSelectItem Value="@freq.ReadableName">@freq.ReadableName</MudSelectItem>
                         }
                     </MudSelect>
                 </MudItem>
@@ -88,7 +94,7 @@
 
 
                 <MudItem Class="d-flex gap-3" md="12" sm="12" xs="12">
-                    <MudTextField T="string" Text=" "
+                    <MudTextField T="string" Placeholder="Máximo 255 caracteres"
                                   Label="Observaciones"
                                   Variant="Variant.Outlined"
                                   Margin="Margin.Dense"/>
@@ -116,7 +122,11 @@
     [CascadingParameter]
     MudDialogInstance MudDialogInstance { get; set; } = null!;
 
-    Ingestible IngestibleModel { get; set; } = new();
+    IngestibleDto IngestibleModel { get; set; } = new();
+
+    MudForm VitaminsForm { get; set; } = new();
+
+    IngestibleValidator IngestibleValidator { get; set; } = new();
 
     [Parameter]
     public int Index { get; set; }
@@ -134,13 +144,17 @@
         return base.OnInitializedAsync();
     }
 
-    private void Submit()
+    async Task Submit()
     {
-        IngestibleModel.Type = IngestibleTypes.Vitamin;
-        <!-- Cambiado de Supplement a Vitamin -->
-        Dispatcher.Dispatch(new AddVitaminAction(IngestibleModel));
-        <!-- Cambiado de AddSupplementAction a AddVitaminAction -->
-        MudDialogInstance.Close(DialogResult.Ok(true));
+        await VitaminsForm.Validate();
+        if (VitaminsForm.IsValid)
+        {
+            IngestibleModel.Type = IEnum<IngestibleTypes, IngestibleToken>
+                .ToReadableName(IngestibleToken.Vitamin);
+            Dispatcher.Dispatch(new AddVitaminAction(IngestibleModel));
+            MudDialogInstance.Close(DialogResult.Ok(true));
+        }
+        
     }
 
 

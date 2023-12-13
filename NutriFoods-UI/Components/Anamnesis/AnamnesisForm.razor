@@ -1,20 +1,25 @@
 ﻿@page "/anamnesis"
+@page "/anamnesis/{PatientId:guid}/{ConsultationId:guid}"
 @using MudExtensions.Enums
 @using MudExtensions.Utilities
 @using MudBlazor.Extensions
+@using Fluxor
+@using NutriFoods_UI.Data.Store.Anthropometry
 @inject ISnackbar Snackbar
+@inject NavigationManager Nav
+@inject IDispatcher Dispatcher
 
 <MudStepper @ref="_stepper"
             Class="mud-width-full my-4 px-4"
             ContentStyle="min-height: 400px"
             Linear="false"
-            Vertical="_vertical"
+            Vertical="false"
             Color="_color"
             Variant="_variant"
-            DisableAnimation="_disableAnimation"
-            DisablePreviousButton="_disablePreviousButton"
-            DisableNextButton="_disableNextButton"
-            DisableSkipButton="_disableSkipButton"
+            DisableAnimation="false"
+            DisablePreviousButton="false"
+            DisableNextButton="false"
+            DisableSkipButton="true"
             DisableStepResultIndicator="_disableStepResultIndicator"
             HeaderBadgeView="HeaderBadgeView.All"
             HeaderTextView="HeaderTextView.All"
@@ -25,18 +30,18 @@
             HeaderSize="_headerSize">
 
     <ChildContent>
-        <MudStep Icon="@Icons.Material.Filled.Settings"
+        <MudStep Icon="@Icons.Material.Filled.LocalHospital"
                  Title="Clínica"
                  StatusChanged="StatusChanged">
             <ChildContent>
-                
+
                 <ClinicalCollapseGroup></ClinicalCollapseGroup>
-                
+
             </ChildContent>
         </MudStep>
 
         <MudStep Title="Alimentaria"
-                 Icon="@Icons.Material.Filled.FoodBank"
+                 Icon="@Icons.Custom.Uncategorized.FoodApple"
                  Optional="false">
             <ChildContent>
                 <FoodHistoryCollapseGroup></FoodHistoryCollapseGroup>
@@ -44,7 +49,7 @@
         </MudStep>
 
         <MudStep Title="Antropométrica"
-                 Icon="@Icons.Material.Filled.FoodBank"
+                 Icon="@Icons.Material.Filled.BarChart"
                  Optional="false">
             <ChildContent>
                 <AnthropometryForm></AnthropometryForm>
@@ -62,20 +67,26 @@
 
         @if (_addResultStep)
         {
+            
             <MudStep Icon="@Icons.Material.Filled.Alarm" Title="Result Step" IsResultStep="true">
                 <ChildContent>
-                    <div class="d-flex flex-column align-center justify-center" style="height: 200px">
+                    <div class="d-flex flex-column align-center justify-center gap-2" style="height: 200px">
                         <MudIconButton Icon="@Icons.Material.Filled.DoneAll" Size="Size.Large" Variant="Variant.Filled" Color="Color.Success"/>
-                        <MudText>El plan alimenticio ha sido guardado</MudText>
+                        <MudText>La anamnesis ha sido completada con éxito</MudText>
+                        <MudButton Variant="Variant.Outlined"
+                                   Color="Color.Primary"
+                                   OnClick="@BackToConsultation"
+                                   Style="text-transform: none; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700;">
+                            Volver a la consulta
+                        </MudButton>
                     </div>
                 </ChildContent>
             </MudStep>
         }
     </ChildContent>
     <ActionContent>
-        @if (!_stepper.IsAllStepsCompleted() && _showCustomButton)
+        @if (_stepper.IsAllStepsCompleted())
         {
-            <MudButton Color="Color.Secondary" Variant="_variant" OnClick="@(() => Snackbar.Add("Custom cancel button clicked.", Severity.Info))">Cancel</MudButton>
         }
         <MudSpacer/>
     </ActionContent>
@@ -85,23 +96,29 @@
 
 
 @code {
-   
+
+    [Parameter] public Guid PatientId { get; set; }
+
+    [Parameter] public Guid ConsultationId { get; set; }
+
     private MudStepper _stepper = null!;
+
     private bool _checkValidationBeforeComplete = true;
+
     public bool IconActionButtons;
+
     private Variant _variant = Variant.Filled;
-   
-    private readonly bool _disableAnimation = false;
-    private readonly bool _disablePreviousButton = false;
-    private bool _disableNextButton = false;
-    private bool _disableSkipButton = true;
-    private bool _disableStepResultIndicator = false;
+
+    private bool _disableStepResultIndicator = true;
+
     private bool _addResultStep = true;
+
     private bool _customLocalization = true;
+
     private Color _color = Color.Primary;
+
     bool _loading;
-    private bool _showCustomButton = false;
-    private bool _vertical = false;
+
     private Size _headerSize = Size.Medium;
 
     private async Task<bool> CheckChange(StepChangeDirection direction)
@@ -150,17 +167,12 @@
                 await Task.Delay(1000);
                 _loading = false;
                 StateHasChanged();
+                Submit();
 
                 return false;
             }
             else
             {
-                _loading = true;
-                StateHasChanged();
-                await Task.Delay(1000);
-                _loading = false;
-                StateHasChanged();
-
                 return false;
             }
         }
@@ -195,6 +207,21 @@
                 Skipped = "Omitido",
             };
         }
+    }
+
+    void BackToConsultation()
+    {
+        Nav.NavigateTo($"/consultation/{PatientId}?anamnesiscompleted=true");
+    }
+
+    string Submit()
+    {
+        Dispatcher.Dispatch(new PostAnthropometryAction(ConsultationId, PatientId));
+        Console.WriteLine("Por despachar...");
+        Dispatcher.Dispatch(new PostAlimentaryAction(ConsultationId, PatientId));
+        Console.WriteLine("Despachado...");
+        Dispatcher.Dispatch(new PostClinicalAction(ConsultationId, PatientId));
+        return "";
     }
 
 }

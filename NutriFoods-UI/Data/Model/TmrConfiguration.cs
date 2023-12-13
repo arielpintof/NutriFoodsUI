@@ -11,6 +11,6 @@ public class TmrConfiguration
     public int Height { get; set;}
     public double Multiplier { get; set; } = 1.3;
 
-    public int PhysicalActivityLevel { get; set; }
+    public string PhysicalActivityLevel { get; set; } = string.Empty;
     public double Factor { get; set; } = 0.1;
 }

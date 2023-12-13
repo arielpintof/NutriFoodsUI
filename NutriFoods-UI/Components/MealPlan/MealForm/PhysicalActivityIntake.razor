@@ -4,6 +4,7 @@
 @using Fluxor
 @inject IState<TmrState> TmrState
 @inject IDispatcher Dispatcher
+@inherits Fluxor.Blazor.Web.Components.FluxorComponent
 
 <MudForm Model="TmrConfigurationModel" @bind-IsValid="@IsValidHandler">
     <MudGrid>
@@ -53,6 +54,16 @@
                              AdornmentColor="Color.Primary"
                              T="double"/>
         </MudItem>
+        <MudDivider></MudDivider>
+        <MudItem xs="12" sm="12" md="4">
+            <CollapseSubtitle Title="Energía total recomendada"/>
+        </MudItem>
+        <MudItem xs="12" sm="12" md="8" Class="align-items-center">
+            @if (!TmrState.Value.TmrConfiguration.PhysicalActivityLevel.Equals(string.Empty))
+            {
+                <span>@((int)TmrState.Value.GetTmr) kcal</span>
+            }
+        </MudItem>
     </MudGrid>
 </MudForm>
 
@@ -95,7 +106,7 @@
             Height = 173,
             Multiplier = TmrConfigurationModel.Multiplier,
             Factor = TmrConfigurationModel.Factor,
-            PhysicalActivityLevel = PhysicalActivityHandler!.Value
+            PhysicalActivityLevel = PhysicalActivityHandler!.ReadableName
         });
 
         Dispatcher.Dispatch(action);

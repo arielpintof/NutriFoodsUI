@@ -6,7 +6,7 @@ using NutriFoods_UI.Utils.Enums;
 
 namespace NutriFoods_UI.Services;
 
-public class DailyMealPlanService(HttpClient httpClient) : IDailyMealPlanService
+public class DailyMealPlanService(HttpClient httpClient, JsonSerializerSettings settings) : IDailyMealPlanService
 {
     public async Task<HttpResponseMessage?> GenerateDailyMealPlan(int day, double basalMetabolicRate, 
         int activityLevel, double activityFactor, PlanConfiguration planConfiguration, 
@@ -18,6 +18,16 @@ public class DailyMealPlanService(HttpClient httpClient) : IDailyMealPlanService
 
         return await httpClient.PostAsync(
             $"/api/v1/daily-plans/by-distribution?day={day}&basalMetabolicRate={basalMetabolicRate}&activityLevel={activityLevel}&activityFactor={activityFactor}&adjustmentFactor={adjustmentFactor}", content);
+    }
+
+    public async Task<HttpResponseMessage?> DailyPlanByDistribution(PlanConfiguration planConfiguration)
+    {
+        var jsonBody = JsonConvert.SerializeObject(planConfiguration, settings);
+        
+        Console.WriteLine("JSON being sent:\n" + jsonBody);
+        var content = new StringContent(jsonBody, Encoding.UTF8, "application/json");
+
+        return await httpClient.PostAsync("/distribution", content);
     }
     
 }

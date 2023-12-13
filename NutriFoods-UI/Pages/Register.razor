@@ -1,0 +1,66 @@
+﻿@layout LoginLayout
+
+@page "/register"
+
+<section>
+    <div class="container @(_isFormActive ? "active" : "")">
+        <div class="user signinBx">
+            <div class="formBx">
+                <MudForm>
+                    <h2>Crear una cuenta</h2>
+                    <div class="d-flex flex-column gap-3">
+                        <MudTextField T="string" Label="E-mail"
+                                      Required="true"
+                                      Variant="Variant.Outlined"
+                                      RequiredError="Password is required!"/>
+
+                        <MudTextField T="string" Label="Nombre de usuario"
+                                      Required="true"
+                                      Variant="Variant.Outlined"
+                                      RequiredError="Password is required!"/>
+                        <MudTextField T="string" Label="Contraseña"
+                                      InputType="InputType.Password"
+                                      Required="true"
+                                      Variant="Variant.Outlined"
+                                      RequiredError="Password is required!"/>
+                    </div>
+                    <input type="submit" name="" value="Siguiente"/>
+                    <p class="signup">
+                        Don't have an account ?
+                        <MudButton Variant="Variant.Text" @onclick="ToggleForm">Sign Up</MudButton>
+                    </p>
+                </MudForm>
+            </div>
+        </div>
+        <div class="user signupBx">
+            <div class="formBx">
+                <form action="" onsubmit="return false;">
+                    <h2>Create an account</h2>
+                    <input type="text" name="" placeholder="Username"/>
+                    <input type="email" name="" placeholder="Email Address"/>
+                    <input type="password" name="" placeholder="Create Password"/>
+                    <input type="password" name="" placeholder="Confirm Password"/>
+                    <input type="submit" name="" value="Sign Up"/>
+                    <p class="signup">
+                        Already have an account ?
+                        <MudButton Variant="Variant.Text" @onclick="ToggleForm">Sign in.</MudButton>
+                    </p>
+                </form>
+            </div>
+            <div class="imgBx">
+                <img src="https://raw.githubusercontent.com/WoojinFive/CSS_Playground/master/Responsive%20Login%20and%20Registration%20Form/img2.jpg" alt=""/>
+            </div>
+        </div>
+    </div>
+</section>
+
+@code {
+
+    bool _isFormActive = false;
+
+    void ToggleForm()
+    {
+        _isFormActive = !_isFormActive;
+    }
+
+}

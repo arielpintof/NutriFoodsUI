@@ -10,6 +10,7 @@
     <ItemGroup>
         <PackageReference Include="Ardalis.SmartEnum" Version="7.0.0" />
         <PackageReference Include="CodeBeam.MudBlazor.Extensions" Version="6.6.0" />
+        <PackageReference Include="FluentValidation" Version="11.8.1" />
         <PackageReference Include="Fluxor.Blazor.Web" Version="5.9.1" />
         <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="8.0.0" />
         <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="8.0.0" PrivateAssets="all" />
@@ -33,6 +34,10 @@
       <_ContentIncludedByDefault Remove="Components\Atoms\PrimaryButton.razor" />
       <_ContentIncludedByDefault Remove="Components\MealPlan\Steps\ProgressBar.razor" />
       <_ContentIncludedByDefault Remove="Components\MealPlan\Steps\StepChip.razor" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Components\Patients\" />
     </ItemGroup>
 
 </Project>

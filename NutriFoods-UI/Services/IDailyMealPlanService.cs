@@ -9,4 +9,6 @@ public interface IDailyMealPlanService
     Task<HttpResponseMessage?> GenerateDailyMealPlan(int day, double basalMetabolicRate, 
         int activityLevel, double activityFactor, PlanConfiguration planConfiguration, 
         double adjustmentFactor = 1e-1);
+
+    Task<HttpResponseMessage?> DailyPlanByDistribution(PlanConfiguration configuration);
 }

@@ -1,6 +1,4 @@
-﻿@page "/dashboard"
-
-<MudTabs Class="d-flex tabs-container"
+﻿<MudTabs Class="d-flex tabs-container"
          Elevation="0"
          Outlined="true"
          Rounded="true"
@@ -42,6 +40,8 @@
 
 
 @code {
+    [Parameter]
+    public int PatientId { get; set; }
     //Modelo de usuario
 }
 

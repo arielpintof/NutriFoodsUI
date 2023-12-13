@@ -1,9 +1,10 @@
-﻿@page "/form"
+﻿@page "/generate/mealplan"
 
 @inject ISnackbar Snackbar
 @using MudExtensions.Enums
 @using MudExtensions.Utilities
 @using Fluxor
+@using MudBlazor.Extensions
 @using NutriFoods_UI.Data.Store.MicronutrientConfiguration
 @inject IState<MicronutrientState> MicroNutrientState;
 
@@ -31,7 +32,7 @@
 
     <ChildContent>
         
-        <MudStep Icon="@Icons.Material.Filled.Settings"
+        <MudStep Icon="@Icons.Material.Filled.Whatshot"
                          Title="Energía calórica"
                          StatusChanged="StatusChanged">
                     <ChildContent>
@@ -145,10 +146,11 @@
             return false;
         }
     }
-
+    
+    
     private void StatusChanged(StepStatus status)
     {
-    //Snackbar.Add($"First step {status.ToDescriptionString()}.", Severity.Info);
+        Snackbar.Add($"First step {status.ToDescriptionString()}.", Severity.Info);
     }
 
     private StepperLocalizedStrings GetLocalizedStrings()

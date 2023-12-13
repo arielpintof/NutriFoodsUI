@@ -1,4 +1,5 @@
 ﻿using Fluxor;
+using NutriFoods_UI.Data.Dto;
 using NutriFoods_UI.Data.Model;
 
 namespace NutriFoods_UI.Data.Store.Vitamins;
@@ -7,12 +8,12 @@ namespace NutriFoods_UI.Data.Store.Vitamins;
 public class VitaminState
 {
     public bool Initialized { get; }
-    public IEnumerable<Ingestible>? Vitamins { get; } = new List<Ingestible>();
+    public IEnumerable<IngestibleDto> Vitamins { get; } = new List<IngestibleDto>();
     public bool StateIsValid { get; }
 
     public VitaminState(){}
 
-    public VitaminState(IEnumerable<Ingestible> vitamins, bool initialized = true , bool stateIsValid = true)
+    public VitaminState(IEnumerable<IngestibleDto> vitamins, bool initialized = true , bool stateIsValid = true)
     {
         Initialized = initialized;
         Vitamins = vitamins;

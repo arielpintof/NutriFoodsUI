@@ -1,47 +1,57 @@
-﻿@page "/login"
+﻿@layout LoginLayout
+@page "/login"
+@using Fluxor
+@using NutriFoods_UI.Data.Store.LogIn
+@inject IDispatcher Dispatcher
+@inject NavigationManager Nav
 
-<section Class="MainContainer">
-    <section class="LoginContainer">
-        <section class="CompanyContainer">
 
-        </section>
+<section Class="MainContainer ">
+    <section class="LoginContainer border rounded-3">
         <section class="LoginHeaderContainer">
             <div class="LoginHeaderTitle">
                 Iniciar Sesión
             </div>
-            <div class="LoginHeaderSubTitle">
+            <div class="LoginHeaderSubTitle mt-2">
                 Bienvenido a <b>Nutrifoods!</b> Indica tus datos para iniciar sesión
             </div>
         </section>
-        <section class="FormContainer">
-            <div class="d-flex flex-column gap-3">
-                <MudTextField InputType="InputType.Email"
-                              Variant="Variant.Outlined"
-                              Label="Normal"
-                              T="string">
-                </MudTextField>
-                <MudTextField T="string" Label="Password"
-                              InputType="InputType.Password"
-                              Required="true"
-                              Variant="Variant.Outlined"
-                              RequiredError="Password is required!"/>
-            </div>
+        <MudForm>
+            <section class="FormContainer">
+                <div class="d-flex flex-column gap-3">
+                    <MudTextFieldExtended T="string"
+                                          Label="E-mail"
+                                          Variant="Variant.Outlined"
+                                          Margin="Margin.Normal"
+                                          @bind-Value="Email"
+                                          Required="true"
+                                          RequiredError="Email is required!">
+                    </MudTextFieldExtended>
+                    <MudTextField T="string" Label="Password"
+                                  InputType="InputType.Password"
+                                  Required="true"
+                                  Variant="Variant.Outlined"
+                                  RequiredError="Password is required!"
+                                  @bind-Value="Password"/>
+                </div>
 
-            <div class="InputContainer RememberForgotContainer">
-                <div class="flex-row align-items-center">
-                    <input type="checkbox" class="CheckboxInput align-self-center">
-                    <label style="padding-left: 5px;">
-                        <b>Recordar contraseña</b>
-                    </label>
+
+                <div class="InputContainer RememberForgotContainer">
+                    <div class="remember-box">
+                        <input type="checkbox" class="CheckboxInput">
+                        <label style="padding-left: 5px;">
+                            <b>Recordar contraseña</b>
+                        </label>
+                    </div>
+                    <div class="ForgotPasswordContainer">
+                        <a>¿Olvidaste tu contraseña?</a>
+                    </div>
                 </div>
-                <div class="ForgotPasswordContainer">
-                    <a>¿Olvidaste tu contraseña?</a>
-                </div>
-            </div>
-        </section>
+            </section>
+        </MudForm>
         <section class="ButtonsContainer">
             <div class="SignInButtonContainer">
-                <button class="SigninButton">Iniciar Sesión</button>
+                <button class="SigninButton" @onclick="Submit">Iniciar Sesión</button>
             </div>
         </section>
         <section class="FooterContainer">
@@ -51,5 +61,13 @@
 </section>
 
 @code {
+    string Email { get; set; } = null!;
+    string Password { get; set; } = null!;
+
+    void Submit()
+    {
+        Dispatcher.Dispatch(new LoadCredentialsAction(Email, Password));
+        Nav.NavigateTo("/");
+    }
 
 }

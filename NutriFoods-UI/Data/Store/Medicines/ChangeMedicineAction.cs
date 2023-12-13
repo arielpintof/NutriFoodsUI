@@ -1,15 +1,10 @@
-﻿using NutriFoods_UI.Data.Model;
+﻿using NutriFoods_UI.Data.Dto;
+using NutriFoods_UI.Data.Model;
 
 namespace NutriFoods_UI.Data.Store.Medicines;
 
-public class ChangeMedicineAction
+public class ChangeMedicineAction(int index, IngestibleDto ingestible)
 {
-    public int Index { get; }
-    public Ingestible Ingestible { get; }
-
-    public ChangeMedicineAction(int index, Ingestible ingestible)
-    {
-        Index = index;
-        Ingestible = ingestible;
-    }
+    public int Index { get; } = index;
+    public IngestibleDto Ingestible { get; } = ingestible;
 }
