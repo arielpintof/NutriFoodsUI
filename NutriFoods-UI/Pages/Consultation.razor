@@ -17,10 +17,17 @@
   </ol>
 </nav>
 
-<AddConsultation PatientId="PatientId"></AddConsultation>
+<AddConsultation PatientId="PatientId"
+                 AnamnesisCompleted="AnamnesisCompleted"
+                 MealCompleted="MealPlanCompleted">
+</AddConsultation>
 
 @code {
   [Parameter] public Guid PatientId { get; set; }
+
+  [SupplyParameterFromQuery] public bool? AnamnesisCompleted { get; set; } = new bool();
+
+  [SupplyParameterFromQuery] public bool? MealPlanCompleted { get; set; } = new bool();
 
   string Names { get; set; } = string.Empty;
   string LastNames { get; set; } = string.Empty;
