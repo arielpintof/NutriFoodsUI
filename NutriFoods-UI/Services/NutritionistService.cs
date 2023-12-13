@@ -25,7 +25,11 @@ public class NutritionistService(HttpClient httpClient, JsonSerializerSettings s
     public async Task<HttpResponseMessage?> AddPatient(Guid nutritionistId, PatientDto patientDto)
     {
         var json = JsonConvert.SerializeObject(patientDto, settings);
+        
+        Console.WriteLine("JSON being sent:\n" + json);
+        
         var content = new StringContent(json, Encoding.UTF8, "application/json");
+        
         return await httpClient.PostAsync($"nutritionist/{nutritionistId}/patient/", content);
     }
 }

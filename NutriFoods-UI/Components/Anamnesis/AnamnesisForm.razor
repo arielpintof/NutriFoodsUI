@@ -87,7 +87,6 @@
     <ActionContent>
         @if (_stepper.IsAllStepsCompleted())
         {
-            @Submit();
         }
         <MudSpacer/>
     </ActionContent>
@@ -110,7 +109,7 @@
 
     private Variant _variant = Variant.Filled;
 
-    private bool _disableStepResultIndicator = false;
+    private bool _disableStepResultIndicator = true;
 
     private bool _addResultStep = true;
 
@@ -119,8 +118,6 @@
     private Color _color = Color.Primary;
 
     bool _loading;
-
-    private bool _showCustomButton = false;
 
     private Size _headerSize = Size.Medium;
 
@@ -170,6 +167,7 @@
                 await Task.Delay(1000);
                 _loading = false;
                 StateHasChanged();
+                Submit();
 
                 return false;
             }
@@ -219,7 +217,9 @@
     string Submit()
     {
         Dispatcher.Dispatch(new PostAnthropometryAction(ConsultationId, PatientId));
+        Console.WriteLine("Por despachar...");
         Dispatcher.Dispatch(new PostAlimentaryAction(ConsultationId, PatientId));
+        Console.WriteLine("Despachado...");
         Dispatcher.Dispatch(new PostClinicalAction(ConsultationId, PatientId));
         return "";
     }

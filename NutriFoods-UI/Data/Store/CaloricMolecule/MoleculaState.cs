@@ -1,4 +1,5 @@
 ﻿using Fluxor;
+using MudBlazor;
 using NutriFoods_UI.Utils.Enums;
 
 
@@ -8,13 +9,13 @@ namespace NutriFoods_UI.Data.Store;
 [FeatureState]
 public class MoleculaState
 {
-    public int CarbTarget { get; }
-    public int ProteinTarget { get; }
-    public int LipidTarget { get; }
+    public double CarbTarget { get; }
+    public double ProteinTarget { get; }
+    public double LipidTarget { get; }
     
     public MoleculaState(){}
     
-    public MoleculaState(int carbs, int proteins, int lipids)
+    public MoleculaState(double carbs, double proteins, double lipids)
     {
         CarbTarget = carbs;
         ProteinTarget = proteins;
@@ -27,25 +28,22 @@ public class MoleculaState
 
 public static class MoleculaStateExtension
 {
-    public static Dictionary<string, double> Distribution(this MoleculaState moleculaState, double totalEnergy)
+    public static IDictionary<string, double> GetDistribution(this MoleculaState moleculaState, double totalEnergy)
     {
         
-        var carbPercentage = moleculaState.CarbTarget * 0.01;
-        var proteinPercentage = moleculaState.ProteinTarget * 0.01;
-        var lipidPercentage = moleculaState.LipidTarget * 0.01;
-        
-        var carbValue = carbPercentage * totalEnergy;
-        var proteinValue = proteinPercentage * totalEnergy;
-        var lipidValue = lipidPercentage * totalEnergy;
-        
-        var nutrientDictionary = new Dictionary<string, double>
-        {
-            { IEnum<Nutrients, NutrientToken>.ToReadableName(NutrientToken.Carbohydrates), carbValue },
-            { IEnum<Nutrients, NutrientToken>.ToReadableName(NutrientToken.Proteins), proteinValue },
-            { IEnum<Nutrients, NutrientToken>.ToReadableName(NutrientToken.FattyAcids), lipidValue }
-        };
+        Console.WriteLine($"Targets: [{moleculaState.CarbTarget}, {moleculaState.LipidTarget}, {moleculaState.ProteinTarget}]");
+        var nutrientsDict = NutrientExtensions.GramsDistributionDict(
+                totalEnergy, moleculaState.CarbTarget * 0.01, moleculaState.LipidTarget  * 0.01, 
+                moleculaState.ProteinTarget  * 0.01);
 
-        return nutrientDictionary;
+        var newDict = nutrientsDict
+            .ToDictionary(nutrient => nutrient.Key.ReadableName, nutrient => nutrient.Value);
+
+        foreach (var item in newDict)
+        {
+            Console.WriteLine($"Macro: {item.Key}, gramos: {item.Value}");
+        }
+        return newDict;
     }
     
 }

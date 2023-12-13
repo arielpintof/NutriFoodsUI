@@ -3,6 +3,7 @@
 @using Fluxor
 @using MudExtensions.Enums
 @inject IState<MealsConfigurationState> MealState
+@inherits Fluxor.Blazor.Web.Components.FluxorComponent
 @inject IDispatcher Dispatcher
 
 
@@ -65,6 +66,7 @@
         {
             if (_percentage == value) return;
             _percentage = value;
+            Console.WriteLine($"Nuevo porcentaje: {_percentage}, Index: {Index}");
             UpdateMealConfiguration();
         }
     }

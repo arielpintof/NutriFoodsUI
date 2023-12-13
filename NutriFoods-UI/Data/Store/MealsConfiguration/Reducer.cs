@@ -4,8 +4,17 @@ namespace NutriFoods_UI.Data.Store.MealsConfiguration;
 public class Reducer
 {
     [ReducerMethod]
-    public static MealsConfigurationState ReduceMealsConfigurationState(MealsConfigurationState state, MealsConfigurationAction action)
+    public static MealsConfigurationState ChangeMealConfigurationState(MealsConfigurationState state, MealsConfigurationAction action)
     {
-        return new MealsConfigurationState();
+        var updatedList = state.Meals;
+        updatedList[action.Position] = action.Meal;
+        
+        return new MealsConfigurationState(updatedList);
+    }
+    
+    [ReducerMethod]
+    public static MealsConfigurationState InitializeMealConfiguration(MealsConfigurationState state, InitializeMealsAction action)
+    {
+        return new MealsConfigurationState(action.Meals);
     }
 }

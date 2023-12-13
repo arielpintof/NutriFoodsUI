@@ -29,6 +29,7 @@ public class Effects(
     IState<AdverseFoodReactionState> adverse,
     IPatientService patientService)
 {
+    
     [EffectMethod]
     public async Task PostAnthropometry(PostAnthropometryAction action, IDispatcher dispatcher)
     {

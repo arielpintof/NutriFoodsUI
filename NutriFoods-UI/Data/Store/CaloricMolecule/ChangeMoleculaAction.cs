@@ -2,8 +2,8 @@
 
 namespace NutriFoods_UI.Data.Store;
 
-public class ChangeMoleculaAction(int newValue, Nutrients macro)
+public class ChangeMoleculaAction(double newValue, Nutrients macro)
 {
-    public int NewValue { get; } = newValue;
+    public double NewValue { get; } = newValue;
     public Nutrients Macro { get; } = macro;
 }
