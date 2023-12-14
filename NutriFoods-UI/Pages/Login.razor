@@ -19,20 +19,29 @@
         <MudForm>
             <section class="FormContainer">
                 <div class="d-flex flex-column gap-3">
-                    <MudTextFieldExtended T="string"
-                                          Label="E-mail"
+                    <MudGrid Spacing="2">
+                        <MudItem xs="12" sm="12">
+                            <MudText Align="Align.Left">Email</MudText>
+                            <MudTextField T="string" Class=""
                                           Variant="Variant.Outlined"
-                                          Margin="Margin.Normal"
                                           @bind-Value="Email"
                                           Required="true"
+                                          InputType="InputType.Email"
                                           RequiredError="Email is required!">
-                    </MudTextFieldExtended>
-                    <MudTextField T="string" Label="Password"
-                                  InputType="InputType.Password"
-                                  Required="true"
-                                  Variant="Variant.Outlined"
-                                  RequiredError="Password is required!"
-                                  @bind-Value="Password"/>
+                            </MudTextField>
+                        </MudItem>
+                        <MudItem xs="12" sm="12">
+                            <MudText Align="Align.Left">Contraseña</MudText>
+                            <MudTextField T="string"
+                                          InputType="InputType.Password"
+                                          Required="true"
+                                          Variant="Variant.Outlined"
+                                          RequiredError="Password is required!"
+                                          @bind-Value="Password"/>
+                        </MudItem>
+                    </MudGrid>
+
+
                 </div>
 
 
@@ -51,7 +60,7 @@
         </MudForm>
         <section class="ButtonsContainer">
             <div class="SignInButtonContainer">
-                <button class="SigninButton" @onclick="Submit">Iniciar Sesión</button>
+                <MudButton class="SigninButton" @onclick="Submit">Iniciar Sesión</MudButton>
             </div>
         </section>
         <section class="FooterContainer">
@@ -61,13 +70,12 @@
 </section>
 
 @code {
-    string Email { get; set; } = null!;
-    string Password { get; set; } = null!;
+    string Email { get; set; } = string.Empty;
+    string Password { get; set; } = string.Empty;
 
     void Submit()
     {
         Dispatcher.Dispatch(new LoadCredentialsAction(Email, Password));
-        Nav.NavigateTo("/");
     }
 
 }
