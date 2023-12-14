@@ -6,9 +6,9 @@ namespace NutriFoods_UI.Data.Store.DailyMeal;
 public class DailyMealState
 {
     public IEnumerable<DailyMenuDto> DailyMenu { get; } = new List<DailyMenuDto>();
-    public bool Initialized { get; } = false;
-    
-    public IEnumerable<bool> MealLoading { get; set; } 
+    public bool Initialized { get; }
+
+    public IEnumerable<bool> MealLoading { get; set; } = [];
     
     public DailyMealState(){}
 
