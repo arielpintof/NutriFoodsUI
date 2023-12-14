@@ -1,0 +1,1342 @@
+﻿{
+  "day": "Lunes",
+  "physicalActivityLevel": "Activo",
+  "physicalActivityFactor": 1.3,
+  "adjustmentFactor": 0.1,
+  "nutrients": null,
+  "targets": null,
+  "menus": [
+    {
+      "intakePercentage": 0.3,
+      "mealType": "Desayuno",
+      "hour": "08:00",
+      "nutrients": null,
+      "targets": [
+        {
+          "nutrient": "Energía, total",
+          "expectedQuantity": 892.15698,
+          "actualQuantity": 881.1098333333333,
+          "expectedError": 0.1,
+          "actualError": 0.0125,
+          "unit": "KCal",
+          "thresholdType": "Lo más exacto posible",
+          "isPriority": true
+        },
+        {
+          "nutrient": "Carbohidratos, total",
+          "expectedQuantity": 133.823547,
+          "actualQuantity": 134.29235666666665,
+          "expectedError": 0.1,
+          "actualError": 0.0035,
+          "unit": "g",
+          "thresholdType": "Lo más exacto posible",
+          "isPriority": true
+        },
+        {
+          "nutrient": "Proteína, total",
+          "expectedQuantity": 33.45588675,
+          "actualQuantity": 32.331133333333334,
+          "expectedError": 0.1,
+          "actualError": 0.0348,
+          "unit": "g",
+          "thresholdType": "Lo más exacto posible",
+          "isPriority": true
+        },
+        {
+          "nutrient": "Ácidos grasos, total",
+          "expectedQuantity": 24.782138333333332,
+          "actualQuantity": 25.820475,
+          "expectedError": 0.1,
+          "actualError": 0.0402,
+          "unit": "g",
+          "thresholdType": "Lo más exacto posible",
+          "isPriority": true
+        }
+      ],
+      "recipes": [
+        {
+          "recipe": {
+            "id": 700,
+            "name": "Ensalada de Apio con Palta",
+            "author": "Nestlé",
+            "url": "https://www.recetasnestle.cl/recetas/ensalada-de-apio-con-palta",
+            "portions": 5,
+            "time": 12,
+            "difficulty": null,
+            "mealTypes": [
+              "Cena"
+            ],
+            "dishTypes": [],
+            "measures": [
+              {
+                "integerPart": 2,
+                "numerator": 0,
+                "denominator": 1,
+                "ingredientMeasure": {
+                  "id": 14,
+                  "name": "Cucharada",
+                  "grams": 13.5,
+                  "isDefault": false,
+                  "ingredient": {
+                    "id": 3,
+                    "name": "Aceite de oliva",
+                    "synonyms": [
+                      "Aceite",
+                      "Oro liquido"
+                    ],
+                    "isAnimal": false,
+                    "foodGroup": "Sales"
+                  }
+                }
+              },
+              {
+                "integerPart": 5,
+                "numerator": 0,
+                "denominator": 1,
+                "ingredientMeasure": {
+                  "id": 394,
+                  "name": "Vara",
+                  "grams": 40,
+                  "isDefault": false,
+                  "ingredient": {
+                    "id": 48,
+                    "name": "Apio",
+                    "synonyms": [
+                      "Celery"
+                    ],
+                    "isAnimal": false,
+                    "foodGroup": "Granos"
+                  }
+                }
+              },
+              {
+                "integerPart": 2,
+                "numerator": 0,
+                "denominator": 1,
+                "ingredientMeasure": {
+                  "id": 151,
+                  "name": "Unidad",
+                  "grams": 55,
+                  "isDefault": true,
+                  "ingredient": {
+                    "id": 15,
+                    "name": "Palta",
+                    "synonyms": [
+                      "Abacate",
+                      "Aguacate",
+                      "Avocado",
+                      "Aguacates",
+                      "Aguacate maduro"
+                    ],
+                    "isAnimal": false,
+                    "foodGroup": "Fruta Entera"
+                  }
+                }
+              },
+              {
+                "integerPart": 2,
+                "numerator": 0,
+                "denominator": 1,
+                "ingredientMeasure": {
+                  "id": 96,
+                  "name": "Unidad",
+                  "grams": 58,
+                  "isDefault": true,
+                  "ingredient": {
+                    "id": 9,
+                    "name": "Limón",
+                    "synonyms": [
+                      "Limones"
+                    ],
+                    "isAnimal": false,
+                    "foodGroup": "Fruta Entera"
+                  }
+                }
+              }
+            ],
+            "quantities": [],
+            "steps": [
+              {
+                "number": 1,
+                "description": "1. 1.- Pela y corta las varas de apio finamente y en medios círculos para respetar su forma. De inmediato pela y corta las paltas en cubos medianos y junta con el apio cortado. Condimenta con el jugo de limón, sal y aceite de oliva; remueve para integrar bien y que la palta se una con el apio."
+              },
+              {
+                "number": 2,
+                "description": "2. 2.- Sirve en pocillos individuales o bien, puedes darle forma con la ayuda de un molde cilíndrico para mejorar su presentación, una vez listo sirve de inmediato."
+              },
+              {
+                "number": 3,
+                "description": "3. 3.- Ya puedes disfrutar de tus ensalada de Apio con palta"
+              }
+            ]
+          },
+          "portions": 1
+        },
+        {
+          "recipe": {
+            "id": 634,
+            "name": "Curry de Garbanzos con Verduras asadas y Arroz primavera",
+            "author": "Nestlé",
+            "url": "https://www.recetasnestle.cl/recetas/curry-garbanzos-verduras-arroz",
+            "portions": 6,
+            "time": 35,
+            "difficulty": null,
+            "mealTypes": [
+              "Cena"
+            ],
+            "dishTypes": [],
+            "measures": [
+              {
+                "integerPart": 1,
+                "numerator": 0,
+                "denominator": 1,
+                "ingredientMeasure": {
+                  "id": 1041,
+                  "name": "Sobre",
+                  "grams": 48,
+                  "isDefault": false,
+                  "ingredient": {
+                    "id": 182,
+                    "name": "Caldo de ave",
+                    "synonyms": [
+                      "Consomé de ave",
+                      "Caldo de pollo",
+                      "Consomé de pollo"
+                    ],
+                    "isAnimal": true,
+                    "foodGroup": "Otros Vegetales"
+                  }
+                }
+              },
+              {
+                "integerPart": 2,
+                "numerator": 0,
+                "denominator": 1,
+                "ingredientMeasure": {
+                  "id": 719,
+                  "name": "Taza",
+                  "grams": 185,
+                  "isDefault": false,
+                  "ingredient": {
+                    "id": 104,
+                    "name": "Arroz",
+                    "synonyms": [],
+                    "isAnimal": false,
+                    "foodGroup": "Vegetales verdes"
+                  }
+                }
+              },
+              {
+                "integerPart": 1,
+                "numerator": 0,
+                "denominator": 1,
+                "ingredientMeasure": {
+                  "id": 600,
+                  "name": "Atado",
+                  "grams": 15,
+                  "isDefault": false,
+                  "ingredient": {
+                    "id": 80,
+                    "name": "Ciboulette",
+                    "synonyms": [
+                      "Cebolla de verdeo",
+                      "Cebollano",
+                      "Ajo cebollino"
+                    ],
+                    "isAnimal": false,
+                    "foodGroup": "Fruta Entera"
+                  }
+                }
+              },
+              {
+                "integerPart": 1,
+                "numerator": 0,
+                "denominator": 1,
+                "ingredientMeasure": {
+                  "id": 529,
+                  "name": "Cucharada",
+                  "grams": 9,
+                  "isDefault": false,
+                  "ingredient": {
+                    "id": 69,
+                    "name": "Sésamo",
+                    "synonyms": [
+                      "Semillas de sésamo",
+                      "Semilla de sésamo"
+                    ],
+                    "isAnimal": false,
+                    "foodGroup": "Pescados y Mariscos"
+                  }
+                }
+              },
+              {
+                "integerPart": 0,
+                "numerator": 1,
+                "denominator": 2,
+                "ingredientMeasure": {
+                  "id": 30,
+                  "name": "Unidad",
+                  "grams": 110,
+                  "isDefault": true,
+                  "ingredient": {
+                    "id": 4,
+                    "name": "Cebolla",
+                    "synonyms": [],
+                    "isAnimal": false,
+                    "foodGroup": "Fruta Entera"
+                  }
+                }
+              },
+              {
+                "integerPart": 4,
+                "numerator": 0,
+                "denominator": 1,
+                "ingredientMeasure": {
+                  "id": 1774,
+                  "name": "Cucharada",
+                  "grams": 12,
+                  "isDefault": false,
+                  "ingredient": {
+                    "id": 402,
+                    "name": "Aceite de sésamo",
+                    "synonyms": [],
+                    "isAnimal": false,
+                    "foodGroup": "Sales"
+                  }
+                }
+              },
+              {
+                "integerPart": 3,
+                "numerator": 0,
+                "denominator": 1,
+                "ingredientMeasure": {
+                  "id": 14,
+                  "name": "Cucharada",
+                  "grams": 13.5,
+                  "isDefault": false,
+                  "ingredient": {
+                    "id": 3,
+                    "name": "Aceite de oliva",
+                    "synonyms": [
+                      "Aceite",
+                      "Oro liquido"
+                    ],
+                    "isAnimal": false,
+                    "foodGroup": "Sales"
+                  }
+                }
+              },
+              {
+                "integerPart": 1,
+                "numerator": 0,
+                "denominator": 1,
+                "ingredientMeasure": {
+                  "id": 261,
+                  "name": "Unidad",
+                  "grams": 196,
+                  "isDefault": true,
+                  "ingredient": {
+                    "id": 29,
+                    "name": "Zapallo italiano",
+                    "synonyms": [
+                      "Zapallito",
+                      "Calabacita",
+                      "Calabacín"
+                    ],
+                    "isAnimal": false,
+                    "foodGroup": "Granos"
+                  }
+                }
+              },
+              {
+                "integerPart": 0,
+                "numerator": 1,
+                "denominator": 2,
+                "ingredientMeasure": {
+                  "id": 591,
+                  "name": "Unidad",
+                  "grams": 119,
+                  "isDefault": true,
+                  "ingredient": {
+                    "id": 79,
+                    "name": "Pimiento verde",
+                    "synonyms": [
+                      "Morrón verde",
+                      "Pimenton verde"
+                    ],
+                    "isAnimal": false,
+                    "foodGroup": "Granos"
+                  }
+                }
+              },
+              {
+                "integerPart": 2,
+                "numerator": 0,
+                "denominator": 1,
+                "ingredientMeasure": {
+                  "id": 40,
+                  "name": "Diente",
+                  "grams": 3,
+                  "isDefault": false,
+                  "ingredient": {
+                    "id": 5,
+                    "name": "Ajo",
+                    "synonyms": [
+                      "Ajete",
+                      "Chalote",
+                      "Puerro silvestre",
+                      "Cebollino"
+                    ],
+                    "isAnimal": false,
+                    "foodGroup": "Fruta Entera"
+                  }
+                }
+              },
+              {
+                "integerPart": 1,
+                "numerator": 0,
+                "denominator": 1,
+                "ingredientMeasure": {
+                  "id": 112,
+                  "name": "Mediana",
+                  "grams": 61,
+                  "isDefault": false,
+                  "ingredient": {
+                    "id": 10,
+                    "name": "Zanahoria",
+                    "synonyms": [],
+                    "isAnimal": false,
+                    "foodGroup": "Alimentos Proteicos"
+                  }
+                }
+              },
+              {
+                "integerPart": 3,
+                "numerator": 0,
+                "denominator": 1,
+                "ingredientMeasure": {
+                  "id": 449,
+                  "name": "Tarro",
+                  "grams": 227,
+                  "isDefault": false,
+                  "ingredient": {
+                    "id": 55,
+                    "name": "Garbanzos",
+                    "synonyms": [],
+                    "isAnimal": false,
+                    "foodGroup": "Lácteos"
+                  }
+                }
+              },
+              {
+                "integerPart": 1,
+                "numerator": 0,
+                "denominator": 1,
+                "ingredientMeasure": {
+                  "id": 557,
+                  "name": "Cucharada",
+                  "grams": 6.3,
+                  "isDefault": false,
+                  "ingredient": {
+                    "id": 74,
+                    "name": "Curry",
+                    "synonyms": [
+                      "Curri",
+                      "Curry en polvo"
+                    ],
+                    "isAnimal": false,
+                    "foodGroup": "Aderezos y salsas"
+                  }
+                }
+              }
+            ],
+            "quantities": [],
+            "steps": [
+              {
+                "number": 1,
+                "description": "1. Comienza precalentando el horno a 200° C. Condimenta el zapallo italiano con el aceite de sésamo, la sal y la pimienta, lleva al horno por 20 minutos vigilando que no se queme. Aparte calienta las 4 cucharadas de aceite de oliva en una olla mediana a fuego medio y agrega la cebolla, el pimentón y el ajo, cocina por 10 minutos hasta dorar bien, agrega la zanahoria junto a los garbanzos y cocina por 5 minutos."
+              },
+              {
+                "number": 2,
+                "description": "2. Separa un poco de la crema de coco para diluir el chuño y reserva. Vierte a la olla la crema de coco junto al caldo en polvo de gallina MAGGI®, el condimento de curry y el agua, mezcla bien y agrega el zapallo italiano. Cocina sin dejar de revolver a fuego medio hasta que la creme comience a hervir, baja el fuego, agrega el chuño que diluiste y revuelve bien para espesar y cocina por 10 minutos más. Rectifica sabor."
+              },
+              {
+                "number": 3,
+                "description": "3. Antes de servir, toma un bowl y agrega una capa de arroz cocido y sobre este una cucharada de curry. Decora con el ciboulette y el sésamo y sirve."
+              }
+            ]
+          },
+          "portions": 1
+        }
+      ]
+    },
+    {
+      "intakePercentage": 0.4,
+      "mealType": "Almuerzo",
+      "hour": "12:00",
+      "nutrients": null,
+      "targets": [
+        {
+          "nutrient": "Energía, total",
+          "expectedQuantity": 1189.5426400000001,
+          "actualQuantity": 1189.5958333333333,
+          "expectedError": 0.1,
+          "actualError": 0,
+          "unit": "KCal",
+          "thresholdType": "Lo más exacto posible",
+          "isPriority": true
+        },
+        {
+          "nutrient": "Carbohidratos, total",
+          "expectedQuantity": 178.431396,
+          "actualQuantity": 185.03060333333335,
+          "expectedError": 0.1,
+          "actualError": 0.0357,
+          "unit": "g",
+          "thresholdType": "Lo más exacto posible",
+          "isPriority": true
+        },
+        {
+          "nutrient": "Proteína, total",
+          "expectedQuantity": 44.607849,
+          "actualQuantity": 42.92005,
+          "expectedError": 0.1,
+          "actualError": 0.0393,
+          "unit": "g",
+          "thresholdType": "Lo más exacto posible",
+          "isPriority": true
+        },
+        {
+          "nutrient": "Ácidos grasos, total",
+          "expectedQuantity": 33.04285111111111,
+          "actualQuantity": 33.14915833333333,
+          "expectedError": 0.1,
+          "actualError": 0.0032,
+          "unit": "g",
+          "thresholdType": "Lo más exacto posible",
+          "isPriority": true
+        }
+      ],
+      "recipes": [
+        {
+          "recipe": {
+            "id": 773,
+            "name": "Cazuela de Pollo",
+            "author": "Nestlé",
+            "url": "https://www.recetasnestle.cl/recetas/cazuela-de-ave",
+            "portions": 8,
+            "time": 55,
+            "difficulty": null,
+            "mealTypes": [
+              "Cena"
+            ],
+            "dishTypes": [],
+            "measures": [
+              {
+                "integerPart": 5,
+                "numerator": 0,
+                "denominator": 1,
+                "ingredientMeasure": {
+                  "id": 362,
+                  "name": "Trozo",
+                  "grams": 200,
+                  "isDefault": false,
+                  "ingredient": {
+                    "id": 44,
+                    "name": "Choclo",
+                    "synonyms": [
+                      "Chócolo",
+                      "Elote",
+                      "Jojoto"
+                    ],
+                    "isAnimal": false,
+                    "foodGroup": "Jugo de Fruta"
+                  }
+                }
+              },
+              {
+                "integerPart": 0,
+                "numerator": 1,
+                "denominator": 3,
+                "ingredientMeasure": {
+                  "id": 719,
+                  "name": "Taza",
+                  "grams": 185,
+                  "isDefault": false,
+                  "ingredient": {
+                    "id": 104,
+                    "name": "Arroz",
+                    "synonyms": [],
+                    "isAnimal": false,
+                    "foodGroup": "Vegetales verdes"
+                  }
+                }
+              },
+              {
+                "integerPart": 2,
+                "numerator": 0,
+                "denominator": 1,
+                "ingredientMeasure": {
+                  "id": 111,
+                  "name": "Unidad",
+                  "grams": 61,
+                  "isDefault": true,
+                  "ingredient": {
+                    "id": 10,
+                    "name": "Zanahoria",
+                    "synonyms": [],
+                    "isAnimal": false,
+                    "foodGroup": "Alimentos Proteicos"
+                  }
+                }
+              },
+              {
+                "integerPart": 2,
+                "numerator": 0,
+                "denominator": 1,
+                "ingredientMeasure": {
+                  "id": 129,
+                  "name": "Cucharada",
+                  "grams": 13.6,
+                  "isDefault": false,
+                  "ingredient": {
+                    "id": 12,
+                    "name": "Aceite",
+                    "synonyms": [
+                      "Aceite de maravilla",
+                      "Aceite de girasol"
+                    ],
+                    "isAnimal": false,
+                    "foodGroup": "Sales"
+                  }
+                }
+              },
+              {
+                "integerPart": 0,
+                "numerator": 1,
+                "denominator": 2,
+                "ingredientMeasure": {
+                  "id": 30,
+                  "name": "Unidad",
+                  "grams": 110,
+                  "isDefault": true,
+                  "ingredient": {
+                    "id": 4,
+                    "name": "Cebolla",
+                    "synonyms": [],
+                    "isAnimal": false,
+                    "foodGroup": "Fruta Entera"
+                  }
+                }
+              },
+              {
+                "integerPart": 2,
+                "numerator": 0,
+                "denominator": 1,
+                "ingredientMeasure": {
+                  "id": 779,
+                  "name": "Taza",
+                  "grams": 100,
+                  "isDefault": false,
+                  "ingredient": {
+                    "id": 120,
+                    "name": "Porotos",
+                    "synonyms": [
+                      "Alubia",
+                      "Coraota",
+                      "Frejol",
+                      "Frijol",
+                      "Haba",
+                      "Habichuela",
+                      "Judía",
+                      "Frijoles"
+                    ],
+                    "isAnimal": false,
+                    "foodGroup": "Lácteos"
+                  }
+                }
+              },
+              {
+                "integerPart": 1,
+                "numerator": 0,
+                "denominator": 1,
+                "ingredientMeasure": {
+                  "id": 40,
+                  "name": "Diente",
+                  "grams": 3,
+                  "isDefault": false,
+                  "ingredient": {
+                    "id": 5,
+                    "name": "Ajo",
+                    "synonyms": [
+                      "Ajete",
+                      "Chalote",
+                      "Puerro silvestre",
+                      "Cebollino"
+                    ],
+                    "isAnimal": false,
+                    "foodGroup": "Fruta Entera"
+                  }
+                }
+              },
+              {
+                "integerPart": 5,
+                "numerator": 0,
+                "denominator": 1,
+                "ingredientMeasure": {
+                  "id": 552,
+                  "name": "Trozo",
+                  "grams": 116,
+                  "isDefault": false,
+                  "ingredient": {
+                    "id": 73,
+                    "name": "Zapallo",
+                    "synonyms": [
+                      "Calabaza",
+                      "Calabacera",
+                      "Calabaza asada"
+                    ],
+                    "isAnimal": false,
+                    "foodGroup": "Granos"
+                  }
+                }
+              },
+              {
+                "integerPart": 1,
+                "numerator": 0,
+                "denominator": 1,
+                "ingredientMeasure": {
+                  "id": 1043,
+                  "name": "Tableta",
+                  "grams": 10,
+                  "isDefault": false,
+                  "ingredient": {
+                    "id": 182,
+                    "name": "Caldo de ave",
+                    "synonyms": [
+                      "Consomé de ave",
+                      "Caldo de pollo",
+                      "Consomé de pollo"
+                    ],
+                    "isAnimal": true,
+                    "foodGroup": "Otros Vegetales"
+                  }
+                }
+              },
+              {
+                "integerPart": 5,
+                "numerator": 0,
+                "denominator": 1,
+                "ingredientMeasure": {
+                  "id": 1534,
+                  "name": "Unidad",
+                  "grams": 80,
+                  "isDefault": true,
+                  "ingredient": {
+                    "id": 322,
+                    "name": "Trutro de pollo",
+                    "synonyms": [],
+                    "isAnimal": true,
+                    "foodGroup": "Vegetales con almidón"
+                  }
+                }
+              },
+              {
+                "integerPart": 5,
+                "numerator": 0,
+                "denominator": 1,
+                "ingredientMeasure": {
+                  "id": 411,
+                  "name": "Unidad",
+                  "grams": 213,
+                  "isDefault": true,
+                  "ingredient": {
+                    "id": 50,
+                    "name": "Papa",
+                    "synonyms": [
+                      "Patata",
+                      "Patatera",
+                      "Patatas"
+                    ],
+                    "isAnimal": false,
+                    "foodGroup": "Otros"
+                  }
+                }
+              }
+            ],
+            "quantities": [],
+            "steps": [
+              {
+                "number": 1,
+                "description": "Paso 1 1.- En una cacerola mediana a partir de agua fría con un poco de sal cocina las papas con los zapallos durante aproximadamente 15 a 20 minutos hasta cocerlos completamente, que al introducir un cuchillo verifiques su cocción. Una vez listos reserva."
+              },
+              {
+                "number": 2,
+                "description": "Paso 2 2.- Aparte, calienta una cacerola con las dos cucharadas de aceite y agrega el pollo para dorarlo por todos sus lados removiendo de vez en cuando cuidadosamente para que no se pegue. Agrega el ajo con la cebolla cortados finamente, vierte toda el agua caliente y condimenta con el caldo de gallina MAGGI®, orégano, comino, pimienta y un toque de sal."
+              },
+              {
+                "number": 3,
+                "description": "Paso 3 3.- Agrega el choclo y las zanahorias, cocina tapado a fuego medio durante 20 minutos aproximados con el objetivo de avanzar la cocción de los ingredientes. Luego, agrega el arroz y los porotos verdes, cocina durante 15 minutos más hasta cocer el arroz y terminar la cocción del pollo y todo lo demás. Agrega las papas y los zapallos para que con el calor del caldo se impregnen sus sabores. Sirve de inmediato."
+              }
+            ]
+          },
+          "portions": 1
+        },
+        {
+          "recipe": {
+            "id": 927,
+            "name": "Huevos revueltos con espinacas y salmón ahumado",
+            "author": "DietDoctor",
+            "url": "https://www.dietdoctor.com/es/recetas/keto-huevos-revueltos-con-espinacas-y-salmon-ahumado",
+            "portions": 1,
+            "time": 8,
+            "difficulty": null,
+            "mealTypes": [
+              "Desayuno"
+            ],
+            "dishTypes": [],
+            "measures": [
+              {
+                "integerPart": 1,
+                "numerator": 0,
+                "denominator": 1,
+                "ingredientMeasure": {
+                  "id": 83,
+                  "name": "Cucharada",
+                  "grams": 14.2,
+                  "isDefault": false,
+                  "ingredient": {
+                    "id": 8,
+                    "name": "Mantequilla",
+                    "synonyms": [],
+                    "isAnimal": false,
+                    "foodGroup": "Frutos secos, Semillas y Soya"
+                  }
+                }
+              },
+              {
+                "integerPart": 2,
+                "numerator": 0,
+                "denominator": 1,
+                "ingredientMeasure": {
+                  "id": 53,
+                  "name": "Grande",
+                  "grams": 56,
+                  "isDefault": false,
+                  "ingredient": {
+                    "id": 6,
+                    "name": "Huevo",
+                    "synonyms": [],
+                    "isAnimal": true,
+                    "foodGroup": "Granos Enteros"
+                  }
+                }
+              }
+            ],
+            "quantities": [
+              {
+                "ingredient": {
+                  "id": 30,
+                  "name": "Espinaca",
+                  "synonyms": [],
+                  "isAnimal": false,
+                  "foodGroup": "Granos"
+                },
+                "grams": 28
+              },
+              {
+                "ingredient": {
+                  "id": 388,
+                  "name": "Salmón Ahumado",
+                  "synonyms": [],
+                  "isAnimal": true,
+                  "foodGroup": "Vegetales rojos"
+                },
+                "grams": 55
+              }
+            ],
+            "steps": [
+              {
+                "number": 1,
+                "description": "Calentar la mantequilla en una sartén. Incorporar las espinacas y freír hasta que estén tiernas. "
+              },
+              {
+                "number": 2,
+                "description": "Añadir la crema y dejar hervir durante un par de segundos hasta que todo quede cremoso. Romper los huevos directamente en la sartén y revolver para que todo se incorpore bien. Salpimentar y seguir removiendo hasta que esté hecho al punto que desees."
+              },
+              {
+                "number": 3,
+                "description": "Servir los huevos revueltos en un plato junto con el salmón ahumado o tocino."
+              }
+            ]
+          },
+          "portions": 1
+        }
+      ]
+    },
+    {
+      "intakePercentage": 0.3,
+      "mealType": "Cena",
+      "hour": "18:00",
+      "nutrients": null,
+      "targets": [
+        {
+          "nutrient": "Energía, total",
+          "expectedQuantity": 892.15698,
+          "actualQuantity": 881.1098333333333,
+          "expectedError": 0.1,
+          "actualError": 0.0125,
+          "unit": "KCal",
+          "thresholdType": "Lo más exacto posible",
+          "isPriority": true
+        },
+        {
+          "nutrient": "Carbohidratos, total",
+          "expectedQuantity": 133.823547,
+          "actualQuantity": 134.29235666666665,
+          "expectedError": 0.1,
+          "actualError": 0.0035,
+          "unit": "g",
+          "thresholdType": "Lo más exacto posible",
+          "isPriority": true
+        },
+        {
+          "nutrient": "Proteína, total",
+          "expectedQuantity": 33.45588675,
+          "actualQuantity": 32.331133333333334,
+          "expectedError": 0.1,
+          "actualError": 0.0348,
+          "unit": "g",
+          "thresholdType": "Lo más exacto posible",
+          "isPriority": true
+        },
+        {
+          "nutrient": "Ácidos grasos, total",
+          "expectedQuantity": 24.782138333333332,
+          "actualQuantity": 25.820475,
+          "expectedError": 0.1,
+          "actualError": 0.0402,
+          "unit": "g",
+          "thresholdType": "Lo más exacto posible",
+          "isPriority": true
+        }
+      ],
+      "recipes": [
+        {
+          "recipe": {
+            "id": 634,
+            "name": "Curry de Garbanzos con Verduras asadas y Arroz primavera",
+            "author": "Nestlé",
+            "url": "https://www.recetasnestle.cl/recetas/curry-garbanzos-verduras-arroz",
+            "portions": 6,
+            "time": 35,
+            "difficulty": null,
+            "mealTypes": [
+              "Cena"
+            ],
+            "dishTypes": [],
+            "measures": [
+              {
+                "integerPart": 1,
+                "numerator": 0,
+                "denominator": 1,
+                "ingredientMeasure": {
+                  "id": 1041,
+                  "name": "Sobre",
+                  "grams": 48,
+                  "isDefault": false,
+                  "ingredient": {
+                    "id": 182,
+                    "name": "Caldo de ave",
+                    "synonyms": [
+                      "Consomé de ave",
+                      "Caldo de pollo",
+                      "Consomé de pollo"
+                    ],
+                    "isAnimal": true,
+                    "foodGroup": "Otros Vegetales"
+                  }
+                }
+              },
+              {
+                "integerPart": 2,
+                "numerator": 0,
+                "denominator": 1,
+                "ingredientMeasure": {
+                  "id": 719,
+                  "name": "Taza",
+                  "grams": 185,
+                  "isDefault": false,
+                  "ingredient": {
+                    "id": 104,
+                    "name": "Arroz",
+                    "synonyms": [],
+                    "isAnimal": false,
+                    "foodGroup": "Vegetales verdes"
+                  }
+                }
+              },
+              {
+                "integerPart": 1,
+                "numerator": 0,
+                "denominator": 1,
+                "ingredientMeasure": {
+                  "id": 600,
+                  "name": "Atado",
+                  "grams": 15,
+                  "isDefault": false,
+                  "ingredient": {
+                    "id": 80,
+                    "name": "Ciboulette",
+                    "synonyms": [
+                      "Cebolla de verdeo",
+                      "Cebollano",
+                      "Ajo cebollino"
+                    ],
+                    "isAnimal": false,
+                    "foodGroup": "Fruta Entera"
+                  }
+                }
+              },
+              {
+                "integerPart": 1,
+                "numerator": 0,
+                "denominator": 1,
+                "ingredientMeasure": {
+                  "id": 529,
+                  "name": "Cucharada",
+                  "grams": 9,
+                  "isDefault": false,
+                  "ingredient": {
+                    "id": 69,
+                    "name": "Sésamo",
+                    "synonyms": [
+                      "Semillas de sésamo",
+                      "Semilla de sésamo"
+                    ],
+                    "isAnimal": false,
+                    "foodGroup": "Pescados y Mariscos"
+                  }
+                }
+              },
+              {
+                "integerPart": 0,
+                "numerator": 1,
+                "denominator": 2,
+                "ingredientMeasure": {
+                  "id": 30,
+                  "name": "Unidad",
+                  "grams": 110,
+                  "isDefault": true,
+                  "ingredient": {
+                    "id": 4,
+                    "name": "Cebolla",
+                    "synonyms": [],
+                    "isAnimal": false,
+                    "foodGroup": "Fruta Entera"
+                  }
+                }
+              },
+              {
+                "integerPart": 4,
+                "numerator": 0,
+                "denominator": 1,
+                "ingredientMeasure": {
+                  "id": 1774,
+                  "name": "Cucharada",
+                  "grams": 12,
+                  "isDefault": false,
+                  "ingredient": {
+                    "id": 402,
+                    "name": "Aceite de sésamo",
+                    "synonyms": [],
+                    "isAnimal": false,
+                    "foodGroup": "Sales"
+                  }
+                }
+              },
+              {
+                "integerPart": 3,
+                "numerator": 0,
+                "denominator": 1,
+                "ingredientMeasure": {
+                  "id": 14,
+                  "name": "Cucharada",
+                  "grams": 13.5,
+                  "isDefault": false,
+                  "ingredient": {
+                    "id": 3,
+                    "name": "Aceite de oliva",
+                    "synonyms": [
+                      "Aceite",
+                      "Oro liquido"
+                    ],
+                    "isAnimal": false,
+                    "foodGroup": "Sales"
+                  }
+                }
+              },
+              {
+                "integerPart": 1,
+                "numerator": 0,
+                "denominator": 1,
+                "ingredientMeasure": {
+                  "id": 261,
+                  "name": "Unidad",
+                  "grams": 196,
+                  "isDefault": true,
+                  "ingredient": {
+                    "id": 29,
+                    "name": "Zapallo italiano",
+                    "synonyms": [
+                      "Zapallito",
+                      "Calabacita",
+                      "Calabacín"
+                    ],
+                    "isAnimal": false,
+                    "foodGroup": "Granos"
+                  }
+                }
+              },
+              {
+                "integerPart": 0,
+                "numerator": 1,
+                "denominator": 2,
+                "ingredientMeasure": {
+                  "id": 591,
+                  "name": "Unidad",
+                  "grams": 119,
+                  "isDefault": true,
+                  "ingredient": {
+                    "id": 79,
+                    "name": "Pimiento verde",
+                    "synonyms": [
+                      "Morrón verde",
+                      "Pimenton verde"
+                    ],
+                    "isAnimal": false,
+                    "foodGroup": "Granos"
+                  }
+                }
+              },
+              {
+                "integerPart": 2,
+                "numerator": 0,
+                "denominator": 1,
+                "ingredientMeasure": {
+                  "id": 40,
+                  "name": "Diente",
+                  "grams": 3,
+                  "isDefault": false,
+                  "ingredient": {
+                    "id": 5,
+                    "name": "Ajo",
+                    "synonyms": [
+                      "Ajete",
+                      "Chalote",
+                      "Puerro silvestre",
+                      "Cebollino"
+                    ],
+                    "isAnimal": false,
+                    "foodGroup": "Fruta Entera"
+                  }
+                }
+              },
+              {
+                "integerPart": 1,
+                "numerator": 0,
+                "denominator": 1,
+                "ingredientMeasure": {
+                  "id": 112,
+                  "name": "Mediana",
+                  "grams": 61,
+                  "isDefault": false,
+                  "ingredient": {
+                    "id": 10,
+                    "name": "Zanahoria",
+                    "synonyms": [],
+                    "isAnimal": false,
+                    "foodGroup": "Alimentos Proteicos"
+                  }
+                }
+              },
+              {
+                "integerPart": 3,
+                "numerator": 0,
+                "denominator": 1,
+                "ingredientMeasure": {
+                  "id": 449,
+                  "name": "Tarro",
+                  "grams": 227,
+                  "isDefault": false,
+                  "ingredient": {
+                    "id": 55,
+                    "name": "Garbanzos",
+                    "synonyms": [],
+                    "isAnimal": false,
+                    "foodGroup": "Lácteos"
+                  }
+                }
+              },
+              {
+                "integerPart": 1,
+                "numerator": 0,
+                "denominator": 1,
+                "ingredientMeasure": {
+                  "id": 557,
+                  "name": "Cucharada",
+                  "grams": 6.3,
+                  "isDefault": false,
+                  "ingredient": {
+                    "id": 74,
+                    "name": "Curry",
+                    "synonyms": [
+                      "Curri",
+                      "Curry en polvo"
+                    ],
+                    "isAnimal": false,
+                    "foodGroup": "Aderezos y salsas"
+                  }
+                }
+              }
+            ],
+            "quantities": [],
+            "steps": [
+              {
+                "number": 1,
+                "description": "1. Comienza precalentando el horno a 200° C. Condimenta el zapallo italiano con el aceite de sésamo, la sal y la pimienta, lleva al horno por 20 minutos vigilando que no se queme. Aparte calienta las 4 cucharadas de aceite de oliva en una olla mediana a fuego medio y agrega la cebolla, el pimentón y el ajo, cocina por 10 minutos hasta dorar bien, agrega la zanahoria junto a los garbanzos y cocina por 5 minutos."
+              },
+              {
+                "number": 2,
+                "description": "2. Separa un poco de la crema de coco para diluir el chuño y reserva. Vierte a la olla la crema de coco junto al caldo en polvo de gallina MAGGI®, el condimento de curry y el agua, mezcla bien y agrega el zapallo italiano. Cocina sin dejar de revolver a fuego medio hasta que la creme comience a hervir, baja el fuego, agrega el chuño que diluiste y revuelve bien para espesar y cocina por 10 minutos más. Rectifica sabor."
+              },
+              {
+                "number": 3,
+                "description": "3. Antes de servir, toma un bowl y agrega una capa de arroz cocido y sobre este una cucharada de curry. Decora con el ciboulette y el sésamo y sirve."
+              }
+            ]
+          },
+          "portions": 1
+        },
+        {
+          "recipe": {
+            "id": 700,
+            "name": "Ensalada de Apio con Palta",
+            "author": "Nestlé",
+            "url": "https://www.recetasnestle.cl/recetas/ensalada-de-apio-con-palta",
+            "portions": 5,
+            "time": 12,
+            "difficulty": null,
+            "mealTypes": [
+              "Cena"
+            ],
+            "dishTypes": [],
+            "measures": [
+              {
+                "integerPart": 2,
+                "numerator": 0,
+                "denominator": 1,
+                "ingredientMeasure": {
+                  "id": 14,
+                  "name": "Cucharada",
+                  "grams": 13.5,
+                  "isDefault": false,
+                  "ingredient": {
+                    "id": 3,
+                    "name": "Aceite de oliva",
+                    "synonyms": [
+                      "Aceite",
+                      "Oro liquido"
+                    ],
+                    "isAnimal": false,
+                    "foodGroup": "Sales"
+                  }
+                }
+              },
+              {
+                "integerPart": 5,
+                "numerator": 0,
+                "denominator": 1,
+                "ingredientMeasure": {
+                  "id": 394,
+                  "name": "Vara",
+                  "grams": 40,
+                  "isDefault": false,
+                  "ingredient": {
+                    "id": 48,
+                    "name": "Apio",
+                    "synonyms": [
+                      "Celery"
+                    ],
+                    "isAnimal": false,
+                    "foodGroup": "Granos"
+                  }
+                }
+              },
+              {
+                "integerPart": 2,
+                "numerator": 0,
+                "denominator": 1,
+                "ingredientMeasure": {
+                  "id": 151,
+                  "name": "Unidad",
+                  "grams": 55,
+                  "isDefault": true,
+                  "ingredient": {
+                    "id": 15,
+                    "name": "Palta",
+                    "synonyms": [
+                      "Abacate",
+                      "Aguacate",
+                      "Avocado",
+                      "Aguacates",
+                      "Aguacate maduro"
+                    ],
+                    "isAnimal": false,
+                    "foodGroup": "Fruta Entera"
+                  }
+                }
+              },
+              {
+                "integerPart": 2,
+                "numerator": 0,
+                "denominator": 1,
+                "ingredientMeasure": {
+                  "id": 96,
+                  "name": "Unidad",
+                  "grams": 58,
+                  "isDefault": true,
+                  "ingredient": {
+                    "id": 9,
+                    "name": "Limón",
+                    "synonyms": [
+                      "Limones"
+                    ],
+                    "isAnimal": false,
+                    "foodGroup": "Fruta Entera"
+                  }
+                }
+              }
+            ],
+            "quantities": [],
+            "steps": [
+              {
+                "number": 1,
+                "description": "1. 1.- Pela y corta las varas de apio finamente y en medios círculos para respetar su forma. De inmediato pela y corta las paltas en cubos medianos y junta con el apio cortado. Condimenta con el jugo de limón, sal y aceite de oliva; remueve para integrar bien y que la palta se una con el apio."
+              },
+              {
+                "number": 2,
+                "description": "2. 2.- Sirve en pocillos individuales o bien, puedes darle forma con la ayuda de un molde cilíndrico para mejorar su presentación, una vez listo sirve de inmediato."
+              },
+              {
+                "number": 3,
+                "description": "3. 3.- Ya puedes disfrutar de tus ensalada de Apio con palta"
+              }
+            ]
+          },
+          "portions": 1
+        }
+      ]
+    }
+  ]
+}
