@@ -15,7 +15,7 @@ public class Reducer
     }
 
     [ReducerMethod]
-    public static DailyMealState ReduceInitializeDailyMealAction(DailyMealState state, InitializeDailyMealAction action)
+    public static DailyMealState InitializeDailyMenusAction(DailyMealState state, InitializeDailyMealAction action)
     {
         var onLoading = Enumerable.Repeat(false, action.DailyMenu.Count()).ToList();
         
