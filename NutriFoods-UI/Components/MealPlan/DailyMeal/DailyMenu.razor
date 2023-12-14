@@ -12,7 +12,10 @@
           Elevation="0" 
           Outlined="true">
     <div class="">
-        <TitleSection Index="@Index" MealTypeName="@DailyMenuDto.MealType"></TitleSection>
+        <TitleSection Index="@Index" 
+                      MealTypeName="@DailyMenuDto.MealType" 
+                      Hour="@DailyMenuDto.Hour"
+                      NutritionalTargets="@DailyMenuDto.Targets"></TitleSection>
         
         @if (MealState.Value.MealLoading.ElementAt(Index))
         {
@@ -37,5 +40,6 @@
     [Parameter]
     public DailyMenuDto DailyMenuDto { get; set; } = null!;
 
+    
 
 }
