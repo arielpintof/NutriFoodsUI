@@ -13,11 +13,13 @@ builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 
 var currentAssembly = typeof(Program).Assembly;
-builder.Services
-    .AddFluxor(options => options.ScanAssemblies(currentAssembly))
-    .AddMudBlazorSnackbar()
-    .AddMudServices()
-    .AddMudExtensions();
+
+
+builder.Services.AddFluxor(options => options.ScanAssemblies(currentAssembly));
+builder.Services.AddMudServices();
+builder.Services.AddMudExtensions();
+builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
+builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("https://localhost:7212/") });
 
 builder.Services
     .AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
