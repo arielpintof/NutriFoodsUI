@@ -1,5 +1,6 @@
 ﻿@using NutriFoods_UI.Utils.Enums
 @using NutriFoods_UI.Data.Dto
+@using Utils.Strings
 
 <div class="title-section">
     <div class="d-flex align-center gap-2">
@@ -28,7 +29,7 @@
                              Variant="Variant.Text"
                              Style="font-family: 'Plus Jakarta Sans', sans-serif;font-weight: 700"
                              Icon="@Icons.Material.Rounded.BarChart">
-                        @target.Nutrient: @((int)target.ActualQuantity!)
+                        @(GetAlternativeNames(target.Nutrient)): @((int)target.ActualQuantity!)
                     </MudChip>
                 </MudItem>
             </ChildContent>
@@ -74,6 +75,14 @@
     [Parameter] public string Hour { get; set; } = string.Empty;
 
     [Parameter] public List<NutritionalTargetDto> NutritionalTargets { get; set; } = null!;
+    
+    string GetAlternativeNames(string name)
+    {
+        var token = IEnum<Nutrients, NutrientToken>.ToToken(name);
+        var enumToken = IEnum<Nutrients, NutrientToken>.ToValue(token);
+        
+        return enumToken.AlternativeName;
+    }
 
 
 }
