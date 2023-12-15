@@ -5,12 +5,15 @@
 @using MudExtensions.Utilities
 @using Fluxor
 @using MudBlazor.Extensions
+@using NutriFoods_UI.Data.Store.DailyMeal
 @using NutriFoods_UI.Data.Store.MicronutrientConfiguration
 @inject IState<MicronutrientState> MicroNutrientState;
+@inject IState<DailyMealState> DailyMealState
+@inject IDispatcher Dispatcher
 
 
 
-<MudStepper @ref="_stepper"
+ <MudStepper @ref="_stepper"
             Class="mud-width-full"
             ContentStyle="min-height: 400px"
             Linear="true" 
@@ -54,7 +57,7 @@
             <ChildContent>
                 @if (_stepper.GetActiveIndex() == 2)
                 {
-                    <DailyMeal ActiveIndex="_stepper.GetActiveIndex() == 1"></DailyMeal>
+                    <DailyMeal ActiveIndex="_stepper.GetActiveIndex() == 2"></DailyMeal>
                 }
 
             </ChildContent>
@@ -95,10 +98,8 @@
     MudForm _form = new();
     MudForm _form2 = new();
     private bool _checkValidationBeforeComplete = true;
-    
-    
-        private const bool DisableStepResultIndicator = false;
-        private const bool AddResultStep = true;
+    private const bool DisableStepResultIndicator = false;
+    private const bool AddResultStep = true;
     bool _customLocalization = true;
     Color _color = Color.Primary;
     bool _loading;
@@ -134,6 +135,7 @@
                 await _form2.Validate();
                 _loading = false;
                 StateHasChanged();
+                Submit();
                 return !_form2.IsValid;
             }
             else
@@ -172,6 +174,11 @@
                 Skipped = "Omitido",
             };
         }
+    }
+
+    void Submit()
+    {
+        //Dispatcher.Dispatch(new );
     }
 
 }

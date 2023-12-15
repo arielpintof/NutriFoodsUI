@@ -1,11 +1,6 @@
 ﻿namespace NutriFoods_UI.Data.Store.DailyMeal;
 
-public class OnLoadingMenuAction
+public class OnLoadingMenuAction(int index)
 {
-    public int Index { get; }
-
-    public OnLoadingMenuAction(int index)
-    {
-        Index = index;
-    }
+    public int Index { get; } = index;
 }

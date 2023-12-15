@@ -2,4 +2,5 @@
     font-size: 16px;
     font-weight: bold;
     color: var(--grey-normal);
+    margin-bottom: 0;
 }

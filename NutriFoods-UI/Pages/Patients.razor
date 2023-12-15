@@ -59,10 +59,14 @@
             <MudTh>Dirección</MudTh>
         </HeaderContent>
         <RowTemplate>
+            @if (context.PersonalInfo != null && context.Address != null)
+            {
             <MudTd DataLabel="Nombre">@context.PersonalInfo!.Names @context.PersonalInfo.LastNames</MudTd>
             <MudTd DataLabel="Sexo">@context.PersonalInfo!.BiologicalSex</MudTd>
             <MudTd DataLabel="Edad">@DateOnlyUtils.CalculateAge(context.PersonalInfo!.Birthdate)</MudTd>
             <MudTd DataLabel="Dirección">@context.Address!.Street, @context.Address.Number</MudTd>
+            
+            }
         </RowTemplate>
         <PagerContent>
             <MudTablePager/>
@@ -103,8 +107,8 @@ else
 
     protected override void OnInitialized()
     {
-        base.OnInitialized();
         PatientsCollection = CredentialState.Value.NutritionistCredentials.Patients;
+        base.OnInitialized();
         /*PatientsCollection = new List<Element>()
         {
             new Element()

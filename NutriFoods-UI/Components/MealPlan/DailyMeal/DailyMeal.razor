@@ -30,10 +30,10 @@
             </div>
 
 
-            @for (var i = 0; i < MealState.Value.DailyMenu.Count(); i++)
+            @for (var i = 0; i < MealState.Value.DailyPlan.Menus.Count; i++)
             {
                 <div class="my-1 mud-width-full">
-                    <DailyMenu Index="i" DailyMenuDto="@MealState.Value.DailyMenu.ElementAt(i)"></DailyMenu>
+                    <DailyMenu Index="i" DailyMenuDto="@MealState.Value.DailyPlan.Menus.ElementAt(i)"></DailyMenu>
                 </div>
             }
         </div>

@@ -11,10 +11,10 @@ public class Nutrients : SmartEnum<Nutrients>, IHierarchicalEnum<Nutrients, Nutr
         new(nameof(None), (int)NutrientToken.None, "", "", false, Units.None, null);
 
     public static readonly Nutrients Energy =
-        new(nameof(Energy), (int)NutrientToken.Energy, "Energía, total", "", true, KiloCalories, null);
+        new(nameof(Energy), (int)NutrientToken.Energy, "Energía, total", "Energía", true, KiloCalories, null);
 
     public static readonly Nutrients Carbohydrates =
-        new(nameof(Carbohydrates), (int)NutrientToken.Carbohydrates, "Carbohidratos, total", "", true, Grams, null,
+        new(nameof(Carbohydrates), (int)NutrientToken.Carbohydrates, "Carbohidratos, total", "Carbohidratos", true, Grams, null,
             275);
 
     public static readonly Nutrients Fiber =
@@ -45,7 +45,7 @@ public class Nutrients : SmartEnum<Nutrients>, IHierarchicalEnum<Nutrients, Nutr
         new(nameof(Starch), (int)NutrientToken.Starch, "Almidón", "Fécula", false, Grams, Carbohydrates);
 
     public static readonly Nutrients FattyAcids =
-        new(nameof(FattyAcids), (int)NutrientToken.FattyAcids, "Ácidos grasos, total", "", true, Grams, null, 78);
+        new(nameof(FattyAcids), (int)NutrientToken.FattyAcids, "Ácidos grasos, total", "Lípidos", true, Grams, null, 78);
 
     public static readonly Nutrients Saturated =
         new(nameof(Saturated), (int)NutrientToken.Saturated, "Ácidos grasos saturados, total", "", true,
@@ -243,7 +243,7 @@ public class Nutrients : SmartEnum<Nutrients>, IHierarchicalEnum<Nutrients, Nutr
         new(nameof(TransPolinoic), (int)NutrientToken.TransPolinoic, "Ácido trans-polinoico", "", false, Grams, Trans);
 
     public static readonly Nutrients Proteins =
-        new(nameof(Proteins), (int)NutrientToken.Proteins, "Proteína, total", "", true, Grams, null, 50);
+        new(nameof(Proteins), (int)NutrientToken.Proteins, "Proteína, total", "Proteína", true, Grams, null, 50);
 
     public static readonly Nutrients Tryptophan =
         new(nameof(Tryptophan), (int)NutrientToken.Tryptophan, "Triptófano", "", false, Grams, Proteins);
