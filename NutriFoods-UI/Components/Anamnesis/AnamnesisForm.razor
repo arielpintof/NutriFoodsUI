@@ -214,14 +214,11 @@
         Nav.NavigateTo($"/consultation/{PatientId}?anamnesiscompleted=true");
     }
 
-    string Submit()
+    void Submit()
     {
         Dispatcher.Dispatch(new PostAnthropometryAction(ConsultationId, PatientId));
-        Console.WriteLine("Por despachar...");
         Dispatcher.Dispatch(new PostAlimentaryAction(ConsultationId, PatientId));
-        Console.WriteLine("Despachado...");
         Dispatcher.Dispatch(new PostClinicalAction(ConsultationId, PatientId));
-        return "";
     }
 
 }
