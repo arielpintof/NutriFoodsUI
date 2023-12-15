@@ -236,7 +236,10 @@
 
             var content = await response!.Content.ReadFromJsonAsync<NutritionistDto>();
             Dispatcher.Dispatch(new UpdateNutritionistAction(content!));
+            
             var patientId = content!.Patients.FirstOrDefault()!.Id;
+
+            await Task.Delay(1000);
             Nav.NavigateTo($"/patients/profile/{patientId}");
             
         }
