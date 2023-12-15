@@ -2,8 +2,11 @@
 @using NutriFoods_UI.Services
 @using NutriFoods_UI.Data
 @using NutriFoods_UI.Data.Dto
+@using Fluxor
+@using NutriFoods_UI.Data.Store.DailyPlanList
 @inject NavigationManager Nav
 @inject IPatientService PatientService
+@inject IState<DailyPlanState> DailyPlanState 
 
 <MudPaper Class="d-flex flex-column px-10 py-5 gap-4" Elevation="0" MaxWidth="900px">
     <div class="d-flex flex-column gap-2">
@@ -98,9 +101,6 @@
             </MudItem>
         </MudGrid>
         
-        
-
-
         <MudDivider Class="mt-5"></MudDivider>
 
 
@@ -112,6 +112,10 @@
                 </div>
             </MudItem>
             <MudItem md="6">
+                @foreach (var plan in DailyPlanState.Value.DailyPlans)
+                {
+                    <span>Plan para el día @plan.Day</span>
+                }
                 <div>
                     <MudButton Variant="Variant.Outlined"
                                Color="Color.Primary"
@@ -137,7 +141,7 @@
                        OnClick="@NavToUserProfile"
                        DisableElevation="true"
                        Style="text-transform: none; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700;">
-                Guardar consulta
+                Finalizar consulta
             </MudButton>
         </MudItem>
     }
