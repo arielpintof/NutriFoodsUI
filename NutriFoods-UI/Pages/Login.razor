@@ -58,10 +58,15 @@
                 </div>
             </section>
         </MudForm>
-        <section class="ButtonsContainer">
-            <div class="SignInButtonContainer">
-                <MudButton class="SigninButton" @onclick="Submit">Iniciar Sesión</MudButton>
-            </div>
+        <section class="d-flex justify-center" style="width: 100%">
+            <MudButton class="SigninButton"
+                       @onclick="Submit"
+                       Variant="Variant.Filled"
+                       DisableElevation="true"
+                       Color="Color.Primary"
+                       Style="text-transform: none; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; width: 100%">
+                Iniciar Sesión
+            </MudButton>
         </section>
         <section class="FooterContainer">
             ¿No tienes una cuenta aún? <a class="SignUpLink">¡Crear una cuenta!</a>
