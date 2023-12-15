@@ -2,7 +2,7 @@
 
 namespace NutriFoods_UI.Data.Store.DailyMeal;
 
-public class InitializeDailyMealAction(IEnumerable<DailyMenuDto> dailyMenu)
+public class InitializeDailyMealAction(DailyPlanDto dailyPlan)
 {
-    public IEnumerable<DailyMenuDto> DailyMenu { get; } = dailyMenu;
+    public DailyPlanDto DailyPlan { get; } = dailyPlan;
 }

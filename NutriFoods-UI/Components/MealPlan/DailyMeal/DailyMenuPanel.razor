@@ -43,7 +43,7 @@
                 IconSize="Size.Small">
                 <span 
                     style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 14px">
-                    Eliminar @MealState.Value.DailyMenu.ElementAt(Index).MealType
+                    Eliminar @MealState.Value.DailyPlan.Menus.ElementAt(Index).MealType
                 </span>
 
             </MudMenuItem>
@@ -53,11 +53,11 @@
 
 @code {
 
-    private string RenewText() => $"Renovar {MealState.Value.DailyMenu.ElementAt(Index).MealType.ToLower()}";
+    private string RenewText() => $"Renovar {MealState.Value.DailyPlan.Menus.ElementAt(Index).MealType.ToLower()}";
 
-    private string ConfigText() => $"Configurar {MealState.Value.DailyMenu.ElementAt(Index).MealType.ToLower()}";
+    private string ConfigText() => $"Configurar {MealState.Value.DailyPlan.Menus.ElementAt(Index).MealType.ToLower()}";
 
-    private string OptionsText() => $"Opciones para {MealState.Value.DailyMenu.ElementAt(Index).MealType.ToLower()}";
+    private string OptionsText() => $"Opciones para {MealState.Value.DailyPlan.Menus.ElementAt(Index).MealType.ToLower()}";
     
     [Parameter]
     public int Index { get; set; }

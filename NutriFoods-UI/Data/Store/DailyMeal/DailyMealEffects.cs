@@ -46,7 +46,7 @@ public class DailyMealEffects(
     [EffectMethod(typeof(LoadMealPlanAction))]
     public async Task GetMealPlan(IDispatcher dispatcher)
     {
-        var physicalActivityLevel = tmrState.Value.TmrConfiguration.PhysicalActivityLevel;
+        /*var physicalActivityLevel = tmrState.Value.TmrConfiguration.PhysicalActivityLevel;
         var physicalActivityFactor = tmrState.Value.TmrConfiguration.Multiplier;
         var adjustmentFactor = tmrState.Value.TmrConfiguration.Factor;
         var basalMetabolicRate = tmrState.Value.GetBmr;
@@ -79,14 +79,14 @@ public class DailyMealEffects(
         };
 
         var dailyMealPlanResponse = await dailyMealPlanService.DailyPlanByDistribution(planConfiguration);
-        var dailyMealPlan = await dailyMealPlanResponse!.Content.ReadFromJsonAsync<DailyPlanDto>();
+        var dailyMealPlan = await dailyMealPlanResponse!.Content.ReadFromJsonAsync<DailyPlanDto>();*/
         
-        /*var client = new HttpClient();
-        var dailyMealPlan = await client.GetFromJsonAsync<DailyPlanDto>("http://localhost:5170/sample-data/dailymeal.json");*/
+        var client = new HttpClient();
+        var dailyMealPlan = await client.GetFromJsonAsync<DailyPlanDto>("http://localhost:5170/sample-data/dailymeal.json");
 
         if (dailyMealPlan != null)
         {
-            var action = new InitializeDailyMealAction(dailyMealPlan.Menus);
+            var action = new InitializeDailyMealAction(dailyMealPlan);
             dispatcher.Dispatch(action);
         }
         

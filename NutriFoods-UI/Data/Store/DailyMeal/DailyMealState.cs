@@ -5,22 +5,22 @@ namespace NutriFoods_UI.Data.Store.DailyMeal;
 [FeatureState]
 public class DailyMealState
 {
-    public IEnumerable<DailyMenuDto> DailyMenu { get; } = new List<DailyMenuDto>();
+    public DailyPlanDto DailyPlan { get; } = new();
     public bool Initialized { get; }
 
     public IEnumerable<bool> MealLoading { get; set; } = [];
     
     public DailyMealState(){}
 
-    public DailyMealState(IEnumerable<DailyMenuDto> dailyMenu, bool initialized = true)
+    public DailyMealState(DailyPlanDto dailyPlan, bool initialized = true)
     {
-        DailyMenu = dailyMenu;
+        DailyPlan = dailyPlan;
         Initialized = initialized;
     }
     
-    public DailyMealState(IEnumerable<DailyMenuDto> dailyMenu, IEnumerable<bool> mealLoading, bool initialized = true)
+    public DailyMealState(DailyPlanDto dailyPlan, IEnumerable<bool> mealLoading, bool initialized = true)
     {
-        DailyMenu = dailyMenu;
+        DailyPlan = dailyPlan;
         MealLoading = mealLoading;
         Initialized = initialized;
     }
