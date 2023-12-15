@@ -1,6 +1,7 @@
 ﻿@page "/consultation/{PatientId:guid}"
 @using NutriFoods_UI.Data
 @using NutriFoods_UI.Services
+@using NutriFoods_UI.Utils.Strings
 @inject IPatientService PatientService
 
 <nav class="mb-6" aria-label="breadcrumb">
@@ -11,7 +12,7 @@
       </a>
     </li>
     <li class="breadcrumb-item active" aria-current="page" href="/user-dashboard">Perfil de
-      @FirstWord(Names) @FirstWord(LastNames)
+      @Strings.FirstWord(Names) @Strings.FirstWord(LastNames)
     </li>
     <li class="breadcrumb-item active" aria-current="page">Nueva consulta</li>
   </ol>
@@ -42,15 +43,10 @@
     {
       var content = await response.Content.ReadFromJsonAsync<PatientDto>();
       Patient = content!;
-      Names = FirstWord(Patient.PersonalInfo.Names);
-      LastNames = FirstWord(Patient.PersonalInfo.LastNames);
+      Names = Strings.FirstWord(Patient.PersonalInfo!.Names);
+      LastNames = Strings.FirstWord(Patient.PersonalInfo.LastNames);
     }
   }
-
-  static string FirstWord(string name)
-  {
-    return new string(name.TakeWhile(c => !char.IsWhiteSpace(c)).ToArray());
-
-  }
+  
 
 }
