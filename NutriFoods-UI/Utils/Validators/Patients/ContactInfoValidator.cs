@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 using NutriFoods_UI.Data.Dto;
 
-namespace NutriFoods_UI.Utils.Validators.Patients;
+namespace NutriFoods_UI.Utils.Enums.Validators.Patients;
 
 public class ContactInfoValidator : AbstractValidator<ContactInfoDto>
 {

@@ -1,6 +1,6 @@
 ﻿namespace NutriFoods_UI.Data.Dto;
 
-public class ConsultationDto
+public sealed class ConsultationDto
 {
     public Guid Id { get; set; }
     public string Type { get; set; } = null!;

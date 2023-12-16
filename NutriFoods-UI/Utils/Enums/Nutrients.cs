@@ -1,7 +1,6 @@
-﻿using Ardalis.SmartEnum;
-using static NutriFoods_UI.Utils.Enums.Units;
+using Ardalis.SmartEnum;
 using static NutriFoods_UI.Utils.Enums.Nutrients;
-using System.Collections.Immutable;
+using static NutriFoods_UI.Utils.Enums.Units;
 
 namespace NutriFoods_UI.Utils.Enums;
 
@@ -673,6 +672,7 @@ public enum NutrientToken
     Caffeine,
     Theobromine
 }
+
 public static class NutrientExtensions
 {
     public static IReadOnlySet<Nutrients> Macronutrients { get; } = new HashSet<Nutrients>

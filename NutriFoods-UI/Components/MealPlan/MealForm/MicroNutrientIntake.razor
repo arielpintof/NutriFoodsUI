@@ -112,7 +112,11 @@
         }
     }
 
-    private IEnumerable<UnitEnum?> UnitEnumValues() => UnitEnum.NonNullValues;
+    private IEnumerable<Units> UnitEnumValues() => IEnum<Units, UnitToken>
+        .TokenDictionary
+        .Select(e => e.Value)
+        .Skip(1)
+        .ToList();
 
     private static List<MicroNutrientDto> Nutrients => new()
     {

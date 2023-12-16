@@ -1,7 +1,7 @@
 using FluentValidation;
 using NutriFoods_UI.Data.Dto;
 
-namespace NutriFoods_UI.Utils.Validators;
+namespace NutriFoods_UI.Utils.Enums.Validators;
 
 public class AccountValidator : AbstractValidator<NutritionistDto>
 {

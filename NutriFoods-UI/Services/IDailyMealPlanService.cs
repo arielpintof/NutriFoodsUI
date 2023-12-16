@@ -1,6 +1,5 @@
-using System.ComponentModel.DataAnnotations;
+
 using NutriFoods_UI.Data.Store.DailyMeal;
-using NutriFoods_UI.Utils.Enums;
 
 namespace NutriFoods_UI.Services;
 

@@ -1,4 +1,4 @@
-using static NutriFoods_UI.Utils.MathUtils;
+using static NutriFoods_UI.Utils.Enums.MathUtils;
 
 namespace NutriFoods_UI.Utils.Enumerable;
 

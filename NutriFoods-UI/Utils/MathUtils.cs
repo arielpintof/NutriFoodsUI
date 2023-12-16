@@ -1,4 +1,4 @@
-﻿namespace NutriFoods_UI.Utils;
+﻿namespace NutriFoods_UI.Utils.Enums;
 using static Math;
 
 public static class MathUtils

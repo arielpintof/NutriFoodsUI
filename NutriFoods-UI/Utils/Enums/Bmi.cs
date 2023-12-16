@@ -1,6 +1,9 @@
-﻿using Ardalis.SmartEnum;
+// ReSharper disable MemberCanBePrivate.Global
+
+using Ardalis.SmartEnum;
 using static System.Math;
 using static NutriFoods_UI.Utils.Enums.BmiCategory;
+
 namespace NutriFoods_UI.Utils.Enums;
 
 public class Bmi : SmartEnum<Bmi>, IEnum<Bmi, BmiToken>

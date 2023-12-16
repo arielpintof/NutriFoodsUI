@@ -11,9 +11,9 @@ public class Reducer
     {
         var updateList = state.Pathologies.ToList();
         updateList.Add(action.Disease);
-        var stateIsValid = updateList.All(pathology => pathology.IsValid);
+        //var stateIsValid = updateList.All(pathology => pathology.IsValid);
         
-        return new PersonalPathologiesState(updateList, stateIsValid: stateIsValid);
+        return new PersonalPathologiesState(updateList, stateIsValid: true);
     }
     
     [ReducerMethod]
@@ -36,9 +36,8 @@ public class Reducer
             Console.WriteLine($"Se produjo una excepción: {ex.Message}");
         }
         
-        var stateIsValid = updateList.All(p => p.IsValid);
         
-        return new PersonalPathologiesState(updateList, stateIsValid: stateIsValid);
+        return new PersonalPathologiesState(updateList, stateIsValid: true);
     }
     
     

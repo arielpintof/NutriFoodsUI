@@ -1,4 +1,4 @@
-namespace NutriFoods_UI.Utils;
+namespace NutriFoods_UI.Utils.Enums;
 
 public static class RegexUtils
 {

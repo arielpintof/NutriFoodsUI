@@ -3,7 +3,7 @@ using FluentValidation;
 using NutriFoods_UI.Data.Dto;
 using NutriFoods_UI.Utils.Enums;
 
-namespace NutriFoods_UI.Utils.Validators.Anamnesis;
+namespace NutriFoods_UI.Utils.Enums.Validators.Anamnesis;
 
 public class IngestibleValidator :  AbstractValidator<IngestibleDto>
 {

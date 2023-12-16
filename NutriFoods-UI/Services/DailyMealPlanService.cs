@@ -13,21 +13,20 @@ public class DailyMealPlanService(HttpClient httpClient, JsonSerializerSettings 
         double adjustmentFactor = 1e-1)
     {
         
-        var jsonBody = JsonConvert.SerializeObject(planConfiguration);
+        var jsonBody = JsonConvert.SerializeObject(planConfiguration, settings);
         var content = new StringContent(jsonBody, Encoding.UTF8, "application/json");
 
         return await httpClient.PostAsync(
-            $"/api/v1/daily-plans/by-distribution?day={day}&basalMetabolicRate={basalMetabolicRate}&activityLevel={activityLevel}&activityFactor={activityFactor}&adjustmentFactor={adjustmentFactor}", content);
+            $"/api/v1/daily-plans/distribution?day={day}&basalMetabolicRate={basalMetabolicRate}&activityLevel={activityLevel}&activityFactor={activityFactor}&adjustmentFactor={adjustmentFactor}", content);
     }
 
     public async Task<HttpResponseMessage?> DailyPlanByDistribution(PlanConfiguration planConfiguration)
     {
         var jsonBody = JsonConvert.SerializeObject(planConfiguration, settings);
-        
         Console.WriteLine("JSON being sent:\n" + jsonBody);
         var content = new StringContent(jsonBody, Encoding.UTF8, "application/json");
 
-        return await httpClient.PostAsync("/distribution", content);
+        return await httpClient.PostAsync("api/v1/daily-plans/distribution", content);
     }
     
 }

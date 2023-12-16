@@ -1,11 +1,10 @@
 using System.Globalization;
 using FluentValidation;
-using NutriFoods_UI.Data;
+using NutriFoods_UI.Data.Dto;
 using NutriFoods_UI.Utils.Date;
-using NutriFoods_UI.Utils.Enums;
 using static System.Globalization.CultureInfo;
 
-namespace NutriFoods_UI.Utils.Validators.Patients;
+namespace NutriFoods_UI.Utils.Enums.Validators.Patients;
 
 public class PersonalInfoValidator : AbstractValidator<PersonalInfoDto>
 {

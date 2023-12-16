@@ -1,6 +1,7 @@
 ﻿@page "/patients"
 @using Fluxor
 @using NutriFoods_UI.Data
+@using NutriFoods_UI.Data.Dto
 @using NutriFoods_UI.Data.Store.LogIn
 @using NutriFoods_UI.Utils.Date
 @inject IState<CredentialsState> CredentialState
@@ -56,7 +57,8 @@
             <MudTh>Nombre</MudTh>
             <MudTh>Sexo</MudTh>
             <MudTh>Edad</MudTh>
-            <MudTh>Dirección</MudTh>
+            <MudTh>Provincia</MudTh>
+            <MudTh>Calle</MudTh>
         </HeaderContent>
         <RowTemplate>
             @if (context.PersonalInfo != null && context.Address != null)
@@ -64,6 +66,7 @@
             <MudTd DataLabel="Nombre">@context.PersonalInfo!.Names @context.PersonalInfo.LastNames</MudTd>
             <MudTd DataLabel="Sexo">@context.PersonalInfo!.BiologicalSex</MudTd>
             <MudTd DataLabel="Edad">@DateOnlyUtils.CalculateAge(context.PersonalInfo!.Birthdate)</MudTd>
+            <MudTd DataLabel="Provincia">@context.Address.Province</MudTd>
             <MudTd DataLabel="Dirección">@context.Address!.Street, @context.Address.Number</MudTd>
             
             }

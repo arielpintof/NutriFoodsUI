@@ -16,37 +16,33 @@
             <div class="d-flex flex-row gap-3">
                 <span class="align-self-center">@(Index + 1)</span>
                 <MudSelectExtended ItemCollection="_diseases"
-                                   SearchBox="true"
-                                   SearchBoxAutoFocus="true"
-                                   T="string"
-                                   Label="Patología"
-                                   AnchorOrigin="Origin.BottomCenter"
-                                   Variant="Variant.Outlined"
-                                   SearchBoxClearable="true"
-                                   @bind-Value="PersonalPathology.Name"
-                                   Margin="Margin.Dense"
-                                   Required="true"/>
+                                                   SearchBox="true"
+                                                   SearchBoxAutoFocus="true"
+                                                   T="string"
+                                                   Label="Patología"
+                                                   AnchorOrigin="Origin.BottomCenter"
+                                                   Variant="Variant.Outlined"
+                                                   SearchBoxClearable="true"
+                                                   @bind-Value="PersonalPathology.Name"
+                                                   Margin="Margin.Dense"
+                                                   Required="true"/>
             </div>
 
         </MudItem>
         <MudItem md="6" xs="12">
             <div class="d-flex flex-row gap-3">
-                <MudComboBox T="string"
-                             Label="Herencia"
-                             AnchorOrigin="Origin.BottomCenter"
-                             Variant="Variant.Outlined"
-                             SearchBoxClearable="true"
-                             @bind-Value="PersonalPathology.InheritanceType"
-                             Margin="Margin.Dense"
-                             Required="true"
-                             InputPresenter="ValuePresenter.Text">
-                    <ChildContent>
-                        @foreach (var item in InheritancesNames)
-                        {
-                            <MudComboBoxItem Value="@item" Text="@item"></MudComboBoxItem>
-                        }
-                    </ChildContent>
-                </MudComboBox>
+                <MudSelectExtended T="string"
+                                   MultiSelection="true"
+                                   Label="Herencia"
+                                   AnchorOrigin="Origin.BottomCenter"
+                                   Variant="Variant.Outlined"
+                                   SearchBoxClearable="true"
+                                   @bind-SelectedValues="PersonalPathology.InheritanceTypes"
+                                   Margin="Margin.Dense"
+                                   Required="true"
+                                   ItemCollection="_diseases">
+                    
+                </MudSelectExtended>
                 <MudIconButton
                     OnClick="@DeletePathology"
                     Icon="@Icons.Material.Filled.Delete"
@@ -64,11 +60,9 @@
 
 @code {
 
-    private DiseaseDto PersonalPathology => Index < PersonalPathologiesState.Value.Pathologies.Count ?
-        PersonalPathologiesState.Value.Pathologies.ElementAt(Index) :
-        new DiseaseDto();
+    private DiseaseDto PersonalPathology => Index < PersonalPathologiesState.Value.Pathologies.Count ? PersonalPathologiesState.Value.Pathologies.ElementAt(Index) : new DiseaseDto();
 
-    private static IEnumerable<string> InheritancesNames => IEnum<InheritanceTypes, InheritanceToken>
+    private static List<string> InheritancesNames => IEnum<InheritanceTypes, InheritanceToken>
         .TokenDictionary
         .Select(e => e.Value.ReadableName)
         .Skip(1)
@@ -81,8 +75,7 @@
 
     private MudForm _form = new();
 
-    [Parameter]
-    public int Index { get; set; }
+    [Parameter] public int Index { get; set; }
 
     public bool IsValid;
 
@@ -102,8 +95,7 @@
         var action = new ChangePersonalPathologyAction(Index, new DiseaseDto
         {
             Name = PersonalPathology.Name,
-            InheritanceType = PersonalPathology.InheritanceType,
-            IsValid = IsValid
+            InheritanceTypes = PersonalPathology.InheritanceTypes,
         });
 
         Dispatcher.Dispatch(action);

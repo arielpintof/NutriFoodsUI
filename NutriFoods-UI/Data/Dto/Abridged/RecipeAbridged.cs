@@ -1,6 +1,6 @@
 namespace NutriFoods_UI.Data.Dto.Abridged;
 
-public class RecipeAbridged
+public sealed class RecipeAbridged
 {
     public int Id { get; set; }
     public string Name { get; set; } = string.Empty;
@@ -9,11 +9,11 @@ public class RecipeAbridged
     public int Portions { get; set; }
     public int? Time { get; set; }
     public string? Difficulty { get; set; }
-    public ICollection<string> MealTypes { get; set; } = null!;
-    public ICollection<string> DishTypes { get; set; } = null!;
-    public ICollection<RecipeMeasureDto> Measures { get; set; } = null!;
-    public ICollection<RecipeQuantityDto> Quantities { get; set; } = null!;
-    public ICollection<RecipeStepDto> Steps { get; set; } = null!;
+    public List<string> MealTypes { get; set; } = null!;
+    public List<string> DishTypes { get; set; } = null!;
+    public List<RecipeMeasureDto> Measures { get; set; } = null!;
+    public List<RecipeQuantityDto> Quantities { get; set; } = null!;
+    public List<RecipeStepDto> Steps { get; set; } = null!;
 }
 
 public static class RecipeAbridgedExtensions

@@ -1,3 +1,4 @@
+
 using NutriFoods_UI.Data.Dto;
 
 namespace NutriFoods_UI.Data.Store.AdverseFoodReactions;

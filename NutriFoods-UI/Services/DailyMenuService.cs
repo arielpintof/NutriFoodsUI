@@ -1,29 +1,22 @@
+using System.Text;
+using Newtonsoft.Json;
 using NutriFoods_UI.Data.Dto;
-using NutriFoods_UI.Utils.Enums;
 
 
 namespace NutriFoods_UI.Services;
 
-public class DailyMenuService : IDailyMenuService
+public class DailyMenuService(
+    HttpClient httpClient,
+    JsonSerializerSettings settings) : IDailyMenuService
 {
-    private readonly HttpClient _httpClient;
-
-    public DailyMenuService(HttpClient httpClient)
-    {
-        _httpClient = httpClient;
-    }
     
-    public async Task<HttpResponseMessage?> GenerateDailyMenu(double energyTarget, double carbsPercent, double fatsPercent, double proteinsPercent,
-        MealType mealType = MealType.None, Satiety satiety = Satiety.None)
+    public async Task<HttpResponseMessage> GenerateMenu(DailyMenuDto dailyMenu)
     {
-        var energy = energyTarget.ToString().Replace(",", ".");
-        return await _httpClient.GetAsync($"api/v1/daily-meals/custom-percentages?energyTarget={energy}&carbsPercent={carbsPercent}&fatsPercent={fatsPercent}&proteinsPercent={proteinsPercent}&mealType={mealType}&satiety={satiety}");
+        var jsonBody = JsonConvert.SerializeObject(dailyMenu, settings);
+        var content = new StringContent(jsonBody, Encoding.UTF8, "application/json");
+        
+        return await httpClient.PostAsync("/api/v1/daily-menus", content);
     }
 
-    public async Task<HttpResponseMessage?> GenerateDailyMenu(double energyTarget, MealType mealType = MealType.None, 
-        Satiety satiety = Satiety.None)
-    {
-        var energy = energyTarget.ToString().Replace(",", ".");
-        return await _httpClient.GetAsync($"api/v1/daily-meals/default-percentages?energyTarget={energy}&mealType={mealType}&satiety={satiety}");
-    }
+    
 }

@@ -1,4 +1,4 @@
-namespace NutriFoods_UI.Data.Dto;
+﻿namespace NutriFoods_UI.Data.Dto;
 
 public sealed class NutritionistDto
 {
@@ -7,5 +7,5 @@ public sealed class NutritionistDto
     public string Email { get; set; } = null!;
     public string Password { get; set; } = null!;
     public DateTime JoinedOn { get; set; }
-    public ICollection<PatientDto> Patients { get; set; } = null!;
+    public List<PatientDto> Patients { get; set; } = null!;
 }
