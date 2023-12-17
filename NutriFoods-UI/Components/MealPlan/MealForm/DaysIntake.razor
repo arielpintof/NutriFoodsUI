@@ -28,6 +28,7 @@
     </MudGrid>
 </MudForm>
 
+
 @code {
     public bool IsValid;
 
@@ -50,7 +51,6 @@
         get => _days;
         set
         {
-            if (Equals(_days, value)) return;
             _days = value;
             Dispatcher.Dispatch(new AddDaysAction(DaysHandler.ToList()));
         }
