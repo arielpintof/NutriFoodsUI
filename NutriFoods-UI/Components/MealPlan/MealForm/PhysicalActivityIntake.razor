@@ -6,7 +6,7 @@
 @inject IDispatcher Dispatcher
 @inherits Fluxor.Blazor.Web.Components.FluxorComponent
 
-<MudForm Model="TmrConfigurationModel" @bind-IsValid="@IsValidHandler">
+<MudForm Model="TmrConfigurationModel" @bind-IsValid="@IsValidHandler" Class="px-3 mb-5">
     <MudGrid>
         <MudItem xs="12" sm="12" md="4">
             <CollapseSubtitle Title="Actividad física"/>
@@ -67,7 +67,6 @@
     </MudGrid>
 </MudForm>
 
-<span>Multiplier: @TmrState.Value.TmrConfiguration.Multiplier</span>
 
 
 @code {
