@@ -18,7 +18,7 @@
                        Variant="Variant.Outlined"
                        @bind-Value="PhysicalActivityHandler"
                        T="PhysicalActivities"
-                       Required="true">
+                       Required="true" >
                 @foreach (var physicalActivity in PhysicalActivitiesCollection)
                 {
                     <MudSelectItem Value="physicalActivity">@physicalActivity.ReadableName</MudSelectItem>
@@ -67,11 +67,15 @@
     </MudGrid>
 </MudForm>
 
+<span>Multiplier: @TmrState.Value.TmrConfiguration.Multiplier</span>
+
 
 @code {
 
     private TmrConfiguration TmrConfigurationModel => TmrState.Value.TmrConfiguration;
-
+    
+    
+    
     ICollection<PhysicalActivities> PhysicalActivitiesCollection => IEnum<PhysicalActivities, PhysicalActivityToken>
         .TokenDictionary
         .Select(e => e.Value)
@@ -104,7 +108,7 @@
             Age = 27,
             Weight = 90,
             Height = 185,
-            Multiplier = TmrConfigurationModel.Multiplier,
+            Multiplier = ValueHandler,
             Factor = TmrConfigurationModel.Factor,
             PhysicalActivityLevel = PhysicalActivityHandler!.ReadableName
         });
@@ -120,6 +124,7 @@
             if (_physicalActivity == value) return;
             _physicalActivity = value;
             MapEnumToSliderValue();
+            UpdateTmr();
         }
     }
 
@@ -132,6 +137,7 @@
         {
             if (_value == value) return;
             _value = value;
+            UpdateTmr();
         }
     }
 
@@ -152,6 +158,7 @@
         UpperValueHandler = _physicalActivity.UpperRatio;
         ValueHandler = _physicalActivity.LowerRatio;
         StateHasChanged();
+        UpdateTmr();
     }
     
 
