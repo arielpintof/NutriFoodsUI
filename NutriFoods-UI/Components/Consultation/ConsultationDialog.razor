@@ -1,0 +1,129 @@
+﻿@using NutriFoods_UI.Utils.Enums
+@using NutriFoods_UI.Services
+@using NutriFoods_UI.Data.Dto
+@inject IPatientService PatientService
+@inject NavigationManager Nav
+
+<MudDialog Class="container px-3 py-3">
+    <DialogContent>
+        <section class="d-flex flex-column gap-2">
+            <h2 class="fw-bold">Nueva consulta</h2>
+            <MudDivider></MudDivider>
+        </section>
+        <section>
+            <MudForm @ref="Form">
+                <MudStack>
+                    <MudSelectExtended T="string"
+                                       Variant="Variant.Outlined"
+                                       Margin="Margin.Dense"
+                                       Label="Tipo de Consulta"
+                                       Placeholder="Seleccione un tipo de consulta"
+                                       Required="true"
+                                       RequiredError="Debe seleccionar un tipo de consulta"
+                                       @bind-Value="Type"
+                                       AnchorOrigin="Origin.BottomCenter">
+                        @foreach (var item in ConsultationTypesCollection)
+                        {
+                            <MudSelectItemExtended Value="@item.ReadableName">@item.ReadableName</MudSelectItemExtended>
+                        }
+                    </MudSelectExtended>
+                    <MudSelectExtended T="string"
+                                       @bind-Value="Purpose"
+                                       Variant="Variant.Outlined"
+                                       Margin="Margin.Dense"
+                                       Label="Objetivo"
+                                       Placeholder="Seleccione un objetivo"
+                                       Required="true"
+                                       RequiredError="Debe seleccionar un objetivo de consulta"
+                                       AnchorOrigin="Origin.BottomCenter">
+                        @foreach (var item in ConsultationPurposesCollection)
+                        {
+                            <MudSelectItemExtended Value="@item.ReadableName">@item.ReadableName</MudSelectItemExtended>
+                        }
+                    </MudSelectExtended>
+
+                    
+                        <MudButton Variant="Variant.Filled"
+                                   Color="Color.Primary"
+                                   OnClick="@IsValid"
+                                   DisableElevation="true"
+                                   Class="mt-5"
+                                   Style="text-transform: none; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700;">
+                            Generar consulta
+                        </MudButton>
+                    
+                </MudStack>
+            </MudForm>
+        </section>
+
+    </DialogContent>
+    <DialogActions>
+
+    </DialogActions>
+</MudDialog>
+
+@code {
+
+    [CascadingParameter] MudDialogInstance MudDialogInstance { get; set; } = null!;
+
+    [Parameter] public Guid PatientId { get; set; }
+
+    [Parameter] public Guid NutritionistId { get; set; }
+
+    string Type { get; set; } = string.Empty;
+
+    string Purpose { get; set; } = string.Empty;
+
+    MudForm Form { get; set; } = new();
+
+    ConsultationDto Consultation { get; set; } = new();
+
+    async Task IsValid()
+    {
+        await Form.Validate();
+
+        if (Form.IsValid)
+        {
+            await CreateConsultation();
+        }
+    }
+
+    bool ErrorMessage { get; set; }
+
+
+    static IEnumerable<ConsultationTypes> ConsultationTypesCollection => IEnum<ConsultationTypes, ConsultationTypeToken>
+        .TokenDictionary.Select(e => e.Value)
+        .Skip(1).ToList();
+
+    static IEnumerable<ConsultationPurposes> ConsultationPurposesCollection => IEnum<ConsultationPurposes, ConsultationPurposeToken>
+        .TokenDictionary.Select(e => e.Value)
+        .Skip(1).ToList();
+
+    async Task CreateConsultation()
+    {
+        var response = await PatientService.CreateConsultation(PatientId, new ConsultationDto
+        {
+            Type = Type,
+            Purpose = Purpose,
+            DailyPlans = []
+        });
+
+        var content = await response.Content.ReadFromJsonAsync<ConsultationDto>();
+
+        if (content != null)
+        {
+            Consultation = content;
+            NavToNewConsultation();
+        }
+        else
+        {
+            ErrorMessage = true;
+        }
+    }
+
+    void NavToNewConsultation()
+    {
+        Nav.NavigateTo($"/patient/{PatientId}/consultation/{Consultation.Id}");
+    }
+
+}

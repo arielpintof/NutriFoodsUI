@@ -31,8 +31,7 @@
 
     <ChildContent>
         <MudStep Icon="@Icons.Material.Filled.LocalHospital"
-                 Title="Clínica"
-                 StatusChanged="StatusChanged">
+                 Title="Clínica">
             <ChildContent>
 
                 <ClinicalCollapseGroup></ClinicalCollapseGroup>
@@ -55,16 +54,7 @@
                 <AnthropometryForm></AnthropometryForm>
             </ChildContent>
         </MudStep>
-
-        <MudStep Title="Recordatorio"
-                 Icon="@Icons.Material.Filled.FoodBank"
-                 Optional="false">
-            <ChildContent>
-
-            </ChildContent>
-        </MudStep>
-
-
+        
         @if (_addResultStep)
         {
             
@@ -85,10 +75,6 @@
         }
     </ChildContent>
     <ActionContent>
-        @if (_stepper.IsAllStepsCompleted())
-        {
-        }
-        <MudSpacer/>
     </ActionContent>
 
 
@@ -134,6 +120,7 @@
             {
                 _loading = true;
                 StateHasChanged();
+                Console.WriteLine("Enviando anamnesis clínica...");
                 await Task.Delay(1000);
                 _loading = false;
                 StateHasChanged();
@@ -142,8 +129,10 @@
             }
             else if (_stepper.GetActiveIndex() == 1)
             {
+                
                 _loading = true;
                 StateHasChanged();
+                Console.WriteLine("Enviando anamnesis alimentaria");
                 await Task.Delay(1000);
                 _loading = false;
                 StateHasChanged();
@@ -154,20 +143,10 @@
             {
                 _loading = true;
                 StateHasChanged();
+                Console.WriteLine("Enviando Antropometría");
                 await Task.Delay(1000);
                 _loading = false;
                 StateHasChanged();
-
-                return false;
-            }
-            else if (_stepper.GetActiveIndex() == 3)
-            {
-                _loading = true;
-                StateHasChanged();
-                await Task.Delay(1000);
-                _loading = false;
-                StateHasChanged();
-                Submit();
 
                 return false;
             }
@@ -180,12 +159,6 @@
         {
             return false;
         }
-    }
-
-
-    private void StatusChanged(StepStatus status)
-    {
-        Snackbar.Add($"First step {status.ToDescriptionString()}.", Severity.Info);
     }
 
     private StepperLocalizedStrings GetLocalizedStrings()

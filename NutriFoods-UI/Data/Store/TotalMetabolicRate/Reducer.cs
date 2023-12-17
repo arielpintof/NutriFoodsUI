@@ -1,10 +1,9 @@
 ﻿using Fluxor;
 using NutriFoods_UI.Data.Model;
-using NutriFoods_UI.Utils.Enums;
 
 namespace NutriFoods_UI.Data.Store.TotalMetabolicRate;
 
-public class Reducer
+public static class Reducer
 {
     [ReducerMethod]
     public static TmrState ChangeBmr(TmrState state, ChangeBmrAction action)
@@ -55,6 +54,12 @@ public class Reducer
     public static TmrState ChangeConfiguration(TmrState state, ChangeTmrAction action)
     {
         return new TmrState(action.Configuration);
+    }
+
+    [ReducerMethod]
+    public static DaysState AddDays(DaysState state, AddDaysAction action)
+    {
+        return new DaysState(action.Days);
     }
 }
 

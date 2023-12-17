@@ -1,6 +1,6 @@
-namespace NutriFoods_UI.Data;
+﻿namespace NutriFoods_UI.Data.Dto;
 
-public class PersonalInfoDto
+public sealed class PersonalInfoDto
 {
     public string Rut { get; set; } = null!;
     public string Names { get; set; } = null!;

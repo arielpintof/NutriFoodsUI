@@ -2,11 +2,12 @@
 @using NutriFoods_UI.Data.Dto
 @using NutriFoods_UI.Data.Dto.Abridged
 @using NutriFoods_UI.Services
-@using NutriFoods_UI.Utils.Enums
-@using NutriFoods_UI.Utils.Validators.Patients
+
+@using NutriFoods_UI.Utils.Enums.Validators.Patients
 @using Fluxor
 @using NutriFoods_UI.Data.Model
 @using NutriFoods_UI.Data.Store.LogIn
+@using NutriFoods_UI.Utils.Enums
 @inject INutritionistService NutritionistService
 @inject IPatientService PatientService
 @inject IState<CredentialsState> Credentials
@@ -231,7 +232,7 @@
                     PersonalInfo = PersonalInfoModel,
                     ContactInfo = ContactInfoModel,
                     Address = AddressModel,
-                    Consultations = new List<ConsultationDto>()
+                    Consultations = []
                 });
 
             var content = await response!.Content.ReadFromJsonAsync<NutritionistDto>();

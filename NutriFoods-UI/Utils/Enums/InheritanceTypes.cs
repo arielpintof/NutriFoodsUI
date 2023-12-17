@@ -1,4 +1,4 @@
-﻿using Ardalis.SmartEnum;
+using Ardalis.SmartEnum;
 
 namespace NutriFoods_UI.Utils.Enums;
 
@@ -26,9 +26,9 @@ public class InheritanceTypes : SmartEnum<InheritanceTypes>, IEnum<InheritanceTy
 
 public enum InheritanceToken
 {
-    None = 0,
-    Direct = 1,
-    Paternal = 2,
-    Maternal = 3,
-    Siblings = 4 
+    None,
+    Direct,
+    Paternal,
+    Maternal,
+    Siblings
 }

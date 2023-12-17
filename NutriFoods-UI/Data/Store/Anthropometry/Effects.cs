@@ -51,7 +51,7 @@ public class Effects(
         var response = await patientService.AddClinicalAnamnesis(
             action.PatientId, action.ConsultationId, new ClinicalAnamnesisDto
             {
-                Medications = ingestibles,
+                Ingestibles = ingestibles,
                 ClinicalSigns = clinicalSignState.Value.ClinicalSigns,
                 Diseases = diseases.Value.Pathologies
             });

@@ -1,16 +1,17 @@
 ﻿@using NutriFoods_UI.Utils.Enums
 @using NutriFoods_UI.Data.Store.MealsConfiguration
 @using Fluxor
+@using System.Globalization
 @inject IDispatcher Dispatcher
 @inherits Fluxor.Blazor.Web.Components.FluxorComponent
 @inject IState<MealsConfigurationState> MealState
 
 
-<div class="mb-4 my-3">
-    @for (var i = 0; i < MealTypesCollection.Count; i++)
+<div class="d-flex flex-column my-3 px-3 gap-3">
+    @for (var i = 0; i < MealState.Value.Meals.Count; i++)
     {
-        <MealTypeIntake Index="i" MealType="MealTypesCollection[i]"></MealTypeIntake>
-        <MudDivider Class="mb-5 mt-2"/>
+        <MealTypeIntake Index="i"></MealTypeIntake>
+        <MudDivider Class="mb-2 mt-2"/>
     }
     
     <div class="d-flex justify-start mt-3 mb-5 ml-2">
@@ -18,6 +19,7 @@
             Size="Size.Small"
             Color="Color.Primary"
             StartIcon="@Icons.Material.Outlined.AddCircle"
+            OnClick="@AddMeal"
             Variant="Variant.Text"
             Style="text-transform: none; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700;">
             Añadir comida del día
@@ -25,15 +27,10 @@
     </div>
 </div>
 
-
 @code {
-    
-    private List<MealTypes> MealTypesCollection { get; set; } =
-    [
-        MealTypes.Breakfast,
-        MealTypes.Lunch,
-        MealTypes.Dinner
-    ];
+
+    private void AddMeal() => Dispatcher.Dispatch(new AddMealAction(new MealConfiguration()));
+
 
     protected override Task OnInitializedAsync()
     {
@@ -44,36 +41,29 @@
                 MealType = MealTypes.Breakfast,
                 MealTime = new TimeSpan(),
                 Percentage = 0
-             
+
             },
             new MealConfiguration
             {
                 MealType = MealTypes.Lunch,
                 MealTime = new TimeSpan(),
                 Percentage = 0
-             
+
             },
             new MealConfiguration
             {
                 MealType = MealTypes.Dinner,
                 MealTime = new TimeSpan(),
                 Percentage = 0
-             
+
             }
         };
 
         Dispatcher.Dispatch(new InitializeMealsAction(action));
-        
+
         return base.OnInitializedAsync();
     }
 
-    private MealConfiguration CurrentMealConfiguration { get; set; } = new ();
-
-    
-
-
-
-
-
+    private MealConfiguration CurrentMealConfiguration { get; set; } = new();
 
 }

@@ -6,7 +6,7 @@ namespace NutriFoods_UI.Data.Dto;
 public class MicroNutrientDto
 {
 
-    public string? Name { get; set; } = string.Empty;
+    public string Name { get; set; }
     [Required]
     [Range(10, 50, ErrorMessage = "La cantidad debe estar entre 10 y 50")]
     public double? Quantity { get; set; } 

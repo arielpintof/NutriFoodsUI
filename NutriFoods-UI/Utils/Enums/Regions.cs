@@ -1,6 +1,6 @@
-﻿using Ardalis.SmartEnum;
-
 namespace NutriFoods_UI.Utils.Enums;
+
+using Ardalis.SmartEnum;
 
 public class Regions : SmartEnum<Regions>, IEnum<Regions, RegionToken>
 {

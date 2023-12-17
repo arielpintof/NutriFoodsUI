@@ -1,6 +1,6 @@
-namespace NutriFoods_UI.Data.Dto;
+﻿namespace NutriFoods_UI.Data.Dto;
 
-public class ContactInfoDto
+public sealed class ContactInfoDto
 {
     public string MobilePhone { get; set; } = null!;
     public string? FixedPhone { get; set; }

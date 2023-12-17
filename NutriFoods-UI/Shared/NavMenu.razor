@@ -230,22 +230,35 @@
 
 
 <style>
-
+        .mud-drawer{
+            border-top-right-radius: 15px ;
+            border-bottom-right-radius: 15px;
+        }
         .mud-nav-link {
             white-space: normal !important;
             padding: 12px 16px 12px 38px;
             color: white;
         }
+        .mud-nav-item a:hover{
+            color: white;
+        }
         
+        .mud-navmenu.mud-navmenu-default .mud-nav-link.active:not(.mud-nav-link-disabled):hover{
+             background: white;
+ 
+        }
          .mud-navmenu.mud-navmenu-default .mud-nav-link.active:not(.mud-nav-link-disabled){
             color: var(--mud-palette-primary);
+            padding-inline: 22px;
+            margin-inline: 15px;
             background-color: #f9f9f9;
-            border-right: 3px solid #f9f9f9;
+            border-radius: 20px;
+         
         }
        
         
         .side-menu {
-            border-right: 1px solid var(--mud-palette-table-lines)
+            
         }
         
         .user-button {

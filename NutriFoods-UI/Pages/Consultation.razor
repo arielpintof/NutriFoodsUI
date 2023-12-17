@@ -1,5 +1,5 @@
-﻿@page "/consultation/{PatientId:guid}"
-@using NutriFoods_UI.Data
+﻿@page "/patient/{PatientId:guid}/consultation/{ConsultationId:guid}"
+@using NutriFoods_UI.Data.Dto
 @using NutriFoods_UI.Services
 @using NutriFoods_UI.Utils.Strings
 @inject IPatientService PatientService
@@ -11,32 +11,36 @@
         Pacientes
       </a>
     </li>
-    <li class="breadcrumb-item active" aria-current="page" href="/user-dashboard">Perfil de
-      @Strings.FirstWord(Names) @Strings.FirstWord(LastNames)
+    <li class="breadcrumb-item active" aria-current="page" href="/user-dashboard">
+      Perfil de @Strings.FirstWord(Names) @Strings.FirstWord(LastNames)
     </li>
     <li class="breadcrumb-item active" aria-current="page">Nueva consulta</li>
   </ol>
 </nav>
 
-<AddConsultation PatientId="PatientId"
+<ConsultationContent PatientId="PatientId"
                  AnamnesisCompleted="AnamnesisCompleted"
                  MealCompleted="MealPlanCompleted">
-</AddConsultation>
+</ConsultationContent>
+
 
 @code {
   [Parameter] public Guid PatientId { get; set; }
+  [Parameter] public Guid ConsultationId { get; set; }
 
   [SupplyParameterFromQuery] public bool? AnamnesisCompleted { get; set; } = new bool();
 
   [SupplyParameterFromQuery] public bool? MealPlanCompleted { get; set; } = new bool();
 
   string Names { get; set; } = string.Empty;
+  
   string LastNames { get; set; } = string.Empty;
 
   PatientDto Patient { get; set; } = new();
 
   protected override async Task OnInitializedAsync()
   {
+    
     var response = await PatientService.FindPatient(PatientId);
 
     if (response != null)

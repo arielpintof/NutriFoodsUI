@@ -1,8 +1,8 @@
 ﻿using FluentValidation;
-using NutriFoods_UI.Data.Dto.Abridged;
+using NutriFoods_UI.Data.Dto;
 using NutriFoods_UI.Utils.Enums;
 
-namespace NutriFoods_UI.Utils.Validators.Patients;
+namespace NutriFoods_UI.Utils.Enums.Validators.Patients;
 
 public class AddressValidator : AbstractValidator<AddressDto>
 {

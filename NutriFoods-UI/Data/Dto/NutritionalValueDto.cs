@@ -1,4 +1,4 @@
-namespace NutriFoods_UI.Data.Dto;
+﻿namespace NutriFoods_UI.Data.Dto;
 
 public class NutritionalValueDto
 {

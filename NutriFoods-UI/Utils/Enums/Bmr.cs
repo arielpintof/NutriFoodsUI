@@ -1,10 +1,13 @@
-﻿using Ardalis.SmartEnum;
+// ReSharper disable ArrangeRedundantParentheses
+// ReSharper disable MemberCanBePrivate.Global
+// ReSharper disable SwitchExpressionHandlesSomeKnownEnumValuesWithExceptionInDefault
+
+using Ardalis.SmartEnum;
 using static System.Math;
 using static NutriFoods_UI.Utils.Enums.BiologicalSexToken;
-using static NutriFoods_UI.Utils.Enums.IEnum<NutriFoods_UI.Utils.Enums.BiologicalSexes, NutriFoods_UI.Utils.Enums.BiologicalSexToken>;
+using static NutriFoods_UI.Utils.Enums.IEnum<NutriFoods_UI.Utils.Enums.BiologicalSexes,NutriFoods_UI.Utils.Enums.BiologicalSexToken>;
 
 namespace NutriFoods_UI.Utils.Enums;
-
 
 public class Bmr : SmartEnum<Bmr>, IEnum<Bmr, BmrToken>
 {

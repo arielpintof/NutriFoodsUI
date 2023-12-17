@@ -1,10 +1,10 @@
-namespace NutriFoods_UI.Data.Dto;
+﻿namespace NutriFoods_UI.Data.Dto;
 
-public class ClinicalAnamnesisDto
+public sealed class ClinicalAnamnesisDto
 {
-    public string? CreatedOn { get; set; }
-    public string? LastUpdated { get; set; }
-    public ICollection<ClinicalSignDto> ClinicalSigns { get; set; } = null!;
-    public ICollection<DiseaseDto> Diseases { get; set; } = null!;
-    public ICollection<IngestibleDto> Medications { get; set; } = null!;
+    public DateTime? CreatedOn { get; set; }
+    public DateTime? LastUpdated { get; set; }
+    public List<ClinicalSignDto> ClinicalSigns { get; set; } = null!;
+    public List<DiseaseDto> Diseases { get; set; } = null!;
+    public List<IngestibleDto> Ingestibles { get; set; } = null!;
 }

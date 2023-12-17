@@ -1,7 +1,8 @@
 namespace NutriFoods_UI.Data.Dto.Abridged;
 
-public class IngredientMeasureAbridged
+public sealed class IngredientMeasureAbridged
 {
+    public int Id { get; set; }
     public string Name { get; set; } = string.Empty;
     public double Grams { get; set; }
     public bool IsDefault { get; set; }

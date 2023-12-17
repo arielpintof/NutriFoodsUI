@@ -1,4 +1,4 @@
-﻿using Ardalis.SmartEnum;
+using Ardalis.SmartEnum;
 
 namespace NutriFoods_UI.Utils.Enums;
 
@@ -6,16 +6,13 @@ public class Days : SmartEnum<Days>, IEnum<Days, DayToken>
 {
     public static readonly Days None =
         new(nameof(None), (int)DayToken.None, string.Empty);
-
-    public static readonly Days Sunday =
-        new(nameof(Sunday), (int)DayToken.Sunday, "Domingo");
-
+    
     public static readonly Days Monday =
         new(nameof(Monday), (int)DayToken.Monday, "Lunes");
-
+    
     public static readonly Days Tuesday =
         new(nameof(Tuesday), (int)DayToken.Tuesday, "Martes");
-
+    
     public static readonly Days Wednesday =
         new(nameof(Wednesday), (int)DayToken.Wednesday, "Miércoles");
 
@@ -28,6 +25,9 @@ public class Days : SmartEnum<Days>, IEnum<Days, DayToken>
     public static readonly Days Saturday =
         new(nameof(Saturday), (int)DayToken.Saturday, "Sábado");
 
+    public static readonly Days Sunday =
+        new(nameof(Sunday), (int)DayToken.Sunday, "Domingo");
+
     private Days(string name, int value, string readableName) : base(name, value) => ReadableName = readableName;
 
     public string ReadableName { get; }
@@ -36,13 +36,13 @@ public class Days : SmartEnum<Days>, IEnum<Days, DayToken>
 public enum DayToken
 {
     None,
-    Sunday,
     Monday,
     Tuesday,
     Wednesday,
     Thursday,
     Friday,
-    Saturday
+    Saturday,
+    Sunday,
 }
 
 public static class DayExtensions

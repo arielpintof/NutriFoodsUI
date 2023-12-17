@@ -6,7 +6,7 @@
 @inject IDispatcher Dispatcher
 @inherits Fluxor.Blazor.Web.Components.FluxorComponent
 
-<MudForm Model="TmrConfigurationModel" @bind-IsValid="@IsValidHandler">
+<MudForm Model="TmrConfigurationModel" @bind-IsValid="@IsValidHandler" Class="px-3 mb-5">
     <MudGrid>
         <MudItem xs="12" sm="12" md="4">
             <CollapseSubtitle Title="Actividad física"/>
@@ -18,7 +18,7 @@
                        Variant="Variant.Outlined"
                        @bind-Value="PhysicalActivityHandler"
                        T="PhysicalActivities"
-                       Required="true">
+                       Required="true" >
                 @foreach (var physicalActivity in PhysicalActivitiesCollection)
                 {
                     <MudSelectItem Value="physicalActivity">@physicalActivity.ReadableName</MudSelectItem>
@@ -68,10 +68,13 @@
 </MudForm>
 
 
+
 @code {
 
     private TmrConfiguration TmrConfigurationModel => TmrState.Value.TmrConfiguration;
-
+    
+    
+    
     ICollection<PhysicalActivities> PhysicalActivitiesCollection => IEnum<PhysicalActivities, PhysicalActivityToken>
         .TokenDictionary
         .Select(e => e.Value)
@@ -104,7 +107,7 @@
             Age = 27,
             Weight = 90,
             Height = 185,
-            Multiplier = TmrConfigurationModel.Multiplier,
+            Multiplier = ValueHandler,
             Factor = TmrConfigurationModel.Factor,
             PhysicalActivityLevel = PhysicalActivityHandler!.ReadableName
         });
@@ -120,6 +123,7 @@
             if (_physicalActivity == value) return;
             _physicalActivity = value;
             MapEnumToSliderValue();
+            UpdateTmr();
         }
     }
 
@@ -132,6 +136,7 @@
         {
             if (_value == value) return;
             _value = value;
+            UpdateTmr();
         }
     }
 
@@ -152,6 +157,7 @@
         UpperValueHandler = _physicalActivity.UpperRatio;
         ValueHandler = _physicalActivity.LowerRatio;
         StateHasChanged();
+        UpdateTmr();
     }
     
 

@@ -1,0 +1,62 @@
+﻿@using NutriFoods_UI.Utils.Enums
+@using Fluxor
+@using NutriFoods_UI.Data.Store.TotalMetabolicRate
+@inject IState<DaysState> DaysState
+@inject IDispatcher Dispatcher
+
+<MudForm @bind-IsValid="@IsValidHandler">
+    <MudGrid Class="px-3 mb-5">
+        <MudItem xs="12" sm="12" md="4">
+            <CollapseSubtitle Title="Días de la semana"/>
+        </MudItem>
+        <MudItem xs="12" sm="12" md="8" Class="align-items-center">
+            <MudSelect Margin="Margin.Dense"
+                       Label="Días"
+                       Variant="Variant.Outlined"
+                       @bind-SelectedValues="DaysHandler"
+                       T="string"
+                       TransformOrigin="Origin.BottomCenter"
+                       MultiSelection="true"
+                       Required="true">
+                @foreach (var day in DaysCollection)
+                {
+                    <MudSelectItem Value="day"></MudSelectItem>
+                }
+            </MudSelect>
+        </MudItem>
+
+    </MudGrid>
+</MudForm>
+
+
+@code {
+    public bool IsValid;
+
+    private bool IsValidHandler
+    {
+        get => IsValid;
+        set
+        {
+            if (IsValid == value) return;
+            IsValid = value;
+            StateHasChanged();
+        }
+    }
+    
+    
+    private IEnumerable<string> _days = [];
+
+    private IEnumerable<string> DaysHandler
+    {
+        get => _days;
+        set
+        {
+            _days = value;
+            Dispatcher.Dispatch(new AddDaysAction(DaysHandler.ToList()));
+        }
+    }
+
+    ICollection<string> DaysCollection => IEnum<Days, DayToken>.TokenDictionary
+        .Select(e => e.Value.ReadableName).Skip(1).ToList();
+
+}

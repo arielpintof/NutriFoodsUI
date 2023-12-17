@@ -1,6 +1,6 @@
-namespace NutriFoods_UI.Data.Dto.Abridged;
+﻿namespace NutriFoods_UI.Data.Dto;
 
-public class AddressDto
+public sealed class AddressDto
 {
     public string Street { get; set; } = null!;
     public int Number { get; set; }

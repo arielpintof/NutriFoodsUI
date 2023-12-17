@@ -1,34 +1,44 @@
 ﻿@using NutriFoods_UI.Utils.Enums
 @using NutriFoods_UI.Data.Store.MealsConfiguration
 @using Fluxor
+@using MudBlazor.Utilities
 @using MudExtensions.Enums
 @inject IState<MealsConfigurationState> MealState
 @inherits Fluxor.Blazor.Web.Components.FluxorComponent
 @inject IDispatcher Dispatcher
 
 
-<div class="d-flex px-3 mb-4 align-items-center justify-space-between">
-    <div class="d-flex " style="width: 10%">
-        <span>@MealType.ReadableName</span>
-    </div>
-    <div class="d-flex flex-row gap-3" style="width: 63%">
-        <div style="width: 40%">
-            <span class="label" style="font-size: 13px;">Hora</span>
-            <MudTimePicker Class=""
-                           Placeholder="Hora de consumo"
-                           AmPm="true" 
-                           @bind-Time="TimeHandler" 
-                           Style="margin-top: 0"
-                           Variant="Variant.Outlined"
-                           Margin="Margin.Dense"
-                           >
-            </MudTimePicker>
-        </div>
-
-        <div class="d-flex gap-3 mx-1 align-end mud-width-full">
-            <div class="d-flex flex-column mud-width-full">
+<MudGrid>
+    <MudForm Model="MealConfigurationModel" bind-IsTouched="IsValidHandler" IsTouched="IsValidHandler"></MudForm>
+    <MudItem md="3">
+        <span class="label" style="font-size: 13px;">Comida del día</span>
+        <MudSelect Variant="Variant.Outlined"
+                   Margin="Margin.Dense"
+                   AnchorOrigin="Origin.BottomCenter"
+                   T="MealTypes?"
+                   @bind-Value="MealTypesHandler">
+            @foreach (var meal in MealTypesCollection)
+            {
+                <MudSelectItem Value="@meal">@meal.ReadableName</MudSelectItem>
+            }
+        </MudSelect>
+    </MudItem>
+    <MudItem md="3">
+        <span class="label" style="font-size: 13px;">Hora</span>
+        <MudTimePicker Class=""
+                       Placeholder="Hora de consumo"
+                       AmPm="true"
+                       @bind-Time="TimeHandler"
+                       Style="margin-top: 0"
+                       Variant="Variant.Outlined"
+                       Margin="Margin.Dense">
+        </MudTimePicker>
+    </MudItem>
+    <MudItem md="6">
+        <div class="d-flex align-items-center gap-1 mud-width-full">
+            <div class="mud-width-full">
                 <span class="label" style="font-size: 13px;">Distribución</span>
-                <MudSlider Size="Size.Medium" 
+                <MudSlider Size="Size.Medium"
                            @bind-Value="PercentageHandler"
                            Variant="Variant.Filled"
                            Min="0" Max="100" Step="1"
@@ -37,25 +47,53 @@
             </div>
             <div class="d-flex align-items-center gap-1">
                 <input class="custom form-control" type="number" min="0" max="100" @bind-value="PercentageHandler"/>
-                                <label class="form-label">%</label>
+                <label class="form-label">%</label>
             </div>
-
-            @* <input type="range" min="0" max="100" step="1" id="name" @bind-Value="MealConfiguration.Percentage" @bind="PercentageHandler"/> *@
-            @* <input type="number" min="0" max="100" @bind-Value="MealConfiguration.Percentage" @bind="PercentageHandler"> *@
         </div>
-    </div>
 
 
-</div>
-
+    </MudItem>
+</MudGrid>
 
 @code {
-    
-    [Parameter]
-    public MealTypes MealType { get; set; } = null!;
 
-    [Parameter]
-    public int Index { get; set; }
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        MealType = MealState.Value.Meals.ElementAt(Index).MealType;
+    }
+
+    MealTypes? MealType { get; set; }
+
+    MealTypes? MealTypesHandler
+    {
+        get => MealType;
+        set
+        {
+            MealType = value;
+            UpdateMealConfiguration();
+        }
+    }
+
+    List<MealTypes> MealTypesCollection => IEnum<MealTypes, MealToken>.Values.Skip(1).ToList();
+
+    public bool IsValid;
+
+    private bool IsValidHandler
+    {
+        get => IsValid;
+        set
+        {
+            IsValid = value;
+            Console.WriteLine($"Mealtype {Index} cambio uno de sus atributos");
+        }
+    }
+
+    MealConfiguration MealConfigurationModel => Index < MealState.Value.Meals.Count
+        ? MealState.Value.Meals.ElementAt(Index)
+        : new MealConfiguration();
+
+    [Parameter] public int Index { get; set; }
 
     private int _percentage;
 
@@ -70,8 +108,8 @@
             UpdateMealConfiguration();
         }
     }
-    
-    private TimeSpan? _time = new TimeSpan(00, 45, 00);
+
+    private TimeSpan? _time = new TimeSpan();
 
     private TimeSpan? TimeHandler
     {
@@ -83,9 +121,10 @@
             UpdateMealConfiguration();
         }
     }
+
     private void UpdateMealConfiguration()
     {
-        var action = new MealsConfigurationAction(new MealConfiguration
+        var action = new ChangeMealsConfigurationAction(new MealConfiguration
         {
             MealType = MealType,
             MealTime = _time,
@@ -94,7 +133,6 @@
 
         Dispatcher.Dispatch(action);
     }
-
 
 
 }
