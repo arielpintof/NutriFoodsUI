@@ -29,3 +29,22 @@ public class TmrState
     
     
 }
+
+[FeatureState]
+public class DaysState
+{
+    public List<string> Days { get; } = [];
+    
+    public bool IsValid { get; set; }
+    
+    public DaysState(List<string> days)
+    {
+        Days = days;
+    }
+
+    public DaysState()
+    {
+    }
+    
+    
+}

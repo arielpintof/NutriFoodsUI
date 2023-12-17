@@ -15,7 +15,8 @@ public class DailyMealEffects(
     IState<DailyMealState> dailyMealstate,
     IState<TmrState> tmrState,
     IState<MealsConfigurationState> mealsConfigurationState,
-    IState<MoleculaState> moleculaState)
+    IState<MoleculaState> moleculaState,
+    IState<DaysState> daysState)
 {
     
     [EffectMethod]
@@ -68,12 +69,9 @@ public class DailyMealEffects(
         var physicalActivityFactor = tmrState.Value.TmrConfiguration.Multiplier;
         var adjustmentFactor = tmrState.Value.TmrConfiguration.Factor;
         var basalMetabolicRate = tmrState.Value.GetBmr;
-        //var energy = tmrState.Value.GetTmr;
         var mealConfigurations = mealsConfigurationState.Value.Meals;
-        var days = new List<string>();
-        days.Add(Days.Monday.ReadableName);
-        days.Add(Days.Friday.ReadableName);
-        
+        var days = daysState.Value.Days;
+
         var meals = mealConfigurations
             .Select(mc => new MealConfigurationDto
             {
