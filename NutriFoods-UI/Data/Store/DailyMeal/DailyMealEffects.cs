@@ -1,8 +1,6 @@
 ﻿using System.Net.Http.Json;
 using Fluxor;
-using Microsoft.AspNetCore.Components;
 using NutriFoods_UI.Data.Dto;
-using NutriFoods_UI.Data.Store.DailyMeal;
 using NutriFoods_UI.Data.Store.DailyMenu;
 using NutriFoods_UI.Data.Store.MealsConfiguration;
 using NutriFoods_UI.Data.Store.TotalMetabolicRate;
@@ -19,41 +17,24 @@ public class DailyMealEffects(
     IState<MealsConfigurationState> mealsConfigurationState,
     IState<MoleculaState> moleculaState)
 {
-    private readonly IDailyMenuService _dailyMenuService = dailyMenuService;
-    private readonly IState<DailyMealState> _mealState = dailyMealstate;
-
-
+    
     [EffectMethod]
     public async Task RenewDailyMenu(RenewMenuAction action, IDispatcher dispatcher)
     {
-        /*dispatcher.Dispatch(new OnLoadingMenuAction(action.Index));
-
-        var nutrientTarget = _mealState.Value.DailyPlan.Menus.ElementAt(action.Index).Targets;
-
-        var targets = nutrientTarget
-            .Select(item => new NutritionalTargetDto()
-            {
-                Nutrient = item.Nutrient,
-                ExpectedQuantity = item.ExpectedQuantity,
-                ExpectedError = item.ExpectedError,
-                Unit = item.Unit,
-                ThresholdType = item.ThresholdType,
-                IsPriority = item.IsPriority
-            })
-            .ToList();
+        dispatcher.Dispatch(new OnLoadingMenuAction(action.Index));
         
         var dailyMenu = new DailyMenuDto()
         {
             IntakePercentage = 1,
-            MealType = _mealState.Value.DailyPlan.Menus.ElementAt(action.Index).MealType,
-            Hour = _mealState.Value.DailyPlan.Menus.ElementAt(action.Index).Hour,
+            MealType = dailyMealstate.Value.DailyPlan.Menus.ElementAt(action.Index).MealType,
+            Hour = dailyMealstate.Value.DailyPlan.Menus.ElementAt(action.Index).Hour,
             Nutrients = [],
-            Targets = targets,
+            Targets = dailyMealstate.Value.DailyPlan.Menus.ElementAt(action.Index).Targets.ResetActualValues(),
             Recipes = []
             
         };
 
-        var response = await _dailyMenuService.GenerateMenu(dailyMenu);
+        var response = await dailyMenuService.GenerateMenu(dailyMenu);
         var content = await response.Content.ReadFromJsonAsync<DailyMenuDto>();
 
         if (content != null)
@@ -61,7 +42,7 @@ public class DailyMealEffects(
             dispatcher.Dispatch(new ChangeDailyMealAction(content, action.Index));
         }
 
-        dispatcher.Dispatch(new StopOnLoadingMenuAction());*/
+        dispatcher.Dispatch(new StopOnLoadingMenuAction());
     }
 
     /*[EffectMethod(typeof(LoadMealPlanAction))]
@@ -89,7 +70,10 @@ public class DailyMealEffects(
         var basalMetabolicRate = tmrState.Value.GetBmr;
         //var energy = tmrState.Value.GetTmr;
         var mealConfigurations = mealsConfigurationState.Value.Meals;
-
+        var days = new List<string>();
+        days.Add(Days.Monday.ReadableName);
+        days.Add(Days.Friday.ReadableName);
+        
         var meals = mealConfigurations
             .Select(mc => new MealConfigurationDto
             {
@@ -101,12 +85,12 @@ public class DailyMealEffects(
         
         var planConfiguration = new PlanConfiguration
         {
-            Day = Days.Monday.ReadableName,
+            Days = days,
             BasalMetabolicRate = basalMetabolicRate,
             AdjustmentFactor = adjustmentFactor,
             ActivityLevel = physicalActivityLevel,
             ActivityFactor = physicalActivityFactor,
-            Distribution = new Dictionary<string, double>()
+            Distribution = new Dictionary<string, double>
             {
                 { "Carbohidratos, total", moleculaState.Value.CarbTarget * 0.01  },
                 { "Proteína, total", moleculaState.Value.ProteinTarget * 0.01 },
@@ -140,7 +124,7 @@ public class DailyMealEffects(
 
 public class PlanConfiguration
 {
-    public string Day { get; set; } = null!;
+    public List<string> Days { get; set; } = null!;
     public double BasalMetabolicRate { get; set; }
     public double AdjustmentFactor { get; set; }
     public string ActivityLevel { get; set; } = null!;

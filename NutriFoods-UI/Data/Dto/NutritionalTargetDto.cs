@@ -1,4 +1,5 @@
 ﻿
+using System.Collections;
 using FluentValidation;
 using NutriFoods_UI.Data.Store.DailyMeal;
 using NutriFoods_UI.Utils.Enums;
@@ -78,6 +79,22 @@ public static class TargetExtensions
             ThresholdType = target.ThresholdType,
             IsPriority = target.IsPriority
         });
+    }
+
+    public static List<NutritionalTargetDto> ResetActualValues(
+        this IEnumerable<NutritionalTargetDto> nutritionalTargets)
+    {
+        return nutritionalTargets
+            .Select(item => new NutritionalTargetDto()
+            {
+                Nutrient = item.Nutrient,
+                ExpectedQuantity = item.ExpectedQuantity,
+                ExpectedError = item.ExpectedError,
+                Unit = item.Unit,
+                ThresholdType = item.ThresholdType,
+                IsPriority = item.IsPriority
+            })
+            .ToList();
     }
 
     

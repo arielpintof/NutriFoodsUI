@@ -13,6 +13,7 @@ public class DailyMenuService(
     public async Task<HttpResponseMessage> GenerateMenu(DailyMenuDto dailyMenu)
     {
         var jsonBody = JsonConvert.SerializeObject(dailyMenu, settings);
+        Console.WriteLine(jsonBody);
         var content = new StringContent(jsonBody, Encoding.UTF8, "application/json");
         
         return await httpClient.PostAsync("/api/v1/daily-menus", content);
