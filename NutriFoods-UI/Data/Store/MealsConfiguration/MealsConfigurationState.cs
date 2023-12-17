@@ -25,7 +25,7 @@ public class MealConfiguration
 {
     public MealTypes MealType { get; set; } = null!;
     
-    public double Percentage { get; set; }
+    public int Percentage { get; set; }
     
     public TimeSpan? MealTime { get; set; }
     
