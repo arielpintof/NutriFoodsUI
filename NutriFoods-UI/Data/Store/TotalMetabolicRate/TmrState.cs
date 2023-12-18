@@ -9,7 +9,7 @@ public class TmrState
 {
     public TmrConfiguration TmrConfiguration { get; } = new();
     
-    public bool IsValid { get; set; }
+    public bool IsValid { get;}
 
     public double GetTmr => TmrConfiguration.Bmr.TotalMetabolicRate(TmrConfiguration.BiologicalSex,
         TmrConfiguration.Age, TmrConfiguration.Weight, TmrConfiguration.Height, TmrConfiguration.Multiplier);
@@ -21,6 +21,12 @@ public class TmrState
     public TmrState(TmrConfiguration tmrConfiguration)
     {
         TmrConfiguration = tmrConfiguration;
+    }
+    
+    public TmrState(TmrConfiguration tmrConfiguration, bool isValid)
+    {
+        TmrConfiguration = tmrConfiguration;
+        IsValid = isValid;
     }
 
     public TmrState()

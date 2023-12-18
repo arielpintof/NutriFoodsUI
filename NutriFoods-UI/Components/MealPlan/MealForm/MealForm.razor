@@ -12,6 +12,7 @@
 @inject IState<DailyMealState> DailyMealState
 @inject IDispatcher Dispatcher
 @inject IState<DaysState> DayState
+@inject IState<TmrState> TmrState
 @inherits Fluxor.Blazor.Web.Components.FluxorComponent
 
 
@@ -124,10 +125,11 @@
                 _loading = true;
                 StateHasChanged();
                 await Task.Delay(1000);
+                var isValid = DayState.Value.IsValid && TmrState.Value.IsValid;
                 _loading = false;
                 StateHasChanged();
                 
-                return !DayState.Value.IsValid;
+                return !isValid;
             }
             else if (_stepper.GetActiveIndex() == 2)
             {

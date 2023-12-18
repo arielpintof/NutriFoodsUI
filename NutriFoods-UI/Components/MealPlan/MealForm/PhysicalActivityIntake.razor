@@ -6,7 +6,7 @@
 @inject IDispatcher Dispatcher
 @inherits Fluxor.Blazor.Web.Components.FluxorComponent
 
-<MudForm Model="TmrConfigurationModel" @bind-IsValid="@IsValidHandler" Class="px-3 mb-5">
+<MudForm Model="TmrConfigurationModel" @bind-IsValid="@IsValidHandler" Class="px-3 mb-5" @ref="Form">
     <MudGrid>
         <MudItem xs="12" sm="12" md="4">
             <CollapseSubtitle Title="Actividad física"/>
@@ -73,7 +73,7 @@
 
     private TmrConfiguration TmrConfigurationModel => TmrState.Value.TmrConfiguration;
     
-    
+    MudForm Form { get; set; } = new();
     
     ICollection<PhysicalActivities> PhysicalActivitiesCollection => IEnum<PhysicalActivities, PhysicalActivityToken>
         .TokenDictionary
@@ -111,8 +111,10 @@
             Factor = TmrConfigurationModel.Factor,
             PhysicalActivityLevel = PhysicalActivityHandler!.ReadableName
         });
-
+        Form.Validate();
+       
         Dispatcher.Dispatch(action);
+        Dispatcher.Dispatch(new TmrValidationAction(Form.IsValid));
     }
 
     private PhysicalActivities? PhysicalActivityHandler
