@@ -61,6 +61,9 @@
     {
         base.OnInitialized();
         MealType = MealState.Value.Meals.ElementAt(Index).MealType;
+        PercentageHandler = MealState.Value.Meals.ElementAt(Index).Percentage;
+        TimeHandler = MealState.Value.Meals.ElementAt(Index).MealTime;
+
     }
 
     MealTypes? MealType { get; set; }
