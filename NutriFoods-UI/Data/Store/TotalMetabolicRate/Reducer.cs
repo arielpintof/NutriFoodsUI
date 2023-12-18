@@ -61,5 +61,11 @@ public static class Reducer
     {
         return new DaysState(action.Days);
     }
+
+    [ReducerMethod]
+    public static DaysState ValidateDays(DaysState state, DaysValidationAction action)
+    {
+        return new DaysState(state.Days, action.IsValid);
+    }
 }
 

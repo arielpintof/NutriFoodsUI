@@ -35,11 +35,14 @@ public class DaysState
 {
     public List<string> Days { get; } = [];
     
-    public bool IsValid { get; set; }
+    public bool IsValid { get;}
     
-    public DaysState(List<string> days)
+    public DaysState(List<string> days) => Days = days;
+
+    public DaysState(List<string> days, bool isValid)
     {
         Days = days;
+        IsValid = isValid;
     }
 
     public DaysState()

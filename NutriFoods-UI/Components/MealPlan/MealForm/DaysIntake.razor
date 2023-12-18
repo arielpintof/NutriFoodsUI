@@ -4,7 +4,7 @@
 @inject IState<DaysState> DaysState
 @inject IDispatcher Dispatcher
 
-<MudForm @bind-IsValid="@IsValidHandler">
+<MudForm @ref="Form" bind-IsValid="@IsValidHandler">
     <MudGrid Class="px-3 mb-5">
         <MudItem xs="12" sm="12" md="4">
             <CollapseSubtitle Title="Días de la semana"/>
@@ -30,6 +30,9 @@
 
 
 @code {
+
+    MudForm Form { get; set; } = new();
+    
     public bool IsValid;
 
     private bool IsValidHandler
@@ -52,7 +55,9 @@
         set
         {
             _days = value;
+            Form.Validate();
             Dispatcher.Dispatch(new AddDaysAction(DaysHandler.ToList()));
+            Dispatcher.Dispatch(new DaysValidationAction(Form.IsValid));
         }
     }
 

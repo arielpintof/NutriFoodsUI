@@ -7,9 +7,12 @@
 @using MudBlazor.Extensions
 @using NutriFoods_UI.Data.Store.DailyMeal
 @using NutriFoods_UI.Data.Store.MicronutrientConfiguration
+@using NutriFoods_UI.Data.Store.TotalMetabolicRate
 @inject IState<MicronutrientState> MicroNutrientState;
 @inject IState<DailyMealState> DailyMealState
 @inject IDispatcher Dispatcher
+@inject IState<DaysState> DayState
+@inherits Fluxor.Blazor.Web.Components.FluxorComponent
 
 
 
@@ -124,7 +127,7 @@
                 _loading = false;
                 StateHasChanged();
                 
-                return !MicroNutrientState.Value.StateIsValid;
+                return !DayState.Value.IsValid;
             }
             else if (_stepper.GetActiveIndex() == 2)
             {
