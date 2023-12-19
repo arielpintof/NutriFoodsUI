@@ -1,25 +1,24 @@
-﻿
-<MudExpansionPanels MultiExpansion="false" Elevation="0" DisableBorders="true">
-   <MudExpansionPanel  Dense="true" Class="mt-3 rounded">
-       <TitleContent>
-           <div class="d-flex mt-1 pl-3">
-               <h3>@Title</h3>
-           </div>
-       </TitleContent>
-       <ChildContent>
-           <MudDivider DividerType="DividerType.Middle" Class="mb-5"/>
-           @ChildContent
-       </ChildContent>
-   </MudExpansionPanel> 
+﻿@using NutriFoods_UI.Data.Model
+
+<MudExpansionPanels MultiExpansion="true" Elevation="0" DisableBorders="true">
+    @foreach (var item in CollapseItems)
+    {
+        <MudExpansionPanel Dense="true" Class="mt-3 rounded" IsInitiallyExpanded="true">
+            <TitleContent>
+                <CollapseTitle Title="@item.Title"></CollapseTitle>
+            </TitleContent>
+            <ChildContent>
+                <MudDivider DividerType="DividerType.Middle" Class="mb-5"/>
+                @item.ChildContent
+            </ChildContent>
+        </MudExpansionPanel>
+    }
 </MudExpansionPanels>   
 
 
 @code {
-
-    [Parameter]
-    public string Title { get; set; } = string.Empty;
-
-    [Parameter]
-    public RenderFragment? ChildContent { get; set; }
+    
+    [Parameter] 
+    public List<CollapseItemModel> CollapseItems { get; set; } = [];
 
 }
