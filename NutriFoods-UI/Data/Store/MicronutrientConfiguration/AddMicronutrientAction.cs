@@ -4,9 +4,9 @@ namespace NutriFoods_UI.Data.Store.MicronutrientConfiguration;
 
 public class AddMicronutrientAction
 {
-    public MicroNutrientDto MicroNutrient { get; }
+    public NutritionalTargetDto MicroNutrient { get; }
     
-    public AddMicronutrientAction(MicroNutrientDto microNutrient)
+    public AddMicronutrientAction(NutritionalTargetDto microNutrient)
     {
         MicroNutrient = microNutrient;
     }

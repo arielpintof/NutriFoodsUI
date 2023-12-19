@@ -8,13 +8,13 @@ namespace NutriFoods_UI.Data.Store.MicronutrientConfiguration;
 public class MicronutrientState
 {
     public bool Initialized { get; } = false;
-    public IEnumerable<MicroNutrientDto> Micronutrients { get; }
+    public IEnumerable<NutritionalTargetDto> Micronutrients { get; } = [];
 
     public bool StateIsValid { get; } 
 
     public MicronutrientState(){}
     
-    public MicronutrientState(IEnumerable<MicroNutrientDto> micronutrients, 
+    public MicronutrientState(IEnumerable<NutritionalTargetDto> micronutrients, 
         bool initialized = true, bool stateIsValid = true)
     {
         Micronutrients = micronutrients;

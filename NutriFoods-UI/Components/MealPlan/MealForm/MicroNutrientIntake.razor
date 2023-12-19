@@ -9,12 +9,12 @@
 @inject IDispatcher Dispatcher
 
 
-<MudForm id="@NutrientModel.Id" @ref="_form" @bind-IsValid="@IsValidHandler" Model="@NutrientModel">
+<MudForm @ref="_form" @bind-IsValid="@IsValidHandler" Model="@NutrientModel">
     <MudGrid>
         <MudItem md="4" sm="4" xs="12">
             <div class="d-flex gap-3">
                 <span class="align-self-center">@(Index + 1)</span>
-                <MudSelectExtended ItemCollection="_nutrients"
+                <MudSelectExtended ItemCollection="NutrientsCollection"
                                    SearchBox="true"
                                    SearchBoxAutoFocus="true"
                                    T="string"
@@ -22,7 +22,7 @@
                                    AnchorOrigin="Origin.BottomCenter"
                                    Variant="Variant.Outlined"
                                    SearchBoxClearable="true"
-                                   @bind-Value="NutrientModel.Name"
+                                   @bind-Value="NutrientModel.Nutrient"
                                    Margin="Margin.Dense"
                                    Required="true"
                                    Class="flex-grow-1"/>
@@ -31,7 +31,7 @@
         </MudItem>
         <MudItem md="3" sm="4" xs="12">
             <MudNumericField HideSpinButtons="false"
-                             @bind-Value="@NutrientModel.Quantity"
+                             @bind-Value="@NutrientModel.ExpectedQuantity"
                              Label="Cantidad"
                              Variant="Variant.Outlined"
                              Margin="Margin.Dense"
@@ -45,7 +45,7 @@
         </MudItem>
         <MudItem md="5" sm="6" xs="12">
             <div class="d-flex flex-row gap-3">
-                <MudSelect T="ThresholdTypes"
+                <MudSelect T="string"
                            Label="Límite"
                            AnchorOrigin="Origin.BottomCenter"
                            Variant="Variant.Outlined"
@@ -55,14 +55,14 @@
                            @bind-Value="@NutrientModel.ThresholdType">
                     @foreach (var threshold in Thresholds)
                     {
-                        <MudSelectItem Value="@threshold">@threshold.ReadableName</MudSelectItem>
+                        <MudSelectItem Value="@threshold"></MudSelectItem>
                     }
                     
                 </MudSelect>
 
                 <MudIconButton
                     OnClick="DeleteNutrient"
-                    Icon="@Icons.Material.Filled.DeleteForever"
+                    Icon="@Icons.Material.Filled.Delete"
                     Title="Eliminar nutriente"
                     Size="Size.Medium">
                     @Index
@@ -71,20 +71,19 @@
 
         </MudItem>
     </MudGrid>
-
-
+    
 </MudForm>
 
 
 @code {
 
-    private MicroNutrientDto NutrientModel => Index < MicroNutrientState.Value.Micronutrients.Count() ?
+    private NutritionalTargetDto NutrientModel => Index < MicroNutrientState.Value.Micronutrients.Count() ?
         MicroNutrientState.Value.Micronutrients.ElementAt(Index) :
-        new MicroNutrientDto();
+        new NutritionalTargetDto();
 
-    private static ICollection<ThresholdTypes> Thresholds => IEnum<ThresholdTypes, ThresholdToken>
+    private static ICollection<string> Thresholds => IEnum<ThresholdTypes, ThresholdToken>
         .TokenDictionary
-        .Select(e => e.Value)
+        .Select(e => e.Value.ReadableName)
         .Skip(1)
         .ToList();
 
@@ -98,6 +97,8 @@
 
     [Parameter]
     public int Index { get; set; }
+    
+    
 
     public bool IsValid;
 
@@ -106,7 +107,6 @@
         get => IsValid;
         set
         {
-            if (IsValid == value) return;
             IsValid = value;
             UpdateMicronutrient();
         }
@@ -118,44 +118,28 @@
         .Skip(1)
         .ToList();
 
-    private static List<MicroNutrientDto> Nutrients => new()
-    {
-        new MicroNutrientDto { Name = "Sodio", Measure = UnitEnum.Milligrams },
-        new MicroNutrientDto { Name = "Calcio", Measure = UnitEnum.Milligrams },
-        new MicroNutrientDto { Name = "Azúcar Total", Measure = UnitEnum.Grams },
-        new MicroNutrientDto { Name = "Vitamina B12", Measure = UnitEnum.Micrograms }
-    };
-
-    private string?[] _nutrients = Nutrients.Select(nutrient => nutrient.Name).ToArray();
+    private static List<string> NutrientsCollection => 
+        IEnum<Nutrients, NutrientToken>.TokenDictionary.Select(n => n.Value.ReadableName).Skip(1).ToList();
+    
 
     private void DeleteNutrient() => Dispatcher.Dispatch(new DeleteMicronutrientAction(Index));
 
     private void UpdateMicronutrient()
     {
-        var action = new ChangeMicronutrientAction(Index, new MicroNutrientDto
+        var action = new ChangeMicronutrientAction(Index, new NutritionalTargetDto
         {
-            Measure = NutrientModel.Measure,
-            Name = NutrientModel.Name,
-            Quantity = NutrientModel.Quantity,
+            Nutrient = NutrientModel.Nutrient,
             ThresholdType = NutrientModel.ThresholdType,
-            IsValid = IsValid
+            Unit = GetMeasure(),
+            IsPriority = true,
+            ExpectedError = 0.1
+                
         });
 
         Dispatcher.Dispatch(action);
     }
-
-
-    private string GetMeasure()
-    {
-        if (NutrientModel.Name == string.Empty) return string.Empty;
-        var nutrientName = NutrientModel.Name;
-        var selectedNutrient = Nutrients.FirstOrDefault(n => n.Name == nutrientName);
-        if (selectedNutrient != null)
-        {
-            NutrientModel.Measure = selectedNutrient.Measure;
-        }
-
-        return NutrientModel.Measure.ReadableName;
-    }
+    
+    private string GetMeasure() => NutrientModel.Nutrient == null ? "" : 
+        IEnum<Nutrients, NutrientToken>.ToValue(NutrientModel.Nutrient).Unit.ReadableName;
 
 }

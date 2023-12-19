@@ -8,7 +8,7 @@ public static class Reducer
     
     [ReducerMethod(typeof(InitializeMicronutrientAction))]
     public static MicronutrientState InitializeMicronutrientState(MicronutrientState state) => 
-        new (new List<MicroNutrientDto>(), true);
+        new (new List<NutritionalTargetDto>(), true);
     
     [ReducerMethod]
     public static MicronutrientState AddMicronutrientToState(MicronutrientState state,
@@ -16,8 +16,8 @@ public static class Reducer
     {
         var updateList = state.Micronutrients.ToList();
         updateList.Add(action.MicroNutrient);
-        var stateIsValid = updateList.All(nutrient => nutrient.IsValid);
-        return new MicronutrientState(updateList, stateIsValid: stateIsValid);
+        
+        return new MicronutrientState(updateList, stateIsValid: true);
     }
 
     [ReducerMethod]
@@ -35,9 +35,7 @@ public static class Reducer
         }
         
         
-        var stateIsValid = updateList.All(nutrient => nutrient.IsValid);
-        
-        return new MicronutrientState(updateList, stateIsValid: stateIsValid);
+        return new MicronutrientState(updateList, stateIsValid: true);
     }
 
     [ReducerMethod]
@@ -47,9 +45,8 @@ public static class Reducer
         var updateList = state.Micronutrients.ToList();
         updateList[action.Index] = action.MicroNutrientDto;
         
-        var stateIsValid = updateList.All(nutrient => nutrient.IsValid);
 
-        return new MicronutrientState(updateList, true, stateIsValid);
+        return new MicronutrientState(updateList, true, true);
     }
 
     
