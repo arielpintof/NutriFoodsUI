@@ -3,6 +3,7 @@ using Fluxor;
 using NutriFoods_UI.Data.Dto;
 using NutriFoods_UI.Data.Store.DailyMenu;
 using NutriFoods_UI.Data.Store.MealsConfiguration;
+using NutriFoods_UI.Data.Store.MicronutrientConfiguration;
 using NutriFoods_UI.Data.Store.TotalMetabolicRate;
 using NutriFoods_UI.Services;
 using NutriFoods_UI.Utils.Enums;
@@ -16,7 +17,8 @@ public class DailyMealEffects(
     IState<TmrState> tmrState,
     IState<MealsConfigurationState> mealsConfigurationState,
     IState<MoleculaState> moleculaState,
-    IState<DaysState> daysState)
+    IState<DaysState> daysState,
+    IState<MicronutrientState> micronutrientState)
 {
     
     [EffectMethod]
@@ -65,6 +67,8 @@ public class DailyMealEffects(
     [EffectMethod(typeof(LoadMealPlanAction))]
     public async Task GetMealPlan(IDispatcher dispatcher)
     {
+        dispatcher.Dispatch(new OnLoadingPlanAction());
+        
         var physicalActivityLevel = tmrState.Value.TmrConfiguration.PhysicalActivityLevel;
         var physicalActivityFactor = tmrState.Value.TmrConfiguration.Multiplier;
         var adjustmentFactor = tmrState.Value.TmrConfiguration.Factor;
@@ -95,7 +99,7 @@ public class DailyMealEffects(
                 { "Ácidos grasos, total", moleculaState.Value.LipidTarget  * 0.01}
             },
             MealConfigurations = meals,
-            Targets = []
+            Targets = micronutrientState.Value.Micronutrients.ToList()
         };
 
         var dailyMealPlanResponse = await dailyMealPlanService.DailyPlanByDistribution(planConfiguration);

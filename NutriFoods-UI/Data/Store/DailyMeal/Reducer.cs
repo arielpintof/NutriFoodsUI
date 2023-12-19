@@ -23,7 +23,7 @@ public class Reducer
     }
     
     [ReducerMethod]
-    public static DailyMealState ReduceOnLoadingMenuAction(DailyMealState state, OnLoadingMenuAction action)
+    public static DailyMealState OnLoadingMenuAction(DailyMealState state, OnLoadingMenuAction action)
     {
         var onLoading = state.MealLoading.Select((_, index) => index == action.Index).ToList();
 
@@ -31,10 +31,16 @@ public class Reducer
     }
     
     [ReducerMethod]
-    public static DailyMealState ReduceStopOnLoadingMenuAction(DailyMealState state, StopOnLoadingMenuAction action)
+    public static DailyMealState StopOnLoadingMenuAction(DailyMealState state, StopOnLoadingMenuAction action)
     {
         var onLoading = state.MealLoading.Select(_ => false).ToList();
 
         return new DailyMealState(state.DailyPlan, onLoading, true);
+    }
+
+    [ReducerMethod]
+    public static DailyMealState OnLoadingPlan(DailyMealState state, OnLoadingPlanAction action)
+    {
+        return new DailyMealState(state.DailyPlan, initialized: false);
     }
 }
