@@ -1,8 +1,9 @@
-﻿
-<div class="name-container">
-    <img class="rounded-circle img-responsive" alt="avatar1" src="@Image" size=""/>
+﻿<div class="name-container">
+    <div class="image-container">
+        <img class="rounded-circle" alt="avatar1" src="@Image" size=""/>
+    </div>
     <div class="food-box align-self-center">
-        <span class="@GetSpanClass()">@Name</span>
+        <span class="@GetSpanClass() ">@Name</span>
         <div class="portion">
             <small>@Portions </small>
             @if (Portions > 1)
@@ -20,18 +21,14 @@
 
 @code {
 
-    [Parameter]
-    public string Name { get; set; } = string.Empty;
+    [Parameter] public string Name { get; set; } = string.Empty;
 
-    [Parameter]
-    public int Portions { get; set; }
+    [Parameter] public int Portions { get; set; }
 
-    [Parameter]
-    public string Image { get; set; } = null!;
-    
+    [Parameter] public string Image { get; set; } = null!;
+
     [Parameter] public bool Hovered { get; set; }
-    
-    private string GetSpanClass() => Hovered ? "span-hovered" : "";
-    
-}
 
+    private string GetSpanClass() => Hovered ? "span-hovered" : "";
+
+}

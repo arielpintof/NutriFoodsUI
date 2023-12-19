@@ -1,10 +1,12 @@
 ﻿@using NutriFoods_UI.Services
 @using Fluxor
 @using NutriFoods_UI.Data.Store.DailyMeal
+@using NutriFoods_UI.Data.Store.Images
 @inherits Fluxor.Blazor.Web.Components.FluxorComponent
 @page "/meal"
 @inject IDailyMealPlanService MealPlanService
 @inject IState<DailyMealState> MealState
+@inject IState<ImagesState> ImageState
 @inject IDispatcher Dispatcher
 
 
@@ -61,12 +63,15 @@
     protected override Task OnInitializedAsync()
     {
         LoadMealState();
+        LoadImageState();
         return base.OnInitializedAsync();
     }
 
     private void LoadMealState() => Dispatcher.Dispatch(new LoadMealPlanAction());
 
     private void RenewMealPlan() => Dispatcher.Dispatch(new RenewDailyMealPlanAction());
+
+    private void LoadImageState() => Dispatcher.Dispatch(new LoadJsonAction());
 
 
 }

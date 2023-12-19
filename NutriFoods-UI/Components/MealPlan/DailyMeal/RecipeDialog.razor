@@ -1,6 +1,8 @@
 ﻿@using Fluxor
+@using NutriFoods_UI.Data.Store.Images
 @using NutriFoods_UI.Data.Store.RecipeDialog
 @inject IState<RecipeDialogState> RecipeState
+@inject IState<ImagesState> ImageState
 
 <MudDialog>
     <DialogContent>
@@ -9,8 +11,8 @@
                 <h5 class="align-self-center" style="font-weight: bold">@RecipeState.Value.MenuRecipe.Recipe.Name</h5>
             </div>
             <div class="image-container">
-                <img class="rounded-lg"
-                     src="https://cdn7.kiwilimon.com/brightcove/6838/640x640/6838.jpg.webp"
+                <img class="rounded"
+                     src="@GetImage(RecipeState.Value.MenuRecipe.Recipe.Name)"
                      alt=""/>
             </div>
 
@@ -78,6 +80,11 @@
     MudDialogInstance MudDialog { get; set; } = null!;
 
     void Cancel() => MudDialog.Cancel();
+    
+    string GetImage(string name)
+    {
+        return ImageState.Value.ImagesDict.TryGetValue(name, out string uri) ? uri : string.Empty;
+    }
 }
 
 <style>
