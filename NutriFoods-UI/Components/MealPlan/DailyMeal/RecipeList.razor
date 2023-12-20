@@ -25,11 +25,9 @@
     {
         @foreach (var menu in Recipes)
         {
-            <tr class="fila-hover" @onmouseover="() => HandleHover(true)" 
-                @onmouseout="() => HandleHover(false)" 
-                @onclick="@((e) => OpenDialog(noHeader, menu))">
+            <tr class="fila-hover" @onclick="@((e) => OpenDialog(noHeader, menu))">
                 <td>
-                    <Recipe Hovered="@IsHovered" Name="@menu.Recipe.Name" Image="@GetImage(menu.Recipe.Name)"
+                    <Recipe Name="@menu.Recipe.Name" Image="@GetImage(menu.Recipe.Name)"
                             Portions="@menu.Portions"/>
                 </td>
                 
