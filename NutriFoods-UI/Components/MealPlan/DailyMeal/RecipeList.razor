@@ -33,10 +33,10 @@
                             Portions="@menu.Portions"/>
                 </td>
                 
-                <td>0 kcal</td>
-                <td>0 g</td>
-                <td>0 g</td>
-                <td>0 g</td>
+                <td>@($"{menu.Recipe.Nutrients.Find(e => e.Nutrient.Equals("Energía, total"))!.Quantity:F1}") Kcal</td>
+                <td>@($"{menu.Recipe.Nutrients.Find(e => e.Nutrient.Equals("Proteína, total"))!.Quantity:F1}") g</td>
+                <td>@($"{menu.Recipe.Nutrients.Find(e => e.Nutrient.Equals("Carbohidratos, total"))!.Quantity:F1}") g</td>
+                <td>@($"{menu.Recipe.Nutrients.Find(e => e.Nutrient.Equals("Ácidos grasos, total"))!.Quantity:F1}") g</td>
             </tr>
         }
     }

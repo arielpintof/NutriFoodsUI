@@ -14,24 +14,75 @@
 {
     if (MealState.Value.Initialized)
     {
-        <div class="d-flex flex-column container" style="width: 80%">
+        <div class="d-flex flex-column container" style="width: 100%">
             @* DailyMeal debe mostrar las distintas comidas del día*@
 
             <div class="d-flex align-items-center justify-content-between gap-2">
                 <h4 style="font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; color: var(--grey-normal)">
                     Plan Alimentario
                 </h4>
-                <MudButton @onclick="RenewMealPlan"
-                           Variant="Variant.Text"
-                           StartIcon="@Icons.Material.Filled.Autorenew"
-                           Size="Size.Small"
-                           Color="Color.Primary"
-                           Style="text-transform: none; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700;">
-                    Renovar plan
-                </MudButton>
+                <MudTooltip Arrow="true" Placement="Placement.Right" Text="Obten un nuevo plan a partir de los mismos requerimientos nutricionales">
+                    <MudButton @onclick="RenewMealPlan"
+                                               Variant="Variant.Text"
+                                               StartIcon="@Icons.Material.Filled.Autorenew"
+                                               Size="Size.Small"
+                                               Color="Color.Primary"
+                                               Style="text-transform: none; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700;">
+                                        Renovar plan
+                                    </MudButton>
+                </MudTooltip>
+                
             </div>
 
+             <MudGrid Spacing="1" Class="pt-1 pb-3 gap-2">
+        @foreach (var target in MealState.Value.DailyPlan.Targets)
+        {
+            {
+                <MudTooltip Arrow="true" Placement="Placement.Right">
+                    <ChildContent>
+                        <MudItem md="12" xs="2">
+                            <MudChip Color="@Color.Primary"
+                                     Size="Size.Small"
+                                     Class="py-3"
+                                     Variant="Variant.Text"
+                                     Style="font-family: 'Plus Jakarta Sans', sans-serif;font-weight: 700"
+                                     Icon="@Icons.Material.Rounded.BarChart">
+                                @target.Nutrient : @($"{target.ActualQuantity!:F1}") @target.Unit
+                            </MudChip>
+                        </MudItem>
+                    </ChildContent>
+                    <TooltipContent>
+                        <div style="max-width: 300px">
+                            <MudGrid Class="p-1" Justify="Justify.SpaceBetween" Spacing="1">
+                                <MudItem md="12">
+                                    <h3 class="m-0 fw-bold" style="color:white;">Objetivo</h3>
+                                </MudItem>
+                                <MudItem md="6">
+                                    <span>Cantidad esperada: </span>
+                                </MudItem>
+                                <MudItem md="6">
+                                    <b>@target.ExpectedQuantity</b>
+                                </MudItem>
+                                <MudItem md="6">
+                                    <span>Cantidad generada: </span>
+                                </MudItem>
+                                <MudItem md="6">
+                                    <b>@target.ActualQuantity</b>
+                                </MudItem>
+                                <MudItem md="6">
+                                    <span>Error: </span>
+                                </MudItem>
+                                <MudItem md="6">
+                                    <b>@(target.ActualError * 100)%</b>
+                                </MudItem>
 
+                            </MudGrid>
+                        </div>
+                    </TooltipContent>
+                </MudTooltip>
+            }
+        }
+        </MudGrid>
             @for (var i = 0; i < MealState.Value.DailyPlan.Menus.Count; i++)
             {
                 <div class="my-1 mud-width-full">
