@@ -8,6 +8,7 @@
 @inject NavigationManager Nav
 @inject IPatientService PatientService
 @inject IState<DailyPlanState> DailyPlanState 
+@inject IDispatcher Dispatcher
 
 <MudPaper Class="d-flex flex-column px-10 py-5 gap-4" Elevation="0" MaxWidth="900px">
     @if (true)
@@ -21,27 +22,28 @@
             </MudItem>
             <MudItem md="6">
                 <div>
-                    @if (Consultation.NutritionalAnamnesis != null && Consultation.NutritionalAnamnesis.EatingSymptoms != null)
-                    {
-                        <MudButton Variant="Variant.Outlined"
-                                   Color="Color.Primary"
-                                   OnClick="@NavToAnamnesis"
-                                   Style="text-transform: none; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700;"
-                                   Disabled="true">
-                            Anamnesis completada
-                        </MudButton>
+                    @{
+                        if (HasSomeData)
+                        {
+                            <MudButton Variant="Variant.Outlined"
+                                       Color="Color.Primary"
+                                       OnClick="@NavToAnamnesis"
+                                       Style="text-transform: none; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700;"
+                                       Disabled="true">
+                                Anamnesis completada
+                            </MudButton>
+                        }
+                        else
+                        {
+                            <MudButton Variant="Variant.Outlined"
+                                       Color="Color.Primary"
+                                       OnClick="@NavToAnamnesis"
+                                       Style="text-transform: none; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700;">
+                                Iniciar Anamnesis
+                            </MudButton>
+                        }
                     }
-                    else
-                    {
-                        <MudButton Variant="Variant.Outlined"
-                                   Color="Color.Primary"
-                                   OnClick="@NavToAnamnesis"
-                                   Style="text-transform: none; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700;"
-                                   Disabled="!Enable">
-                            Iniciar Anamnesis
-                        </MudButton>
-                    }
-
+                    
                 </div>
             </MudItem>
         </MudGrid>
@@ -59,14 +61,17 @@
             <MudItem md="6">
                 @foreach (var plan in DailyPlanState.Value.DailyPlans)
                 {
-                    <span>Plan para el día @plan.Day</span>
+                    foreach (var day in plan.Days)
+                    {
+                        <span>@day </span>
+                    }
                 }
                 <div>
                     <MudButton Variant="Variant.Outlined"
                                Color="Color.Primary"
-                               Href="/generate/mealplan"
+                               OnClick="@NavToDailyPlan"
                                Style="text-transform: none; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700;"
-                               Disabled="!IsAnamnesisCompleted">
+                               Disabled="!HasSomeData">
                         Generar un plan alimenticio
                     </MudButton>
 
@@ -83,7 +88,7 @@
         <MudItem md="6" Class="mt-5">
             <MudButton Variant="Variant.Filled"
                        Color="Color.Primary"
-                       OnClick="@NavToUserProfile"
+                       OnClick="@PostDailyPlans"
                        DisableElevation="true"
                        Style="text-transform: none; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700;">
                 Finalizar consulta
@@ -104,6 +109,8 @@
 
     [Parameter] public bool? AnamnesisCompleted { get; set; } = new bool();
 
+    [Parameter] public Guid ConsultationId { get; set; }
+
     ConsultationDto Consultation { get; set; } = new();
 
     string Type { get; set; } = string.Empty;
@@ -113,42 +120,7 @@
     bool Enable { get; set; }
 
     MudForm Form { get; set; } = new();
-
-    async Task IsValid()
-    {
-        await Form.Validate();
-        if (Form.IsValid)
-        {
-            await CreateConsultation();
-            Enable = true;
-        }
-    }
-
-    async Task CreateConsultation()
-    {
-        try
-        {
-            var response = await PatientService.CreateConsultation(PatientId, new ConsultationDto
-            {
-                Type = Type,
-                Purpose = Purpose,
-                DailyPlans = []
-            });
-            
-            var content = await response.Content.ReadFromJsonAsync<ConsultationDto>();
-            if (content != null)
-            {
-                Consultation = content;
-            }
-        }
-
-        catch (HttpRequestException e)
-        {
-            Console.WriteLine(e.Message);
-        }
-        
-    }
-
+    
     bool IsAnamnesisCompleted => AnamnesisCompleted != null;
 
     static ICollection<ConsultationTypes> ConsultationTypesCollection => IEnum<ConsultationTypes, ConsultationTypeToken>
@@ -159,14 +131,29 @@
         .TokenDictionary.Select(e => e.Value)
         .Skip(1).ToList();
 
-    void NavToUserProfile()
-    {
-        Nav.NavigateTo($"/patients/profile/{PatientId}");
-    }
+    void PostDailyPlans() => Dispatcher.Dispatch(new PostDailyPlansAction(PatientId, ConsultationId));
 
     void NavToAnamnesis()
     {
-        Nav.NavigateTo($"/anamnesis/{PatientId}/{Consultation.Id}");
+        Nav.NavigateTo($"/anamnesis/{PatientId}/{ConsultationId}");
     }
+
+    void NavToDailyPlan()
+    {
+        Nav.NavigateTo($"/generate/mealplan/{PatientId}/{ConsultationId}");
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        var response = await PatientService.FindConsultations(PatientId);
+        var content = await response.Content.ReadFromJsonAsync<List<ConsultationDto>>();
+        
+        var patientDto = content!.FirstOrDefault(c => c.Id == ConsultationId);
+        HasSomeData = patientDto?.NutritionalAnamnesis != null || patientDto?.ClinicalAnamnesis != null || patientDto?.Anthropometry != null;
+    }
+    
+    bool HasSomeData { get; set; }
+    
+
 
 }
