@@ -1,3 +1,4 @@
+using NutriFoods_UI.Data.Dto.Insertion;
 using NutriFoods_UI.Utils.Enums;
 using NutriFoods_UI.Data.Store.DailyMeal;
 using static System.StringComparison;
@@ -98,4 +99,38 @@ public static class DailyPlanExtensions
             target.ActualError = MathUtils.RelativeError(target.ExpectedQuantity, actualQuantity);
         }
     }
+
+    public static MinimalDailyPlan MapToMinimalDailyPlan(this DailyPlanDto dailyPlan)
+    {
+        var minimalRecipe = dailyPlan.Menus
+            .SelectMany(m => m.Recipes.Select(e => new MinimalMenuRecipe()
+            {
+                RecipeId = e.Recipe.Id,
+                Portions = e.Portions
+            })).ToList();
+
+        var minimalDailyMenu = dailyPlan.Menus.Select(m => new MinimalDailyMenu()
+        {
+            IntakePercentage = m.IntakePercentage,
+            MealType = m.MealType,
+            Hour = m.Hour,
+            Nutrients = m.Nutrients,
+            Targets = m.Targets,
+            Recipes = minimalRecipe
+        }).ToList();
+            
+        
+        return new MinimalDailyPlan
+        {
+            Days = dailyPlan.Days,
+            PhysicalActivityLevel = dailyPlan.PhysicalActivityLevel,
+            PhysicalActivityFactor = dailyPlan.PhysicalActivityFactor,
+            AdjustmentFactor = dailyPlan.AdjustmentFactor,
+            Nutrients = dailyPlan.Nutrients,
+            Targets = dailyPlan.Targets,
+            Menus = minimalDailyMenu
+        };
+
+    }
+        
 }

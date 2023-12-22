@@ -10,7 +10,6 @@ namespace NutriFoods_UI.Data.Store.DailyPlanList;
 
 public class Effects(
     IPatientService patientService,
-    IMapper mapper,
     IState<DailyPlanState> dailyPlanState,
     NavigationManager navigationManager)
 {
@@ -18,7 +17,7 @@ public class Effects(
     public async Task PostMealPlan(PostDailyPlansAction action, IDispatcher dispatcher)
     {
         var minimalPlans = dailyPlanState.Value.DailyPlans
-            .Select(mapper.Map<MinimalDailyPlan>).ToList();
+            .Select(e => e.MapToMinimalDailyPlan()).ToList();
         
         var response = await patientService.AddDailyPlans(action.PatientId, action.ConsultationId, minimalPlans);
         var content = await response.Content.ReadFromJsonAsync<ConsultationDto>();
