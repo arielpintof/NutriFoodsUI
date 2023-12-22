@@ -1,24 +1,36 @@
 ﻿@inject IDispatcher Dispatcher
 @using Fluxor
+@using NutriFoods_UI.Data.Dto
 @using NutriFoods_UI.Data.Store.Pathologies
 @inherits Fluxor.Blazor.Web.Components.FluxorComponent
-@inject IState<PersonalPathologiesState> PersonalState
+@inject IState<InheritedPathologiesState> InheritedPathologiesState
 
 <MudGrid Class="px-3">
     <MudItem xs="4" Class="d-flex flex-column gap-2">
         <div class="d-flex align-items-center">
-            <CollapseSubtitle Title="Patologías Indirectas"></CollapseSubtitle>
+            <CollapseSubtitle Title="Patologías indirectas"></CollapseSubtitle>
         </div>
     </MudItem>
     <MudItem xs="8">
         <MudStack Class="mb-5">
-            <InheritedPathologyIntake Index="0"></InheritedPathologyIntake>
+            @if (InheritedPathologiesState.Value.Initialized)
+            {
+                @for (var i = 0; i < InheritedPathologiesState.Value.Pathologies.Count(); i++)
+                {
+                    <div class="d-flex flex-column">
+                        <InheritedPathologyIntake Index="i"></InheritedPathologyIntake>
+                    </div>
+                }
+            }
+            
+
             <div class="mb-2">
                 <MudButton
                     Size="Size.Small"
                     Color="Color.Primary"
                     StartIcon="@Icons.Material.Outlined.AddCircle"
                     Variant="Variant.Text"
+                    OnClick="@AddPathology"
                     Style="text-transform: none; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700;">
                     Añadir una patología
                 </MudButton>
@@ -31,10 +43,11 @@
 
     protected override Task OnInitializedAsync()
     {
-        if (PersonalState.Value.Initialized != false) return base.OnInitializedAsync();
-        Dispatcher.Dispatch(new InitializePersonalPathologiesAction());
+        if (InheritedPathologiesState.Value.Initialized != false) return base.OnInitializedAsync();
+        Dispatcher.Dispatch(new InitializeInheritedPathologiesAction());
         return base.OnInitializedAsync();
     }
-
+    
+    private void AddPathology() => Dispatcher.Dispatch(new AddInheritedPathologyAction(new DiseaseDto()));
 
 }

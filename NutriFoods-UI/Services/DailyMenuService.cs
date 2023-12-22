@@ -5,9 +5,7 @@ using NutriFoods_UI.Data.Dto;
 
 namespace NutriFoods_UI.Services;
 
-public class DailyMenuService(
-    HttpClient httpClient,
-    JsonSerializerSettings settings) : IDailyMenuService
+public class DailyMenuService(HttpClient httpClient, JsonSerializerSettings settings) : IDailyMenuService
 {
     
     public async Task<HttpResponseMessage> GenerateMenu(DailyMenuDto dailyMenu)

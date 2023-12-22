@@ -18,7 +18,8 @@ public class Effects(
     IState<AnthropometryState> anthropometryState,
     //Clinicos
     IState<ClinicalSignState> clinicalSignState,
-    IState<PersonalPathologiesState> diseases,
+    IState<PersonalPathologiesState> personalDiseases,
+    IState<InheritedPathologiesState> inheritedDiseases,
     IState<MedicineState> medicines,
     IState<VitaminState> vitamins,
     IState<SupplementState> supplements,
@@ -47,13 +48,16 @@ public class Effects(
             .Concat(vitamins.Value.Vitamins)
             .Concat(supplements.Value.Supplements)
             .ToList();
+
+        var pathologies = personalDiseases.Value.Pathologies
+            .Union(inheritedDiseases.Value.Pathologies).ToList();
         
         var response = await patientService.AddClinicalAnamnesis(
             action.PatientId, action.ConsultationId, new ClinicalAnamnesisDto
             {
                 Ingestibles = ingestibles,
                 ClinicalSigns = clinicalSignState.Value.ClinicalSigns,
-                Diseases = diseases.Value.Pathologies
+                Diseases = pathologies
             });
 
         var content = response.Content.ReadFromJsonAsync<ConsultationDto>();
