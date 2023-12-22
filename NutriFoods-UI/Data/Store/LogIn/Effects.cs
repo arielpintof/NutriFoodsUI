@@ -19,4 +19,6 @@ public class Effects(INutritionistService nutritionistService, NavigationManager
         
         navigationManager.NavigateTo("/");
     }
+
+    
 }

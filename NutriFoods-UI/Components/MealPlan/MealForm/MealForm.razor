@@ -1,4 +1,5 @@
 ﻿@page "/generate/mealplan"
+@page "/generate/mealplan/{PatientId:guid}/{ConsultationId:guid}"
 
 @inject ISnackbar Snackbar
 @using MudExtensions.Enums
@@ -6,6 +7,7 @@
 @using Fluxor
 @using MudBlazor.Extensions
 @using NutriFoods_UI.Data.Store.DailyMeal
+@using NutriFoods_UI.Data.Store.DailyPlanList
 @using NutriFoods_UI.Data.Store.MicronutrientConfiguration
 @using NutriFoods_UI.Data.Store.TotalMetabolicRate
 @inject IState<MicronutrientState> MicroNutrientState;
@@ -13,16 +15,16 @@
 @inject IDispatcher Dispatcher
 @inject IState<DaysState> DayState
 @inject IState<TmrState> TmrState
+@inject NavigationManager Nav
 @inherits Fluxor.Blazor.Web.Components.FluxorComponent
 
 
-
- <MudStepper @ref="_stepper"
+<MudStepper @ref="_stepper"
             Class="mud-width-full"
             ContentStyle="min-height: 400px"
-            Linear="true" 
+            Linear="true"
             Vertical="false"
-            Color="_color" 
+            Color="_color"
             Variant="Variant.Filled"
             DisableAnimation="false"
             DisablePreviousButton="false"
@@ -38,14 +40,14 @@
             HeaderSize="Size.Medium">
 
     <ChildContent>
-        
+
         <MudStep Icon="@Icons.Material.Filled.Whatshot"
-                         Title="Energía calórica"
-                         StatusChanged="StatusChanged">
-                    <ChildContent>
-                        <CaloriesConfiguration></CaloriesConfiguration>
-                    </ChildContent>
-                </MudStep>
+                 Title="Energía calórica"
+                 StatusChanged="StatusChanged">
+            <ChildContent>
+                <CaloriesConfiguration></CaloriesConfiguration>
+            </ChildContent>
+        </MudStep>
 
         <MudStep Icon="@Icons.Material.Filled.Settings"
                  Title="Configuración"
@@ -70,12 +72,17 @@
 
         @if (AddResultStep)
         {
-
             <MudStep Icon="@Icons.Material.Filled.Alarm" Title="Result Step" IsResultStep="true">
                 <ChildContent>
                     <div class="d-flex flex-column align-center justify-center" style="height: 200px">
                         <MudIconButton Icon="@Icons.Material.Filled.DoneAll" Size="Size.Large" Variant="Variant.Filled" Color="Color.Success"/>
                         <MudText>El plan alimenticio ha sido guardado</MudText>
+                        <MudButton Variant="Variant.Outlined"
+                                   Color="Color.Primary"
+                                   OnClick="@NavToConsultation"
+                                   Style="text-transform: none; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700;">
+                            Volver a la consulta
+                        </MudButton>
                     </div>
                 </ChildContent>
             </MudStep>
@@ -107,8 +114,8 @@
     bool _customLocalization = true;
     Color _color = Color.Primary;
     bool _loading;
-        private const bool ShowCustomButton = false;
-    
+    private const bool ShowCustomButton = false;
+
 
     private async Task<bool> CheckChange(StepChangeDirection direction)
     {
@@ -119,7 +126,7 @@
             {
                 return false;
             }
-            
+
             if (_stepper.GetActiveIndex() == 0)
             {
                 _loading = true;
@@ -128,7 +135,7 @@
                 var isValid = DayState.Value.IsValid && TmrState.Value.IsValid;
                 _loading = false;
                 StateHasChanged();
-                
+
                 return !isValid;
             }
             else if (_stepper.GetActiveIndex() == 2)
@@ -153,8 +160,8 @@
             return false;
         }
     }
-    
-    
+
+
     private void StatusChanged(StepStatus status)
     {
         Snackbar.Add($"First step {status.ToDescriptionString()}.", Severity.Info);
@@ -181,9 +188,13 @@
         }
     }
 
-    void Submit()
-    {
-        //Dispatcher.Dispatch(new );
-    }
+    [Parameter] public Guid PatientId { get; set; }
+
+    [Parameter] public Guid ConsultationId { get; set; }
+
+    void Submit() => Dispatcher.Dispatch(new AddDailyPlanAction(DailyMealState.Value.DailyPlan));
+
+    void NavToConsultation() => Nav.NavigateTo($"/patient/{PatientId}/consultation/{ConsultationId}");
+
 
 }

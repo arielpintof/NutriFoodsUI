@@ -6,6 +6,7 @@
 @using NutriFoods_UI.Utils.Date
 @inject IState<CredentialsState> CredentialState
 @inject NavigationManager Nav
+@inject IDispatcher Dispatcher
 
 <nav class="mb-4" aria-label="breadcrumb">
     <ol class="breadcrumb">
@@ -110,44 +111,9 @@ else
 
     protected override void OnInitialized()
     {
+        //Dispatcher.Dispatch(new GetNutritionistDtoAction(CredentialState.Value.NutritionistCredentials.Id));
         PatientsCollection = CredentialState.Value.NutritionistCredentials.Patients;
         base.OnInitialized();
-        /*PatientsCollection = new List<Element>()
-        {
-            new Element()
-            {
-                Name = "Ariel Pinto",
-                Sex = "Masculino",
-                Edad = 19,
-                Direccion = "La Serena",
-                UltimaConsulta = "27 de noviembre"
-            },
-            new Element()
-            {
-                Name = "Carolina Soto",
-                Sex = "Femenino",
-                Edad = 25,
-                Direccion = "Santiago",
-                UltimaConsulta = "15 de octubre"
-            },
-            new Element()
-            {
-                Name = "Martín Torres",
-                Sex = "Masculino",
-                Edad = 32,
-                Direccion = "Valparaíso",
-                UltimaConsulta = "10 de diciembre"
-            },
-            new Element()
-            {
-                Name = "Camila Araya",
-                Sex = "Femenino",
-                Edad = 22,
-                Direccion = "Concepción",
-                UltimaConsulta = "5 de noviembre"
-            },
-            // Puedes agregar más elementos según sea necesario
-        };*/
     }
 
 

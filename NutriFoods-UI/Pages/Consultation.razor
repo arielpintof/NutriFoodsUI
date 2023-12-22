@@ -5,52 +5,52 @@
 @inject IPatientService PatientService
 
 <nav class="mb-6" aria-label="breadcrumb">
-  <ol class="breadcrumb">
-    <li class="d-flex gap-1 breadcrumb-item ">
-      <a class="bi bi-arrow-left mr-1" href="/patients">
-        Pacientes
-      </a>
-    </li>
-    <li class="breadcrumb-item active" aria-current="page" href="/user-dashboard">
-      Perfil de @Strings.FirstWord(Names) @Strings.FirstWord(LastNames)
-    </li>
-    <li class="breadcrumb-item active" aria-current="page">Nueva consulta</li>
-  </ol>
+    <ol class="breadcrumb">
+        <li class="d-flex gap-1 breadcrumb-item ">
+            <a class="bi bi-arrow-left mr-1" href="/patients">
+                Pacientes
+            </a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page" href="/user-dashboard">
+            Perfil de @Strings.FirstWord(Names) @Strings.FirstWord(LastNames)
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">Nueva consulta</li>
+    </ol>
 </nav>
 
 <ConsultationContent PatientId="PatientId"
-                 AnamnesisCompleted="AnamnesisCompleted"
-                 MealCompleted="MealPlanCompleted">
+                     ConsultationId="ConsultationId"
+                     AnamnesisCompleted="AnamnesisCompleted"
+                     MealCompleted="MealPlanCompleted">
 </ConsultationContent>
 
 
 @code {
-  [Parameter] public Guid PatientId { get; set; }
-  [Parameter] public Guid ConsultationId { get; set; }
+    [Parameter] public Guid PatientId { get; set; }
+    [Parameter] public Guid ConsultationId { get; set; }
 
-  [SupplyParameterFromQuery] public bool? AnamnesisCompleted { get; set; } = new bool();
+    [SupplyParameterFromQuery] public bool? AnamnesisCompleted { get; set; } = new bool();
 
-  [SupplyParameterFromQuery] public bool? MealPlanCompleted { get; set; } = new bool();
+    [SupplyParameterFromQuery] public bool? MealPlanCompleted { get; set; } = new bool();
 
-  string Names { get; set; } = string.Empty;
-  
-  string LastNames { get; set; } = string.Empty;
+    string Names { get; set; } = string.Empty;
 
-  PatientDto Patient { get; set; } = new();
+    string LastNames { get; set; } = string.Empty;
 
-  protected override async Task OnInitializedAsync()
-  {
-    
-    var response = await PatientService.FindPatient(PatientId);
+    PatientDto Patient { get; set; } = new();
 
-    if (response != null)
+    protected override async Task OnInitializedAsync()
     {
-      var content = await response.Content.ReadFromJsonAsync<PatientDto>();
-      Patient = content!;
-      Names = Strings.FirstWord(Patient.PersonalInfo!.Names);
-      LastNames = Strings.FirstWord(Patient.PersonalInfo.LastNames);
+        var response = await PatientService.FindPatient(PatientId);
+
+        if (response != null)
+        {
+            var content = await response.Content.ReadFromJsonAsync<PatientDto>();
+            Patient = content!;
+            Names = Strings.FirstWord(Patient.PersonalInfo!.Names);
+            LastNames = Strings.FirstWord(Patient.PersonalInfo.LastNames);
+        }
     }
-  }
-  
+
 
 }

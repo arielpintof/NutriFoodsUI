@@ -1,66 +1,98 @@
 ﻿@layout LoginLayout
-
 @page "/register"
+@using Fluxor
+@using NutriFoods_UI.Data.Dto
+@using NutriFoods_UI.Data.Store.LogIn
+@using NutriFoods_UI.Services
+@inject IDispatcher Dispatcher
+@inject NavigationManager Nav
+@inject INutritionistService NutritionistService
 
-<section>
-    <div class="container @(_isFormActive ? "active" : "")">
-        <div class="user signinBx">
-            <div class="formBx">
-                <MudForm>
-                    <h2>Crear una cuenta</h2>
-                    <div class="d-flex flex-column gap-3">
-                        <MudTextField T="string" Label="E-mail"
-                                      Required="true"
-                                      Variant="Variant.Outlined"
-                                      RequiredError="Password is required!"/>
 
-                        <MudTextField T="string" Label="Nombre de usuario"
-                                      Required="true"
-                                      Variant="Variant.Outlined"
-                                      RequiredError="Password is required!"/>
-                        <MudTextField T="string" Label="Contraseña"
-                                      InputType="InputType.Password"
-                                      Required="true"
-                                      Variant="Variant.Outlined"
-                                      RequiredError="Password is required!"/>
-                    </div>
-                    <input type="submit" name="" value="Siguiente"/>
-                    <p class="signup">
-                        Don't have an account ?
-                        <MudButton Variant="Variant.Text" @onclick="ToggleForm">Sign Up</MudButton>
-                    </p>
-                </MudForm>
+<section Class="MainContainer ">
+    <section class="LoginContainer border rounded-3">
+        <section class="LoginHeaderContainer">
+            <div class="LoginHeaderTitle">
+                Registrar cuenta
             </div>
-        </div>
-        <div class="user signupBx">
-            <div class="formBx">
-                <form action="" onsubmit="return false;">
-                    <h2>Create an account</h2>
-                    <input type="text" name="" placeholder="Username"/>
-                    <input type="email" name="" placeholder="Email Address"/>
-                    <input type="password" name="" placeholder="Create Password"/>
-                    <input type="password" name="" placeholder="Confirm Password"/>
-                    <input type="submit" name="" value="Sign Up"/>
-                    <p class="signup">
-                        Already have an account ?
-                        <MudButton Variant="Variant.Text" @onclick="ToggleForm">Sign in.</MudButton>
-                    </p>
-                </form>
-            </div>
-            <div class="imgBx">
-                <img src="https://raw.githubusercontent.com/WoojinFive/CSS_Playground/master/Responsive%20Login%20and%20Registration%20Form/img2.jpg" alt=""/>
-            </div>
-        </div>
-    </div>
+
+        </section>
+        <MudForm>
+            <section class="FormContainer">
+                <div class="d-flex flex-column gap-3">
+                    <MudGrid Spacing="2">
+                        <MudItem xs="12" sm="12">
+                            <MudText Align="Align.Left">Email</MudText>
+                            <MudTextField T="string" Class=""
+                                          Variant="Variant.Outlined"
+                                          @bind-Value="Email"
+                                          Required="true"
+                                          InputType="InputType.Email"
+                                          RequiredError="Email is required!">
+                            </MudTextField>
+                        </MudItem>
+                        <MudItem xs="12" sm="12">
+                            <MudText Align="Align.Left">Nombre de usuario</MudText>
+                            <MudTextField T="string"
+                                          InputType="InputType.Text"
+                                          Required="true"
+                                          Variant="Variant.Outlined"
+                                          RequiredError="Username is required!"
+                                          @bind-Value="UserName"/>
+                        </MudItem>
+                        <MudItem xs="12" sm="12">
+                            <MudText Align="Align.Left">Contraseña</MudText>
+                            <MudTextField T="string"
+                                          InputType="InputType.Password"
+                                          Required="true"
+                                          Variant="Variant.Outlined"
+                                          RequiredError="Password is required!"
+                                          @bind-Value="Password"/>
+                        </MudItem>
+                    </MudGrid>
+
+
+                </div>
+                
+            </section>
+        </MudForm>
+        <section class="d-flex justify-center" style="width: 100%">
+            <MudButton class="SigninButton"
+                       @onclick="Submit"
+                       Variant="Variant.Filled"
+                       DisableElevation="true"
+                       Color="Color.Primary"
+                       Style="text-transform: none; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; width: 100%">
+                Crear cuenta
+            </MudButton>
+        </section>
+        
+    </section>
 </section>
 
 @code {
+    string Email { get; set; } = string.Empty;
+    string Password { get; set; } = string.Empty;
+    string UserName { get; set; } = string.Empty;
 
-    bool _isFormActive = false;
-
-    void ToggleForm()
+    async Task Submit()
     {
-        _isFormActive = !_isFormActive;
+        var nutritionist = new NutritionistDto()
+        {
+            Username = UserName,
+            Email = Email,
+            Password = Password,
+            Patients = []
+        };
+        
+        var response = await NutritionistService.SignUp(nutritionist);
+        var content = await response.Content.ReadFromJsonAsync<NutritionistDto>();
+
+        if (content != null)
+        {
+            Nav.NavigateTo("login");
+        }
+        
     }
 
 }
