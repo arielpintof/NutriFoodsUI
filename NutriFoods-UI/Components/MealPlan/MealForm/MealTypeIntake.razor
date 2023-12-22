@@ -4,7 +4,7 @@
 @using MudBlazor.Utilities
 @using MudExtensions.Enums
 @inject IState<MealsConfigurationState> MealState
-@inherits Fluxor.Blazor.Web.Components.FluxorComponent
+@inherits IntakeComponent
 @inject IDispatcher Dispatcher
 
 
@@ -58,11 +58,11 @@
 
     protected override void OnInitialized()
     {
-        base.OnInitialized();
         MealType = MealState.Value.Meals.ElementAt(Index).MealType;
         PercentageHandler = MealState.Value.Meals.ElementAt(Index).Percentage;
         TimeHandler = MealState.Value.Meals.ElementAt(Index).MealTime;
-
+        
+        base.OnInitialized();
     }
 
     MealTypes? MealType { get; set; }
@@ -73,29 +73,16 @@
         set
         {
             MealType = value;
-            UpdateMealConfiguration();
+            Update();
         }
     }
 
     List<MealTypes> MealTypesCollection => IEnum<MealTypes, MealToken>.Values.Skip(1).ToList();
 
-    public bool IsValid;
-
-    private bool IsValidHandler
-    {
-        get => IsValid;
-        set
-        {
-            IsValid = value;
-            Console.WriteLine($"Mealtype {Index} cambio uno de sus atributos");
-        }
-    }
-
     MealConfiguration MealConfigurationModel => Index < MealState.Value.Meals.Count
         ? MealState.Value.Meals.ElementAt(Index)
         : new MealConfiguration();
-
-    [Parameter] public int Index { get; set; }
+    
 
     private int _percentage;
 
@@ -107,7 +94,7 @@
             if (_percentage == value) return;
             _percentage = value;
             Console.WriteLine($"Nuevo porcentaje: {_percentage}, Index: {Index}");
-            UpdateMealConfiguration();
+            Update();
         }
     }
 
@@ -120,21 +107,25 @@
         {
             if (_time == value) return;
             _time = value;
-            UpdateMealConfiguration();
+            Update();
         }
     }
+    
+    protected override void Delete()
+    {
+        throw new NotImplementedException();
+    }
 
-    private void UpdateMealConfiguration()
+    protected override void Update()
     {
         var action = new ChangeMealsConfigurationAction(new MealConfiguration
         {
-            MealType = MealType,
+            MealType = MealType!,
             MealTime = _time,
             Percentage = _percentage,
         }, Index);
 
         Dispatcher.Dispatch(action);
     }
-
 
 }

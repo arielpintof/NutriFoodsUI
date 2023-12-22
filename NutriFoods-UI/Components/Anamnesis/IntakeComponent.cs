@@ -19,7 +19,6 @@ public abstract class IntakeComponent : FluxorComponent
         get => _isValid;
         set
         {
-            if (_isValid == value) return;
             _isValid = value;
             Update();
         }
