@@ -83,7 +83,7 @@
     
     string GetImage(string name)
     {
-        return ImageState.Value.ImagesDict.TryGetValue(name, out string uri) ? uri : string.Empty;
+        return ImageState.Value.ImagesDict.TryGetValue(name, out var uri) ? uri : string.Empty;
     }
 }
 
