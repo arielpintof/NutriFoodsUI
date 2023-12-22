@@ -1,5 +1,6 @@
-﻿using NutriFoods_UI.Data.Dto;
-
+﻿using MudBlazor;
+using NutriFoods_UI.Data.Dto;
+using NutriFoods_UI.Data.Dto.Insertion;
 
 
 namespace NutriFoods_UI.Services
@@ -22,5 +23,7 @@ namespace NutriFoods_UI.Services
 
         Task<HttpResponseMessage> AddAnthropometry(Guid patientId, Guid consultationId,
             AnthropometryDto anthropometryDto);
+
+        Task<HttpResponseMessage> AddDailyPlans(Guid patientId, Guid consultationId, List<MinimalDailyPlan> dailyPlans);
     }
 }
