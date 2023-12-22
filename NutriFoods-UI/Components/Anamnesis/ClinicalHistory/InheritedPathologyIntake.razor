@@ -6,6 +6,7 @@
 @using NutriFoods_UI.Data.Dto
 @using NutriFoods_UI.Data.Store.Pathologies
 @inherits IntakeComponent
+@inject IState<InheritedPathologiesState> InheritedPathologiesState
 @inject IDispatcher Dispatcher
 
 <MudForm Model="Pathology" @bind-IsValid="@IsValidHandler">
@@ -57,7 +58,8 @@
 </MudForm>
 
 @code {
-    private DiseaseDto Pathology { get; set; } = new();
+    private DiseaseDto Pathology => Index < InheritedPathologiesState.Value.Pathologies.Count 
+        ? InheritedPathologiesState.Value.Pathologies.ElementAt(Index) : new DiseaseDto();
 
     private static IEnumerable<string> InheritancesNames => IEnum<InheritanceTypes, InheritanceToken>
         .TokenDictionary
