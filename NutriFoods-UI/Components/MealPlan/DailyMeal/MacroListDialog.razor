@@ -1,32 +1,38 @@
 ﻿@using Fluxor
+@using NutriFoods_UI.Data.Dto
 @using NutriFoods_UI.Data.Store.RecipeDialog
+@using System.Collections.Immutable
 @inject IState<RecipeDialogState> RecipeState
 
 <div class="d-flex gap-10 align-self-center mt-2">
     <div class="macro-item">
-        <span class="macro-number"></span>
+        <span class="macro-number">
+            @($"{Nutrients.Find(e => e.Nutrient.Equals("Energía, total"))!.Quantity:F1}")
+        </span>
         <span class="macro-label">Kcal</span>
     </div>
     <div class="macro-item">
         <span class="macro-number">
-            
+            @($"{Nutrients.Find(e => e.Nutrient.Equals("Carbohidratos, total"))!.Quantity:F1}")
         </span>
         <span class="macro-label">Carbs</span>
     </div>
     <div class="macro-item">
         <span class="macro-number">
-            
+            @($"{Nutrients.Find(e => e.Nutrient.Equals("Proteína, total"))!.Quantity:F1}")
         </span>
         <span class="macro-label">Proteínas</span>
     </div>
     <div class="macro-item">
         <span class="macro-number">
-            
+            @($"{Nutrients.Find(e => e.Nutrient.Equals("Ácidos grasos, total"))!.Quantity:F1}")
         </span>
         <span class="macro-label">Lípidos</span>
     </div>
 </div>
 
 @code {
+
+    private ImmutableList<NutritionalValueDto> Nutrients => RecipeState.Value.MenuRecipe.Recipe.Nutrients.ToImmutableList();
 
 }
