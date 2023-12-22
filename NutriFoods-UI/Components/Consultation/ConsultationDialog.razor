@@ -1,6 +1,9 @@
 ﻿@using NutriFoods_UI.Utils.Enums
 @using NutriFoods_UI.Services
 @using NutriFoods_UI.Data.Dto
+@using Fluxor
+@using NutriFoods_UI.Data.Store.DailyPlanList
+@inject IDispatcher Dispatcher
 @inject IPatientService PatientService
 @inject NavigationManager Nav
 
@@ -87,9 +90,7 @@
             await CreateConsultation();
         }
     }
-
-    bool ErrorMessage { get; set; }
-
+    
 
     static IEnumerable<ConsultationTypes> ConsultationTypesCollection => IEnum<ConsultationTypes, ConsultationTypeToken>
         .TokenDictionary.Select(e => e.Value)
@@ -113,12 +114,11 @@
         if (content != null)
         {
             Consultation = content;
+            Dispatcher.Dispatch(new InitializeDailyPlansAction());
+            
             NavToNewConsultation();
         }
-        else
-        {
-            ErrorMessage = true;
-        }
+        
     }
 
     void NavToNewConsultation()
