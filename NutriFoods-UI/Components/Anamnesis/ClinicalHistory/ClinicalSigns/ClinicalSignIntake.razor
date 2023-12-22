@@ -2,7 +2,7 @@
 @using NutriFoods_UI.Data.Dto
 @using NutriFoods_UI.Data.Store.ClinicalSigns
 @inject IState<ClinicalSignState> ClinicalSignState
-@inherits Fluxor.Blazor.Web.Components.FluxorComponent
+@inherits IntakeComponent
 @inject IDispatcher Dispatcher
 
 <MudForm @bind-IsValid="@IsValidHandler" Model="@ClinicalSignModel">
@@ -23,12 +23,12 @@
 
             <div class="d-flex gap-3">
                 <MudTextField @bind-Value="@ClinicalSignModel.Observations"
-                              Label="Observación"
+                              Label="Observación (Opcional)"
                               Variant="Variant.Outlined"
                               Margin="Margin.Dense"
                               Required="true"/>
 
-                <MudIconButton OnClick="DeleteClinicalSign"
+                <MudIconButton OnClick="Delete"
                                Icon="@Icons.Material.Filled.DeleteForever"
                                Title="Eliminar signo clínico"
                                Size="Size.Medium">
@@ -47,13 +47,10 @@
     private ClinicalSignDto ClinicalSignModel => Index < ClinicalSignState.Value.ClinicalSigns.Count() ?
         ClinicalSignState.Value.ClinicalSigns.ElementAt(Index) :
         new ClinicalSignDto();
-
-    [Parameter]
-    public int Index { get; set; }
-
-    private void DeleteClinicalSign() => Dispatcher.Dispatch(new DeleteClinicalSignAction(Index));
-
-    private void UpdateClinicalSign()
+    
+    protected override void Delete() => Dispatcher.Dispatch(new DeleteClinicalSignAction(Index));
+    
+    protected override void Update()
     {
         var action = new ChangeClinicalSignAction(new ClinicalSignDto
         {
@@ -63,20 +60,5 @@
 
         Dispatcher.Dispatch(action);
     }
-
-    private bool _isValid;
-
-    private bool IsValidHandler
-    {
-        get => _isValid;
-        set
-        {
-            if (_isValid == value) return;
-            _isValid = value;
-            UpdateClinicalSign();
-        }
-    }
-
-
 
 }

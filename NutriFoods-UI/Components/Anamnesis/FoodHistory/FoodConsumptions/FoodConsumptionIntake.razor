@@ -4,7 +4,7 @@
 @using NutriFoods_UI.Data.Store.FoodConsumptions
 @using NutriFoods_UI.Utils.Enums
 @inject IState<FoodConsumptionState> FoodConsumptionState
-@inherits Fluxor.Blazor.Web.Components.FluxorComponent
+@inherits IntakeComponent
 @inject IDispatcher Dispatcher
 
 <MudForm @bind-IsValid="@IsValidHandler" Model="@FoodConsumptionModel">
@@ -41,7 +41,7 @@
 
                 </MudSelectExtended>
 
-                <MudIconButton OnClick="DeleteFoodConsumption"
+                <MudIconButton OnClick="@Delete"
                                Icon="@Icons.Material.Filled.Delete"
                                Title="Eliminar grupo alimenticio"
                                Size="Size.Medium">
@@ -58,19 +58,18 @@
     private FoodConsumptionDto FoodConsumptionModel => Index < FoodConsumptionState.Value.FoodConsumptions.Count() ?
         FoodConsumptionState.Value.FoodConsumptions.ElementAt(Index) :
         new FoodConsumptionDto();
-
-    [Parameter]
-    public int Index { get; set; }
+    
 
     private ICollection<string> FoodGroupCollection => IEnum<FoodGroups, FoodGroupToken>
         .TokenDictionary.Select(e => e.Value.ReadableName).Skip(1).ToList();
 
     private ICollection<string> FrequenciesCollection => IEnum<Frequencies, FrequencyToken>
         .TokenDictionary.Select(e => e.Value.ReadableName).Skip(1).ToList();
+    
 
-    private void DeleteFoodConsumption() => Dispatcher.Dispatch(new DeleteFoodConsumptionAction(Index));
-
-    private void UpdateFoodConsumption()
+    protected override void Delete() => Dispatcher.Dispatch(new DeleteFoodConsumptionAction(Index));
+    
+    protected override void Update()
     {
         var action = new ChangeFoodConsumptionAction(new FoodConsumptionDto
         {
@@ -80,20 +79,5 @@
 
         Dispatcher.Dispatch(action);
     }
-
-    private bool _isValid;
-
-    private bool IsValidHandler
-    {
-        get => _isValid;
-        set
-        {
-            if (_isValid == value) return;
-            _isValid = value;
-            UpdateFoodConsumption();
-        }
-    }
-
-
 
 }

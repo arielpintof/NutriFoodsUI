@@ -4,7 +4,7 @@
 @using NutriFoods_UI.Data.Store.FoodConsumptions
 @using NutriFoods_UI.Utils.Enums
 @inject IState<AdverseFoodReactionState> AdverseFoodReactionState
-@inherits Fluxor.Blazor.Web.Components.FluxorComponent
+@inherits IntakeComponent
 @inject IDispatcher Dispatcher
 
 <MudForm @bind-IsValid="@IsValidHandler" Model="@FoodConsumptionModel">
@@ -47,7 +47,7 @@
 
                 </MudSelectExtended>
 
-                <MudIconButton OnClick="DeleteAdverseFoodReaction"
+                <MudIconButton OnClick="@Delete"
                                Icon="@Icons.Material.Filled.Delete"
                                Title="Eliminar grupo alimenticio"
                                Size="Size.Medium">
@@ -65,18 +65,15 @@
         AdverseFoodReactionState.Value.AdverseFoodReactions.ElementAt(Index) :
         new AdverseFoodReactionDto();
 
-    [Parameter]
-    public int Index { get; set; }
-
     private ICollection<string> FoodGroupCollection => IEnum<FoodGroups, FoodGroupToken>
         .TokenDictionary.Select(e => e.Value.ReadableName).Skip(1).ToList();
 
     private ICollection<string> TypeCollection => IEnum<FoodReactions, FoodReactionToken>
         .TokenDictionary.Select(e => e.Value.ReadableName).Skip(1).ToList();
+    
+    protected override void Delete() => Dispatcher.Dispatch(new DeleteAdverseFoodReactionAction(Index));
 
-    private void DeleteAdverseFoodReaction() => Dispatcher.Dispatch(new DeleteAdverseFoodReactionAction(Index));
-
-    private void UpdateAdverseFoodReaction()
+    protected override void Update()
     {
         var action = new ChangeAdverseFoodReactionAction(new AdverseFoodReactionDto
         {
@@ -86,20 +83,5 @@
 
         Dispatcher.Dispatch(action);
     }
-
-    private bool _isValid;
-
-    private bool IsValidHandler
-    {
-        get => _isValid;
-        set
-        {
-            if (_isValid == value) return;
-            _isValid = value;
-            UpdateAdverseFoodReaction();
-        }
-    }
-
-
 
 }

@@ -3,7 +3,7 @@
 @using NutriFoods_UI.Data.Store.EatingSymptom
 @using NutriFoods_UI.Utils.Enums
 @inject IState<EatingSymptomState> EatingSymptomState
-@inherits Fluxor.Blazor.Web.Components.FluxorComponent
+@inherits IntakeComponent
 @inject IDispatcher Dispatcher
 
 <MudForm @bind-IsValid="@IsValidHandler" Model="@EatingSymptomModel">
@@ -29,13 +29,13 @@
         <MudItem md="8" sm="4" xs="12">
             <div class="d-flex gap-3">
                 <MudTextField @bind-Value="EatingSymptomModel.Observations"
-                              Label="Observación"
+                              Label="Observación (Opcional)"
                               Variant="Variant.Outlined"
                               Margin="Margin.Dense"/>
 
-                <MudIconButton OnClick="@DeleteEatingSymptom"
+                <MudIconButton OnClick="@Delete"
                                Icon="@Icons.Material.Filled.Delete"
-                               Title="Eliminar grupo alimenticio"
+                               Title="Eliminar síntoma alimenticio"
                                Size="Size.Medium">
                     @Index
                 </MudIconButton>
@@ -53,12 +53,9 @@
     private ICollection<string> EatingSymptomCollection => IEnum<Utils.Enums.EatingSymptoms, EatingSymptomToken>
         .TokenDictionary.Select(e => e.Value.ReadableName).Skip(1).ToList();
     
-    [Parameter]
-    public int Index { get; set; }
+    protected override void Delete() => Dispatcher.Dispatch(new DeleteEatingSymptomAction(Index));
     
-    private void DeleteEatingSymptom() => Dispatcher.Dispatch(new DeleteEatingSymptomAction(Index));
-
-    private void UpdateEatingSymptom()
+    protected override void Update() 
     {
         var action = new ChangeEatingSymptomAction(new EatingSymptomDto
         {
@@ -67,19 +64,6 @@
         }, Index);
 
         Dispatcher.Dispatch(action);
-    }
-
-    private bool _isValid;
-
-    private bool IsValidHandler
-    {
-        get => _isValid;
-        set
-        {
-            if (_isValid == value) return;
-            _isValid = value;
-            UpdateEatingSymptom();
-        }
     }
 
 }
