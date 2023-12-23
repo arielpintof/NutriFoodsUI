@@ -1,5 +1,4 @@
 ﻿using System.Text;
-using Microsoft.AspNetCore.Components;
 using Newtonsoft.Json;
 using NutriFoods_UI.Data.Dto;
 using NutriFoods_UI.Data.Dto.Insertion;
