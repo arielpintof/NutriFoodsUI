@@ -20,7 +20,9 @@ public abstract class IntakeComponent : FluxorComponent
         set
         {
             _isValid = value;
+            Console.WriteLine("Valindando");
             Update();
+            StateHasChanged();
         }
     }
 }
