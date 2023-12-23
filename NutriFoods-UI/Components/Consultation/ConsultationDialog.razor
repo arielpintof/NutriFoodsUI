@@ -90,7 +90,6 @@
             await CreateConsultation();
         }
     }
-    
 
     static IEnumerable<ConsultationTypes> ConsultationTypesCollection => IEnum<ConsultationTypes, ConsultationTypeToken>
         .TokenDictionary.Select(e => e.Value)
