@@ -36,11 +36,13 @@
             </div>
         </MudItem>
     </MudGrid>
+    
 </MudForm>
 
 @code {
 
-    private DiseaseDto PersonalPathology => Index < PersonalPathologiesState.Value.Pathologies.Count ? PersonalPathologiesState.Value.Pathologies.ElementAt(Index) : new DiseaseDto();
+    private DiseaseDto PersonalPathology => 
+        Index < PersonalPathologiesState.Value.Pathologies.Count ? PersonalPathologiesState.Value.Pathologies.ElementAt(Index) : new DiseaseDto();
 
     private static List<string> InheritancesNames => IEnum<InheritanceTypes, InheritanceToken>
         .TokenDictionary

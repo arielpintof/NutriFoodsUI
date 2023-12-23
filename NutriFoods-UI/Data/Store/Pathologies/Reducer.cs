@@ -12,13 +12,13 @@ public class Reducer
         updateList.Add(action.Disease);
         //var stateIsValid = updateList.All(pathology => pathology.IsValid);
         
-        return new PersonalPathologiesState(updateList, stateIsValid: true);
+        return new PersonalPathologiesState(updateList, state.Initialized, state.StateIsValid);
     }
     
     [ReducerMethod]
     public static PersonalPathologiesState Initialize(PersonalPathologiesState state, InitializePersonalPathologiesAction action)
     {
-        return new PersonalPathologiesState(new List<DiseaseDto>(), true);
+        return new PersonalPathologiesState(action.Diseases, true, state.StateIsValid);
     }
     
     [ReducerMethod]
@@ -36,7 +36,7 @@ public class Reducer
         }
         
         
-        return new PersonalPathologiesState(updateList, stateIsValid: true);
+        return new PersonalPathologiesState(updateList, state.Initialized, state.StateIsValid);
     }
     
     [ReducerMethod]

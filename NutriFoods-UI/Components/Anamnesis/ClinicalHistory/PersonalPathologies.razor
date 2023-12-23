@@ -15,15 +15,13 @@
     <MudItem xs="8">
         <MudStack Class="mb-5">
             
-            @if (PersonalState.Value.Initialized)
-            {
-                for (var i = 0; i < PersonalState.Value.Pathologies.Count(); i++)
+                @for (var i = 0; i < PersonalState.Value.Pathologies.Count; i++)
                 {
                     <div class="d-flex flex-column">
                         <PersonalPathologyIntake Index="i"></PersonalPathologyIntake>
                     </div>
                 }
-            }
+            
             
             <div class="mb-2">
                 <MudButton
@@ -38,17 +36,11 @@
             </div>
         </MudStack>
     </MudItem>
+    
 </MudGrid>
 
 @code {
-
-    protected override Task OnInitializedAsync()
-    {
-        if (PersonalState.Value.Initialized != false) return base.OnInitializedAsync();
-        Dispatcher.Dispatch(new InitializePersonalPathologiesAction());
-        return base.OnInitializedAsync();
-    }
-
+    
     private void AddPathology()
     {
         Dispatcher.Dispatch(new AddPersonalPathologyAction(new DiseaseDto()));
