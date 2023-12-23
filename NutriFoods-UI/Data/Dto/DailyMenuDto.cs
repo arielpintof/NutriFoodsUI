@@ -1,15 +1,14 @@
 ﻿using NutriFoods_UI.Data.Store.DailyMeal;
 using NutriFoods_UI.Utils.Enums;
-using NutriFoods_UI.Utils.Enums;
 using static NutriFoods_UI.Utils.Enums.IEnum<NutriFoods_UI.Utils.Enums.Nutrients,NutriFoods_UI.Utils.Enums.NutrientToken>;
 
 namespace NutriFoods_UI.Data.Dto;
 
 public sealed class DailyMenuDto
 {
-    public double IntakePercentage { get; set; }
-    public string MealType { get; set; } = null!;
-    public string Hour { get; set; } = null!;
+    public double IntakePercentage { get; init; }
+    public string MealType { get; init; } = null!;
+    public string Hour { get; init; } = null!;
     public List<NutritionalValueDto> Nutrients { get; set; } = null!;
     public List<NutritionalTargetDto> Targets { get; set; } = null!;
     public List<MenuRecipeDto> Recipes { get; set; } = null!;
