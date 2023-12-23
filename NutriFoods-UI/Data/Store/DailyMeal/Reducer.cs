@@ -1,4 +1,5 @@
 ﻿using Fluxor;
+using NutriFoods_UI.Data.Dto;
 using NutriFoods_UI.Data.Store.DailyMenu;
 
 namespace NutriFoods_UI.Data.Store.DailyMeal;
@@ -42,5 +43,11 @@ public class Reducer
     public static DailyMealState OnLoadingPlan(DailyMealState state, OnLoadingPlanAction action)
     {
         return new DailyMealState(state.DailyPlan, initialized: false);
+    }
+
+    [ReducerMethod]
+    public static DailyMealState UpdateMealPlan(DailyMealState state, LoadDailyPlanAction action)
+    {
+        return new DailyMealState(state.DailyPlan, state.Initialized);
     }
 }

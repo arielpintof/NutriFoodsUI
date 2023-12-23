@@ -6,7 +6,6 @@ using NutriFoods_UI.Data.Store.MealsConfiguration;
 using NutriFoods_UI.Data.Store.MicronutrientConfiguration;
 using NutriFoods_UI.Data.Store.TotalMetabolicRate;
 using NutriFoods_UI.Services;
-using NutriFoods_UI.Utils.Enums;
 
 namespace NutriFoods_UI.Data.Store.DailyMeal;
 
@@ -20,12 +19,11 @@ public class DailyMealEffects(
     IState<DaysState> daysState,
     IState<MicronutrientState> micronutrientState)
 {
-    
     [EffectMethod]
     public async Task RenewDailyMenu(RenewMenuAction action, IDispatcher dispatcher)
     {
         dispatcher.Dispatch(new OnLoadingMenuAction(action.Index));
-        
+
         var dailyMenu = new DailyMenuDto()
         {
             IntakePercentage = 1,
@@ -34,7 +32,6 @@ public class DailyMealEffects(
             Nutrients = [],
             Targets = dailyMealstate.Value.DailyPlan.Menus.ElementAt(action.Index).Targets.ResetActualValues(),
             Recipes = []
-            
         };
 
         var response = await dailyMenuService.GenerateMenu(dailyMenu);
@@ -45,30 +42,17 @@ public class DailyMealEffects(
             dispatcher.Dispatch(new ChangeDailyMealAction(content, action.Index));
         }
 
+        dispatcher.Dispatch(new RecalculateNutrientsAction());
+
         dispatcher.Dispatch(new StopOnLoadingMenuAction());
     }
 
-    /*[EffectMethod(typeof(LoadMealPlanAction))]
-    public async Task GetMealPlan(IDispatcher dispatcher)
-    {
-        
-        var client = new HttpClient();
-        var dailyMealPlan = await client.GetFromJsonAsync<DailyPlanDto>("http://localhost:5170/sample-data/dailymeal.json");
 
-        if (dailyMealPlan != null)
-        {
-            var action = new InitializeDailyMealAction(dailyMealPlan);
-            dispatcher.Dispatch(action);
-        }
-        
-        dispatcher.Dispatch(new StopOnLoadingMenuAction());
-    }*/
-    
     [EffectMethod(typeof(LoadMealPlanAction))]
     public async Task GetMealPlan(IDispatcher dispatcher)
     {
         dispatcher.Dispatch(new OnLoadingPlanAction());
-        
+
         var physicalActivityLevel = tmrState.Value.TmrConfiguration.PhysicalActivityLevel;
         var physicalActivityFactor = tmrState.Value.TmrConfiguration.Multiplier;
         var adjustmentFactor = tmrState.Value.TmrConfiguration.Factor;
@@ -84,7 +68,7 @@ public class DailyMealEffects(
                 IntakePercentage = mc.Percentage * 0.01
             })
             .ToList();
-        
+
         var planConfiguration = new PlanConfiguration
         {
             Days = days,
@@ -94,9 +78,9 @@ public class DailyMealEffects(
             ActivityFactor = physicalActivityFactor,
             Distribution = new Dictionary<string, double>
             {
-                { "Carbohidratos, total", moleculaState.Value.CarbTarget * 0.01  },
+                { "Carbohidratos, total", moleculaState.Value.CarbTarget * 0.01 },
                 { "Proteína, total", moleculaState.Value.ProteinTarget * 0.01 },
-                { "Ácidos grasos, total", moleculaState.Value.LipidTarget  * 0.01}
+                { "Ácidos grasos, total", moleculaState.Value.LipidTarget * 0.01 }
             },
             MealConfigurations = meals,
             Targets = micronutrientState.Value.Micronutrients.ToList()
@@ -104,14 +88,14 @@ public class DailyMealEffects(
 
         var dailyMealPlanResponse = await dailyMealPlanService.DailyPlanByDistribution(planConfiguration);
         var dailyMealPlan = await dailyMealPlanResponse!.Content.ReadFromJsonAsync<DailyPlanDto>();
-        
+
 
         if (dailyMealPlan != null)
         {
             var action = new InitializeDailyMealAction(dailyMealPlan);
             dispatcher.Dispatch(action);
         }
-        
+
         dispatcher.Dispatch(new StopOnLoadingMenuAction());
     }
 
@@ -119,6 +103,18 @@ public class DailyMealEffects(
     public Task RenewMealPlan(IDispatcher dispatcher)
     {
         dispatcher.Dispatch(new LoadMealPlanAction());
+
+        return Task.CompletedTask;
+    }
+
+    [EffectMethod(typeof(RecalculateNutrientsAction))]
+    public Task Recalculate(IDispatcher dispatcher)
+    {
+        var dailyPlan = dailyMealstate.Value.DailyPlan;
+        dailyPlan.AddNutritionalValues();
+        dailyPlan.AddTargetValues();
+
+        dispatcher.Dispatch(new InitializeDailyMealAction(dailyPlan));
 
         return Task.CompletedTask;
     }
@@ -133,7 +129,7 @@ public class PlanConfiguration
     public double ActivityFactor { get; set; }
     public IDictionary<string, double> Distribution { get; set; } = null!;
     public IList<MealConfigurationDto> MealConfigurations { get; set; } = null!;
-    
+
     public IList<NutritionalTargetDto> Targets { get; set; } = null!;
 }
 

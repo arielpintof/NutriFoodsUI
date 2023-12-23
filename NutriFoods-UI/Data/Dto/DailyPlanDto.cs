@@ -81,10 +81,12 @@ public static class DailyPlanExtensions
                 Quantity = actualQuantity,
                 Unit = nutrient.Unit.ReadableName,
                 DailyValue = nutrient.DailyValue.HasValue
-                    ? Math.Round(actualQuantity / nutrient.DailyValue.Value, 2)
+                    ? Math.Round(actualQuantity / nutrient.DailyValue.Value, 3)
                     : null
             });
         }
+
+        dailyPlan.Nutrients.Sort((e1, e2) => ToValue(e1.Nutrient).CompareTo(ToValue(e2.Nutrient)));
     }
 
     public static void AddTargetValues(this DailyPlanDto dailyPlan)
