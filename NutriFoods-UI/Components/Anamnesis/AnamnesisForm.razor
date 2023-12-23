@@ -2,12 +2,15 @@
 @page "/anamnesis/{PatientId:guid}/{ConsultationId:guid}"
 @using MudExtensions.Enums
 @using MudExtensions.Utilities
-@using MudBlazor.Extensions
 @using Fluxor
+@using NutriFoods_UI.Data.Dto
 @using NutriFoods_UI.Data.Store.Anthropometry
-@inject ISnackbar Snackbar
+@using NutriFoods_UI.Data.Store.LatestConsultation
+@using NutriFoods_UI.Data.Store.Pathologies
+@using NutriFoods_UI.Utils.Enums
 @inject NavigationManager Nav
 @inject IDispatcher Dispatcher
+@inject IState<LatestConsultationState> LatestConsultationState
 
 <MudStepper @ref="_stepper"
             Class="mud-width-full my-4 px-4"
@@ -188,11 +191,48 @@
         Nav.NavigateTo($"/patient/{PatientId}/consultation/{ConsultationId}");
     }
 
+    protected override Task OnInitializedAsync()
+    {
+        LastConsultation = LatestConsultationState.Value.LatestConsultation;
+        InitializeAnthropometry();
+        InitializePersonalPathologies();
+        
+        return base.OnInitializedAsync();
+    }
+
+    ConsultationDto LastConsultation { get; set; } = new();
+    
+
     void Submit()
     {
         Dispatcher.Dispatch(new PostAnthropometryAction(ConsultationId, PatientId));
         Dispatcher.Dispatch(new PostAlimentaryAction(ConsultationId, PatientId));
         Dispatcher.Dispatch(new PostClinicalAction(ConsultationId, PatientId));
     }
+    
+    private void InitializeAnthropometry()
+    {
+        Dispatcher.Dispatch(LastConsultation.Anthropometry is not null ? 
+            new InitializedAnthropometryAction(LastConsultation.Anthropometry) : new InitializedAnthropometryAction(new AnthropometryDto()));
+    }
+
+    private void InitializePersonalPathologies()
+    {
+        if (LastConsultation.ClinicalAnamnesis?.Diseases is not null)
+        {
+            var personalPathologies = LastConsultation.ClinicalAnamnesis.Diseases
+                .Where(disease => disease.InheritanceTypes.Count() == 1 && disease.InheritanceTypes.Single() == InheritanceTypes.Direct.ReadableName)
+                .ToList();
+            Console.WriteLine("Watafac 1");
+            Dispatcher.Dispatch(new InitializePersonalPathologiesAction(personalPathologies));
+        }
+        else
+        {
+            Console.WriteLine("Watafac 2");
+            Dispatcher.Dispatch(new InitializePersonalPathologiesAction([]));
+        }
+    }
+    
+    
 
 }
