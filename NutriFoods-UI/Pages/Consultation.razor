@@ -4,25 +4,28 @@
 @using NutriFoods_UI.Utils.Strings
 @inject IPatientService PatientService
 
-<nav class="mb-6" aria-label="breadcrumb">
-    <ol class="breadcrumb">
-        <li class="d-flex gap-1 breadcrumb-item ">
-            <a class="bi bi-arrow-left mr-1" href="/patients">
-                Pacientes
-            </a>
-        </li>
-        <li class="breadcrumb-item active" aria-current="page" href="/user-dashboard">
-            Perfil de @Strings.FirstWord(Names) @Strings.FirstWord(LastNames)
-        </li>
-        <li class="breadcrumb-item active" aria-current="page">Nueva consulta</li>
-    </ol>
-</nav>
 
-<ConsultationContent PatientId="PatientId"
-                     ConsultationId="ConsultationId"
-                     AnamnesisCompleted="AnamnesisCompleted"
-                     MealCompleted="MealPlanCompleted">
-</ConsultationContent>
+<ProgressLoading Loading="Loading">
+    <nav class="mb-6" aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="d-flex gap-1 breadcrumb-item ">
+                <a class="bi bi-arrow-left mr-1" href="/patients">
+                    Pacientes
+                </a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page" href="/user-dashboard">
+                Perfil de @Strings.FirstWord(Names) @Strings.FirstWord(LastNames)
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">Nueva consulta</li>
+        </ol>
+    </nav>
+
+    <ConsultationContent PatientId="PatientId"
+                         ConsultationId="ConsultationId"
+                         AnamnesisCompleted="AnamnesisCompleted"
+                         MealCompleted="MealPlanCompleted">
+    </ConsultationContent>
+</ProgressLoading>
 
 
 @code {
@@ -39,18 +42,20 @@
 
     PatientDto Patient { get; set; } = new();
 
+    bool Loading { get; set; } = true;
+
     protected override async Task OnInitializedAsync()
     {
         var response = await PatientService.FindPatient(PatientId);
+        var content = await response.Content.ReadFromJsonAsync<PatientDto>();
+        Patient = content!;
+        Names = Strings.FirstWord(Patient.PersonalInfo!.Names);
+        LastNames = Strings.FirstWord(Patient.PersonalInfo.LastNames);
 
-        if (response != null)
-        {
-            var content = await response.Content.ReadFromJsonAsync<PatientDto>();
-            Patient = content!;
-            Names = Strings.FirstWord(Patient.PersonalInfo!.Names);
-            LastNames = Strings.FirstWord(Patient.PersonalInfo.LastNames);
-        }
+        Loading = false;
     }
+
+}
 
 
 }

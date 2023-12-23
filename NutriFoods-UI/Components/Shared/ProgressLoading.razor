@@ -1,0 +1,17 @@
+﻿@if (Loading)
+{
+    <div class="d-flex justify-content-center" style="min-height: 300px">
+        <MudProgressCircular Class="align-self-center" Color="Color.Primary" Size="Size.Large" Indeterminate="true"/>
+    </div>
+}
+else
+{
+    @ChildContent
+}
+
+@code{
+    [Parameter] public RenderFragment? ChildContent {get;set;}
+    
+    [Parameter] public bool Loading { get; set; }
+
+}
