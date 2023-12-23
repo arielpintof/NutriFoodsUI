@@ -14,8 +14,9 @@
 </section>
 
 @code {
-    [Parameter]
-    public string Class { get; set; }
+    [Parameter] 
+    public string Class { get; set; } = string.Empty;
+    
     [Parameter] 
     public Guid PatientId { get; set; }
 
