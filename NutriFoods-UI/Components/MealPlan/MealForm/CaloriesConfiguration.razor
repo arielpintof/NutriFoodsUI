@@ -1,11 +1,35 @@
 ﻿@using NutriFoods_UI.Data.Model
 
-<Collapse CollapseItems="_collapseItemModels"></Collapse>
+@*<Collapse CollapseItems="_collapseItemModels"></Collapse>*@
+
+<MudExpansionPanels MultiExpansion="true" Elevation="0" DisableBorders="true">
+    <MudExpansionPanel Dense="true" Class="mt-3 rounded" >
+        <TitleContent>
+            <CollapseTitle Title="Días de la semana"></CollapseTitle>
+        </TitleContent>
+        <ChildContent>
+            <MudDivider DividerType="DividerType.Middle" Class="mb-5"/>
+            <DaysIntake></DaysIntake>
+        </ChildContent>
+    </MudExpansionPanel>
+    <MudExpansionPanel Dense="true" Class="mt-3 rounded" >
+            <TitleContent>
+                <CollapseTitle Title="Requerimiento energético"></CollapseTitle>
+            </TitleContent>
+            <ChildContent>
+                <MudDivider DividerType="DividerType.Middle" Class="mb-5"/>
+                <PhysicalActivityIntake PatientId="PatientId"></PhysicalActivityIntake>
+            </ChildContent>
+        </MudExpansionPanel>
+</MudExpansionPanels>
+
 
 
 @code {
+    [Parameter] public Guid PatientId { get; set; }
 
-    private List<CollapseItemModel> _collapseItemModels = new()
+
+    /*private List<CollapseItemModel> _collapseItemModels = new()
     {
         new CollapseItemModel
         {
@@ -22,7 +46,7 @@
             {
                 <PhysicalActivityIntake></PhysicalActivityIntake>
             }
-        },
-    };
+        }
+    };*/
 
 }
