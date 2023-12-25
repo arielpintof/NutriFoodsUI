@@ -4,7 +4,6 @@
 @using Fluxor
 @using NutriFoods_UI.Data.Store.DailyPlanList
 @using NutriFoods_UI.Data.Store.LatestConsultation
-@using Dispatcher = Microsoft.AspNetCore.Components.Dispatcher
 @inject IDispatcher Dispatcher
 @inject IPatientService PatientService
 @inject NavigationManager Nav
@@ -86,19 +85,19 @@
     async Task IsValid()
     {
         await Form.Validate();
-
+        
         if (Form.IsValid)
         {
+            await Task.Delay(1000);
+            Console.WriteLine("Despachando: GETLASTCONSULTATION");
+            Dispatcher.Dispatch(new GetLatestConsultationAction(PatientId));
+            
+            await Task.Delay(1000);
             await CreateConsultation();
         }
     }
 
-    Task DispatchLatestConsultation()
-    {
-        Dispatcher.Dispatch(new GetLatestConsultationAction(PatientId));
-        
-        return Task.CompletedTask;
-    }
+   
 
     static IEnumerable<ConsultationTypes> ConsultationTypesCollection => IEnum<ConsultationTypes, ConsultationTypeToken>
         .TokenDictionary.Select(e => e.Value)
@@ -110,8 +109,6 @@
 
     async Task CreateConsultation()
     {
-        await DispatchLatestConsultation();
-        
         var response = await PatientService.CreateConsultation(PatientId, new ConsultationDto
         {
             Type = Type,
