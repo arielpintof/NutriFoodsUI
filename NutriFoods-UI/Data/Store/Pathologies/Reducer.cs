@@ -88,7 +88,7 @@ public class Reducer
     
     public static InheritedPathologiesState Initialize(InheritedPathologiesState state, InitializeInheritedPathologiesAction action)
     {
-        return new InheritedPathologiesState(new List<DiseaseDto>(), true);
+        return new InheritedPathologiesState(action.Patologies, true);
     }
     
     

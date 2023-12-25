@@ -3,85 +3,98 @@
 @using MudExtensions.Enums
 @using MudExtensions.Utilities
 @using Fluxor
+@using Newtonsoft.Json
 @using NutriFoods_UI.Data.Dto
+@using NutriFoods_UI.Data.Store.AdverseFoodReactions
 @using NutriFoods_UI.Data.Store.Anthropometry
+@using NutriFoods_UI.Data.Store.ClinicalSigns
+@using NutriFoods_UI.Data.Store.EatingSymptom
+@using NutriFoods_UI.Data.Store.FoodConsumptions
+@using NutriFoods_UI.Data.Store.HarmfulHabits
 @using NutriFoods_UI.Data.Store.LatestConsultation
+@using NutriFoods_UI.Data.Store.Medicines
 @using NutriFoods_UI.Data.Store.Pathologies
+@using NutriFoods_UI.Data.Store.Supplements
+@using NutriFoods_UI.Data.Store.Vitamins
 @using NutriFoods_UI.Utils.Enums
 @inject NavigationManager Nav
 @inject IDispatcher Dispatcher
 @inject IState<LatestConsultationState> LatestConsultationState
+@inherits Fluxor.Blazor.Web.Components.FluxorComponent
 
-<MudStepper @ref="_stepper"
-            Class="mud-width-full my-4 px-4"
-            ContentStyle="min-height: 400px"
-            Linear="false"
-            Vertical="false"
-            Color="_color"
-            Variant="_variant"
-            DisableAnimation="false"
-            DisablePreviousButton="false"
-            DisableNextButton="false"
-            DisableSkipButton="true"
-            DisableStepResultIndicator="_disableStepResultIndicator"
-            HeaderBadgeView="HeaderBadgeView.All"
-            HeaderTextView="HeaderTextView.All"
-            PreventStepChangeAsync="new Func<StepChangeDirection, Task<bool>>(CheckChange)"
-            LocalizedStrings="GetLocalizedStrings()"
-            IconActionButtons="IconActionButtons"
-            Loading="_loading"
-            HeaderSize="_headerSize">
-
-    <ChildContent>
-        <MudStep Icon="@Icons.Material.Filled.LocalHospital"
-                 Title="Clínica">
-            <ChildContent>
-
-                <ClinicalCollapseGroup></ClinicalCollapseGroup>
-
-            </ChildContent>
-        </MudStep>
-
-        <MudStep Title="Alimentaria"
-                 Icon="@Icons.Custom.Uncategorized.FoodApple"
-                 Optional="false">
-            <ChildContent>
-                <FoodHistoryCollapseGroup></FoodHistoryCollapseGroup>
-            </ChildContent>
-        </MudStep>
-
-        <MudStep Title="Antropométrica"
-                 Icon="@Icons.Material.Filled.BarChart"
-                 Optional="false">
-            <ChildContent>
-                <AnthropometryForm></AnthropometryForm>
-            </ChildContent>
-        </MudStep>
-        
-        @if (_addResultStep)
-        {
-            
-            <MudStep Icon="@Icons.Material.Filled.Alarm" Title="Result Step" IsResultStep="true">
+<ProgressLoading Loading="Loading">
+    <MudStepper @ref="_stepper"
+                Class="mud-width-full my-4 px-4"
+                ContentStyle="min-height: 400px"
+                Linear="false"
+                Vertical="false"
+                Color="_color"
+                Variant="_variant"
+                DisableAnimation="false"
+                DisablePreviousButton="false"
+                DisableNextButton="false"
+                DisableSkipButton="true"
+                DisableStepResultIndicator="_disableStepResultIndicator"
+                HeaderBadgeView="HeaderBadgeView.All"
+                HeaderTextView="HeaderTextView.All"
+                PreventStepChangeAsync="new Func<StepChangeDirection, Task<bool>>(CheckChange)"
+                LocalizedStrings="GetLocalizedStrings()"
+                IconActionButtons="IconActionButtons"
+                Loading="_loading"
+                HeaderSize="_headerSize">
+    
+        <ChildContent>
+            <MudStep Icon="@Icons.Material.Filled.LocalHospital"
+                     Title="Clínica">
                 <ChildContent>
-                    <div class="d-flex flex-column align-center justify-center gap-2" style="height: 200px">
-                        <MudIconButton Icon="@Icons.Material.Filled.DoneAll" Size="Size.Large" Variant="Variant.Filled" Color="Color.Success"/>
-                        <MudText>La anamnesis ha sido completada con éxito</MudText>
-                        <MudButton Variant="Variant.Outlined"
-                                   Color="Color.Primary"
-                                   OnClick="@BackToConsultation"
-                                   Style="text-transform: none; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700;">
-                            Volver a la consulta
-                        </MudButton>
-                    </div>
+    
+                    <ClinicalCollapseGroup></ClinicalCollapseGroup>
+    
                 </ChildContent>
             </MudStep>
-        }
-    </ChildContent>
-    <ActionContent>
-    </ActionContent>
+    
+            <MudStep Title="Alimentaria"
+                     Icon="@Icons.Custom.Uncategorized.FoodApple"
+                     Optional="false">
+                <ChildContent>
+                    <FoodHistoryCollapseGroup></FoodHistoryCollapseGroup>
+                </ChildContent>
+            </MudStep>
+    
+            <MudStep Title="Antropométrica"
+                     Icon="@Icons.Material.Filled.BarChart"
+                     Optional="false">
+                <ChildContent>
+                    <AnthropometryForm></AnthropometryForm>
+                </ChildContent>
+            </MudStep>
+            
+            @if (_addResultStep)
+            {
+                
+                <MudStep Icon="@Icons.Material.Filled.Alarm" Title="Result Step" IsResultStep="true">
+                    <ChildContent>
+                        <div class="d-flex flex-column align-center justify-center gap-2" style="height: 200px">
+                            <MudIconButton Icon="@Icons.Material.Filled.DoneAll" Size="Size.Large" Variant="Variant.Filled" Color="Color.Success"/>
+                            <MudText>La anamnesis ha sido completada con éxito</MudText>
+                            <MudButton Variant="Variant.Outlined"
+                                       Color="Color.Primary"
+                                       OnClick="@BackToConsultation"
+                                       Style="text-transform: none; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700;">
+                                Volver a la consulta
+                            </MudButton>
+                        </div>
+                    </ChildContent>
+                </MudStep>
+            }
+        </ChildContent>
+        <ActionContent>
+        </ActionContent>
+    
+    
+    </MudStepper>
+</ProgressLoading>
 
-
-</MudStepper>
 
 
 @code {
@@ -123,7 +136,7 @@
             {
                 _loading = true;
                 StateHasChanged();
-                Console.WriteLine("Enviando anamnesis clínica...");
+                Dispatcher.Dispatch(new PostClinicalAction(ConsultationId, PatientId));
                 await Task.Delay(1000);
                 _loading = false;
                 StateHasChanged();
@@ -135,7 +148,7 @@
                 
                 _loading = true;
                 StateHasChanged();
-                Console.WriteLine("Enviando anamnesis alimentaria");
+                Dispatcher.Dispatch(new PostAlimentaryAction(ConsultationId, PatientId));
                 await Task.Delay(1000);
                 _loading = false;
                 StateHasChanged();
@@ -146,9 +159,8 @@
             {
                 _loading = true;
                 StateHasChanged();
-                Submit();
-                Console.WriteLine("Enviando Antropometría");
-                await Task.Delay(1000);
+                //Submit();
+                Dispatcher.Dispatch(new PostAnthropometryAction(ConsultationId, PatientId));
                 _loading = false;
                 StateHasChanged();
 
@@ -165,6 +177,8 @@
         }
     }
 
+    bool Loading { get; set; } = true;
+    
     private StepperLocalizedStrings GetLocalizedStrings()
     {
         if (_customLocalization == false)
@@ -191,13 +205,25 @@
         Nav.NavigateTo($"/patient/{PatientId}/consultation/{ConsultationId}");
     }
 
-    protected override Task OnInitializedAsync()
+    protected override async Task OnInitializedAsync()
     {
-        LastConsultation = LatestConsultationState.Value.LatestConsultation;
-        InitializeAnthropometry();
-        InitializePersonalPathologies();
         
-        return base.OnInitializedAsync();
+        LastConsultation = LatestConsultationState.Value.LatestConsultation;
+        Console.WriteLine("Cargando forms...");
+        InitializeAdversedFoodReactions();
+        InitializeAnthropometry();
+        InitializeClinicalSignAction();
+        InitializePersonalPathologies();
+        InitializeEatingSymptoms();
+        InitializeFoodConsumptions();
+        InitializeHarmfulHabits();
+        InitializeIngestibles();
+
+
+        await Task.Delay(2000);
+        
+        Loading = false;
+        
     }
 
     ConsultationDto LastConsultation { get; set; } = new();
@@ -205,15 +231,21 @@
 
     void Submit()
     {
-        Dispatcher.Dispatch(new PostAnthropometryAction(ConsultationId, PatientId));
-        Dispatcher.Dispatch(new PostAlimentaryAction(ConsultationId, PatientId));
+        
         Dispatcher.Dispatch(new PostClinicalAction(ConsultationId, PatientId));
+        Dispatcher.Dispatch(new PostAlimentaryAction(ConsultationId, PatientId));
+        Dispatcher.Dispatch(new PostAnthropometryAction(ConsultationId, PatientId));
+        
     }
     
     private void InitializeAnthropometry()
     {
-        Dispatcher.Dispatch(LastConsultation.Anthropometry is not null ? 
-            new InitializedAnthropometryAction(LastConsultation.Anthropometry) : new InitializedAnthropometryAction(new AnthropometryDto()));
+        var anthropometry = LastConsultation.Anthropometry;
+        var json = JsonConvert.SerializeObject(anthropometry, new JsonSerializerSettings());
+        //Console.WriteLine($"Antropometría: {json}");
+        var content = anthropometry ?? new AnthropometryDto();
+        Console.WriteLine($"Antropometría 2: {JsonConvert.SerializeObject(content, new JsonSerializerSettings())}");
+        Dispatcher.Dispatch(new InitializedAnthropometryAction(content));
     }
 
     private void InitializePersonalPathologies()
@@ -232,7 +264,58 @@
             Dispatcher.Dispatch(new InitializePersonalPathologiesAction([]));
         }
     }
+
+    private void InitializeAdversedFoodReactions()
+    {
+        var reactions = LastConsultation.NutritionalAnamnesis?.AdverseFoodReactions;
+        var content = reactions ?? [];
+        
+        Dispatcher.Dispatch(new InitializeFoodReactionsAction(content));
+    }
+
+    private void InitializeEatingSymptoms()
+    {
+        var symptoms = LastConsultation.NutritionalAnamnesis?.EatingSymptoms;
+        var content = symptoms ?? [];
+        
+        Dispatcher.Dispatch(new InitializeEatingSymptomAction(content));
+    }
+
+    private void InitializeFoodConsumptions()
+    {
+        var consumptions = LastConsultation.NutritionalAnamnesis?.FoodConsumptions;
+        var content = consumptions ?? [];
+        
+        Dispatcher.Dispatch(new InitializeFoodConsumptionsAction(content));
+    }
     
-    
+    private void InitializeHarmfulHabits()
+    {
+        var harmfulHabits = LastConsultation.NutritionalAnamnesis?.HarmfulHabits;
+        var content = harmfulHabits ?? [];
+        
+        Dispatcher.Dispatch(new InitializeHarmfulHabitAction(content));    
+    }
+
+    private void InitializeIngestibles()
+    {
+        var ingestibles = LastConsultation.ClinicalAnamnesis?.Ingestibles ?? [];
+        var medicines = ingestibles.Where(e => e.Type == IngestibleTypes.Pharmaceutical.ReadableName).ToList() ?? [];
+        var vitamins = ingestibles.Where(e => e.Type == IngestibleTypes.Vitamin.ReadableName).ToList() ?? [];
+        var supplements = ingestibles.Where(e => e.Type == IngestibleTypes.Supplement.ReadableName).ToList() ?? [];
+        
+        Console.WriteLine($"Numero de medicinas registradas: {medicines.Count}");
+        Dispatcher.Dispatch(new InitializeMedicineAction(medicines));
+        Dispatcher.Dispatch(new InitializeSupplementAction(supplements));
+        Dispatcher.Dispatch(new InitializeVitaminAction(vitamins));
+    }
+
+    private void InitializeClinicalSignAction()
+    {
+        var clinicalSigns = LastConsultation.ClinicalAnamnesis?.ClinicalSigns;
+        var content = clinicalSigns ?? [];
+        
+        Dispatcher.Dispatch(new InitializeClinicalSignAction(content));   
+    }
 
 }

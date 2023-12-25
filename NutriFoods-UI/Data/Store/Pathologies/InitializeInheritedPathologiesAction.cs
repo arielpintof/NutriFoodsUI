@@ -1,6 +1,8 @@
-﻿namespace NutriFoods_UI.Data.Store.Pathologies;
+﻿using NutriFoods_UI.Data.Dto;
 
-public class InitializeInheritedPathologiesAction
+namespace NutriFoods_UI.Data.Store.Pathologies;
+
+public class InitializeInheritedPathologiesAction(List<DiseaseDto> patologies)
 {
-    
+    public List<DiseaseDto> Patologies { get; } = patologies;
 }

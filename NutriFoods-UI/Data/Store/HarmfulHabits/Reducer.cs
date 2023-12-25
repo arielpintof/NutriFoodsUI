@@ -30,4 +30,10 @@ public static class HarmfulHabitReducer
 
         return new HarmfulHabitState(updatedList);
     }
+
+    [ReducerMethod]
+    public static HarmfulHabitState Initialize(HarmfulHabitState state, InitializeHarmfulHabitAction action)
+    {
+        return new HarmfulHabitState(action.HarmfulHabits);
+    }
 }

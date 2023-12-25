@@ -30,4 +30,10 @@ public class Reducer
 
         return new ClinicalSignState(updateList);
     }
+
+    [ReducerMethod]
+    public static ClinicalSignState Initialize(ClinicalSignState state, InitializeClinicalSignAction action)
+    {
+        return new ClinicalSignState(action.ClinicalSigns);
+    }
 }

@@ -6,11 +6,13 @@
 @using NutriFoods_UI.Utils.Enums.Validators.Patients
 @using Fluxor
 @using NutriFoods_UI.Data.Model
+@using NutriFoods_UI.Data.Store.LatestConsultation
 @using NutriFoods_UI.Data.Store.LogIn
 @using NutriFoods_UI.Utils.Enums
 @inject INutritionistService NutritionistService
 @inject IPatientService PatientService
 @inject IState<CredentialsState> Credentials
+
 @inject IDispatcher Dispatcher
 @inject NavigationManager Nav
 

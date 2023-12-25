@@ -1,4 +1,5 @@
 ﻿using System.Net.Http.Json;
+using System.Reflection.Metadata;
 using Fluxor;
 using NutriFoods_UI.Data.Dto;
 using NutriFoods_UI.Data.Store.AdverseFoodReactions;
@@ -44,13 +45,14 @@ public class Effects(
     [EffectMethod]
     public async Task PostClinical(PostClinicalAction action, IDispatcher dispatcher)
     {
-        var ingestibles = medicines.Value.Medicines
-            .Concat(vitamins.Value.Vitamins)
-            .Concat(supplements.Value.Supplements)
-            .ToList();
+        var ingestibles = medicines.Value.Medicines.ToList();
+        ingestibles.AddRange(vitamins.Value.Vitamins);
+        ingestibles.AddRange(supplements.Value.Supplements);
 
-        var pathologies = personalDiseases.Value.Pathologies
-            .Union(inheritedDiseases.Value.Pathologies).ToList();
+        //var toTimeFormat = ingestibles.Select(e => e.TimeFormat()).ToList();
+
+        var pathologies = personalDiseases.Value.Pathologies;
+        pathologies.AddRange(inheritedDiseases.Value.Pathologies);
         
         var response = await patientService.AddClinicalAnamnesis(
             action.PatientId, action.ConsultationId, new ClinicalAnamnesisDto

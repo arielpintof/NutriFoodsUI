@@ -77,13 +77,14 @@
                 @foreach (var time in IngestibleModel.AdministrationTimes.Select((value, index) => new { Value = value, Index = index }))
                 {
                     <MudItem md="4" sm="6" xs="12">
-                        <MudTimePicker AmPm="true"
-                                       @bind-Time="IngestibleModel.AdministrationTimes[time.Index]"
+                        <MudTimePicker @bind-Time="IngestibleModel.AdministrationTimes[time.Index]"
                                        Variant="Variant.Outlined"
                                        Margin="Margin.Dense"
                                        Editable="true"
                                        Placeholder="Hora"
+                                       AmPm="true"
                                        Label="Hora"
+                                       TimeFormat="hh:mm"
                                        Required="true">
                         </MudTimePicker>
                     </MudItem>
@@ -136,9 +137,9 @@
 
         if (ModeType == ModeTypeEnum.Add)
         {
-            IngestibleModel.AdministrationTimes.Add(new TimeSpan());
+            IngestibleModel.AdministrationTimes.Add(new TimeOnly().ToTimeSpan());
         }
-
+    
         return base.OnInitializedAsync();
     }
 

@@ -1,7 +1,7 @@
 using Fluxor;
 namespace NutriFoods_UI.Data.Store.AdverseFoodReactions;
 
-public class Reducer
+public static class Reducer
 {
     [ReducerMethod]
     public static AdverseFoodReactionState AddAdverseFoodReaction(AdverseFoodReactionState state, 
@@ -31,5 +31,12 @@ public class Reducer
         updateList.RemoveAt(action.Index);
 
         return new AdverseFoodReactionState(updateList);
+    }
+    
+    [ReducerMethod]
+    public static AdverseFoodReactionState InitializeFoodReaction(AdverseFoodReactionState state, 
+        InitializeFoodReactionsAction action)
+    {
+        return new AdverseFoodReactionState(action.AdverseFoodReactions);
     }
 }

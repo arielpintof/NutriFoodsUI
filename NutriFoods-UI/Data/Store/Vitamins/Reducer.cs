@@ -24,4 +24,10 @@ public class Reducer
         return new VitaminState(vitamins: updatedList);
     }
 
+    [ReducerMethod]
+    public static VitaminState Initialize(VitaminState state, InitializeVitaminAction action)
+    {
+        return new VitaminState(action.Vitamins);
+    }
+
 }

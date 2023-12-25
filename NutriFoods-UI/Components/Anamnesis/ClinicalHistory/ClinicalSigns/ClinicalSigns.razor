@@ -15,12 +15,12 @@
     </MudItem>
     <MudItem xs="8">
         <MudStack Class="mb-5">
-                @for(var i = 0; i < ClinicalSignState.Value.ClinicalSigns.Count; i++)
-                {
-                    <div class="d-flex flex-column">
-                        <ClinicalSignIntake Index="i"></ClinicalSignIntake>
-                    </div>
-                }
+            @for(var i = 0; i < ClinicalSignState.Value.ClinicalSigns.Count; i++)
+            {
+                <div class="d-flex flex-column">
+                    <ClinicalSignIntake Index="i"></ClinicalSignIntake>
+                </div>
+            }
                 
            
             <div class="mb-2">
@@ -36,6 +36,10 @@
             </div>
         </MudStack>
     </MudItem>
+    @foreach (var sign in ClinicalSignState.Value.ClinicalSigns)
+    {
+        <span>@sign.Name</span>
+    }
 </MudGrid>
 
 

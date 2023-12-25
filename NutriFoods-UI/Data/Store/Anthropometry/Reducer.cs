@@ -10,6 +10,7 @@ public static class Reducer
         return new AnthropometryState(action.Anthropometry, state.InitializedFromLastConsultation, state.IsEdited);
     }
     
+    [ReducerMethod]
     public static AnthropometryState InitializeFromConsultation(AnthropometryState state, InitializedAnthropometryAction action)
     {
         return new AnthropometryState(action.Anthropometry, true, state.IsEdited);

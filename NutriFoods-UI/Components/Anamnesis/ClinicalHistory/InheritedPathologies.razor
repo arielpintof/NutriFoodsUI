@@ -13,17 +13,13 @@
     </MudItem>
     <MudItem xs="8">
         <MudStack Class="mb-5">
-            @if (InheritedPathologiesState.Value.Initialized)
-            {
-                @for (var i = 0; i < InheritedPathologiesState.Value.Pathologies.Count(); i++)
+                @for (var i = 0; i < InheritedPathologiesState.Value.Pathologies.Count; i++)
                 {
                     <div class="d-flex flex-column">
                         <InheritedPathologyIntake Index="i"></InheritedPathologyIntake>
                     </div>
                 }
-            }
-            
-
+                
             <div class="mb-2">
                 <MudButton
                     Size="Size.Small"
@@ -43,8 +39,7 @@
 
     protected override Task OnInitializedAsync()
     {
-        if (InheritedPathologiesState.Value.Initialized != false) return base.OnInitializedAsync();
-        Dispatcher.Dispatch(new InitializeInheritedPathologiesAction());
+        
         return base.OnInitializedAsync();
     }
     
