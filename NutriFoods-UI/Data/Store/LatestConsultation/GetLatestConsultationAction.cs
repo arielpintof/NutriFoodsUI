@@ -1,6 +1,6 @@
 ﻿namespace NutriFoods_UI.Data.Store.LatestConsultation;
 
-public class GetLatestConsultationAction(Guid patiendId)
+public class GetLatestConsultationAction(Guid patientId)
 {
-    public Guid PatiendId { get; } = patiendId;
+    public Guid PatientId { get; } = patientId;
 }
