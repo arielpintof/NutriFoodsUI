@@ -8,6 +8,8 @@
 
 @if (PatientState.Value.Initialized)
 {
+    var anthropometry = LatestConsultation.Value.LatestConsultation.Anthropometry ?? throw new InvalidOperationException();
+    
     <div class="d-flex justify-content-around gap-4">
         <MudPaper Class="pa-6 d-flex flex-column flex-wrap"
                   Elevation="0"
@@ -17,7 +19,7 @@
                     <span class="material-symbols-outlined icon-color">straighten</span>
                     <span class="subtext">Talla</span>
                     <div class="d-flex gap-1 ">
-                        <span class="fw-bold fs-4">@Anthropometry.Height cm</span>
+                        <span class="fw-bold fs-4">@anthropometry.Height cm</span>
                     </div>
                 </div>
             </div>
@@ -32,7 +34,7 @@
                     </span>
                     <span class="subtext">Peso</span>
                     <div class="d-flex gap-1 ">
-                        <span class="fw-bold fs-4">@Anthropometry.Weight kg</span>
+                        <span class="fw-bold fs-4">@anthropometry.Weight kg</span>
                     </div>
                 </div>
             </div>
@@ -45,7 +47,7 @@
                     <span class="material-symbols-outlined icon-color">straighten</span>
                     <span class="subtext">Cintura</span>
                     <div class="d-flex gap-1 ">
-                        <span class="fw-bold fs-4">@Anthropometry.WaistCircumference cm</span>
+                        <span class="fw-bold fs-4">@anthropometry.WaistCircumference cm</span>
                     </div>
                 </div>
             </div>
@@ -57,7 +59,7 @@
 
 @code {
 
-    AnthropometryDto Anthropometry => LatestConsultation.Value.LatestConsultation.Anthropometry ?? throw new InvalidOperationException();
+    
 }
 
 <style>

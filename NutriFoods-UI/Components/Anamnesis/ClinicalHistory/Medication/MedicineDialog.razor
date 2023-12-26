@@ -1,5 +1,6 @@
 ﻿@using NutriFoods_UI.Data.Store.Medicines
 @using NutriFoods_UI.Utils.Enums
+@using static NutriFoods_UI.Utils.Enums.IEnum<NutriFoods_UI.Utils.Enums.IngestibleTypes, NutriFoods_UI.Utils.Enums.IngestibleToken>
 @using Fluxor
 @inject IDispatcher Dispatcher
 @inject IState<MedicineState> MedicineState 
@@ -11,7 +12,8 @@
         <h5 class="align-self-center fw-bold mb-3">
             @ModeType.ReadableName medicamento
         </h5>
-        <MudDivider Class="my-2"></MudDivider>
+        <MudDivider Class="my-2">
+        </MudDivider>
         <MudForm @ref="IngestibleForm"
                  Class="mt-5"
                  Style="color: var(--grey-light)"
@@ -150,7 +152,7 @@
 
         if (!IngestibleForm.IsValid) return;
 
-        IngestibleModel.Type = IEnum<IngestibleTypes, IngestibleToken>.ToReadableName(IngestibleToken.Pharmaceutical);
+        IngestibleModel.Type = ToReadableName(IngestibleToken.Pharmaceutical);
 
         if (ModeType == ModeTypeEnum.Add)
         {

@@ -6,16 +6,16 @@
 <table class="my-table mud-width-full justify-space-beetween flex-grow-1 gap-2">
     <thead>
     <tr>
-        <th scope="col" style="width: 70%">Alimento</th>
-        <th scope="col">Reacción</th>
+        <th scope="col" style="width: 50%">Nombre</th>
+        <th scope="col">Observaciones</th>
     </tr>
     </thead>
     <tbody class="mt-2">
-    @foreach (var reaction in LatestConsultation.Value.LatestConsultation.NutritionalAnamnesis!.AdverseFoodReactions)
+    @foreach (var habit in LatestConsultation.Value.LatestConsultation.NutritionalAnamnesis!.HarmfulHabits)
     {
         <tr>
-            <td>@reaction.FoodGroup</td>
-            <td>@reaction.Type</td>
+            <td>@habit.Name</td>
+            <td>@habit.Observations</td>
         </tr>
     }
     </tbody>

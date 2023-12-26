@@ -5,26 +5,17 @@
 <table class="my-table mud-width-full justify-space-beetween flex-grow-1 gap-2">
     <thead>
     <tr>
-        <th scope="col" style="width: 50%">Grupo</th>
-        <th scope="col">Frecuencia</th>
+        <th scope="col" style="width: 50%">Nombre</th>
+        <th scope="col">Observaciones</th>
     </tr>
     </thead>
     <tbody class="mt-2">
-    
-    @foreach (var freq in LatestConsultation.Value.LatestConsultation.NutritionalAnamnesis!.FoodConsumptions)
+    @foreach (var symptom in LatestConsultation.Value.LatestConsultation.NutritionalAnamnesis!.EatingSymptoms)
     {
         <tr>
-            <td>@freq.FoodGroup</td>
-            <td>@freq.Frequency</td>
+            <td>@symptom.Name</td>
+            <td>@symptom.Observations</td>
         </tr>
-        
     }
-    
     </tbody>
-
 </table>
-
-@code
-{
-
-}
