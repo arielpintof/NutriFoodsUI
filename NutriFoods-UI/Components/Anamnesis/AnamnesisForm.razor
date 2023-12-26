@@ -209,11 +209,11 @@
     {
         
         LastConsultation = LatestConsultationState.Value.LatestConsultation;
-        Console.WriteLine("Cargando forms...");
         InitializeAdversedFoodReactions();
         InitializeAnthropometry();
         InitializeClinicalSignAction();
         InitializePersonalPathologies();
+        InitializeIndirectPathologies();
         InitializeEatingSymptoms();
         InitializeFoodConsumptions();
         InitializeHarmfulHabits();
@@ -241,10 +241,8 @@
     private void InitializeAnthropometry()
     {
         var anthropometry = LastConsultation.Anthropometry;
-        var json = JsonConvert.SerializeObject(anthropometry, new JsonSerializerSettings());
-        //Console.WriteLine($"Antropometría: {json}");
         var content = anthropometry ?? new AnthropometryDto();
-        Console.WriteLine($"Antropometría 2: {JsonConvert.SerializeObject(content, new JsonSerializerSettings())}");
+        
         Dispatcher.Dispatch(new InitializedAnthropometryAction(content));
     }
 
@@ -255,13 +253,28 @@
             var personalPathologies = LastConsultation.ClinicalAnamnesis.Diseases
                 .Where(disease => disease.InheritanceTypes.Count() == 1 && disease.InheritanceTypes.Single() == InheritanceTypes.Direct.ReadableName)
                 .ToList();
-            Console.WriteLine("Watafac 1");
             Dispatcher.Dispatch(new InitializePersonalPathologiesAction(personalPathologies));
         }
         else
         {
             Console.WriteLine("Watafac 2");
             Dispatcher.Dispatch(new InitializePersonalPathologiesAction([]));
+        }
+    }
+    
+    private void InitializeIndirectPathologies()
+    {
+        if (LastConsultation.ClinicalAnamnesis?.Diseases is not null)
+        {
+            var indirectPathologies = LastConsultation.ClinicalAnamnesis.Diseases
+                .Where(e => e.InheritanceTypes.Count() > 1)
+                .ToList();
+            
+            Dispatcher.Dispatch(new InitializeInheritedPathologiesAction(indirectPathologies));
+        }
+        else
+        {
+            Dispatcher.Dispatch(new InitializeInheritedPathologiesAction([]));
         }
     }
 

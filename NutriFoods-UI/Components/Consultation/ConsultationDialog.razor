@@ -89,7 +89,6 @@
         if (Form.IsValid)
         {
             await Task.Delay(1000);
-            Console.WriteLine("Despachando: GETLASTCONSULTATION");
             Dispatcher.Dispatch(new GetLatestConsultationAction(PatientId));
             
             await Task.Delay(1000);

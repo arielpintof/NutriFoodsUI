@@ -1,46 +1,58 @@
-﻿<MudPaper Class="pa-6 d-flex flex-column gap-4"
-          Elevation="0"
-          Style="height: auto; border-radius: 10px">
-    <div class="d-flex align-center gap-3">
-        <MudAvatar Color="Color.Primary">A</MudAvatar>
-        <div class="d-flex flex-column">
-            <span class="fw-bold fs-5">Ariel Alejandro Pinto Flores</span>
-            <div class="d-flex gap-1 subtext">
-                <span class="fw-light">Hombre</span>
-                <span class="fw-light">26 años</span>
-                <span class="fw-light">Estudiante</span>
-            </div>
-        </div>
-    </div>
-    <MudDivider></MudDivider>
-    <div class="d-flex flex-column gap-3 flex-grow-1">
-        <span class="fw-bold fs-5 ">Contacto</span>
-        <div class="d-flex justify-space-between">
-            <div>
-                <span class="bi bi-envelope-fill"></span>
-                <span class="">Correo</span>
+﻿@using Fluxor
+@using NutriFoods_UI.Data.Dto
+@using NutriFoods_UI.Data.Store.CurrentPatient
+@using NutriFoods_UI.Utils.Date
+@inject IState<PatientState> PatientState
+@inherits Fluxor.Blazor.Web.Components.FluxorComponent
 
+@if (PatientState.Value.Initialized)
+{
+    <MudPaper Class="pa-6 d-flex flex-column gap-4"
+              Elevation="0"
+              Style="height: auto; border-radius: 10px">
+        <div class="d-flex align-center gap-3">
+            <MudAvatar Color="Color.Primary">A</MudAvatar>
+            <div class="d-flex flex-column">
+                <span class="fw-bold fs-5">@PatientState.Value.Patient.PersonalInfo!.Names @PatientState.Value.Patient.PersonalInfo.LastNames</span>
+                <div class="d-flex gap-1 subtext">
+                    <span class="fw-light">Edad</span>
+                    <span class="fw-light">@DateOnlyUtils.CalculateAge(PatientState.Value.Patient.PersonalInfo.Birthdate) años</span>
+                </div>
             </div>
-            <span class="span-light">ariel.pintof@userena.cl</span>
         </div>
-        <div class="d-flex justify-space-between">
-            <div>
-                <i class="bi bi-geo-alt-fill"></i>
-                <span class="bi-bi-envelope">Dirección</span>
+        <MudDivider></MudDivider>
+        <div class="d-flex flex-column gap-3 flex-grow-1">
+            <span class="fw-bold fs-5 ">Contacto</span>
+            <div class="d-flex justify-space-between">
+                <div>
+                    <span class="bi bi-envelope-fill"></span>
+                    <span class="">Correo</span>
+
+                </div>
+                <span class="span-light">@PatientState.Value.Patient.ContactInfo!.Email</span>
             </div>
-            <span class="span-light">La Serena, Región de Coquimbo</span>
-        </div>
-        <div class="d-flex justify-space-between">
-            <div>
-                <i class="bi bi-telephone-fill"></i>
-                <span class="">Teléfono</span>
+            <div class="d-flex justify-space-between">
+                <div>
+                    <i class="bi bi-geo-alt-fill"></i>
+                    <span class="bi-bi-envelope">Dirección</span>
+                </div>
+                <span class="span-light">@PatientState.Value.Patient.Address!.Street @PatientState.Value.Patient.Address.Number</span>
             </div>
-            <span class="span-light">+56 966146126</span>
+            <div class="d-flex justify-space-between">
+                <div>
+                    <i class="bi bi-telephone-fill"></i>
+                    <span class="">Celular</span>
+                </div>
+                <span class="span-light">@PatientState.Value.Patient.ContactInfo.MobilePhone</span>
+            </div>
         </div>
-    </div>
-</MudPaper>
+    </MudPaper>
+}
+
 
 @code {
+
+   
 
 }
 

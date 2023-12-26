@@ -2,7 +2,10 @@
 @page "/patients/profile/{PatientId:guid}"
 @using NutriFoods_UI.Data.Dto
 @using NutriFoods_UI.Services
+@using Fluxor
+@using NutriFoods_UI.Data.Store.LatestConsultation
 @inject IPatientService PatientService
+@inject IDispatcher Dispatcher
 
 <ProgressLoading Loading="Loading">
     @Breadcrumb
@@ -36,6 +39,8 @@
         var content = await response!.Content.ReadFromJsonAsync<PatientDto>();
         Consultations = content!.Consultations;
         PatientName = new string(content.PersonalInfo!.Names.TakeWhile(c => !char.IsWhiteSpace(c)).ToArray());
+
+        Dispatcher.Dispatch(new GetLatestConsultationAction(PatientId));
 
         Loading = false;
     }

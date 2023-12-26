@@ -1,50 +1,63 @@
-﻿<div class="d-flex justify-content-around gap-4">
-    <MudPaper Class="pa-6 d-flex flex-column flex-wrap"
-              Elevation="0"
-              Style="height: auto; min-width: 150px; width: 200px;border-radius: 10px">
-        <div class="d-flex align-center gap-8 justify-content-center">
-            <div class="d-flex flex-column">
-                <span class="material-symbols-outlined icon-color">straighten</span>
-                <span class="subtext">Estatura</span>
-                <div class="d-flex gap-1 ">
-                    <span class="fw-bold fs-4">173 cm</span>
+﻿@inject IState<PatientState> PatientState
+@inject IState<LatestConsultationState> LatestConsultation
+@using NutriFoods_UI.Data.Store.CurrentPatient
+@using Fluxor
+@using NutriFoods_UI.Data.Dto
+@using NutriFoods_UI.Data.Store.LatestConsultation
+@inherits Fluxor.Blazor.Web.Components.FluxorComponent
+
+@if (PatientState.Value.Initialized)
+{
+    <div class="d-flex justify-content-around gap-4">
+        <MudPaper Class="pa-6 d-flex flex-column flex-wrap"
+                  Elevation="0"
+                  Style="height: auto; min-width: 150px; width: 200px;border-radius: 10px">
+            <div class="d-flex align-center gap-8 justify-content-center">
+                <div class="d-flex flex-column">
+                    <span class="material-symbols-outlined icon-color">straighten</span>
+                    <span class="subtext">Talla</span>
+                    <div class="d-flex gap-1 ">
+                        <span class="fw-bold fs-4">@Anthropometry.Height cm</span>
+                    </div>
                 </div>
             </div>
-        </div>
-    </MudPaper>
-    <MudPaper Class="pa-6 d-flex flex-column gap-4"
-              Elevation="0"
-              Style="height: auto; min-width: 150px;  width: 200px; border-radius: 10px">
-        <div class="d-flex align-center gap-8 justify-content-center">
-            <div class="d-flex flex-column">
-                <span class="material-symbols-outlined icon-color">
-                monitor_weight
-                </span>
-                <span class="subtext">Peso</span>
-                <div class="d-flex gap-1 ">
-                    <span class="fw-bold fs-4">70 kg</span>
+        </MudPaper>
+        <MudPaper Class="pa-6 d-flex flex-column gap-4"
+                  Elevation="0"
+                  Style="height: auto; min-width: 150px;  width: 200px; border-radius: 10px">
+            <div class="d-flex align-center gap-8 justify-content-center">
+                <div class="d-flex flex-column">
+                    <span class="material-symbols-outlined icon-color">
+                        monitor_weight
+                    </span>
+                    <span class="subtext">Peso</span>
+                    <div class="d-flex gap-1 ">
+                        <span class="fw-bold fs-4">@Anthropometry.Weight kg</span>
+                    </div>
                 </div>
             </div>
-        </div>
-    </MudPaper>
-    <MudPaper Class="pa-6 d-flex flex-column gap-4"
-              Elevation="0"
-              Style="height: auto; min-width: 150px;  width: 200px; border-radius: 10px">
-        <div class="d-flex align-center gap-8 justify-content-center">
-            <div class="d-flex flex-column">
-                <span class="material-symbols-outlined icon-color">straighten</span>
-                <span class="subtext">Cintura</span>
-                <div class="d-flex gap-1 ">
-                    <span class="fw-bold fs-4">80 cm</span>
+        </MudPaper>
+        <MudPaper Class="pa-6 d-flex flex-column gap-4"
+                  Elevation="0"
+                  Style="height: auto; min-width: 150px;  width: 200px; border-radius: 10px">
+            <div class="d-flex align-center gap-8 justify-content-center">
+                <div class="d-flex flex-column">
+                    <span class="material-symbols-outlined icon-color">straighten</span>
+                    <span class="subtext">Cintura</span>
+                    <div class="d-flex gap-1 ">
+                        <span class="fw-bold fs-4">@Anthropometry.WaistCircumference cm</span>
+                    </div>
                 </div>
             </div>
-        </div>
-    </MudPaper>
-</div>
+        </MudPaper>
+    </div>
+}
+
 
 
 @code {
 
+    AnthropometryDto Anthropometry => LatestConsultation.Value.LatestConsultation.Anthropometry ?? throw new InvalidOperationException();
 }
 
 <style>
