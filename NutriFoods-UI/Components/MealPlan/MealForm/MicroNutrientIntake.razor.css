@@ -1,3 +1,19 @@
 ﻿span{
     width: 1%
 }
+
+.nutrient-container:hover{
+    transition: 0.5s linear background-color;
+    border-radius: 15px;
+    
+}
+
+.delete-button{
+    visibility: hidden
+}
+
+.nutrient-container:hover .delete-button{
+    transition: 2s ;
+    visibility: visible;
+
+}

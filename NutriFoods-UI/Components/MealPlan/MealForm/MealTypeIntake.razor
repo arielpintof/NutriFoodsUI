@@ -7,51 +7,63 @@
 @inherits IntakeComponent
 @inject IDispatcher Dispatcher
 
+<div class="meal-container">
+    <MudGrid >
+        <MudForm Model="MealConfigurationModel" IsValid="IsValidHandler"></MudForm>
+        <MudItem md="3">
+            <span class="label" style="font-size: 13px;">Comida del día</span>
+            <MudSelect Variant="Variant.Outlined"
+                       Margin="Margin.Dense"
+                       AnchorOrigin="Origin.BottomCenter"
+                       T="MealTypes?"
+                       @bind-Value="MealTypesHandler">
+                @foreach (var meal in MealTypesCollection)
+                {
+                    <MudSelectItem Value="@meal">@meal.ReadableName</MudSelectItem>
+                }
+            </MudSelect>
+        </MudItem>
+        <MudItem md="3">
+            <span class="label" style="font-size: 13px;">Hora</span>
+            <MudTimePicker Class=""
+                           Placeholder="Hora de consumo"
+                           AmPm="true"
+                           @bind-Time="TimeHandler"
+                           Style="margin-top: 0"
+                           Variant="Variant.Outlined"
+                           Margin="Margin.Dense">
+            </MudTimePicker>
+        </MudItem>
+        <MudItem md="6">
+            <div class="d-flex align-items-center gap-1 mud-width-full">
+                <div class="mud-width-full">
+                    <span class="label" style="font-size: 13px;">Distribución</span>
+                    <MudSlider Size="Size.Medium"
+                               @bind-Value="PercentageHandler"
+                               Variant="Variant.Filled"
+                               Min="0" Max="100" Step="1"
+                               Class="mt-2 mb-1">
+                    </MudSlider>
+                </div>
+                <div class="d-flex gap-1 align-items-center">
+                    <input class="custom form-control mt-2" type="number" min="0" max="100" @bind-value="PercentageHandler"/>
+                    <label class="form-label ">%</label>
+                </div>
+                <div class="delete-button ml-1">
+                    <MudIconButton
+                        OnClick="@Delete"
+                        Icon="@Icons.Material.Filled.Delete"
+                        Title="Eliminar comida del día"
+                        Size="Size.Medium">
+                        @Index
+                    </MudIconButton>
+                </div>
+            </div>
 
-<MudGrid>
-    <MudForm Model="MealConfigurationModel" IsValid="IsValidHandler"></MudForm>
-    <MudItem md="3">
-        <span class="label" style="font-size: 13px;">Comida del día</span>
-        <MudSelect Variant="Variant.Outlined"
-                   Margin="Margin.Dense"
-                   AnchorOrigin="Origin.BottomCenter"
-                   T="MealTypes?"
-                   @bind-Value="MealTypesHandler">
-            @foreach (var meal in MealTypesCollection)
-            {
-                <MudSelectItem Value="@meal">@meal.ReadableName</MudSelectItem>
-            }
-        </MudSelect>
-    </MudItem>
-    <MudItem md="3">
-        <span class="label" style="font-size: 13px;">Hora</span>
-        <MudTimePicker Class=""
-                       Placeholder="Hora de consumo"
-                       AmPm="true"
-                       @bind-Time="TimeHandler"
-                       Style="margin-top: 0"
-                       Variant="Variant.Outlined"
-                       Margin="Margin.Dense">
-        </MudTimePicker>
-    </MudItem>
-    <MudItem md="6">
-        <div class="d-flex align-items-center gap-1 mud-width-full">
-            <div class="mud-width-full">
-                <span class="label" style="font-size: 13px;">Distribución</span>
-                <MudSlider Size="Size.Medium"
-                           @bind-Value="PercentageHandler"
-                           Variant="Variant.Filled"
-                           Min="0" Max="100" Step="1"
-                           Class="mt-2 mb-1">
-                </MudSlider>
-            </div>
-            <div class="d-flex gap-1 align-items-center">
-                <input class="custom form-control mt-2" type="number" min="0" max="100" @bind-value="PercentageHandler"/>
-                <label class="form-label ">%</label>
-            </div>
-        </div>
-    </MudItem>
-</MudGrid>
+        </MudItem>
+    </MudGrid>
+</div>
+
 
 @code {
 
@@ -60,7 +72,7 @@
         MealType = MealState.Value.Meals.ElementAt(Index).MealType;
         PercentageHandler = MealState.Value.Meals.ElementAt(Index).Percentage;
         TimeHandler = MealState.Value.Meals.ElementAt(Index).MealTime;
-        
+
         base.OnInitialized();
     }
 
@@ -81,7 +93,7 @@
     MealConfiguration MealConfigurationModel => Index < MealState.Value.Meals.Count
         ? MealState.Value.Meals.ElementAt(Index)
         : new MealConfiguration();
-    
+
 
     private int _percentage;
 
@@ -109,11 +121,9 @@
             Update();
         }
     }
-    
-    protected override void Delete()
-    {
-        throw new NotImplementedException();
-    }
+
+    protected override void Delete() => Dispatcher.Dispatch(new RemoveMealAction(Index));
+
 
     protected override void Update()
     {

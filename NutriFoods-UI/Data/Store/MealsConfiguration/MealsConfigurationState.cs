@@ -1,5 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using Fluxor;
+﻿using Fluxor;
 using NutriFoods_UI.Utils.Enums;
 
 namespace NutriFoods_UI.Data.Store.MealsConfiguration;

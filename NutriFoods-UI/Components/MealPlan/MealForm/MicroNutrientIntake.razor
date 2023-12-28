@@ -8,78 +8,86 @@
 @inject IState<MicronutrientState> MicroNutrientState
 @inject IDispatcher Dispatcher
 
+<div class="nutrient-container">
+    <MudForm @ref="_form"
+             @bind-IsValid="@IsValidHandler"
+             Model="@NutrientModel"
+             Class="hover-container">
+        <MudGrid>
+            <MudItem md="4" sm="4" xs="12">
+                <div class="d-flex gap-3">
+                    <span class="align-self-center">@(Index + 1)</span>
+                    <MudSelectExtended ItemCollection="NutrientsCollection"
+                                       SearchBox="true"
+                                       SearchBoxAutoFocus="true"
+                                       T="string"
+                                       Label="Nutriente"
+                                       AnchorOrigin="Origin.BottomCenter"
+                                       Variant="Variant.Outlined"
+                                       SearchBoxClearable="true"
+                                       @bind-Value="NutrientModel.Nutrient"
+                                       Margin="Margin.Dense"
+                                       Required="true"
+                                       Class="flex-grow-1"/>
+                </div>
 
-<MudForm @ref="_form" @bind-IsValid="@IsValidHandler" Model="@NutrientModel">
-    <MudGrid>
-        <MudItem md="4" sm="4" xs="12">
-            <div class="d-flex gap-3">
-                <span class="align-self-center">@(Index + 1)</span>
-                <MudSelectExtended ItemCollection="NutrientsCollection"
-                                   SearchBox="true"
-                                   SearchBoxAutoFocus="true"
-                                   T="string"
-                                   Label="Nutriente"
-                                   AnchorOrigin="Origin.BottomCenter"
-                                   Variant="Variant.Outlined"
-                                   SearchBoxClearable="true"
-                                   @bind-Value="NutrientModel.Nutrient"
-                                   Margin="Margin.Dense"
-                                   Required="true"
-                                   Class="flex-grow-1"/>
-            </div>
+            </MudItem>
+            <MudItem md="3" sm="4" xs="12">
+                <MudNumericField HideSpinButtons="false"
+                                 @bind-Value="@NutrientModel.ExpectedQuantity"
+                                 Label="Cantidad"
+                                 Variant="Variant.Outlined"
+                                 Margin="Margin.Dense"
+                                 Min="0.0"
+                                 Required="true"
+                                 Class="rounded"
+                                 Adornment="Adornment.End"
+                                 AdornmentColor="Color.Primary"
+                                 AdornmentText="@GetMeasure()"/>
 
-        </MudItem>
-        <MudItem md="3" sm="4" xs="12">
-            <MudNumericField HideSpinButtons="false"
-                             @bind-Value="@NutrientModel.ExpectedQuantity"
-                             Label="Cantidad"
-                             Variant="Variant.Outlined"
-                             Margin="Margin.Dense"
-                             Min="0.0"
-                             Required="true"
-                             Class="rounded"
-                             Adornment="Adornment.End"
-                             AdornmentColor="Color.Primary"
-                             AdornmentText="@GetMeasure()"/>
+            </MudItem>
+            <MudItem md="5" sm="6" xs="12">
+                <div class="d-flex flex-row gap-3">
+                    <MudSelect T="string"
+                               Label="Límite"
+                               AnchorOrigin="Origin.BottomCenter"
+                               Variant="Variant.Outlined"
+                               Margin="Margin.Dense"
+                               Required="true"
+                               Class="flex-grow-1"
+                               @bind-Value="@NutrientModel.ThresholdType">
+                        @foreach (var threshold in Thresholds)
+                        {
+                            <MudSelectItem Value="@threshold"></MudSelectItem>
+                        }
 
-        </MudItem>
-        <MudItem md="5" sm="6" xs="12">
-            <div class="d-flex flex-row gap-3">
-                <MudSelect T="string"
-                           Label="Límite"
-                           AnchorOrigin="Origin.BottomCenter"
-                           Variant="Variant.Outlined"
-                           Margin="Margin.Dense"
-                           Required="true"
-                           Class="flex-grow-1"
-                           @bind-Value="@NutrientModel.ThresholdType">
-                    @foreach (var threshold in Thresholds)
-                    {
-                        <MudSelectItem Value="@threshold"></MudSelectItem>
-                    }
-                    
-                </MudSelect>
+                    </MudSelect>
 
-                <MudIconButton
-                    OnClick="DeleteNutrient"
-                    Icon="@Icons.Material.Filled.Delete"
-                    Title="Eliminar nutriente"
-                    Size="Size.Medium">
-                    @Index
-                </MudIconButton>
-            </div>
+                    <div class="delete-button">
+                        <MudIconButton
+                            OnClick="@DeleteNutrient"
+                            Icon="@Icons.Material.Filled.Delete"
+                            Title="Eliminar nutriente"
+                            Size="Size.Medium">
+                            @Index
+                        </MudIconButton>
+                    </div>
 
-        </MudItem>
-    </MudGrid>
-    
-</MudForm>
+
+                </div>
+
+            </MudItem>
+        </MudGrid>
+
+    </MudForm>
+
+</div>
 
 
 @code {
 
-    private NutritionalTargetDto NutrientModel => Index < MicroNutrientState.Value.Micronutrients.Count() ?
-        MicroNutrientState.Value.Micronutrients.ElementAt(Index) :
-        new NutritionalTargetDto();
+
+    private NutritionalTargetDto NutrientModel => Index < MicroNutrientState.Value.Micronutrients.Count() ? MicroNutrientState.Value.Micronutrients.ElementAt(Index) : new NutritionalTargetDto();
 
     private static ICollection<string> Thresholds => IEnum<ThresholdTypes, ThresholdToken>
         .TokenDictionary
@@ -95,18 +103,17 @@
 
     MudForm _form = null!;
 
-    [Parameter]
-    public int Index { get; set; }
+    [Parameter] public int Index { get; set; }
 
 
-    private bool IsValid;
+    private bool _isValid;
 
     private bool IsValidHandler
     {
-        get => IsValid;
+        get => _isValid;
         set
         {
-            IsValid = value;
+            _isValid = value;
             UpdateMicronutrient();
         }
     }
@@ -117,9 +124,9 @@
         .Skip(1)
         .ToList();
 
-    private static List<string> NutrientsCollection => 
+    private static List<string> NutrientsCollection =>
         IEnum<Nutrients, NutrientToken>.TokenDictionary.Select(n => n.Value.ReadableName).Skip(1).ToList();
-    
+
 
     private void DeleteNutrient() => Dispatcher.Dispatch(new DeleteMicronutrientAction(Index));
 
@@ -137,8 +144,7 @@
 
         Dispatcher.Dispatch(action);
     }
-    
-    private string GetMeasure() => NutrientModel.Nutrient == null ? "" : 
-        IEnum<Nutrients, NutrientToken>.ToValue(NutrientModel.Nutrient).Unit.ReadableName;
+
+    private string GetMeasure() => NutrientModel.Nutrient == null ? "" : IEnum<Nutrients, NutrientToken>.ToValue(NutrientModel.Nutrient).Unit.ReadableName;
 
 }
