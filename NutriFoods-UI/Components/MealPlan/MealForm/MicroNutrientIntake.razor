@@ -97,10 +97,9 @@
 
     [Parameter]
     public int Index { get; set; }
-    
-    
 
-    public bool IsValid;
+
+    private bool IsValid;
 
     private bool IsValidHandler
     {
@@ -129,11 +128,11 @@
         var action = new ChangeMicronutrientAction(Index, new NutritionalTargetDto
         {
             Nutrient = NutrientModel.Nutrient,
+            ExpectedQuantity = NutrientModel.ExpectedQuantity,
             ThresholdType = NutrientModel.ThresholdType,
             Unit = GetMeasure(),
             IsPriority = true,
             ExpectedError = 0.1
-                
         });
 
         Dispatcher.Dispatch(action);
