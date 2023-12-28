@@ -23,7 +23,7 @@ public class MealsConfigurationState
 
 public class MealConfiguration
 {
-    public MealTypes MealType { get; set; } = null!;
+    public MealTypes? MealType { get; set; } 
     
     public int Percentage { get; set; }
     

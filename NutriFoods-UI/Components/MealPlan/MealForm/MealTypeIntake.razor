@@ -9,7 +9,7 @@
 
 
 <MudGrid>
-    <MudForm Model="MealConfigurationModel" bind-IsTouched="IsValidHandler" IsTouched="IsValidHandler"></MudForm>
+    <MudForm Model="MealConfigurationModel" IsValid="IsValidHandler"></MudForm>
     <MudItem md="3">
         <span class="label" style="font-size: 13px;">Comida del día</span>
         <MudSelect Variant="Variant.Outlined"
@@ -50,7 +50,6 @@
                 <label class="form-label ">%</label>
             </div>
         </div>
-        
     </MudItem>
 </MudGrid>
 
@@ -120,7 +119,7 @@
     {
         var action = new ChangeMealsConfigurationAction(new MealConfiguration
         {
-            MealType = MealType!,
+            MealType = MealType,
             MealTime = _time,
             Percentage = _percentage,
         }, Index);
