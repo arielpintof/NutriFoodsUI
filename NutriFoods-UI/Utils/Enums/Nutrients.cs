@@ -729,4 +729,12 @@ public static class NutrientExtensions
         dict.Add(Alcohol, energy * alcoholPct * GramFactors[Proteins]);
         return dict;
     }
+
+    public static double ToGrams(this Nutrients nutrient, double calories, double weight)
+    {
+        if (!KCalFactors.TryGetValue(nutrient, out var factor)) return 0;
+        var grams = (calories / factor);
+        return (grams / weight);
+
+    }
 }

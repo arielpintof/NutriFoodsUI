@@ -2,45 +2,62 @@
 @using NutriFoods_UI.Data.Enums
 @using NutriFoods_UI.Data.Store
 @using Fluxor
+@using NutriFoods_UI.Data.Dto
+@using NutriFoods_UI.Data.Store.CurrentPatient
+@using NutriFoods_UI.Data.Store.TotalMetabolicRate
+@using NutriFoods_UI.Services
 @using NutriFoods_UI.Utils.Enums
 @inherits Fluxor.Blazor.Web.Components.FluxorComponent
+@inject IState<TmrState> TmrState
+@inject IState<PatientState> CurrentPatient
+@inject IPatientService PatientService
+@inject IState<MoleculaState> MoleculaState
 
-<div class="px-3 mb-4">
-    <MacronutrientIntake MacroNutrient="Nutrients.Carbohydrates"></MacronutrientIntake>
-    <MudDivider  Class="mb-5 mt-2"/>
-    <MacronutrientIntake MacroNutrient="Nutrients.Proteins"></MacronutrientIntake>
-    <MudDivider  Class="mb-5 mt-2"/>
-    <MacronutrientIntake MacroNutrient="Nutrients.FattyAcids"></MacronutrientIntake>
-    
-    <div class="mt-5">
-        <MudButton OnClick="@ButtonHandler"
-                   StartIcon="@Icons.Material.Filled.RemoveRedEye"
-                   ButtonType="ButtonType.Button"
-                   Variant="Variant.Text"
-                   Color="Color.Primary"
-                   Size="Size.Small"
-                   Style="text-transform: none; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700;">
-            @ButtonText
-        </MudButton>
-        @if (Active)
-        {
-            <span>Carbs: @MoleculaState.Value.CarbTarget</span>
-            <span>Protein: @MoleculaState.Value.ProteinTarget</span>
-            <span>Lipid: @MoleculaState.Value.LipidTarget</span>
-            <MacroChart></MacroChart> 
-        }
+@if (TmrState.Value.IsValid)
+{
+    <div class="px-3 mb-4">
+        <MacronutrientIntake MacroNutrient="Nutrients.Carbohydrates"
+                             PatientWeight="PatientWeight"
+                             InitialMacroValue="55">
+            
+        </MacronutrientIntake>
+        <MudDivider Class="mb-5 mt-2"/>
+        <MacronutrientIntake MacroNutrient="Nutrients.Proteins"
+                             PatientWeight="PatientWeight"
+                             InitialMacroValue="15">
+            
+        </MacronutrientIntake>
+        <MudDivider Class="mb-5 mt-2"/>
+        <MacronutrientIntake MacroNutrient="Nutrients.FattyAcids"
+                             PatientWeight="PatientWeight"
+                             InitialMacroValue="30">
+        </MacronutrientIntake>
+
+        <div class="mt-5">
+            <MudButton OnClick="@ButtonHandler"
+                       StartIcon="@Icons.Material.Filled.RemoveRedEye"
+                       ButtonType="ButtonType.Button"
+                       Variant="Variant.Text"
+                       Color="Color.Primary"
+                       Size="Size.Small"
+                       Style="text-transform: none; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700;">
+                @ButtonText
+            </MudButton>
+            
+            @if (Active)
+            {
+                <span>Carbs: @MoleculaState.Value.CarbTarget</span>
+                <span>Protein: @MoleculaState.Value.ProteinTarget</span>
+                <span>Lipid: @MoleculaState.Value.LipidTarget</span>
+                <MacroChart></MacroChart>
+            }
+        </div>
     </div>
-</div>
-
-
-
+}
 
 
 @code {
 
-    [Inject]
-    private IState<MoleculaState> MoleculaState { get; set; } = null!;
-    
     private string ButtonText { get; set; } = "Ver gráfico";
 
     private bool Active { get; set; } = false;
@@ -51,5 +68,15 @@
         ButtonText = Active ? "Ocultar gráfico" : "Ver gráfico";
         StateHasChanged();
     }
+    
+    double PatientWeight { get; set; }
+    
+    protected override async Task OnInitializedAsync()
+    {
+        var response = await PatientService.FindLatestConsultation(CurrentPatient.Value.Patient.Id);
+        var content = await response.Content.ReadFromJsonAsync<ConsultationDto>();
+        PatientWeight = content!.Anthropometry!.Weight;
+    }
+
 
 }

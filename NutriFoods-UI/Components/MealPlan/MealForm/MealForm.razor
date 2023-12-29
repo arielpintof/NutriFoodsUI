@@ -6,6 +6,7 @@
 @using MudExtensions.Utilities
 @using Fluxor
 @using MudBlazor.Extensions
+@using NutriFoods_UI.Data.Store.CurrentPatient
 @using NutriFoods_UI.Data.Store.DailyMeal
 @using NutriFoods_UI.Data.Store.DailyPlanList
 @using NutriFoods_UI.Data.Store.MicronutrientConfiguration
@@ -196,5 +197,10 @@
 
     void NavToConsultation() => Nav.NavigateTo($"/patient/{PatientId}/consultation/{ConsultationId}");
 
+    protected override void OnInitialized()
+    {
+        Dispatcher.Dispatch(new InitializePatientAction(PatientId));
+        base.OnInitialized();
+    }
 
 }

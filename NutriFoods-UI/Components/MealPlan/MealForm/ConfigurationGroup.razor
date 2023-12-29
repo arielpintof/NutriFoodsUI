@@ -18,20 +18,21 @@
         },
         new CollapseItemModel
         {
+            Title = "Límite de micronutrientes",
+            ChildContent = __builder =>
+            {
+                <MicroDistribution></MicroDistribution>
+            }
+        },
+        new CollapseItemModel
+        {
             Title = "Comidas del día",
             ChildContent = __builder =>
             {
                 <MealDistribution></MealDistribution>
             }
         },
-        new CollapseItemModel
-        {
-            Title = "Límite de micronutrientes",
-            ChildContent = __builder =>
-            {
-                <MicroDistribution></MicroDistribution>
-            }
-        }
+        
     };
 
     
