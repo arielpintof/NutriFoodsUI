@@ -8,12 +8,8 @@
 @inject IPatientService PatientService
 @inject NavigationManager Nav
 
-<MudDialog Class="container px-3 py-3">
+<MudDialog Class="" >
     <DialogContent>
-        <section class="d-flex flex-column gap-2">
-            <h2 class="fw-bold">Nueva consulta</h2>
-            <MudDivider></MudDivider>
-        </section>
         <section>
             <MudForm @ref="Form">
                 <MudStack>
@@ -46,16 +42,16 @@
                         }
                     </MudSelectExtended>
 
-                    
-                        <MudButton Variant="Variant.Filled"
-                                   Color="Color.Primary"
-                                   OnClick="@IsValid"
-                                   DisableElevation="true"
-                                   Class="mt-5"
-                                   Style="text-transform: none; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700;">
-                            Generar consulta
-                        </MudButton>
-                    
+
+                    <MudButton Variant="Variant.Filled"
+                               Color="Color.Primary"
+                               OnClick="@IsValid"
+                               DisableElevation="true"
+                               Class="mt-5"
+                               Style="text-transform: none; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700;">
+                        Generar consulta
+                    </MudButton>
+
                 </MudStack>
             </MudForm>
         </section>
@@ -85,18 +81,17 @@
     async Task IsValid()
     {
         await Form.Validate();
-        
+
         if (Form.IsValid)
         {
             await Task.Delay(1000);
             Dispatcher.Dispatch(new GetLatestConsultationAction(PatientId));
-            
+
             await Task.Delay(1000);
             await CreateConsultation();
         }
     }
 
-   
 
     static IEnumerable<ConsultationTypes> ConsultationTypesCollection => IEnum<ConsultationTypes, ConsultationTypeToken>
         .TokenDictionary.Select(e => e.Value)
@@ -122,17 +117,14 @@
             Consultation = content;
             Dispatcher.Dispatch(new InitializeDailyPlansAction());
             await Task.Delay(1000);
-            
+
             NavToNewConsultation();
         }
-        
     }
 
     void NavToNewConsultation()
     {
         Nav.NavigateTo($"/patient/{PatientId}/consultation/{Consultation.Id}");
-
-        
     }
 
 }

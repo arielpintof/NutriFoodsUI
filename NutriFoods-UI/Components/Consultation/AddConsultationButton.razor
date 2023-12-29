@@ -22,8 +22,8 @@
 
     void OpenDialog()
     {
-        var options = new DialogOptions{ NoHeader = true};
+        var options = new DialogOptions{ CloseButton = true, FullWidth = true, MaxWidth = MaxWidth.Small};
         var parameters = new DialogParameters<ConsultationDialog> {{ x => x.PatientId, PatientId }};
-        Dialog.Show<ConsultationDialog>("Custom Options Dialog", parameters, options);
+        Dialog.Show<ConsultationDialog>("Nueva consulta", parameters, options);
     }
 }
