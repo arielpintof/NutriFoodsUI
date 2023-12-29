@@ -6,10 +6,11 @@
 @inject IState<MealsConfigurationState> MealState
 @inherits IntakeComponent
 @inject IDispatcher Dispatcher
+@using static NutriFoods_UI.Utils.Enums.IEnum<NutriFoods_UI.Utils.Enums.MealTypes, NutriFoods_UI.Utils.Enums.MealToken>
 
 <div class="meal-container">
     <MudGrid >
-        <MudForm Model="MealConfigurationModel" IsValid="IsValidHandler"></MudForm>
+        <MudForm Model="MealConfigurationModel" @bind-IsValid="IsValidHandler"></MudForm>
         <MudItem md="3">
             <span class="label" style="font-size: 13px;">Comida del día</span>
             <MudSelect Variant="Variant.Outlined"
@@ -54,7 +55,7 @@
                         OnClick="@Delete"
                         Icon="@Icons.Material.Filled.Delete"
                         Title="Eliminar comida del día"
-                        Size="Size.Medium">
+                        Size="Size.Small">
                         @Index
                     </MudIconButton>
                 </div>
@@ -88,7 +89,7 @@
         }
     }
 
-    List<MealTypes> MealTypesCollection => IEnum<MealTypes, MealToken>.Values.Skip(1).ToList();
+    List<MealTypes> MealTypesCollection => Values.Skip(1).ToList();
 
     MealConfiguration MealConfigurationModel => Index < MealState.Value.Meals.Count
         ? MealState.Value.Meals.ElementAt(Index)
@@ -123,8 +124,7 @@
     }
 
     protected override void Delete() => Dispatcher.Dispatch(new RemoveMealAction(Index));
-
-
+    
     protected override void Update()
     {
         var action = new ChangeMealsConfigurationAction(new MealConfiguration
