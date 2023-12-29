@@ -6,7 +6,7 @@ namespace NutriFoods_UI.Data.Store.FoodConsumptions;
 [FeatureState]
 public class FoodConsumptionState
 {
-    public List<FoodConsumptionDto> FoodConsumptions { get; } = new();
+    public List<FoodConsumptionDto> FoodConsumptions { get; } = [];
     public bool IsValid { get; }
     
     public FoodConsumptionState(){}
