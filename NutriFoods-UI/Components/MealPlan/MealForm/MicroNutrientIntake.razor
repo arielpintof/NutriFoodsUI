@@ -14,7 +14,7 @@
              Model="@NutrientModel"
              Class="hover-container">
         <MudGrid>
-            <MudItem md="4" sm="4" xs="12">
+            <MudItem md="5" sm="4" xs="12">
                 <div class="d-flex gap-3">
                     <span class="align-self-center">@(Index + 1)</span>
                     <MudSelectExtended ItemCollection="NutrientsCollection"
@@ -32,7 +32,7 @@
                 </div>
 
             </MudItem>
-            <MudItem md="3" sm="4" xs="12">
+            <MudItem md="2" sm="4" xs="12">
                 <MudNumericField HideSpinButtons="false"
                                  @bind-Value="@NutrientModel.ExpectedQuantity"
                                  Label="Cantidad"
@@ -125,7 +125,11 @@
         .ToList();
 
     private static List<string> NutrientsCollection =>
-        IEnum<Nutrients, NutrientToken>.TokenDictionary.Select(n => n.Value.ReadableName).Skip(1).ToList();
+        IEnum<Nutrients, NutrientToken>.TokenDictionary
+            .Where(e => e.Value.IsTotal == false || e.Key == NutrientToken.Other)
+            .Select(n => n.Value.ReadableName)
+            .Skip(1)
+            .ToList();
 
 
     private void DeleteNutrient() => Dispatcher.Dispatch(new DeleteMicronutrientAction(Index));
