@@ -14,24 +14,26 @@
 {
     if (MealState.Value.Initialized)
     {
-        <div class="d-flex flex-column container" style="width: 100%">
+        <div class="d-flex flex-column container mb-2" style="width: 100%">
             @* DailyMeal debe mostrar las distintas comidas del día*@
 
-            <div class="d-flex align-items-center justify-content-between gap-2">
+            <div class="d-flex align-items-center gap-2">
                 <h4 style="font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; color: var(--grey-normal)">
                     Plan Alimentario
                 </h4>
-                <MudTooltip Arrow="true" Placement="Placement.Right" Text="Obten un nuevo plan a partir de los mismos requerimientos nutricionales">
-                    <MudButton @onclick="RenewMealPlan"
-                               Variant="Variant.Text"
-                               StartIcon="@Icons.Material.Filled.Autorenew"
-                               Size="Size.Small"
-                               Color="Color.Primary"
-                               Style="text-transform: none; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700;">
-                        Renovar plan
-                    </MudButton>
-                </MudTooltip>
-
+                <div class="button-hover">
+                    <MudTooltip Arrow="true" Placement="Placement.Right"
+                                Text="Obten un nuevo plan a partir de los mismos requerimientos nutricionales">
+                        <MudButton @onclick="RenewMealPlan"
+                                   Variant="Variant.Text"
+                                   StartIcon="@Icons.Material.Filled.Autorenew"
+                                   Size="Size.Small"
+                                   Color="Color.Primary"
+                                   Style="text-transform: none; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700;">
+                            <span class="span-hover">Renovar plan</span>
+                        </MudButton>
+                    </MudTooltip>
+                </div>
             </div>
 
             <MudGrid Spacing="1" Class="pt-1 pb-3 gap-2">

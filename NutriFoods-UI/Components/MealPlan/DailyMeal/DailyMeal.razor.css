@@ -60,3 +60,15 @@
         transform: translate(24px, 0);
     }
 }
+
+.button-hover:hover .span-hover{
+    animation: ease-in 1s ;
+    transition-property: width;
+    transition-duration: 5s;
+    transition-delay: 2s;
+    visibility: visible;
+}
+.span-hover{
+    animation: ease-in 1s ;
+    visibility: hidden;
+}
