@@ -1,5 +1,4 @@
-﻿@page "/distribution"
-@using NutriFoods_UI.Data.Enums
+﻿@using NutriFoods_UI.Data.Enums
 @using NutriFoods_UI.Data.Store
 @using Fluxor
 @using NutriFoods_UI.Data.Dto
@@ -12,6 +11,8 @@
 @inject IState<PatientState> CurrentPatient
 @inject IPatientService PatientService
 @inject IState<MoleculaState> MoleculaState
+@using NutriFoods_UI.Data.Store.LatestConsultation
+@inject IState<LatestConsultationState> LatestConsultation
 
 @if (TmrState.Value.IsValid)
 {
@@ -69,14 +70,6 @@
         StateHasChanged();
     }
     
-    double PatientWeight { get; set; }
+    double PatientWeight => LatestConsultation.Value.LatestConsultation.Anthropometry!.Weight;
     
-    protected override async Task OnInitializedAsync()
-    {
-        var response = await PatientService.FindLatestConsultation(CurrentPatient.Value.Patient.Id);
-        var content = await response.Content.ReadFromJsonAsync<ConsultationDto>();
-        PatientWeight = content!.Anthropometry!.Weight;
-    }
-
-
 }

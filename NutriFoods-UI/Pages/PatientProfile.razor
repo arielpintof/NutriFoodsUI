@@ -3,7 +3,9 @@
 @using NutriFoods_UI.Data.Dto
 @using NutriFoods_UI.Services
 @using Fluxor
+@using NutriFoods_UI.Data.Store.CurrentPatient
 @using NutriFoods_UI.Data.Store.LatestConsultation
+@using NutriFoods_UI.Utils.Strings
 @inject IPatientService PatientService
 @inject IDispatcher Dispatcher
 
@@ -35,12 +37,25 @@
 
     protected override async Task OnInitializedAsync()
     {
-        var response = await PatientService.FindPatient(PatientId);
-        var content = await response!.Content.ReadFromJsonAsync<PatientDto>();
-        Consultations = content!.Consultations;
-        PatientName = new string(content.PersonalInfo!.Names.TakeWhile(c => !char.IsWhiteSpace(c)).ToArray());
+        
+        var patientResponse = await PatientService.FindPatient(PatientId);
 
-        Dispatcher.Dispatch(new GetLatestConsultationAction(PatientId));
+        if (patientResponse.IsSuccessStatusCode)
+        {
+            var patientDto = await patientResponse.Content.ReadFromJsonAsync<PatientDto>();
+
+            if (patientDto != null)
+            {
+                Consultations = patientDto.Consultations;
+                PatientName = Strings.FirstWord(patientDto.PersonalInfo!.Names);
+                Dispatcher.Dispatch(new LoadPatientAction(patientDto));
+
+                if (Consultations.Any())
+                {
+                    Dispatcher.Dispatch(new GetLatestConsultationAction(PatientId));
+                }
+            }
+        }
 
         Loading = false;
     }

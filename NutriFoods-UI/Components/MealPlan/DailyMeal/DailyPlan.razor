@@ -3,7 +3,6 @@
 @using NutriFoods_UI.Data.Store.DailyMeal
 @using NutriFoods_UI.Data.Store.Images
 @inherits Fluxor.Blazor.Web.Components.FluxorComponent
-@page "/meal"
 @inject IDailyMealPlanService MealPlanService
 @inject IState<DailyMealState> MealState
 @inject IState<ImagesState> ImageState
@@ -118,9 +117,9 @@
         return base.OnInitializedAsync();
     }
 
-    private void LoadMealState() => Dispatcher.Dispatch(new LoadMealPlanAction());
+    private void LoadMealState() => Dispatcher.Dispatch(new GetDailyPlanAction());
 
-    private void RenewMealPlan() => Dispatcher.Dispatch(new RenewDailyMealPlanAction());
+    private void RenewMealPlan() => Dispatcher.Dispatch(new RenewDailyPlanAction());
 
     private void LoadImageState() => Dispatcher.Dispatch(new LoadJsonAction());
 

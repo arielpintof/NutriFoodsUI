@@ -62,13 +62,21 @@
 }
 
 .button-hover:hover .span-hover{
-    animation: ease-in 1s ;
-    transition-property: width;
-    transition-duration: 5s;
-    transition-delay: 2s;
     visibility: visible;
 }
+
+
+@keyframes spin {
+    from {
+        transform:rotate(0deg);
+    }
+    to {
+        transform:rotate(360deg);
+    }
+}
 .span-hover{
-    animation: ease-in 1s ;
+    transition: width 2s, height 4s;
+    transition-timing-function: ease-in;
+    transition-delay: 0.8s;
     visibility: hidden;
 }

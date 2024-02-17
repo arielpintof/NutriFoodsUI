@@ -8,7 +8,7 @@
 
 @if (PatientState.Value.Initialized)
 {
-    var anthropometry = LatestConsultation.Value.LatestConsultation.Anthropometry ?? throw new InvalidOperationException();
+    var anthropometry = LatestConsultation.Value.LatestConsultation.Anthropometry ?? new AnthropometryDto();
     
     <div class="d-flex justify-content-around gap-4">
         <MudPaper Class="pa-6 d-flex flex-column flex-wrap"

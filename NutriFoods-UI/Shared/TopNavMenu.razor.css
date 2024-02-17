@@ -1,0 +1,36 @@
+﻿.top-menu{
+    height: 64px;
+}
+
+.bottom-border{
+    border-bottom-color: var(--grey-light);
+    border-bottom-width: 1px;
+}
+
+.buttons{
+    display: flex;
+}
+
+.nav-links{
+    display: flex;
+    align-items: center;
+}
+
+.drawer-icon{
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .buttons, .nav-links{
+        display: none;
+    }
+    .drawer-icon{
+        display: flex;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+    .nav-links{
+        display: none;
+    }
+}

@@ -1,0 +1,38 @@
+﻿@inherits LayoutComponentBase
+
+<MudThemeProvider Theme="_myTheme"/>
+<MudDialogProvider/>
+<MudSnackbarProvider/>
+
+
+<MudLayout Style="background: #F8F8F8">
+    <TopNavMenu></TopNavMenu>
+    <MudMainContent>
+        @Body
+    </MudMainContent>
+</MudLayout>
+
+
+@code
+{
+    private readonly MudTheme _myTheme = new()
+    {
+        Palette = new PaletteLight
+        {
+            Primary = "#5F4AA6",
+            Secondary = "#B0B006",
+            Tertiary = "#5B06B0",
+            Info = "#928B8B",
+            Success = "#2ECC40",
+            Warning = "#FF851B",
+            Error = "#F012BE",
+            AppbarBackground = "#B0B006",
+            DarkLighten = "#545252",
+            Background = "#f9f9f9"
+        },
+        LayoutProperties = new LayoutProperties
+        {
+            DefaultBorderRadius = "10px"
+        }
+    };
+}

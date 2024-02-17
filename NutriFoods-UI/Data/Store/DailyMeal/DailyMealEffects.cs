@@ -12,7 +12,7 @@ namespace NutriFoods_UI.Data.Store.DailyMeal;
 public class DailyMealEffects(
     IDailyMenuService dailyMenuService,
     IDailyMealPlanService dailyMealPlanService,
-    IState<DailyMealState> dailyMealstate,
+    IState<DailyMealState> dailyMealState,
     IState<TmrState> tmrState,
     IState<MealsConfigurationState> mealsConfigurationState,
     IState<MoleculaState> moleculaState,
@@ -27,10 +27,10 @@ public class DailyMealEffects(
         var dailyMenu = new DailyMenuDto()
         {
             IntakePercentage = 1,
-            MealType = dailyMealstate.Value.DailyPlan.Menus.ElementAt(action.Index).MealType,
-            Hour = dailyMealstate.Value.DailyPlan.Menus.ElementAt(action.Index).Hour,
+            MealType = dailyMealState.Value.DailyPlan.Menus.ElementAt(action.Index).MealType,
+            Hour = dailyMealState.Value.DailyPlan.Menus.ElementAt(action.Index).Hour,
             Nutrients = [],
-            Targets = dailyMealstate.Value.DailyPlan.Menus.ElementAt(action.Index).Targets.ResetActualValues(),
+            Targets = dailyMealState.Value.DailyPlan.Menus.ElementAt(action.Index).Targets.ResetActualValues(),
             Recipes = []
         };
 
@@ -48,7 +48,7 @@ public class DailyMealEffects(
     }
 
 
-    [EffectMethod(typeof(LoadMealPlanAction))]
+    [EffectMethod(typeof(GetDailyPlanAction))]
     public async Task GetMealPlan(IDispatcher dispatcher)
     {
         dispatcher.Dispatch(new OnLoadingPlanAction());
@@ -92,17 +92,17 @@ public class DailyMealEffects(
 
         if (dailyMealPlan != null)
         {
-            var action = new InitializeDailyMealAction(dailyMealPlan);
+            var action = new InitializeDailyPlanAction(dailyMealPlan);
             dispatcher.Dispatch(action);
         }
 
         dispatcher.Dispatch(new StopOnLoadingMenuAction());
     }
 
-    [EffectMethod(typeof(RenewDailyMealPlanAction))]
+    [EffectMethod(typeof(RenewDailyPlanAction))]
     public Task RenewMealPlan(IDispatcher dispatcher)
     {
-        dispatcher.Dispatch(new LoadMealPlanAction());
+        dispatcher.Dispatch(new GetDailyPlanAction());
 
         return Task.CompletedTask;
     }
@@ -110,11 +110,11 @@ public class DailyMealEffects(
     [EffectMethod(typeof(RecalculateNutrientsAction))]
     public Task Recalculate(IDispatcher dispatcher)
     {
-        var dailyPlan = dailyMealstate.Value.DailyPlan;
+        var dailyPlan = dailyMealState.Value.DailyPlan;
         dailyPlan.AddNutritionalValues();
         dailyPlan.AddTargetValues();
 
-        dispatcher.Dispatch(new InitializeDailyMealAction(dailyPlan));
+        dispatcher.Dispatch(new InitializeDailyPlanAction(dailyPlan));
 
         return Task.CompletedTask;
     }

@@ -1,7 +1,8 @@
 ﻿@layout LoginLayout
-@page "/login"
+@attribute [Route(PageUri.LogIn)]
 @using Fluxor
 @using NutriFoods_UI.Data.Store.LogIn
+@using NutriFoods_UI.Utils.Enums
 @inject IDispatcher Dispatcher
 @inject NavigationManager Nav
 
@@ -69,7 +70,7 @@
             </MudButton>
         </section>
         <section class="FooterContainer">
-            ¿No tienes una cuenta aún? <a class="SignUpLink" href="/register">¡Crear una cuenta!</a>
+            ¿No tienes una cuenta aún? <a class="SignUpLink" href="@PageUri.SignUp">¡Crear una cuenta!</a>
         </section>
     </section>
 </section>
@@ -82,5 +83,7 @@
     {
         Dispatcher.Dispatch(new LoadCredentialsAction(Email, Password));
     }
+
+   
 
 }

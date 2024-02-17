@@ -1,13 +1,10 @@
 ﻿@layout LoginLayout
-@page "/register"
-@using Fluxor
 @using NutriFoods_UI.Data.Dto
-@using NutriFoods_UI.Data.Store.LogIn
 @using NutriFoods_UI.Services
-@inject IDispatcher Dispatcher
+@using NutriFoods_UI.Utils.Enums
 @inject NavigationManager Nav
 @inject INutritionistService NutritionistService
-
+@attribute [Route(PageUri.SignUp)]
 
 <section Class="MainContainer ">
     <section class="LoginContainer border rounded-3">
@@ -21,16 +18,7 @@
             <section class="FormContainer">
                 <div class="d-flex flex-column gap-3">
                     <MudGrid Spacing="2">
-                        <MudItem xs="12" sm="12">
-                            <MudText Align="Align.Left">Email</MudText>
-                            <MudTextField T="string" Class=""
-                                          Variant="Variant.Outlined"
-                                          @bind-Value="Email"
-                                          Required="true"
-                                          InputType="InputType.Email"
-                                          RequiredError="Email is required!">
-                            </MudTextField>
-                        </MudItem>
+                        
                         <MudItem xs="12" sm="12">
                             <MudText Align="Align.Left">Nombre de usuario</MudText>
                             <MudTextField T="string"
@@ -40,6 +28,16 @@
                                           RequiredError="Username is required!"
                                           @bind-Value="UserName"/>
                         </MudItem>
+                        <MudItem xs="12" sm="12">
+                                                    <MudText Align="Align.Left">Email</MudText>
+                                                    <MudTextField T="string" Class=""
+                                                                  Variant="Variant.Outlined"
+                                                                  @bind-Value="Email"
+                                                                  Required="true"
+                                                                  InputType="InputType.Email"
+                                                                  RequiredError="Email is required!">
+                                                    </MudTextField>
+                                                </MudItem>
                         <MudItem xs="12" sm="12">
                             <MudText Align="Align.Left">Contraseña</MudText>
                             <MudTextField T="string"
@@ -77,22 +75,22 @@
 
     async Task Submit()
     {
-        var nutritionist = new NutritionistDto()
+        var nutritionist = new NutritionistDto
         {
             Username = UserName,
             Email = Email,
             Password = Password,
             Patients = []
         };
-        
+
         var response = await NutritionistService.SignUp(nutritionist);
-        var content = await response.Content.ReadFromJsonAsync<NutritionistDto>();
+        var content = await response!.Content.ReadFromJsonAsync<NutritionistDto>();
 
         if (content != null)
         {
             Nav.NavigateTo("login");
         }
-        
+
     }
 
 }
