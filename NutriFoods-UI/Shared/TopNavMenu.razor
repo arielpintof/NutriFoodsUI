@@ -1,9 +1,9 @@
 ﻿<nav class="d-flex mx-auto align-items-center justify-space-between gap-6 bottom-border fixed-top"
-     style="height: 64px; max-width: 72rem; width: 100%; background-color: rgba(248,248,248,0.5);
+     style="height: 64px; max-width: 72rem; width: 100%; background-color: rgba(245,243,255,0.5);
     backdrop-filter: blur(10px); 
     -webkit-backdrop-filter: blur(10px);">
     <a href="/" class="d-flex">
-        <span class="ml-2 fw-bold fs-4">Nutrifoods</span>
+        <h1 class="bg-gradient-text fw-bold fs-3 nav-header">Nutrifoods</h1>
     </a>
     <div class="gap-6 nav-links">
         <a href="/">Nosotros</a>
@@ -28,15 +28,18 @@
     <MudDrawerHeader>
         <span class="ml-2 fw-bold fs-4">Nutrifoods</span>
     </MudDrawerHeader>
-    <MudNavMenu>
-        <MudNavLink Match="NavLinkMatch.All">Nosotros</MudNavLink>
-        <MudNavLink Match="NavLinkMatch.All">Soporte</MudNavLink>
-        <MudNavLink Match="NavLinkMatch.All">Contacto</MudNavLink>
-    </MudNavMenu>
-    <div class="d-flex flex-column">
-        <LogInButton></LogInButton>
-        <SignUpButton></SignUpButton>
+    <div class="d-flex flex-column justify-content-between h-100 py-5">
+        <MudNavMenu>
+                <MudNavLink Match="NavLinkMatch.All">Nosotros</MudNavLink>
+                <MudNavLink Match="NavLinkMatch.All">Soporte</MudNavLink>
+                <MudNavLink Match="NavLinkMatch.All">Contacto</MudNavLink>
+            </MudNavMenu>
+            <div class="d-flex flex-column">
+                <LogInButton></LogInButton>
+                <SignUpButton></SignUpButton>
+            </div>
     </div>
+    
 </MudDrawer>
 
 @code {

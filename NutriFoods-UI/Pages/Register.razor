@@ -6,21 +6,23 @@
 @inject INutritionistService NutritionistService
 @attribute [Route(PageUri.SignUp)]
 
-<section Class="MainContainer ">
-    <section class="LoginContainer border rounded-3">
+<section Class="MainContainer mx-auto">
+    <section class="LoginContainer rounded-3">
         <section class="LoginHeaderContainer">
-            <div class="LoginHeaderTitle">
-                Registrar cuenta
-            </div>
+            <h1 class="bg-gradient-text fw-bolder fs-1 text-center mb-4">Nutrifoods</h1>
+            <MudDivider></MudDivider>
+            <span class="LoginHeaderTitle mt-4">
+                Crear una cuenta de Nutrifoods
+            </span>
 
         </section>
         <MudForm>
             <section class="FormContainer">
                 <div class="d-flex flex-column gap-3">
                     <MudGrid Spacing="2">
-                        
+
                         <MudItem xs="12" sm="12">
-                            <MudText Align="Align.Left">Nombre de usuario</MudText>
+                            <span class="align-self-start fw-bold">Nombre de usuario</span>
                             <MudTextField T="string"
                                           InputType="InputType.Text"
                                           Required="true"
@@ -29,17 +31,17 @@
                                           @bind-Value="UserName"/>
                         </MudItem>
                         <MudItem xs="12" sm="12">
-                                                    <MudText Align="Align.Left">Email</MudText>
-                                                    <MudTextField T="string" Class=""
-                                                                  Variant="Variant.Outlined"
-                                                                  @bind-Value="Email"
-                                                                  Required="true"
-                                                                  InputType="InputType.Email"
-                                                                  RequiredError="Email is required!">
-                                                    </MudTextField>
-                                                </MudItem>
+                            <span class="align-self-start fw-bold">Email</span>
+                            <MudTextField T="string" Class=""
+                                          Variant="Variant.Outlined"
+                                          @bind-Value="Email"
+                                          Required="true"
+                                          InputType="InputType.Email"
+                                          RequiredError="Debes ingresar un correo electrónico">
+                            </MudTextField>
+                        </MudItem>
                         <MudItem xs="12" sm="12">
-                            <MudText Align="Align.Left">Contraseña</MudText>
+                            <span class="align-self-start fw-bold">Contraseña</span>
                             <MudTextField T="string"
                                           InputType="InputType.Password"
                                           Required="true"
@@ -51,20 +53,27 @@
 
 
                 </div>
-                
+
             </section>
         </MudForm>
         <section class="d-flex justify-center" style="width: 100%">
-            <MudButton class="SigninButton"
+            <MudButton Class="mt-6"
                        @onclick="Submit"
                        Variant="Variant.Filled"
                        DisableElevation="true"
                        Color="Color.Primary"
-                       Style="text-transform: none; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; width: 100%">
+                       Style="text-transform: none; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700;
+                                           background-image: linear-gradient(to right, #DA12FF 0%, #9733EE  51%, #DA52FF  100%);
+                                   
+                                   padding: 10px 25px;
+                                   transition: 0.5s;
+                                   background-size: 200% auto;
+                                   color: white;            
+                                   box-shadow: 0 0 20px #eee; width: 100%">
                 Crear cuenta
             </MudButton>
         </section>
-        
+
     </section>
 </section>
 
@@ -90,7 +99,6 @@
         {
             Nav.NavigateTo("login");
         }
-
     }
 
 }

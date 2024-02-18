@@ -3,16 +3,17 @@
 <MudButton Variant="Variant.Filled"
                DisableElevation="true"
                Style="text-transform: none; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700;
-                    background-image: linear-gradient(to right, #DA12FF 0%, #9733EE  51%, #DA52FF  100%);
-            margin: 10px;
+                    background-image: linear-gradient(to right, #5F4AA6 0%, #9733EE  51%, #5F4AA6 100%);
+            margin: 5px 10px;
             padding: 10px 25px;
             transition: 0.5s;
             background-size: 200% auto;
             color: white;            
-            box-shadow: 0 0 20px #eee;"
+            "
                Color="Color.Primary"
                Class="@Class"
-               Href="@PageUri.SignUp">
+               Href="@PageUri.SignUp" 
+               >
                 Crear una cuenta
     </MudButton>
 @code {
@@ -25,11 +26,6 @@
 }
 
 <style>
-
-          .mud-button:hover {
-            background-position: right center; 
-            color: #fff;
-            text-decoration: none;
-          }
-         
+   
+      
 </style>
