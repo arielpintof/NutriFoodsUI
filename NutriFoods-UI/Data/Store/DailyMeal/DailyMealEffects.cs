@@ -40,10 +40,10 @@ public class DailyMealEffects(
         if (content != null)
         {
             dispatcher.Dispatch(new ChangeDailyMealAction(content, action.Index));
+            
         }
-
+        
         dispatcher.Dispatch(new RecalculateNutrientsAction());
-
         dispatcher.Dispatch(new StopOnLoadingMenuAction());
     }
 
@@ -108,15 +108,13 @@ public class DailyMealEffects(
     }
 
     [EffectMethod(typeof(RecalculateNutrientsAction))]
-    public Task Recalculate(IDispatcher dispatcher)
+    public async Task Recalculate(IDispatcher dispatcher)
     {
         var dailyPlan = dailyMealState.Value.DailyPlan;
-        dailyPlan.AddNutritionalValues();
-        dailyPlan.AddTargetValues();
-
+        await dailyPlan.AddTargetValues();
+        
         dispatcher.Dispatch(new InitializeDailyPlanAction(dailyPlan));
-
-        return Task.CompletedTask;
+        
     }
 }
 

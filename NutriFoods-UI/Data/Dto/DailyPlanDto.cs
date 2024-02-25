@@ -67,7 +67,7 @@ public static class DailyPlanExtensions
         }
     }
 
-    public static void AddNutritionalValues(this DailyPlanDto dailyPlan)
+    public static Task AddNutritionalValues(this DailyPlanDto dailyPlan)
     {
         foreach (var (nutrientName, actualQuantity) in dailyPlan.Menus
                      .SelectMany(e => e.Nutrients)
@@ -87,9 +87,11 @@ public static class DailyPlanExtensions
         }
 
         dailyPlan.Nutrients.Sort((e1, e2) => ToValue(e1.Nutrient).CompareTo(ToValue(e2.Nutrient)));
+
+        return Task.CompletedTask;
     }
 
-    public static void AddTargetValues(this DailyPlanDto dailyPlan)
+    public static Task AddTargetValues(this DailyPlanDto dailyPlan)
     {
         foreach (var (nutrient, actualQuantity) in dailyPlan.Menus
                      .SelectMany(e => e.Targets)
@@ -100,6 +102,8 @@ public static class DailyPlanExtensions
             target.ActualQuantity = actualQuantity;
             target.ActualError = MathUtils.RelativeError(target.ExpectedQuantity, actualQuantity);
         }
+
+        return Task.CompletedTask;
     }
 
     public static MinimalDailyPlan MapToMinimalDailyPlan(this DailyPlanDto dailyPlan)
