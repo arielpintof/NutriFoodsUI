@@ -6,6 +6,8 @@ public static class PageUri
     public const string LogIn = "/login";
     public const string Home = "/";
     public const string Dashboard = "/dashboard";
+    public const string Patients = "/patients";
+    
 }
 
 
