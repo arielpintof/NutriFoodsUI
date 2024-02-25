@@ -2,6 +2,8 @@ using System.Collections.Immutable;
 using System.Diagnostics.CodeAnalysis;
 using Ardalis.SmartEnum;
 using NutriFoods_UI.Utils.Enumerable;
+using static System.StringComparer;
+
 
 namespace NutriFoods_UI.Utils.Enums;
 
@@ -23,7 +25,7 @@ public interface IEnum<out T, TEnum>
         Tokens.Zip(Values, (k, v) => new { Key = k, Value = v }).ToImmutableSortedDictionary(e => e.Key, e => e.Value);
 
     static IReadOnlyDictionary<string, T> ReadableNameDictionary { get; } =
-        Values.ToSortedDictionary(e => e.ReadableName, e => e, ReadableNameComparer).AsReadOnly();
+        Values.ToSortedDictionary(e => e.ReadableName, e => e, new ReadableNameComparer<T, TEnum>()).AsReadOnly();
 
     static IReadOnlyDictionary<T, TEnum> ReverseTokenDictionary { get; } =
         Tokens.Zip(Values, (k, v) => new { Key = k, Value = v }).ToImmutableSortedDictionary(e => e.Value, e => e.Key);
@@ -36,6 +38,12 @@ public interface IEnum<out T, TEnum>
     static T ToValue(string readableName) =>
         ReadableNameDictionary.TryGetValue(readableName, out var value) ? value : throw new KeyNotFoundException();
 
+    static bool TryGetValue(string readableName, out T? value) =>
+        ReadableNameDictionary.TryGetValue(readableName, out value);
+
+    static bool TryGetValue(TEnum token, out T? value) =>
+        TokenDictionary.TryGetValue(token, out value);
+
     static TEnum ToToken(T value) =>
         ReverseTokenDictionary.TryGetValue(value, out var token) ? token : throw new KeyNotFoundException();
 
@@ -43,6 +51,18 @@ public interface IEnum<out T, TEnum>
         ReadableNameDictionary.TryGetValue(readableName, out var value)
             ? ToToken(value)
             : throw new KeyNotFoundException();
+
+    static bool TryGetToken(T value, out TEnum? token)
+    {
+        token = ReverseTokenDictionary.TryGetValue(value, out var enumValue) ? enumValue : null;
+        return token != null;
+    }
+
+    static bool TryGetToken(string readableName, out TEnum? token)
+    {
+        token = ReadableNameDictionary.TryGetValue(readableName, out var value) ? ToToken(value) : null;
+        return token != null;
+    }
 
     static string ToReadableName(TEnum token) => ToValue(token).ReadableName;
 }
@@ -59,28 +79,23 @@ public interface IComposableEnum<out TSelf, out TOther>
 
 public interface IHierarchicalEnum<out T, TEnum> : IEnum<T, TEnum>, IComposableEnum<T, T>
     where T : SmartEnum<T>, IHierarchicalEnum<T, TEnum>
-    where TEnum : struct, System.Enum, IConvertible
-{
-}
+    where TEnum : struct, System.Enum, IConvertible;
 
 public class ReadableNameComparer<T, TEnum> : IComparer<string>
     where T : SmartEnum<T>, IEnum<T, TEnum>
     where TEnum : struct, System.Enum, IConvertible
 {
     private static readonly IReadOnlyDictionary<string, int> Dictionary =
-        SmartEnum<T>.List.ToImmutableSortedDictionary(e => e.ReadableName, e => e.Value,
-            StringComparer.InvariantCultureIgnoreCase);
+        SmartEnum<T>.List.ToDictionary(e => e.ReadableName, e => e.Value, InvariantCultureIgnoreCase);
 
     public int Compare(string? x, string? y)
     {
         if (ReferenceEquals(x, y))
             return +0;
-        if (ReferenceEquals(x, null))
+        if (ReferenceEquals(x, null) || !Dictionary.TryGetValue(x, out var first))
             return -1;
-        if (ReferenceEquals(y, null))
+        if (ReferenceEquals(y, null) || !Dictionary.TryGetValue(y, out var second))
             return +1;
-        if (!Dictionary.TryGetValue(x, out var first) || !Dictionary.TryGetValue(y, out var second))
-            throw new KeyNotFoundException();
         return first.CompareTo(second);
     }
 }
