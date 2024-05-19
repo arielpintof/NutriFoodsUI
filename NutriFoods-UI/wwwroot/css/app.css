@@ -94,15 +94,19 @@ a, .btn-link {
     -webkit-text-fill-color: transparent;
 }
 
-.mud-button:hover span{
+.mud-button-outlined:hover span{
     color: #fff;
     text-decoration: none;
 }
 
-.mud-button:hover {
+.mud-button-outlined:hover{
+    background-color: var(--color-primary) !important;
+}
+
+.mud-button-filled:hover {
     background-position: right center;
-    color: #fff;
     text-decoration: none;
+    
 }
 
 .loading-progress {
@@ -137,5 +141,12 @@ a, .btn-link {
     .loading-progress-text:after {
         content: var(--blazor-load-percentage-text, "Loading");
     }
-
     
+    
+.hover-scale-125:hover{
+    transform: scale(1.25);
+    transition-duration: 0.5s;
+}
+.hover-scale-125{
+    transition: transform 0.25s
+}
