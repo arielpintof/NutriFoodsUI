@@ -1,14 +1,4 @@
-﻿@using NutriFoods_UI.Utils.Enums
-@using NutriFoods_UI.Services
-@using NutriFoods_UI.Data.Dto
-@using Fluxor
-@using NutriFoods_UI.Data.Store.DailyPlanList
-@using NutriFoods_UI.Data.Store.LatestConsultation
-@inject IDispatcher Dispatcher
-@inject IPatientService PatientService
-@inject NavigationManager Nav
-
-<MudDialog Class="" >
+﻿<MudDialog Class="" >
     <DialogContent>
         <section>
             <MudForm @ref="Form">
@@ -61,70 +51,3 @@
 
     </DialogActions>
 </MudDialog>
-
-@code {
-
-    [CascadingParameter] MudDialogInstance MudDialogInstance { get; set; } = null!;
-
-    [Parameter] public Guid PatientId { get; set; }
-
-    [Parameter] public Guid NutritionistId { get; set; }
-
-    string Type { get; set; } = string.Empty;
-
-    string Purpose { get; set; } = string.Empty;
-
-    MudForm Form { get; set; } = new();
-
-    ConsultationDto Consultation { get; set; } = new();
-
-    async Task IsValid()
-    {
-        await Form.Validate();
-
-        if (Form.IsValid)
-        {
-            await Task.Delay(1000);
-            Dispatcher.Dispatch(new GetLatestConsultationAction(PatientId));
-
-            await Task.Delay(1000);
-            await CreateConsultation();
-        }
-    }
-
-
-    static IEnumerable<ConsultationTypes> ConsultationTypesCollection => IEnum<ConsultationTypes, ConsultationTypeToken>
-        .TokenDictionary.Select(e => e.Value)
-        .Skip(1).ToList();
-
-    static IEnumerable<ConsultationPurposes> ConsultationPurposesCollection => IEnum<ConsultationPurposes, ConsultationPurposeToken>
-        .TokenDictionary.Select(e => e.Value)
-        .Skip(1).ToList();
-
-    async Task CreateConsultation()
-    {
-        var response = await PatientService.CreateConsultation(PatientId, new ConsultationDto
-        {
-            Type = Type,
-            Purpose = Purpose,
-            DailyPlans = []
-        });
-
-        var content = await response.Content.ReadFromJsonAsync<ConsultationDto>();
-
-        if (content != null)
-        {
-            Consultation = content;
-            Dispatcher.Dispatch(new InitializeDailyPlansAction());
-            await Task.Delay(1000);
-
-            NavToNewConsultation();
-        }
-    }
-
-    void NavToNewConsultation()
-    {
-        Nav.NavigateTo($"/patient/{PatientId}/consultation/{Consultation.Id}");
-    }
-
-}
