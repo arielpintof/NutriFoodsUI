@@ -3,6 +3,7 @@
 @inject IDialogService Dialog
 @inject IState<VitaminState> VitaminState
 @inherits Fluxor.Blazor.Web.Components.FluxorComponent
+@implements IIngestible
 @inject IDispatcher Dispatcher
 
 <MudGrid Class="px-3 mb-5">
@@ -26,12 +27,12 @@
                         <div class="vitamin-actions d-flex align-items-center gap-1">
                             <MudIconButton Icon="@Icons.Material.Filled.Edit"
                                            Title="Editar vitamina"
-                                           OnClick="() => EditVitaminDialog(_noHeader, vitamin.Index)"
+                                           OnClick="() => EditIngestible(vitamin.Index)"
                                            Size="Size.Small">
                             </MudIconButton>
 
                             <MudIconButton Icon="@Icons.Material.Filled.Delete"
-                                           OnClick="() => DeleteVitamin(vitamin.Index)"
+                                           OnClick="() => DeleteIngestible(vitamin.Index)"
                                            Title="Eliminar vitamina"
                                            Size="Size.Small"
                                            Class="animation-button">
@@ -48,7 +49,7 @@
                 StartIcon="@Icons.Material.Outlined.AddCircle"
                 Variant="Variant.Text"
                 Style="text-transform: none; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700;"
-                OnClick="() => AddVitamin(_noHeader)">
+                OnClick="@AddIngestible">
                 Añadir una vitamina
             </MudButton>
         </div>
@@ -59,25 +60,30 @@
 
 @code {
 
-    readonly DialogOptions _noHeader = new () { NoHeader = true };
+    public DialogOptions Options { get; } = new() { NoHeader = true };
 
-    private void AddVitamin(DialogOptions options)
+    public void AddIngestible()
     {
         var parameters = new DialogParameters<VitaminDialog> {{ x => x.ModeType, ModeTypeEnum.Add }};
-        Dialog.Show<VitaminDialog>("Custom Options Dialog", parameters, options);
+        Dialog.Show<VitaminDialog>("Custom Options Dialog", parameters, Options);
     }
 
-    void DeleteVitamin(int index)
+    public void EditIngestible(int index)
+    {
+        var parameters = new DialogParameters<VitaminDialog> {{ x => x.Index, index }, 
+            {y => y.ModeType, ModeTypeEnum.Edit}};
+        Dialog.Show<VitaminDialog>("Editar vitamina", parameters, Options);
+    }
+
+    public void DeleteIngestible(int index)
     {
         var parameters = new DialogParameters<VitaminDialog> {{ x => x.Index, index }};
         Dialog.Show<VitaminDeleteWarning>("¿Estás seguro de eliminar la vitamina?", parameters);
     }
 
-    void EditVitaminDialog(DialogOptions options, int index)
+    public void LoadIngestible()
     {
-        var parameters = new DialogParameters<VitaminDialog> {{ x => x.Index, index }, 
-            {y => y.ModeType, ModeTypeEnum.Edit}};
-        Dialog.Show<VitaminDialog>("Editar vitamina", parameters, options);
+        throw new NotImplementedException();
     }
-    
+
 }

@@ -1,26 +1,35 @@
 ﻿@using NutriFoods_UI.Data.Model
 
-<MudExpansionPanels MultiExpansion="false" Elevation="0">
+@*<Collapse CollapseItems="_collapseItemModels"></Collapse>*@
 
-    @foreach (var item in _collapseItemModels)
-    {
-        <MudExpansionPanel Dense="true" Class="mt-3 rounded">
+<MudExpansionPanels MultiExpansion="true" Elevation="0" DisableBorders="true">
+    <MudExpansionPanel Dense="true" Class="mt-3 rounded" IsInitiallyExpanded="true">
+        <TitleContent>
+            <CollapseTitle Title="Días de la semana"></CollapseTitle>
+        </TitleContent>
+        <ChildContent>
+            <MudDivider DividerType="DividerType.Middle" Class="mb-5"/>
+            <DaysIntake></DaysIntake>
+        </ChildContent>
+    </MudExpansionPanel>
+    <MudExpansionPanel Dense="true" Class="mt-3 rounded"  IsInitiallyExpanded="true">
             <TitleContent>
-                <CollapseTitle Title="@item.Title"></CollapseTitle>
+                <CollapseTitle Title="Requerimiento energético"></CollapseTitle>
             </TitleContent>
             <ChildContent>
                 <MudDivider DividerType="DividerType.Middle" Class="mb-5"/>
-                @item.ChildContent
+                <PhysicalActivityIntake PatientId="PatientId"></PhysicalActivityIntake>
             </ChildContent>
         </MudExpansionPanel>
-    }
-
 </MudExpansionPanels>
 
 
-@code {
 
-    private List<CollapseItemModel> _collapseItemModels = new()
+@code {
+    [Parameter] public Guid PatientId { get; set; }
+
+
+    /*private List<CollapseItemModel> _collapseItemModels = new()
     {
         new CollapseItemModel
         {
@@ -37,7 +46,7 @@
             {
                 <PhysicalActivityIntake></PhysicalActivityIntake>
             }
-        },
-    };
+        }
+    };*/
 
 }

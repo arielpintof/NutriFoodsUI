@@ -1,66 +1,104 @@
 ﻿@layout LoginLayout
+@using NutriFoods_UI.Data.Dto
+@using NutriFoods_UI.Services
+@using NutriFoods_UI.Utils.Enums
+@inject NavigationManager Nav
+@inject INutritionistService NutritionistService
+@attribute [Route(PageUri.SignUp)]
 
-@page "/register"
+<section Class="MainContainer mx-auto">
+    <section class="LoginContainer rounded-3">
+        <section class="LoginHeaderContainer">
+            <h1 class="bg-gradient-text fw-bolder fs-1 text-center mb-4">Nutrifoods</h1>
+            <MudDivider></MudDivider>
+            <span class="LoginHeaderTitle mt-4">
+                Crear una cuenta de Nutrifoods
+            </span>
 
-<section>
-    <div class="container @(_isFormActive ? "active" : "")">
-        <div class="user signinBx">
-            <div class="formBx">
-                <MudForm>
-                    <h2>Crear una cuenta</h2>
-                    <div class="d-flex flex-column gap-3">
-                        <MudTextField T="string" Label="E-mail"
-                                      Required="true"
-                                      Variant="Variant.Outlined"
-                                      RequiredError="Password is required!"/>
+        </section>
+        <MudForm>
+            <section class="FormContainer">
+                <div class="d-flex flex-column gap-3">
+                    <MudGrid Spacing="2">
 
-                        <MudTextField T="string" Label="Nombre de usuario"
-                                      Required="true"
-                                      Variant="Variant.Outlined"
-                                      RequiredError="Password is required!"/>
-                        <MudTextField T="string" Label="Contraseña"
-                                      InputType="InputType.Password"
-                                      Required="true"
-                                      Variant="Variant.Outlined"
-                                      RequiredError="Password is required!"/>
-                    </div>
-                    <input type="submit" name="" value="Siguiente"/>
-                    <p class="signup">
-                        Don't have an account ?
-                        <MudButton Variant="Variant.Text" @onclick="ToggleForm">Sign Up</MudButton>
-                    </p>
-                </MudForm>
-            </div>
-        </div>
-        <div class="user signupBx">
-            <div class="formBx">
-                <form action="" onsubmit="return false;">
-                    <h2>Create an account</h2>
-                    <input type="text" name="" placeholder="Username"/>
-                    <input type="email" name="" placeholder="Email Address"/>
-                    <input type="password" name="" placeholder="Create Password"/>
-                    <input type="password" name="" placeholder="Confirm Password"/>
-                    <input type="submit" name="" value="Sign Up"/>
-                    <p class="signup">
-                        Already have an account ?
-                        <MudButton Variant="Variant.Text" @onclick="ToggleForm">Sign in.</MudButton>
-                    </p>
-                </form>
-            </div>
-            <div class="imgBx">
-                <img src="https://raw.githubusercontent.com/WoojinFive/CSS_Playground/master/Responsive%20Login%20and%20Registration%20Form/img2.jpg" alt=""/>
-            </div>
-        </div>
-    </div>
+                        <MudItem xs="12" sm="12">
+                            <span class="align-self-start fw-bold">Nombre de usuario</span>
+                            <MudTextField T="string"
+                                          InputType="InputType.Text"
+                                          Required="true"
+                                          Variant="Variant.Outlined"
+                                          RequiredError="Username is required!"
+                                          @bind-Value="UserName"/>
+                        </MudItem>
+                        <MudItem xs="12" sm="12">
+                            <span class="align-self-start fw-bold">Email</span>
+                            <MudTextField T="string" Class=""
+                                          Variant="Variant.Outlined"
+                                          @bind-Value="Email"
+                                          Required="true"
+                                          InputType="InputType.Email"
+                                          RequiredError="Debes ingresar un correo electrónico">
+                            </MudTextField>
+                        </MudItem>
+                        <MudItem xs="12" sm="12">
+                            <span class="align-self-start fw-bold">Contraseña</span>
+                            <MudTextField T="string"
+                                          InputType="InputType.Password"
+                                          Required="true"
+                                          Variant="Variant.Outlined"
+                                          RequiredError="Password is required!"
+                                          @bind-Value="Password"/>
+                        </MudItem>
+                    </MudGrid>
+
+
+                </div>
+
+            </section>
+        </MudForm>
+        <section class="d-flex justify-center" style="width: 100%">
+            <MudButton Class="mt-6"
+                       @onclick="Submit"
+                       Variant="Variant.Filled"
+                       DisableElevation="true"
+                       Color="Color.Primary"
+                       Style="text-transform: none; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700;
+                                           background-image: linear-gradient(to right, #DA12FF 0%, #9733EE  51%, #DA52FF  100%);
+                                   
+                                   padding: 10px 25px;
+                                   transition: 0.5s;
+                                   background-size: 200% auto;
+                                   color: white;            
+                                   box-shadow: 0 0 20px #eee; width: 100%">
+                Crear cuenta
+            </MudButton>
+        </section>
+
+    </section>
 </section>
 
 @code {
+    string Email { get; set; } = string.Empty;
+    string Password { get; set; } = string.Empty;
+    string UserName { get; set; } = string.Empty;
 
-    bool _isFormActive = false;
-
-    void ToggleForm()
+    async Task Submit()
     {
-        _isFormActive = !_isFormActive;
+        var nutritionist = new NutritionistDto
+        {
+            Username = UserName,
+            Email = Email,
+            Password = Password,
+            Patients = []
+        };
+
+        var response = await NutritionistService.SignUp(nutritionist);
+        var content = await response!.Content.ReadFromJsonAsync<NutritionistDto>();
+
+        if (content != null)
+        {
+            Nav.NavigateTo("login");
+        }
     }
 
 }

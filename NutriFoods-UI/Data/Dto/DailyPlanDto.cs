@@ -1,3 +1,4 @@
+using NutriFoods_UI.Data.Dto.Insertion;
 using NutriFoods_UI.Utils.Enums;
 using NutriFoods_UI.Data.Store.DailyMeal;
 using static System.StringComparison;
@@ -7,7 +8,7 @@ namespace NutriFoods_UI.Data.Dto;
 
 public class DailyPlanDto
 {
-    public string Day { get; set; } = null!;
+    public List<string> Days { get; set; } = null!;
     public string PhysicalActivityLevel { get; set; } = null!;
     public double PhysicalActivityFactor { get; set; }
     public double AdjustmentFactor { get; set; }
@@ -66,7 +67,7 @@ public static class DailyPlanExtensions
         }
     }
 
-    public static void AddNutritionalValues(this DailyPlanDto dailyPlan)
+    public static Task AddNutritionalValues(this DailyPlanDto dailyPlan)
     {
         foreach (var (nutrientName, actualQuantity) in dailyPlan.Menus
                      .SelectMany(e => e.Nutrients)
@@ -80,13 +81,17 @@ public static class DailyPlanExtensions
                 Quantity = actualQuantity,
                 Unit = nutrient.Unit.ReadableName,
                 DailyValue = nutrient.DailyValue.HasValue
-                    ? Math.Round(actualQuantity / nutrient.DailyValue.Value, 2)
+                    ? Math.Round(actualQuantity / nutrient.DailyValue.Value, 3)
                     : null
             });
         }
+
+        dailyPlan.Nutrients.Sort((e1, e2) => ToValue(e1.Nutrient).CompareTo(ToValue(e2.Nutrient)));
+
+        return Task.CompletedTask;
     }
 
-    public static void AddTargetValues(this DailyPlanDto dailyPlan)
+    public static Task AddTargetValues(this DailyPlanDto dailyPlan)
     {
         foreach (var (nutrient, actualQuantity) in dailyPlan.Menus
                      .SelectMany(e => e.Targets)
@@ -97,5 +102,41 @@ public static class DailyPlanExtensions
             target.ActualQuantity = actualQuantity;
             target.ActualError = MathUtils.RelativeError(target.ExpectedQuantity, actualQuantity);
         }
+
+        return Task.CompletedTask;
     }
+
+    public static MinimalDailyPlan MapToMinimalDailyPlan(this DailyPlanDto dailyPlan)
+    {
+        var minimalRecipe = dailyPlan.Menus
+            .SelectMany(m => m.Recipes.Select(e => new MinimalMenuRecipe()
+            {
+                RecipeId = e.Recipe.Id,
+                Portions = e.Portions
+            })).ToList();
+
+        var minimalDailyMenu = dailyPlan.Menus.Select(m => new MinimalDailyMenu()
+        {
+            IntakePercentage = m.IntakePercentage,
+            MealType = m.MealType,
+            Hour = m.Hour,
+            Nutrients = m.Nutrients,
+            Targets = m.Targets,
+            Recipes = minimalRecipe
+        }).ToList();
+            
+        
+        return new MinimalDailyPlan
+        {
+            Days = dailyPlan.Days,
+            PhysicalActivityLevel = dailyPlan.PhysicalActivityLevel,
+            PhysicalActivityFactor = dailyPlan.PhysicalActivityFactor,
+            AdjustmentFactor = dailyPlan.AdjustmentFactor,
+            Nutrients = dailyPlan.Nutrients,
+            Targets = dailyPlan.Targets,
+            Menus = minimalDailyMenu
+        };
+
+    }
+        
 }

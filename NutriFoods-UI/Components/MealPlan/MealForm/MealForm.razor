@@ -1,96 +1,113 @@
 ﻿@page "/generate/mealplan"
+@page "/generate/mealplan/{PatientId:guid}/{ConsultationId:guid}"
 
 @inject ISnackbar Snackbar
 @using MudExtensions.Enums
 @using MudExtensions.Utilities
 @using Fluxor
 @using MudBlazor.Extensions
+@using NutriFoods_UI.Data.Store.CurrentPatient
 @using NutriFoods_UI.Data.Store.DailyMeal
+@using NutriFoods_UI.Data.Store.DailyPlanList
+@using NutriFoods_UI.Data.Store.LatestConsultation
 @using NutriFoods_UI.Data.Store.MicronutrientConfiguration
+@using NutriFoods_UI.Data.Store.TotalMetabolicRate
 @inject IState<MicronutrientState> MicroNutrientState;
 @inject IState<DailyMealState> DailyMealState
 @inject IDispatcher Dispatcher
+@inject IState<DaysState> DayState
+@inject IState<TmrState> TmrState
+@inject NavigationManager Nav
+@inherits Fluxor.Blazor.Web.Components.FluxorComponent
 
 
 
- <MudStepper @ref="_stepper"
-            Class="mud-width-full"
-            ContentStyle="min-height: 400px"
-            Linear="true" 
-            Vertical="false"
-            Color="_color" 
-            Variant="Variant.Filled"
-            DisableAnimation="false"
-            DisablePreviousButton="false"
-            DisableNextButton="false"
-            DisableSkipButton="true"
-            DisableStepResultIndicator="DisableStepResultIndicator"
-            HeaderBadgeView="HeaderBadgeView.All"
-            HeaderTextView="HeaderTextView.All"
-            PreventStepChangeAsync="new Func<StepChangeDirection, Task<bool>>(CheckChange)"
-            LocalizedStrings="GetLocalizedStrings()"
-            IconActionButtons="false"
-            Loading="_loading"
-            HeaderSize="Size.Medium">
-
-    <ChildContent>
-        
-        <MudStep Icon="@Icons.Material.Filled.Whatshot"
-                         Title="Energía calórica"
-                         StatusChanged="StatusChanged">
-                    <ChildContent>
-                        <CaloriesConfiguration></CaloriesConfiguration>
-                    </ChildContent>
-                </MudStep>
-
-        <MudStep Icon="@Icons.Material.Filled.Settings"
-                 Title="Configuración"
-                 StatusChanged="StatusChanged">
-            <ChildContent>
-                <ConfigurationGroup></ConfigurationGroup>
-            </ChildContent>
-        </MudStep>
-
-        <MudStep Title="Plan alimenticio"
-                 Icon="@Icons.Material.Filled.FoodBank"
-                 Optional="false">
-            <ChildContent>
-                @if (_stepper.GetActiveIndex() == 2)
-                {
-                    <DailyMeal ActiveIndex="_stepper.GetActiveIndex() == 2"></DailyMeal>
-                }
-
-            </ChildContent>
-        </MudStep>
-
-
-        @if (AddResultStep)
-        {
-
-            <MudStep Icon="@Icons.Material.Filled.Alarm" Title="Result Step" IsResultStep="true">
+<ProgressLoading Loading="Loading">
+    <MudStepper @ref="_stepper"
+                Class="mud-width-full"
+                ContentStyle="min-height: 400px"
+                Linear="true"
+                Vertical="false"
+                Color="_color"
+                Variant="Variant.Filled"
+                DisableAnimation="false"
+                DisablePreviousButton="false"
+                DisableNextButton="false"
+                DisableSkipButton="true"
+                DisableStepResultIndicator="DisableStepResultIndicator"
+                HeaderBadgeView="HeaderBadgeView.All"
+                HeaderTextView="HeaderTextView.All"
+                PreventStepChangeAsync="new Func<StepChangeDirection, Task<bool>>(CheckChange)"
+                LocalizedStrings="GetLocalizedStrings()"
+                IconActionButtons="false"
+                Loading="_loading"
+                HeaderSize="Size.Medium">
+    
+        <ChildContent>
+    
+            <MudStep Icon="@Icons.Material.Filled.Whatshot"
+                     Title="Energía calórica"
+                     StatusChanged="StatusChanged">
                 <ChildContent>
-                    <div class="d-flex flex-column align-center justify-center" style="height: 200px">
-                        <MudIconButton Icon="@Icons.Material.Filled.DoneAll" Size="Size.Large" Variant="Variant.Filled" Color="Color.Success"/>
-                        <MudText>El plan alimenticio ha sido guardado</MudText>
-                    </div>
+                    <CaloriesConfiguration PatientId="PatientId"></CaloriesConfiguration>
                 </ChildContent>
             </MudStep>
-        }
-    </ChildContent>
-    <ActionContent >
-        @if (!_stepper.IsAllStepsCompleted() && ShowCustomButton)
-        {
-            <MudButton Color="Color.Secondary"
-                       Variant="Variant.Filled"
-                       OnClick="@(() => Snackbar.Add("Custom cancel button clicked.", Severity.Info))">
-                Cancel
-            </MudButton>
-        }
-        <MudSpacer/>
-    </ActionContent>
+    
+            <MudStep Icon="@Icons.Material.Filled.Settings"
+                     Title="Configuración"
+                     StatusChanged="StatusChanged">
+                <ChildContent>
+                    <ConfigurationGroup></ConfigurationGroup>
+                </ChildContent>
+            </MudStep>
+    
+            <MudStep Title="Plan alimenticio"
+                     Icon="@Icons.Material.Filled.FoodBank"
+                     Optional="false">
+                <ChildContent>
+                    @if (_stepper.GetActiveIndex() == 2)
+                    {
+                        <DailyPlan ActiveIndex="_stepper.GetActiveIndex() == 2"></DailyPlan>
+                    }
+    
+                </ChildContent>
+            </MudStep>
+    
+    
+            @if (AddResultStep)
+            {
+                <MudStep Icon="@Icons.Material.Filled.Alarm" Title="Result Step" IsResultStep="true">
+                    <ChildContent>
+                        <div class="d-flex flex-column align-center justify-center" style="height: 200px">
+                            <MudIconButton Icon="@Icons.Material.Filled.DoneAll" Size="Size.Large" Variant="Variant.Filled" Color="Color.Success"/>
+                            <MudText>El plan alimenticio ha sido guardado</MudText>
+                            <MudButton Variant="Variant.Outlined"
+                                       Color="Color.Primary"
+                                       OnClick="@NavToConsultation"
+                                       Style="text-transform: none; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700;">
+                                Volver a la consulta
+                            </MudButton>
+                        </div>
+                    </ChildContent>
+                </MudStep>
+            }
+        </ChildContent>
+        <ActionContent >
+            @if (!_stepper.IsAllStepsCompleted() && ShowCustomButton)
+            {
+                <MudButton Color="Color.Secondary"
+                           Variant="Variant.Filled"
+                           OnClick="@(() => Snackbar.Add("Custom cancel button clicked.", Severity.Info))">
+                    Cancel
+                </MudButton>
+            }
+            <MudSpacer/>
+        </ActionContent>
+    
+    
+    </MudStepper>
+</ProgressLoading>
 
-
-</MudStepper>
 
 
 @code {
@@ -103,8 +120,8 @@
     bool _customLocalization = true;
     Color _color = Color.Primary;
     bool _loading;
-        private const bool ShowCustomButton = false;
-    
+    private const bool ShowCustomButton = false;
+
 
     private async Task<bool> CheckChange(StepChangeDirection direction)
     {
@@ -115,16 +132,17 @@
             {
                 return false;
             }
-            
+
             if (_stepper.GetActiveIndex() == 0)
             {
                 _loading = true;
                 StateHasChanged();
                 await Task.Delay(1000);
+                var isValid = DayState.Value.IsValid && TmrState.Value.IsValid;
                 _loading = false;
                 StateHasChanged();
-                
-                return !MicroNutrientState.Value.StateIsValid;
+
+                return !isValid;
             }
             else if (_stepper.GetActiveIndex() == 2)
             {
@@ -148,8 +166,8 @@
             return false;
         }
     }
-    
-    
+
+
     private void StatusChanged(StepStatus status)
     {
         Snackbar.Add($"First step {status.ToDescriptionString()}.", Severity.Info);
@@ -176,9 +194,25 @@
         }
     }
 
-    void Submit()
+    [Parameter] public Guid PatientId { get; set; }
+
+    [Parameter] public Guid ConsultationId { get; set; }
+
+    bool Loading { get; set; } = true;
+
+    void Submit() => Dispatcher.Dispatch(new AddDailyPlanAction(DailyMealState.Value.DailyPlan));
+
+    void NavToConsultation() => Nav.NavigateTo($"/patient/{PatientId}/consultation/{ConsultationId}");
+
+    protected override void OnInitialized()
     {
-        //Dispatcher.Dispatch(new );
+        base.OnInitialized();
+        Dispatcher.Dispatch(new InitializePatientAction(PatientId));
+        Dispatcher.Dispatch(new GetLatestConsultationAction(PatientId));
+
+        Loading = false;
+
+
     }
 
 }

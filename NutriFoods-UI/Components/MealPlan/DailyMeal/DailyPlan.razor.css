@@ -60,3 +60,23 @@
         transform: translate(24px, 0);
     }
 }
+
+.button-hover:hover .span-hover{
+    visibility: visible;
+}
+
+
+@keyframes spin {
+    from {
+        transform:rotate(0deg);
+    }
+    to {
+        transform:rotate(360deg);
+    }
+}
+.span-hover{
+    transition: width 2s, height 4s;
+    transition-timing-function: ease-in;
+    transition-delay: 0.8s;
+    visibility: hidden;
+}

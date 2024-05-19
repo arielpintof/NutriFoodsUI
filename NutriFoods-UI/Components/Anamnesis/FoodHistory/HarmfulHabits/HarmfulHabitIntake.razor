@@ -3,7 +3,7 @@
 @using NutriFoods_UI.Data.Dto
 @using NutriFoods_UI.Utils.Enums
 @inject IState<HarmfulHabitState> HarmfulHabitState
-@inherits Fluxor.Blazor.Web.Components.FluxorComponent
+@inherits IntakeComponent
 @inject IDispatcher Dispatcher
 
 <MudForm @bind-IsValid="@IsValidHandler" Model="@HarmfulHabitModel">
@@ -29,11 +29,11 @@
         <MudItem md="8" sm="4" xs="12">
             <div class="d-flex gap-3">
                 <MudTextField @bind-Value="HarmfulHabitModel.Observations"
-                              Label="Observación"
+                              Label="Observación (Opcional)"
                               Variant="Variant.Outlined"
                               Margin="Margin.Dense"/>
 
-                <MudIconButton OnClick="DeleteHarmfulHabit"
+                <MudIconButton OnClick="@Delete"
                                Icon="@Icons.Material.Filled.Delete"
                                Title="Eliminar hábito perjudicial"
                                Size="Size.Medium">
@@ -49,17 +49,13 @@
     private HarmfulHabitDto HarmfulHabitModel => Index < HarmfulHabitState.Value.HarmfulHabits.Count() ?
         HarmfulHabitState.Value.HarmfulHabits.ElementAt(Index) :
         new HarmfulHabitDto();
-
-    [Parameter]
-    public int Index { get; set; }
-
+    
     private static IEnumerable<string> HarmfulHabitCollection => IEnum<Utils.Enums.HarmfulHabits, HarmfulHabitToken>
         .TokenDictionary.Select(e => e.Value.ReadableName).Skip(1).ToList();
+    
+    protected override void Delete() => Dispatcher.Dispatch(new DeleteHarmfulHabitAction(Index));
 
-
-    private void DeleteHarmfulHabit() => Dispatcher.Dispatch(new DeleteHarmfulHabitAction(Index));
-
-    private void UpdateHarmfulHabit()
+    protected override void Update()
     {
         var action = new ChangeHarmfulHabitAction(new HarmfulHabitDto
         {
@@ -68,19 +64,6 @@
         }, Index);
 
         Dispatcher.Dispatch(action);
-    }
-
-    private bool _isValid;
-
-    private bool IsValidHandler
-    {
-        get => _isValid;
-        set
-        {
-            if (_isValid == value) return;
-            _isValid = value;
-            UpdateHarmfulHabit();
-        }
     }
 
 }

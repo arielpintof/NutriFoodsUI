@@ -1,0 +1,21 @@
+﻿@using Fluxor
+@using NutriFoods_UI.Data.Store.LatestConsultation
+@inject IState<LatestConsultationState> LatestConsultation
+
+<table class="my-table mud-width-full justify-space-beetween flex-grow-1 gap-2">
+    <thead>
+    <tr>
+        <th scope="col" style="width: 50%">Nombre</th>
+        <th scope="col">Observaciones</th>
+    </tr>
+    </thead>
+    <tbody class="mt-2">
+    @foreach (var symptom in LatestConsultation.Value.LatestConsultation.NutritionalAnamnesis!.EatingSymptoms)
+    {
+        <tr>
+            <td>@symptom.Name</td>
+            <td>@symptom.Observations</td>
+        </tr>
+    }
+    </tbody>
+</table>

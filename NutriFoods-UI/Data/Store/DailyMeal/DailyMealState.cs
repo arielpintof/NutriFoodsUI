@@ -8,7 +8,7 @@ public class DailyMealState
     public DailyPlanDto DailyPlan { get; } = new();
     public bool Initialized { get; }
 
-    public IEnumerable<bool> MealLoading { get; set; } = [];
+    public IEnumerable<bool> MealLoading { get; } = [];
     
     public DailyMealState(){}
 

@@ -1,4 +1,5 @@
 ﻿using System.Net.Http.Json;
+using System.Reflection.Metadata;
 using Fluxor;
 using NutriFoods_UI.Data.Dto;
 using NutriFoods_UI.Data.Store.AdverseFoodReactions;
@@ -18,7 +19,8 @@ public class Effects(
     IState<AnthropometryState> anthropometryState,
     //Clinicos
     IState<ClinicalSignState> clinicalSignState,
-    IState<PersonalPathologiesState> diseases,
+    IState<PersonalPathologiesState> personalDiseases,
+    IState<InheritedPathologiesState> inheritedDiseases,
     IState<MedicineState> medicines,
     IState<VitaminState> vitamins,
     IState<SupplementState> supplements,
@@ -43,17 +45,21 @@ public class Effects(
     [EffectMethod]
     public async Task PostClinical(PostClinicalAction action, IDispatcher dispatcher)
     {
-        var ingestibles = medicines.Value.Medicines
-            .Concat(vitamins.Value.Vitamins)
-            .Concat(supplements.Value.Supplements)
-            .ToList();
+        var ingestibles = medicines.Value.Medicines.ToList();
+        ingestibles.AddRange(vitamins.Value.Vitamins);
+        ingestibles.AddRange(supplements.Value.Supplements);
+
+        //var toTimeFormat = ingestibles.Select(e => e.TimeFormat()).ToList();
+
+        var pathologies = personalDiseases.Value.Pathologies;
+        pathologies.AddRange(inheritedDiseases.Value.Pathologies);
         
         var response = await patientService.AddClinicalAnamnesis(
             action.PatientId, action.ConsultationId, new ClinicalAnamnesisDto
             {
                 Ingestibles = ingestibles,
                 ClinicalSigns = clinicalSignState.Value.ClinicalSigns,
-                Diseases = diseases.Value.Pathologies
+                Diseases = pathologies
             });
 
         var content = response.Content.ReadFromJsonAsync<ConsultationDto>();

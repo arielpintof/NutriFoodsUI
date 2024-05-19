@@ -30,4 +30,11 @@ public class Reducer
 
         return new EatingSymptomState(updateList);
     }
+
+    [ReducerMethod]
+    public static EatingSymptomState InitializeEatingSymptoms(EatingSymptomState state,
+        InitializeEatingSymptomAction action)
+    {
+        return new EatingSymptomState(action.EatingSymptoms);
+    }
 }

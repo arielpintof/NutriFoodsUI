@@ -9,3 +9,18 @@ public class RecipeMeasureDto
     public int Denominator { get; set; }
     public IngredientMeasureAbridged IngredientMeasure { get; set; } = null!;
 }
+
+public static class RecipeMeasureExtensions
+{
+    public static string MeasureToString(this RecipeMeasureDto measure)
+    {
+        if (measure.IntegerPart == 0)
+        {
+            return $"{measure.Numerator}/{measure.Denominator}";
+        }
+
+        return measure.Numerator > 0
+            ? $"{measure.IntegerPart} {measure.Numerator}/{measure.Denominator}"
+            : measure.IntegerPart.ToString();
+    }
+}

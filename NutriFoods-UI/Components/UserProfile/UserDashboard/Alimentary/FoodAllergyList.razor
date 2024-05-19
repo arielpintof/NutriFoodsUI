@@ -1,4 +1,7 @@
 ﻿@using NutriFoods_UI.Utils.Enums
+@using Fluxor
+@using NutriFoods_UI.Data.Store.LatestConsultation
+@inject IState<LatestConsultationState> LatestConsultation
 
 <table class="my-table mud-width-full justify-space-beetween flex-grow-1 gap-2">
     <thead>
@@ -8,24 +11,16 @@
     </tr>
     </thead>
     <tbody class="mt-2">
-    <tr>
-        <td>Salmón</td>
-        <td>Alérgico</td>
-    </tr>
-    <tr >
-        <td>Maní</td>
-        <td>Alérgico</td>
-    </tr>
-    <tr >
-        <td>Gluten</td>
-        <td>Intolerante</td>
-
-    </tr>
+    @foreach (var reaction in LatestConsultation.Value.LatestConsultation.NutritionalAnamnesis!.AdverseFoodReactions)
+    {
+        <tr>
+            <td>@reaction.FoodGroup</td>
+            <td>@reaction.Type</td>
+        </tr>
+    }
     </tbody>
-
 </table>
 
 @code {
-
-    public string Allergic => FoodReactions.Allergic.ReadableName;
+    
 }

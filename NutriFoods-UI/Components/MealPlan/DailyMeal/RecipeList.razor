@@ -2,10 +2,12 @@
 @using NutriFoods_UI.Data.Dto
 @using Fluxor
 @using NutriFoods_UI.Data.Images
+@using NutriFoods_UI.Data.Store.Images
 @using NutriFoods_UI.Data.Store.RecipeDialog
 @inject IDialogService Dialog
 @inject IState<RecipeDialogState> RecipeState
 @inject IDispatcher Dispatcher
+@inject IState<ImagesState> ImagesState
 
 
 <table class="my-table mud-width-full">
@@ -23,18 +25,16 @@
     {
         @foreach (var menu in Recipes)
         {
-            <tr class="fila-hover" @onmouseover="() => HandleHover(true)" 
-                @onmouseout="() => HandleHover(false)" 
-                @onclick="@((e) => OpenDialog(noHeader, menu))">
+            <tr class="fila-hover" @onclick="@((e) => OpenDialog(_noHeader, menu))">
                 <td>
-                    <Recipe Hovered="@IsHovered" Name="@menu.Recipe.Name" Image="https://cdn7.kiwilimon.com/brightcove/6838/640x640/6838.jpg.webp"
+                    <Recipe Name="@menu.Recipe.Name" Image="@GetImage(menu.Recipe.Name)"
                             Portions="@menu.Portions"/>
                 </td>
                 
-                <td>0 kcal</td>
-                <td>0 g</td>
-                <td>0 g</td>
-                <td>0 g</td>
+                <td>@($"{menu.Recipe.Nutrients.Find(e => e.Nutrient.Equals("Energía, total"))!.Quantity:F1}") Kcal</td>
+                <td>@($"{menu.Recipe.Nutrients.Find(e => e.Nutrient.Equals("Proteína, total"))!.Quantity:F1}") g</td>
+                <td>@($"{menu.Recipe.Nutrients.Find(e => e.Nutrient.Equals("Carbohidratos, total"))!.Quantity:F1}") g</td>
+                <td>@($"{menu.Recipe.Nutrients.Find(e => e.Nutrient.Equals("Ácidos grasos, total"))!.Quantity:F1}") g</td>
             </tr>
         }
     }
@@ -43,14 +43,10 @@
         
             <tr>
                 <td>
-                    <div class="center">
-                        <div class="lds-ellipsis">
-                            <div></div>
-                            <div></div>
-                            <div></div>
-                            <div></div>
-                        </div>
+                    <div class="d-flex mx-auto my-auto">
+                        <EllipsisLoading></EllipsisLoading>
                     </div>
+                    
                 </td>
 
             </tr>
@@ -69,12 +65,20 @@
 
     private void HandleHover(bool isHovered) => IsHovered = isHovered;
 
-    DialogOptions noHeader = new DialogOptions() { NoHeader = true };
+    DialogOptions _noHeader = new (){ NoHeader = true, CloseButton = true };
 
     private void OpenDialog(DialogOptions options, MenuRecipeDto recipe)
     {
         Dispatcher.Dispatch(new UpdateDialogAction(recipe));
         Dialog.Show<RecipeDialog>("Custom Options Dialog", options);
+        
     }
+    
+    string GetImage(string name) => ImagesState.Value.ImagesDict.TryGetValue(name, out string uri) ? uri : string.Empty;
+    
+    
+    
+
+
 
 }

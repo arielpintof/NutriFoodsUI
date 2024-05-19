@@ -6,61 +6,43 @@
 @using NutriFoods_UI.Utils.Enums
 @inject IState<PersonalPathologiesState> PersonalPathologiesState
 @inject IDispatcher Dispatcher
-@inherits Fluxor.Blazor.Web.Components.FluxorComponent
+@inherits IntakeComponent
 
 @page "/patologia"
 
 <MudForm @ref="_form" @bind-IsValid="@IsValidHandler" Model="@PersonalPathology">
     <MudGrid>
-        <MudItem md="6" xs="12">
+        <MudItem md="12" xs="12">
             <div class="d-flex flex-row gap-3">
                 <span class="align-self-center">@(Index + 1)</span>
                 <MudSelectExtended ItemCollection="_diseases"
-                                                   SearchBox="true"
-                                                   SearchBoxAutoFocus="true"
-                                                   T="string"
-                                                   Label="Patología"
-                                                   AnchorOrigin="Origin.BottomCenter"
-                                                   Variant="Variant.Outlined"
-                                                   SearchBoxClearable="true"
-                                                   @bind-Value="PersonalPathology.Name"
-                                                   Margin="Margin.Dense"
-                                                   Required="true"/>
-            </div>
-
-        </MudItem>
-        <MudItem md="6" xs="12">
-            <div class="d-flex flex-row gap-3">
-                <MudSelectExtended T="string"
-                                   MultiSelection="true"
-                                   Label="Herencia"
+                                   SearchBox="true"
+                                   SearchBoxAutoFocus="true"
+                                   T="string"
+                                   Label="Patología"
                                    AnchorOrigin="Origin.BottomCenter"
                                    Variant="Variant.Outlined"
                                    SearchBoxClearable="true"
-                                   @bind-SelectedValues="PersonalPathology.InheritanceTypes"
+                                   @bind-Value="PersonalPathology.Name"
                                    Margin="Margin.Dense"
-                                   Required="true"
-                                   ItemCollection="_diseases">
-                    
-                </MudSelectExtended>
+                                   Required="true"/>
                 <MudIconButton
-                    OnClick="@DeletePathology"
+                    OnClick="@Delete"
                     Icon="@Icons.Material.Filled.Delete"
                     Title="Eliminar patología"
                     Size="Size.Medium">
                     @Index
                 </MudIconButton>
-
             </div>
         </MudItem>
-
-
     </MudGrid>
+    
 </MudForm>
 
 @code {
 
-    private DiseaseDto PersonalPathology => Index < PersonalPathologiesState.Value.Pathologies.Count ? PersonalPathologiesState.Value.Pathologies.ElementAt(Index) : new DiseaseDto();
+    private DiseaseDto PersonalPathology => 
+        Index < PersonalPathologiesState.Value.Pathologies.Count ? PersonalPathologiesState.Value.Pathologies.ElementAt(Index) : new DiseaseDto();
 
     private static List<string> InheritancesNames => IEnum<InheritanceTypes, InheritanceToken>
         .TokenDictionary
@@ -75,36 +57,17 @@
 
     private MudForm _form = new();
 
-    [Parameter] public int Index { get; set; }
+    protected override void Delete() => Dispatcher.Dispatch(new DeletePersonalPathologyAction(Index));
 
-    public bool IsValid;
-
-    private bool IsValidHandler
-    {
-        get => IsValid;
-        set
-        {
-            if (IsValid == value) return;
-            IsValid = value;
-            UpdatePathology();
-        }
-    }
-
-    private void UpdatePathology()
+    protected override void Update()
     {
         var action = new ChangePersonalPathologyAction(Index, new DiseaseDto
         {
             Name = PersonalPathology.Name,
-            InheritanceTypes = PersonalPathology.InheritanceTypes,
+            InheritanceTypes = new List<string> { InheritanceTypes.Direct.ReadableName }
         });
 
         Dispatcher.Dispatch(action);
-    }
-
-    private void DeletePathology()
-    {
-        Console.WriteLine($"Deleteando desde componente, indide {Index}");
-        Dispatcher.Dispatch(new DeletePersonalPathologyAction(Index));
     }
 
 }

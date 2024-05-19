@@ -20,7 +20,7 @@
 <MudGrid Spacing="1" Class="px-2 pt-1 pb-3 gap-2">
     @foreach (var target in NutritionalTargets)
     {
-        <MudTooltip Placement="Placement.Right">
+        <MudTooltip Arrow="true" Placement="Placement.Right">
             <ChildContent>
                 <MudItem md="12" xs="2">
                     <MudChip Color="@Color.Primary"
@@ -29,7 +29,7 @@
                              Variant="Variant.Text"
                              Style="font-family: 'Plus Jakarta Sans', sans-serif;font-weight: 700"
                              Icon="@Icons.Material.Rounded.BarChart">
-                        @(GetAlternativeNames(target.Nutrient)): @((int)target.ActualQuantity!)
+                        @(GetAlternativeNames(target.Nutrient)): @($"{target.ActualQuantity!:F1}") @target.Unit
                     </MudChip>
                 </MudItem>
             </ChildContent>
@@ -81,7 +81,7 @@
         var token = IEnum<Nutrients, NutrientToken>.ToToken(name);
         var enumToken = IEnum<Nutrients, NutrientToken>.ToValue(token);
         
-        return enumToken.AlternativeName;
+        return enumToken.ReadableName;
     }
 
 

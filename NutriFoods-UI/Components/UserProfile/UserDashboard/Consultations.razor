@@ -1,0 +1,103 @@
+﻿@using NutriFoods_UI.Data.Dto
+@using NutriFoods_UI.Services
+@inject IPatientService PatientService
+@inject NavigationManager Nav
+
+@if (Loading)
+{   
+    <div class="d-flex justify-content-center" style="min-height: 300px">
+        <MudProgressCircular Class="align-self-center" Color="Color.Primary" Size="Size.Large" Indeterminate="true"/>
+    </div>
+    
+}
+else
+{
+    @if (ConsultationsCollection.Any())
+    {
+        <MudTable Items="@ConsultationsCollection"
+                  Hover="true"
+                  Striped="true"
+                  @bind-SelectedItem="SelectedItem1"
+                  MultiSelection="false"
+                  Outlined="false"
+                  Elevation="0"
+                  Class="px-5 py-3 rounded-3">
+            <ToolBarContent>
+                <h3 class="fw-bold">Consultas</h3>
+                <MudSpacer></MudSpacer>
+            </ToolBarContent>
+            <HeaderContent>
+                <MudTh>Id</MudTh>
+                <MudTh>Tipo</MudTh>
+                <MudTh>Propósito</MudTh>
+                <MudTh>Fecha</MudTh>
+            </HeaderContent>
+            <RowTemplate>
+                <MudTd DataLabel="Id">@context.Id</MudTd>
+                <MudTd DataLabel="Tipo">@context.Type</MudTd>
+                <MudTd DataLabel="Propósito">@context.Purpose</MudTd>
+                <MudTd DataLabel="Fecha">@context.RegisteredOn</MudTd>
+            </RowTemplate>
+            <PagerContent>
+                <MudTablePager/>
+            </PagerContent>
+        </MudTable>
+    }
+    else
+    {
+        <EmptyPatientList></EmptyPatientList>
+    }
+
+}
+
+
+@code {
+
+    private List<ConsultationDto> ConsultationsCollection { get; set; } = [];
+
+    [Parameter] public Guid PatientId { get; set; }
+
+    bool Loading { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Loading = true;
+        var response = await PatientService.FindConsultations(PatientId);
+        var content = await response.Content.ReadFromJsonAsync<List<ConsultationDto>>();
+
+        if (content != null)
+        {
+            ConsultationsCollection = content;
+        }
+
+        Loading = false;
+    }
+
+    private string SearchString1 { get; set; } = "";
+
+    private ConsultationDto _selectedItem1 = new();
+
+    public ConsultationDto SelectedItem1
+    {
+        get => _selectedItem1;
+        set
+        {
+            _selectedItem1 = value;
+            Nav.NavigateTo($"/patients/profile/{SelectedItem1.Id}");
+        }
+    }
+
+    private bool FilterFunc1(PatientDto element) => FilterFunc(element, SearchString1);
+
+    private bool FilterFunc(PatientDto element, string searchString)
+    {
+        if (string.IsNullOrWhiteSpace(searchString))
+            return true;
+
+        if (element.PersonalInfo!.Names.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+        return false;
+    }
+
+}
+

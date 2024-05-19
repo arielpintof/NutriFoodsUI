@@ -6,11 +6,13 @@
 @using NutriFoods_UI.Utils.Enums.Validators.Patients
 @using Fluxor
 @using NutriFoods_UI.Data.Model
+@using NutriFoods_UI.Data.Store.LatestConsultation
 @using NutriFoods_UI.Data.Store.LogIn
 @using NutriFoods_UI.Utils.Enums
 @inject INutritionistService NutritionistService
 @inject IPatientService PatientService
 @inject IState<CredentialsState> Credentials
+
 @inject IDispatcher Dispatcher
 @inject NavigationManager Nav
 
@@ -130,7 +132,7 @@
             <MudItem md="6" xs="12">
                 <MudTextField @bind-Value="AddressModel.PostalCode"
                               For="@(() => AddressModel.PostalCode)"
-                              Label="Código postal"
+                              Label="Código postal (Opcional)"
                               Variant="Variant.Outlined"
                               Margin="Margin.Dense"
                               T="int?"
@@ -171,7 +173,7 @@
             <MudItem md="6" xs="12">
                 <MudTextField @bind-Value="ContactInfoModel.FixedPhone"
                               For="@(() => ContactInfoModel.FixedPhone)"
-                              Label="Teléfono fijo"
+                              Label="Teléfono fijo (Opcional)"
                               Margin="Margin.Dense"
                               Variant="Variant.Outlined"
                               T="string?"
@@ -226,24 +228,33 @@
 
         if (PersonalForm.IsValid && AddressForm.IsValid && ContactForm.IsValid)
         {
-            var response = await NutritionistService.AddPatient(
-                Credentials.Value.NutritionistCredentials.Id, new PatientDto
-                {
-                    PersonalInfo = PersonalInfoModel,
-                    ContactInfo = ContactInfoModel,
-                    Address = AddressModel,
-                    Consultations = []
-                });
-
-            var content = await response!.Content.ReadFromJsonAsync<NutritionistDto>();
-            Dispatcher.Dispatch(new UpdateNutritionistAction(content!));
+            var patient = await SubmitNewPatient();
+            Dispatcher.Dispatch(new AddPacientAction(patient));
             
-            var patientId = content!.Patients.FirstOrDefault()!.Id;
-
+            
             await Task.Delay(1000);
-            Nav.NavigateTo($"/patients/profile/{patientId}");
+            Nav.NavigateTo($"/patients/profile/{patient.Id}");
             
         }
+    }
+
+    async Task<PatientDto> SubmitNewPatient()
+    {
+        
+        var nutritionistId = Credentials.Value.NutritionistCredentials.Id;
+        
+        var newPatient = new PatientDto
+        {
+            PersonalInfo = PersonalInfoModel,
+            ContactInfo = ContactInfoModel,
+            Address = AddressModel,
+            Consultations = []
+        };
+        
+        var response = await NutritionistService.AddPatient(
+            nutritionistId, newPatient);
+        
+        return await response!.Content.ReadFromJsonAsync<PatientDto>() ?? throw new InvalidOperationException("Response is null");
     }
 
 }

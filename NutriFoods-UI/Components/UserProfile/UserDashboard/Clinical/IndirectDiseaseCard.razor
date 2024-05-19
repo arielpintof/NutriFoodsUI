@@ -1,0 +1,78 @@
+﻿@using Fluxor
+@using NutriFoods_UI.Data.Store.LatestConsultation
+@inject IState<LatestConsultationState> LatestConsultation
+
+@{
+    var indirectDisease = LatestConsultation.Value.LatestConsultation.ClinicalAnamnesis?.Diseases.Where(e => e.InheritanceTypes.Count() > 1).ToList() ?? [];
+}
+
+<MudPaper Class="pa-6 d-flex flex-column gap-4"
+          Elevation="0"
+          Style="height: auto; border-radius: 10px;">
+    <section id="header" class="px-2">
+        <div class="d-flex align-center justify-content-between flex-row-1 ">
+            <h5 class="pt-2">@Title</h5>
+            <MudButton
+                Size="Size.Small"
+                Color="Color.Primary"
+                StartIcon="@Icons.Material.Outlined.AddCircle"
+                Variant="Variant.Text"
+                Style="text-transform: none; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700;">
+                Añadir @Title.ToLower() 
+            </MudButton>
+        </div>
+    </section>
+    @if (LatestConsultation.Value.LatestConsultation.ClinicalAnamnesis is not null)
+    {
+        <div class="px-2">
+            @if (indirectDisease.Any())
+            {
+                <table class="my-table mud-width-full justify-space-beetween flex-grow-1 gap-2">
+                    <thead>
+                    <tr>
+                        <th scope="col" style="width: 50%">Nombre</th>
+                        <th scope="col" style="width: 50%">Herencia</th>
+                    </tr>
+                    </thead>
+                    <tbody class="mt-2">
+                    
+                        @foreach (var disease in indirectDisease)
+                        {
+                            <tr>
+                                <td>@disease.Name</td>
+                                <td>@foreach (var inheritence in disease.InheritanceTypes)
+                                    {
+                                        @inheritence 
+                                    }</td>
+                            </tr>
+                        }
+                    
+                    </tbody>
+            
+                </table> 
+            }
+        </div>
+        <div class="d-flex justify-content-between">
+            <MudButton
+                Size="Size.Small"
+                Color="Color.Primary"
+                EndIcon="@Icons.Material.Filled.ArrowForward"
+                Variant="Variant.Text"
+                Style="font-size:1em; 
+            text-transform: none; 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            font-weight: 700;">
+                Ver lista completa
+                (@indirectDisease.Count)
+                </MudButton>
+        </div>
+    }
+    
+</MudPaper>
+
+@code{
+
+    [Parameter] public string Title { get; set; } = string.Empty;
+    
+
+}

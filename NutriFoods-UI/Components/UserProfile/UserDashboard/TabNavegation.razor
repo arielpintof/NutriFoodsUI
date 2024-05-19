@@ -1,48 +1,59 @@
-﻿<MudTabs Class="d-flex tabs-container"
-         Elevation="0"
-         Outlined="true"
-         Rounded="true"
-         PanelClass="py-6"
-         Style=""
-         MinimumTabWidth="20px">
+﻿@using Fluxor
+@using NutriFoods_UI.Data.Store.CurrentPatient
+@inject IDispatcher Dispatcher
 
-    <ChildContent>
-        <MudTabPanel Text="General"
-                     Class="tab-style">
-            <GeneralDashboard></GeneralDashboard>
-        </MudTabPanel>
+<ProgressLoading Loading="Loading">
+    <MudTabs Class="d-flex tabs-container"
+             Elevation="0"
+             Outlined="true"
+             Rounded="true"
+             PanelClass="py-6"
+             Style=""
+             MinimumTabWidth="20px">
+    
+        <ChildContent>
+            <MudTabPanel Text="General"
+                         Class="tab-style">
+                <GeneralDashboard></GeneralDashboard>
+            </MudTabPanel>
+    
+            <MudTabPanel Text="Datos Clínicos"
+                         Class="tab-style">
+                <ClinicDashboard/>
+            </MudTabPanel>
+    
+            <MudTabPanel Text="Datos Alimentarios"
+                         Class="tab-style">
+                <AlimentaryDashboard/>
+            </MudTabPanel>
+    
+            <MudTabPanel Text="Consultas"
+                         Class="tab-style">
+                <Consultations PatientId="PatientId"></Consultations>
+            </MudTabPanel>
+            <AddConsultationButton PatientId="PatientId" Class="overlay-button rounded-pill"></AddConsultationButton>
+        </ChildContent>
+    </MudTabs>
 
-        <MudTabPanel Text="Datos Clínicos"
-                     Class="tab-style">
-            <ClinicDashboard/>
-        </MudTabPanel>
-
-        <MudTabPanel Text="Datos Alimentarios"
-                     Class="tab-style">
-            <AlimentaryDashboard/>
-        </MudTabPanel>
-
-        <MudTabPanel Text="Consultas"
-                     Class="tab-style">
-        </MudTabPanel>
-        <MudButton Class="overlay-button rounded-pill"
-                   Size="Size.Small"
-                   Color="Color.Primary"
-                   Variant="Variant.Filled"
-                   StartIcon="@Icons.Material.Outlined.AddCircle"
-                   DisableElevation="true"
-                   Style="text-transform: none; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700;">
-            Nueva consulta
-        </MudButton>
-    </ChildContent>
-</MudTabs>
+</ProgressLoading>
 
 
 
 @code {
+    
     [Parameter]
-    public int PatientId { get; set; }
-    //Modelo de usuario
+    public Guid PatientId { get; set; }
+
+    private bool Loading { get; set; }= true;
+
+    protected override Task OnInitializedAsync()
+    {
+        Dispatcher.Dispatch(new InitializePatientAction(PatientId));
+        Loading = false;
+        
+        return base.OnInitializedAsync();
+    }
+
 }
 
 <style>

@@ -20,3 +20,15 @@ span{
     color: var(--grey-normal);
 }
 
+.image-container {
+    width: 56px;
+    margin-right: 4px;
+    height: 56px;
+    overflow: hidden;
+}
+
+.image-container img {
+    width: 56px;
+    height: 56px;
+    object-fit: cover;
+}

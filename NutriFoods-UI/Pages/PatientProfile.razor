@@ -1,0 +1,95 @@
+﻿@page "/user-dashboard"
+@page "/patients/profile/{PatientId:guid}"
+@using NutriFoods_UI.Data.Dto
+@using NutriFoods_UI.Services
+@using Fluxor
+@using NutriFoods_UI.Data.Store.CurrentPatient
+@using NutriFoods_UI.Data.Store.LatestConsultation
+@using NutriFoods_UI.Utils.Strings
+@inject IPatientService PatientService
+@inject IDispatcher Dispatcher
+
+<ProgressLoading Loading="Loading">
+    @Breadcrumb
+
+    @if (Consultations.Any())
+    {
+        <h2 class="mb-6 mt-10 ml-2 fw-bold">Perfil de @PatientName</h2>
+
+        <TabNavegation PatientId="PatientId"></TabNavegation>
+    }
+
+    else
+    {
+        <EmptyPatientData PatientId="PatientId"></EmptyPatientData>
+    }
+</ProgressLoading>
+
+@code {
+
+    [Parameter] public Guid PatientId { get; set; }
+
+    [Parameter] public string PatientName { get; set; } = string.Empty;
+
+    List<ConsultationDto> Consultations { get; set; } = [];
+
+    bool Loading { get; set; } = true;
+
+    protected override async Task OnInitializedAsync()
+    {
+        
+        var patientResponse = await PatientService.FindPatient(PatientId);
+
+        if (patientResponse.IsSuccessStatusCode)
+        {
+            var patientDto = await patientResponse.Content.ReadFromJsonAsync<PatientDto>();
+
+            if (patientDto != null)
+            {
+                Consultations = patientDto.Consultations;
+                PatientName = Strings.FirstWord(patientDto.PersonalInfo!.Names);
+                Dispatcher.Dispatch(new LoadPatientAction(patientDto));
+
+                if (Consultations.Any())
+                {
+                    Dispatcher.Dispatch(new GetLatestConsultationAction(PatientId));
+                }
+            }
+        }
+
+        Loading = false;
+    }
+
+    private RenderFragment Breadcrumb => builder =>
+    {
+        builder.OpenElement(0, "nav");
+        builder.AddAttribute(1, "class", "mb-4");
+        builder.AddAttribute(2, "aria-label", "breadcrumb");
+
+        builder.OpenElement(3, "ol");
+        builder.AddAttribute(4, "class", "breadcrumb");
+
+        builder.OpenElement(5, "li");
+        builder.AddAttribute(6, "class", "breadcrumb-item");
+
+        builder.OpenElement(7, "a");
+        builder.AddAttribute(8, "class", "bi bi-arrow-left mr-1");
+        builder.AddAttribute(9, "href", "/patients");
+        builder.AddContent(10, "Pacientes");
+        builder.CloseElement(); // cierra 'a'
+
+        builder.CloseElement(); // cierra 'li'
+
+        builder.OpenElement(11, "li");
+        builder.AddAttribute(12, "class", "breadcrumb-item active");
+        builder.AddAttribute(13, "aria-current", "page");
+        builder.AddContent(14, $"Perfil de {PatientName}");
+
+        builder.CloseElement(); // cierra 'li'
+
+        builder.CloseElement(); // cierra 'ol'
+
+        builder.CloseElement(); // cierra 'nav'
+    };
+
+}

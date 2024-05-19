@@ -6,21 +6,23 @@
                DisableElevation="true"
                Style="text-transform: none; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700;"
                Color="Color.Primary"
+               Class="@Class"
                OnClick="@OpenDialog">
                 Iniciar consulta
     </MudButton>
-
 </section>
 
 @code {
+    [Parameter] 
+    public string Class { get; set; } = string.Empty;
     
     [Parameter] 
     public Guid PatientId { get; set; }
 
     void OpenDialog()
     {
-        var options = new DialogOptions{ NoHeader = true};
+        var options = new DialogOptions{ CloseButton = true, FullWidth = true, MaxWidth = MaxWidth.Small};
         var parameters = new DialogParameters<ConsultationDialog> {{ x => x.PatientId, PatientId }};
-        Dialog.Show<ConsultationDialog>("Custom Options Dialog", parameters, options);
+        Dialog.Show<ConsultationDialog>("Nueva consulta", parameters, options);
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Fluxor;
+using NutriFoods_UI.Data.Dto;
 using NutriFoods_UI.Data.Store.DailyMenu;
 
 namespace NutriFoods_UI.Data.Store.DailyMeal;
@@ -15,7 +16,7 @@ public class Reducer
     }
 
     [ReducerMethod]
-    public static DailyMealState InitializeDailyMenusAction(DailyMealState state, InitializeDailyMealAction action)
+    public static DailyMealState InitializeDailyMenusAction(DailyMealState state, InitializeDailyPlanAction action)
     {
         var onLoading = Enumerable.Repeat(false, action.DailyPlan.Menus.Count).ToList();
         
@@ -23,7 +24,7 @@ public class Reducer
     }
     
     [ReducerMethod]
-    public static DailyMealState ReduceOnLoadingMenuAction(DailyMealState state, OnLoadingMenuAction action)
+    public static DailyMealState OnLoadingMenuAction(DailyMealState state, OnLoadingMenuAction action)
     {
         var onLoading = state.MealLoading.Select((_, index) => index == action.Index).ToList();
 
@@ -31,10 +32,22 @@ public class Reducer
     }
     
     [ReducerMethod]
-    public static DailyMealState ReduceStopOnLoadingMenuAction(DailyMealState state, StopOnLoadingMenuAction action)
+    public static DailyMealState StopOnLoadingMenuAction(DailyMealState state, StopOnLoadingMenuAction action)
     {
         var onLoading = state.MealLoading.Select(_ => false).ToList();
 
         return new DailyMealState(state.DailyPlan, onLoading, true);
+    }
+
+    [ReducerMethod]
+    public static DailyMealState OnLoadingPlan(DailyMealState state, OnLoadingPlanAction action)
+    {
+        return new DailyMealState(state.DailyPlan, initialized: false);
+    }
+
+    [ReducerMethod]
+    public static DailyMealState UpdateMealPlan(DailyMealState state, LoadDailyPlanAction action)
+    {
+        return new DailyMealState(state.DailyPlan, state.Initialized);
     }
 }

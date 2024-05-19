@@ -32,4 +32,11 @@ public class Reducer
 
         return new MedicineState(updatedList);
     }
+
+    [ReducerMethod]
+    public static MedicineState InitializeMedicine(MedicineState state, InitializeMedicineAction action)
+    {
+        return new MedicineState(action.Medicines);
+    }
+    
 }

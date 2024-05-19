@@ -1,5 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using Fluxor;
+﻿using Fluxor;
 using NutriFoods_UI.Utils.Enums;
 
 namespace NutriFoods_UI.Data.Store.MealsConfiguration;
@@ -23,7 +22,7 @@ public class MealsConfigurationState
 
 public class MealConfiguration
 {
-    public MealTypes MealType { get; set; } = null!;
+    public MealTypes? MealType { get; set; } 
     
     public int Percentage { get; set; }
     

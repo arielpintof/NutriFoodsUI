@@ -87,6 +87,27 @@ a, .btn-link {
     .blazor-error-boundary::after {
         content: "An error has occurred."
     }
+    
+.bg-gradient-text {
+    background-image: linear-gradient(to right, #DA12FF 0%, #9733EE  51%, #DA52FF  100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.mud-button-outlined:hover span{
+    color: #fff;
+    text-decoration: none;
+}
+
+.mud-button-outlined:hover{
+    background-color: var(--color-primary) !important;
+}
+
+.mud-button-filled:hover {
+    background-position: right center;
+    text-decoration: none;
+    
+}
 
 .loading-progress {
     position: relative;
@@ -120,5 +141,12 @@ a, .btn-link {
     .loading-progress-text:after {
         content: var(--blazor-load-percentage-text, "Loading");
     }
-
     
+    
+.hover-scale-125:hover{
+    transform: scale(1.25);
+    transition-duration: 0.5s;
+}
+.hover-scale-125{
+    transition: transform 0.25s
+}

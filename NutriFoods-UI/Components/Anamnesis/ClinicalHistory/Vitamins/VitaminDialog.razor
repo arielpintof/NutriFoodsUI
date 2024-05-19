@@ -1,11 +1,9 @@
-﻿@using NutriFoods_UI.Data.Model
-@using NutriFoods_UI.Data.Store.Vitamins
+﻿@using NutriFoods_UI.Data.Store.Vitamins
 @using NutriFoods_UI.Utils.Enums
 @using Fluxor
-@using NutriFoods_UI.Data.Dto
-@using NutriFoods_UI.Utils.Enums.Validators.Anamnesis
 @inject IDispatcher Dispatcher
 @inject IState<VitaminState> VitaminState 
+@inherits IngestibleDialog
 
 
 <MudDialog Class="container px-3 py-3 ">
@@ -15,7 +13,7 @@
         </h5>
         <MudDivider Class="my-2"></MudDivider>
         <MudForm Class="mt-5" Style="color: var(--grey-light)" Model="IngestibleModel" Validation="IngestibleValidator.ValidateValue"
-                 @ref="VitaminsForm">
+                 @ref="IngestibleForm">
             <MudGrid>
                 <MudItem md="12" sm="12" xs="12">
                     <div class="d-flex align-content-center">
@@ -41,12 +39,19 @@
                 </MudItem>
 
                 <MudItem md="6" sm="6" xs="12">
-                    <MudTextField T="string"
-                                  Placeholder="Unidad de medida"
-                                  Label="Unidad"
-                                  Variant="Variant.Outlined"
-                                  Margin="Margin.Dense"
-                                  Required="true"/>
+                    <MudSelect T="string"
+                               Placeholder="Unidad de medida"
+                               Label="Unidad"
+                               Variant="Variant.Outlined"
+                               AnchorOrigin="Origin.BottomCenter"
+                               @bind-Value="IngestibleModel.Unit"
+                               Margin="Margin.Dense"
+                               Required="true">
+                        @foreach (var unit in UnitsCollection)
+                        {
+                            <MudSelectItem Value="@unit.ReadableName">@unit.ReadableName</MudSelectItem>
+                        }
+                    </MudSelect>
                 </MudItem>
                 <MudItem md="12" sm="12" xs="12">
                     <MudSelect @bind-Value="IngestibleModel.Adherence"
@@ -58,7 +63,7 @@
                                Margin="Margin.Dense"
                                Variant="Variant.Outlined"
                                Required="true">
-                        @foreach (var freq in Frequencies)
+                        @foreach (var freq in FrequenciesCollection)
                         {
                             <MudSelectItem Value="@freq.ReadableName">@freq.ReadableName</MudSelectItem>
                         }
@@ -119,26 +124,16 @@
 
 @code {
 
-    [CascadingParameter]
-    MudDialogInstance MudDialogInstance { get; set; } = null!;
-
-    IngestibleDto IngestibleModel { get; set; } = new();
-
-    MudForm VitaminsForm { get; set; } = new();
-
-    IngestibleValidator IngestibleValidator { get; set; } = new();
-
-    [Parameter]
-    public int Index { get; set; }
-
-    [Parameter]
-    public ModeTypeEnum ModeType { get; set; } = null!;
-
     protected override Task OnInitializedAsync()
     {
-        if (ModeType == ModeTypeEnum.Edit && VitaminState.Value.Vitamins != null)
+        if (ModeType == ModeTypeEnum.Edit)
         {
             IngestibleModel = VitaminState.Value.Vitamins.ElementAt(Index);
+        }
+
+        if (ModeType == ModeTypeEnum.Add)
+        {
+            IngestibleModel.AdministrationTimes.Add(new TimeSpan());
         }
 
         return base.OnInitializedAsync();
@@ -146,35 +141,23 @@
 
     async Task Submit()
     {
-        await VitaminsForm.Validate();
-        if (VitaminsForm.IsValid)
+        await IngestibleForm.Validate();
+
+        if (!IngestibleForm.IsValid) return;
+
+        IngestibleModel.Type = IEnum<IngestibleTypes, IngestibleToken>.ToReadableName(IngestibleToken.Vitamin);
+
+        if (ModeType == ModeTypeEnum.Add)
         {
-            IngestibleModel.Type = IEnum<IngestibleTypes, IngestibleToken>
-                .ToReadableName(IngestibleToken.Vitamin);
             Dispatcher.Dispatch(new AddVitaminAction(IngestibleModel));
-            MudDialogInstance.Close(DialogResult.Ok(true));
         }
-        
+        else
+        {
+            Dispatcher.Dispatch(new ChangeVitaminAction(IngestibleModel, Index));
+        }
+
+
+        MudDialogInstance.Close(DialogResult.Ok(true));
     }
-
-
-    private void AddAdministrationTime()
-    {
-        IngestibleModel.AdministrationTimes.Add(new TimeSpan());
-        StateHasChanged();
-    }
-
-    protected override void OnInitialized()
-    {
-        IngestibleModel.AdministrationTimes.Add(new TimeSpan());
-        base.OnInitialized();
-    }
-
-
-    static IEnumerable<Frequencies> Frequencies => IEnum<Frequencies, FrequencyToken>
-        .TokenDictionary
-        .Select(e => e.Value)
-        .Skip(1)
-        .ToList();
 
 }

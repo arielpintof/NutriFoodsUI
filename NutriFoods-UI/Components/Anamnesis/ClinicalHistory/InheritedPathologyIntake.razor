@@ -2,9 +2,14 @@
 @using NutriFoods_UI.Utils.Enums
 @using MudExtensions.Enums
 @using System.Collections.Immutable
+@using Fluxor
 @using NutriFoods_UI.Data.Dto
+@using NutriFoods_UI.Data.Store.Pathologies
+@inherits IntakeComponent
+@inject IState<InheritedPathologiesState> InheritedPathologiesState
+@inject IDispatcher Dispatcher
 
-<MudForm>
+<MudForm Model="Pathology" @bind-IsValid="@IsValidHandler">
     <div class="d-flex mb-3 flex-wrap flex-column flex-sm-row gap-3">
         <span class="align-self-center">@(Index + 1)</span>
         <MudSelectExtended
@@ -16,7 +21,7 @@
             AnchorOrigin="Origin.BottomCenter"
             Variant="Variant.Outlined"
             SearchBoxClearable="true"
-            @bind-Value="PersonalPathology.Name"
+            @bind-Value="Pathology.Name"
             Margin="Margin.Dense"
             Required="true"
             Class="flex-grow-1"/>
@@ -27,7 +32,8 @@
             AnchorOrigin="Origin.BottomCenter"
             Variant="Variant.Outlined"
             SearchBoxClearable="true"
-            @bind-Value="PersonalPathology.Name"
+            MultiSelection="true"
+            @bind-SelectedValues="Pathology.InheritanceTypes"
             Margin="Margin.Dense"
             Required="true"
             InputPresenter="ValuePresenter.Text">
@@ -42,7 +48,8 @@
         <MudIconButton
             Icon="@Icons.Material.Filled.Delete"
             Title="Eliminar patología"
-            Size="Size.Medium">
+            Size="Size.Medium"
+            OnClick="@Delete">
             @Index
         </MudIconButton>
 
@@ -51,23 +58,32 @@
 </MudForm>
 
 @code {
-    private DiseaseDto PersonalPathology { get; set; } = new();
+    private DiseaseDto Pathology => Index < InheritedPathologiesState.Value.Pathologies.Count 
+        ? InheritedPathologiesState.Value.Pathologies.ElementAt(Index) : new DiseaseDto();
 
     private static IEnumerable<string> InheritancesNames => IEnum<InheritanceTypes, InheritanceToken>
         .TokenDictionary
         .Select(e => e.Value.ReadableName)
-        .Skip(1)
+        .Skip(2)
         .ToList();
     
-
-    [Parameter]
-    public int Index { get; set; } = 1;
 
     private string[] _diseases =
     {
         "Diabetes", "Hipertensión", "Asma", "Cancer"
     };
 
+    protected override void Delete() => Dispatcher.Dispatch(new DeleteInheritedPathologyAction(Index));
+    
+    protected override void Update()
+    {
+        var action = new ChangeInheritedPathologyAction(Index, new DiseaseDto
+        {
+            Name = Pathology.Name,
+            InheritanceTypes = Pathology.InheritanceTypes,
+        });
 
+        Dispatcher.Dispatch(action);
+    }
 
 }

@@ -57,9 +57,21 @@ public static class Reducer
     }
 
     [ReducerMethod]
+    public static TmrState ValidateTmr(TmrState state, TmrValidationAction action)
+    {
+        return new TmrState(state.TmrConfiguration, action.IsValid);
+    }
+
+    [ReducerMethod]
     public static DaysState AddDays(DaysState state, AddDaysAction action)
     {
         return new DaysState(action.Days);
+    }
+
+    [ReducerMethod]
+    public static DaysState ValidateDays(DaysState state, DaysValidationAction action)
+    {
+        return new DaysState(state.Days, action.IsValid);
     }
 }
 

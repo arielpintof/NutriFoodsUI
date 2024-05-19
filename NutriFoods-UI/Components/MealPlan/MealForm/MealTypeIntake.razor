@@ -4,63 +4,77 @@
 @using MudBlazor.Utilities
 @using MudExtensions.Enums
 @inject IState<MealsConfigurationState> MealState
-@inherits Fluxor.Blazor.Web.Components.FluxorComponent
+@inherits IntakeComponent
 @inject IDispatcher Dispatcher
+@using static NutriFoods_UI.Utils.Enums.IEnum<NutriFoods_UI.Utils.Enums.MealTypes, NutriFoods_UI.Utils.Enums.MealToken>
 
-
-<MudGrid>
-    <MudForm Model="MealConfigurationModel" bind-IsTouched="IsValidHandler" IsTouched="IsValidHandler"></MudForm>
-    <MudItem md="3">
-        <span class="label" style="font-size: 13px;">Comida del día</span>
-        <MudSelect Variant="Variant.Outlined"
-                   Margin="Margin.Dense"
-                   AnchorOrigin="Origin.BottomCenter"
-                   T="MealTypes?"
-                   @bind-Value="MealTypesHandler">
-            @foreach (var meal in MealTypesCollection)
-            {
-                <MudSelectItem Value="@meal">@meal.ReadableName</MudSelectItem>
-            }
-        </MudSelect>
-    </MudItem>
-    <MudItem md="3">
-        <span class="label" style="font-size: 13px;">Hora</span>
-        <MudTimePicker Class=""
-                       Placeholder="Hora de consumo"
-                       AmPm="true"
-                       @bind-Time="TimeHandler"
-                       Style="margin-top: 0"
-                       Variant="Variant.Outlined"
-                       Margin="Margin.Dense">
-        </MudTimePicker>
-    </MudItem>
-    <MudItem md="6">
-        <div class="d-flex align-items-center gap-1 mud-width-full">
-            <div class="mud-width-full">
-                <span class="label" style="font-size: 13px;">Distribución</span>
-                <MudSlider Size="Size.Medium"
-                           @bind-Value="PercentageHandler"
-                           Variant="Variant.Filled"
-                           Min="0" Max="100" Step="1"
-                           Class="mt-2 mb-1">
-                </MudSlider>
+<div class="meal-container">
+    <MudGrid >
+        <MudForm Model="MealConfigurationModel" @bind-IsValid="IsValidHandler"></MudForm>
+        <MudItem md="3">
+            <span class="label" style="font-size: 13px;">Comida del día</span>
+            <MudSelect Variant="Variant.Outlined"
+                       Margin="Margin.Dense"
+                       AnchorOrigin="Origin.BottomCenter"
+                       T="MealTypes?"
+                       @bind-Value="MealTypesHandler">
+                @foreach (var meal in MealTypesCollection)
+                {
+                    <MudSelectItem Value="@meal">@meal.ReadableName</MudSelectItem>
+                }
+            </MudSelect>
+        </MudItem>
+        <MudItem md="3">
+            <span class="label" style="font-size: 13px;">Hora</span>
+            <MudTimePicker Class=""
+                           Placeholder="Hora de consumo"
+                           AmPm="true"
+                           @bind-Time="TimeHandler"
+                           Style="margin-top: 0"
+                           Variant="Variant.Outlined"
+                           Margin="Margin.Dense">
+            </MudTimePicker>
+        </MudItem>
+        <MudItem md="6">
+            <div class="d-flex align-items-center gap-1 mud-width-full">
+                <div class="mud-width-full">
+                    <span class="label" style="font-size: 13px;">Distribución</span>
+                    <MudSlider Size="Size.Medium"
+                               @bind-Value="PercentageHandler"
+                               Variant="Variant.Filled"
+                               Min="0" Max="100" Step="1"
+                               Class="mt-2 mb-1">
+                    </MudSlider>
+                </div>
+                <div class="d-flex gap-1 align-items-center">
+                    <input class="custom form-control mt-2" type="number" min="0" max="100" @bind-value="PercentageHandler"/>
+                    <label class="form-label ">%</label>
+                </div>
+                <div class="delete-button ml-1">
+                    <MudIconButton
+                        OnClick="@Delete"
+                        Icon="@Icons.Material.Filled.Delete"
+                        Title="Eliminar comida del día"
+                        Size="Size.Small">
+                        @Index
+                    </MudIconButton>
+                </div>
             </div>
-            <div class="d-flex align-items-center gap-1">
-                <input class="custom form-control" type="number" min="0" max="100" @bind-value="PercentageHandler"/>
-                <label class="form-label">%</label>
-            </div>
-        </div>
 
+        </MudItem>
+    </MudGrid>
+</div>
 
-    </MudItem>
-</MudGrid>
 
 @code {
 
     protected override void OnInitialized()
     {
-        base.OnInitialized();
         MealType = MealState.Value.Meals.ElementAt(Index).MealType;
+        PercentageHandler = MealState.Value.Meals.ElementAt(Index).Percentage;
+        TimeHandler = MealState.Value.Meals.ElementAt(Index).MealTime;
+
+        base.OnInitialized();
     }
 
     MealTypes? MealType { get; set; }
@@ -71,29 +85,16 @@
         set
         {
             MealType = value;
-            UpdateMealConfiguration();
+            Update();
         }
     }
 
-    List<MealTypes> MealTypesCollection => IEnum<MealTypes, MealToken>.Values.Skip(1).ToList();
-
-    public bool IsValid;
-
-    private bool IsValidHandler
-    {
-        get => IsValid;
-        set
-        {
-            IsValid = value;
-            Console.WriteLine($"Mealtype {Index} cambio uno de sus atributos");
-        }
-    }
+    List<MealTypes> MealTypesCollection => Values.Skip(1).ToList();
 
     MealConfiguration MealConfigurationModel => Index < MealState.Value.Meals.Count
         ? MealState.Value.Meals.ElementAt(Index)
         : new MealConfiguration();
 
-    [Parameter] public int Index { get; set; }
 
     private int _percentage;
 
@@ -105,7 +106,7 @@
             if (_percentage == value) return;
             _percentage = value;
             Console.WriteLine($"Nuevo porcentaje: {_percentage}, Index: {Index}");
-            UpdateMealConfiguration();
+            Update();
         }
     }
 
@@ -118,11 +119,13 @@
         {
             if (_time == value) return;
             _time = value;
-            UpdateMealConfiguration();
+            Update();
         }
     }
 
-    private void UpdateMealConfiguration()
+    protected override void Delete() => Dispatcher.Dispatch(new RemoveMealAction(Index));
+    
+    protected override void Update()
     {
         var action = new ChangeMealsConfigurationAction(new MealConfiguration
         {
@@ -133,6 +136,5 @@
 
         Dispatcher.Dispatch(action);
     }
-
 
 }

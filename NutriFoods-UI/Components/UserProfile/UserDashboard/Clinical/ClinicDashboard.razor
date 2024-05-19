@@ -1,24 +1,35 @@
 ﻿@page "/clinico"
+@using NutriFoods_UI.Utils.Enums
 
 <div>
     <MudGrid>
         <MudItem md="6"
                  sm="12"
                  xs="12">
-            <MedsCard/>
+            <IndirectDiseaseCard Title="Patologías indirectas"/>
         </MudItem>
         <MudItem md="6"
                  sm="12"
                  xs="12">
-            <MedsCard/>
+            <DirectDiseasesCard Title="Patologías Directas"/>
         </MudItem>
-        <MudItem md="12"
+        <MudItem md="6"
                  sm="12"
                  xs="12">
-            <DataTable></DataTable>
+            <IngestibleCard Title="Medicamentos" IngestibleType="@IngestibleTypes.Pharmaceutical.ReadableName"/>
+        </MudItem>
+        <MudItem md="6"
+                 sm="12"
+                 xs="12">
+            <IngestibleCard Title="Vitaminas" IngestibleType="@IngestibleTypes.Vitamin.ReadableName"/>
+        </MudItem>
+        <MudItem md="6"
+                 sm="12"
+                 xs="12">
+            <IngestibleCard Title="Medicamentos" IngestibleType="@IngestibleTypes.Pharmaceutical.ReadableName"/>
         </MudItem>
     </MudGrid>
-</div  >
+</div >
 
 @code {
 

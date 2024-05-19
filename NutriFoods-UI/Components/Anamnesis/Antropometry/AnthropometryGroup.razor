@@ -3,7 +3,10 @@
 @using NutriFoods_UI.Data.Store.Anthropometry
 @inject IDispatcher Dispatcher
 @using Fluxor
+@using NutriFoods_UI.Data.Store.LatestConsultation
 @inject IState<AnthropometryState> AnthropometryState
+@inject IState<LatestConsultationState> LatestState
+@inherits IntakeComponent
 
 <MudForm Model="AnthropometryModel" IsValid="IsValidHandler">
     <div class="d-flex flex-column gap-3 mb-5">
@@ -86,30 +89,24 @@
             </MudItem>
         </MudGrid>
     </div>
+    
+    <span> @AnthropometryState.Value.Anthropometry.Weight kg</span>
+    
 </MudForm>
 
 
 @code {
-    public AnthropometryDto AnthropometryModel => AnthropometryState.Value.Anthropometry;
+    public AnthropometryDto AnthropometryModel { get; set; } = new();
 
-    private void UpdateAnthropometry()
+    protected override void Delete() => throw new NotImplementedException();
+
+    protected override void OnInitialized()
     {
-        var action = new ChangeAnthropometryAction(AnthropometryModel);
-
-        Dispatcher.Dispatch(action);
+        AnthropometryModel = AnthropometryState.Value.Anthropometry;
+        base.OnInitialized();
     }
 
-    private bool _isValid;
-
-    private bool IsValidHandler
-    {
-        get => _isValid;
-        set
-        {
-            if (_isValid == value) return;
-            _isValid = value;
-            UpdateAnthropometry();
-        }
-    }
+    protected override void Update() => Dispatcher.Dispatch(new ChangeAnthropometryAction(AnthropometryModel));
+    
 
 }

@@ -86,10 +86,11 @@ th{
     }
 }
 
-.fila-hover:hover td{
+.fila-hover:hover{
     background-color: var(--mud-palette-primary-hover);
-    color: var(--mud-palette-primary);
+    border-radius: 70px !important;
     cursor: pointer;
 }
+
 
 

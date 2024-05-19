@@ -3,36 +3,35 @@ using Fluxor;
 using NutriFoods_UI.Data.Dto;
 using NutriFoods_UI.Data.Store.DailyMenu;
 using NutriFoods_UI.Data.Store.MealsConfiguration;
+using NutriFoods_UI.Data.Store.MicronutrientConfiguration;
 using NutriFoods_UI.Data.Store.TotalMetabolicRate;
 using NutriFoods_UI.Services;
-using NutriFoods_UI.Utils.Enums;
 
 namespace NutriFoods_UI.Data.Store.DailyMeal;
 
 public class DailyMealEffects(
     IDailyMenuService dailyMenuService,
     IDailyMealPlanService dailyMealPlanService,
-    IState<DailyMealState> dailyMealstate,
+    IState<DailyMealState> dailyMealState,
     IState<TmrState> tmrState,
     IState<MealsConfigurationState> mealsConfigurationState,
     IState<MoleculaState> moleculaState,
-    IState<DaysState> daysState)
+    IState<DaysState> daysState,
+    IState<MicronutrientState> micronutrientState)
 {
-    
     [EffectMethod]
     public async Task RenewDailyMenu(RenewMenuAction action, IDispatcher dispatcher)
     {
         dispatcher.Dispatch(new OnLoadingMenuAction(action.Index));
-        
+
         var dailyMenu = new DailyMenuDto()
         {
             IntakePercentage = 1,
-            MealType = dailyMealstate.Value.DailyPlan.Menus.ElementAt(action.Index).MealType,
-            Hour = dailyMealstate.Value.DailyPlan.Menus.ElementAt(action.Index).Hour,
+            MealType = dailyMealState.Value.DailyPlan.Menus.ElementAt(action.Index).MealType,
+            Hour = dailyMealState.Value.DailyPlan.Menus.ElementAt(action.Index).Hour,
             Nutrients = [],
-            Targets = dailyMealstate.Value.DailyPlan.Menus.ElementAt(action.Index).Targets.ResetActualValues(),
+            Targets = dailyMealState.Value.DailyPlan.Menus.ElementAt(action.Index).Targets.ResetActualValues(),
             Recipes = []
-            
         };
 
         var response = await dailyMenuService.GenerateMenu(dailyMenu);
@@ -41,30 +40,19 @@ public class DailyMealEffects(
         if (content != null)
         {
             dispatcher.Dispatch(new ChangeDailyMealAction(content, action.Index));
+            
         }
-
+        
+        dispatcher.Dispatch(new RecalculateNutrientsAction());
         dispatcher.Dispatch(new StopOnLoadingMenuAction());
     }
 
-    /*[EffectMethod(typeof(LoadMealPlanAction))]
-    public async Task GetMealPlan(IDispatcher dispatcher)
-    {
-        
-        var client = new HttpClient();
-        var dailyMealPlan = await client.GetFromJsonAsync<DailyPlanDto>("http://localhost:5170/sample-data/dailymeal.json");
 
-        if (dailyMealPlan != null)
-        {
-            var action = new InitializeDailyMealAction(dailyMealPlan);
-            dispatcher.Dispatch(action);
-        }
-        
-        dispatcher.Dispatch(new StopOnLoadingMenuAction());
-    }*/
-    
-    [EffectMethod(typeof(LoadMealPlanAction))]
+    [EffectMethod(typeof(GetDailyPlanAction))]
     public async Task GetMealPlan(IDispatcher dispatcher)
     {
+        dispatcher.Dispatch(new OnLoadingPlanAction());
+
         var physicalActivityLevel = tmrState.Value.TmrConfiguration.PhysicalActivityLevel;
         var physicalActivityFactor = tmrState.Value.TmrConfiguration.Multiplier;
         var adjustmentFactor = tmrState.Value.TmrConfiguration.Factor;
@@ -80,7 +68,7 @@ public class DailyMealEffects(
                 IntakePercentage = mc.Percentage * 0.01
             })
             .ToList();
-        
+
         var planConfiguration = new PlanConfiguration
         {
             Days = days,
@@ -90,33 +78,43 @@ public class DailyMealEffects(
             ActivityFactor = physicalActivityFactor,
             Distribution = new Dictionary<string, double>
             {
-                { "Carbohidratos, total", moleculaState.Value.CarbTarget * 0.01  },
+                { "Carbohidratos, total", moleculaState.Value.CarbTarget * 0.01 },
                 { "Proteína, total", moleculaState.Value.ProteinTarget * 0.01 },
-                { "Ácidos grasos, total", moleculaState.Value.LipidTarget  * 0.01}
+                { "Ácidos grasos, total", moleculaState.Value.LipidTarget * 0.01 }
             },
             MealConfigurations = meals,
-            Targets = []
+            Targets = micronutrientState.Value.Micronutrients.ToList()
         };
 
         var dailyMealPlanResponse = await dailyMealPlanService.DailyPlanByDistribution(planConfiguration);
         var dailyMealPlan = await dailyMealPlanResponse!.Content.ReadFromJsonAsync<DailyPlanDto>();
-        
+
 
         if (dailyMealPlan != null)
         {
-            var action = new InitializeDailyMealAction(dailyMealPlan);
+            var action = new InitializeDailyPlanAction(dailyMealPlan);
             dispatcher.Dispatch(action);
         }
-        
+
         dispatcher.Dispatch(new StopOnLoadingMenuAction());
     }
 
-    [EffectMethod(typeof(RenewDailyMealPlanAction))]
+    [EffectMethod(typeof(RenewDailyPlanAction))]
     public Task RenewMealPlan(IDispatcher dispatcher)
     {
-        dispatcher.Dispatch(new LoadMealPlanAction());
+        dispatcher.Dispatch(new GetDailyPlanAction());
 
         return Task.CompletedTask;
+    }
+
+    [EffectMethod(typeof(RecalculateNutrientsAction))]
+    public async Task Recalculate(IDispatcher dispatcher)
+    {
+        var dailyPlan = dailyMealState.Value.DailyPlan;
+        await dailyPlan.AddTargetValues();
+        
+        dispatcher.Dispatch(new InitializeDailyPlanAction(dailyPlan));
+        
     }
 }
 
@@ -129,7 +127,7 @@ public class PlanConfiguration
     public double ActivityFactor { get; set; }
     public IDictionary<string, double> Distribution { get; set; } = null!;
     public IList<MealConfigurationDto> MealConfigurations { get; set; } = null!;
-    
+
     public IList<NutritionalTargetDto> Targets { get; set; } = null!;
 }
 

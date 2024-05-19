@@ -1,7 +1,7 @@
 ﻿using System.Text;
-using Microsoft.AspNetCore.Components;
 using Newtonsoft.Json;
 using NutriFoods_UI.Data.Dto;
+using NutriFoods_UI.Data.Dto.Insertion;
 
 
 namespace NutriFoods_UI.Services;
@@ -36,6 +36,7 @@ public class PatientService(HttpClient httpClient, JsonSerializerSettings settin
         ClinicalAnamnesisDto clinicalAnamnesisDto)
     {
         var json = JsonConvert.SerializeObject(clinicalAnamnesisDto, settings);
+        Console.WriteLine(json);
         var content = new StringContent(json, Encoding.UTF8, "application/json");
 
         return await httpClient.PutAsync
@@ -60,6 +61,16 @@ public class PatientService(HttpClient httpClient, JsonSerializerSettings settin
         
         return await httpClient.PutAsync(
             $"{patientId}/consultations/{consultationId}/anthropometry/", content);
+    }
+
+    public async Task<HttpResponseMessage> AddDailyPlans(Guid patientId, Guid consultationId, List<MinimalDailyPlan> dailyPlans)
+    {
+        var json = JsonConvert.SerializeObject(dailyPlans, settings);
+        Console.WriteLine("Mapped:\n" + json);
+        var content = new StringContent(json, Encoding.UTF8, "application/json");
+        
+        return await httpClient.PutAsync(
+            $"{patientId}/consultations/{consultationId}/daily-plans/", content);
     }
 }
 

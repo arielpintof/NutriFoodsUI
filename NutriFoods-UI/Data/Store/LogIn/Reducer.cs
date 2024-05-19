@@ -15,4 +15,13 @@ public static class Reducer
     {
         return new CredentialsState(action.NutritionistDto);
     }
+
+    [ReducerMethod]
+    public static CredentialsState AddPatient(CredentialsState state, AddPacientAction action)
+    {
+        var nutritionist = state.NutritionistCredentials;
+        nutritionist.Patients.Add(action.Patient);
+
+        return new CredentialsState(nutritionist);
+    }
 }

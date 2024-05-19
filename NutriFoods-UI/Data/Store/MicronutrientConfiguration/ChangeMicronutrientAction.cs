@@ -2,8 +2,8 @@
 
 namespace NutriFoods_UI.Data.Store.MicronutrientConfiguration;
 
-public class ChangeMicronutrientAction(int index, MicroNutrientDto microNutrientDto)
+public class ChangeMicronutrientAction(int index, NutritionalTargetDto microNutrientDto)
 {
     public int Index { get; } = index;
-    public MicroNutrientDto MicroNutrientDto { get; } = microNutrientDto;
+    public NutritionalTargetDto MicroNutrientDto { get; } = microNutrientDto;
 }

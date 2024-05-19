@@ -1,15 +1,15 @@
 ﻿@using NutriFoods_UI.Utils.Enums
 @using NutriFoods_UI.Services
 @using NutriFoods_UI.Data.Dto
+@using Fluxor
+@using NutriFoods_UI.Data.Store.DailyPlanList
+@using NutriFoods_UI.Data.Store.LatestConsultation
+@inject IDispatcher Dispatcher
 @inject IPatientService PatientService
 @inject NavigationManager Nav
 
-<MudDialog Class="container px-3 py-3">
+<MudDialog Class="" >
     <DialogContent>
-        <section class="d-flex flex-column gap-2">
-            <h2 class="fw-bold">Nueva consulta</h2>
-            <MudDivider></MudDivider>
-        </section>
         <section>
             <MudForm @ref="Form">
                 <MudStack>
@@ -42,16 +42,16 @@
                         }
                     </MudSelectExtended>
 
-                    
-                        <MudButton Variant="Variant.Filled"
-                                   Color="Color.Primary"
-                                   OnClick="@IsValid"
-                                   DisableElevation="true"
-                                   Class="mt-5"
-                                   Style="text-transform: none; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700;">
-                            Generar consulta
-                        </MudButton>
-                    
+
+                    <MudButton Variant="Variant.Filled"
+                               Color="Color.Primary"
+                               OnClick="@IsValid"
+                               DisableElevation="true"
+                               Class="mt-5"
+                               Style="text-transform: none; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700;">
+                        Generar consulta
+                    </MudButton>
+
                 </MudStack>
             </MudForm>
         </section>
@@ -84,11 +84,13 @@
 
         if (Form.IsValid)
         {
+            await Task.Delay(1000);
+            Dispatcher.Dispatch(new GetLatestConsultationAction(PatientId));
+
+            await Task.Delay(1000);
             await CreateConsultation();
         }
     }
-
-    bool ErrorMessage { get; set; }
 
 
     static IEnumerable<ConsultationTypes> ConsultationTypesCollection => IEnum<ConsultationTypes, ConsultationTypeToken>
@@ -113,11 +115,10 @@
         if (content != null)
         {
             Consultation = content;
+            Dispatcher.Dispatch(new InitializeDailyPlansAction());
+            await Task.Delay(1000);
+
             NavToNewConsultation();
-        }
-        else
-        {
-            ErrorMessage = true;
         }
     }
 

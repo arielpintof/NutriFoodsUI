@@ -4,6 +4,7 @@
 @inject IState<MedicineState> MedicineState  
 @inherits Fluxor.Blazor.Web.Components.FluxorComponent
 @inject IDispatcher Dispatcher
+@implements IIngestible
 
 <MudGrid Class="px-3 mb-5">
     <MudItem xs="4" Class="flex-column">
@@ -26,12 +27,12 @@
                         <div class="medicine-actions d-flex align-items-center gap-1">  
                             <MudIconButton Icon="@Icons.Material.Filled.Edit"
                                            Title="Editar medicamento"  
-                                           OnClick="() => EditMedicineDialog(_noHeader, time.Index)"  
+                                           OnClick="() => EditIngestible(time.Index)"  
                                            Size="Size.Small">
                             </MudIconButton>
 
                             <MudIconButton Icon="@Icons.Material.Filled.Delete"
-                                           OnClick="() => DeleteMedicine(time.Index)"  
+                                           OnClick="() => DeleteIngestible(time.Index)"  
                                            Title="Eliminar medicamento" 
                                            Size="Size.Small"
                                            Class="animation-button">
@@ -48,35 +49,41 @@
                 StartIcon="@Icons.Material.Outlined.AddCircle"
                 Variant="Variant.Text"
                 Style="text-transform: none; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700;"
-                OnClick="() => AddMedicine(_noHeader)">  
+                OnClick="() => AddIngestible()">  
                 Añadir un medicamento  
             </MudButton>
         </div>
     </MudItem>
-
+    <span>@MedicineState.Value.Medicines.Count()</span>
 </MudGrid>
 
 
 @code {
 
-    readonly DialogOptions _noHeader = new () { NoHeader = true };
-
-    private void AddMedicine(DialogOptions options) 
+    public DialogOptions Options { get; } = new() { NoHeader = true };
+    
+    public void AddIngestible()
     {
         var parameters = new DialogParameters<MedicineDialog> {{ x => x.ModeType, ModeTypeEnum.Add }};
-        Dialog.Show<MedicineDialog>("Custom Options Dialog", parameters, options);
+        Dialog.Show<MedicineDialog>("Custom Options Dialog", parameters, Options);
     }
 
-    void DeleteMedicine(int index)  
+    public void EditIngestible(int index)
+    {
+        var parameters = new DialogParameters<MedicineDialog> {{ x => x.Index, index }, 
+            {y => y.ModeType, ModeTypeEnum.Edit}};
+        Dialog.Show<MedicineDialog>("Editar medicamento", parameters, Options);  
+    }
+
+    public void DeleteIngestible(int index)
     {
         var parameters = new DialogParameters<MedicineDialog> {{ x => x.Index, index }};
         Dialog.Show<MedicineDeleteWarning>("¿Estás seguro de eliminar el medicamento?", parameters);
     }
 
-    void EditMedicineDialog(DialogOptions options, int index) 
+    public void LoadIngestible()
     {
-        var parameters = new DialogParameters<MedicineDialog> {{ x => x.Index, index }, 
-            {y => y.ModeType, ModeTypeEnum.Edit}};
-        Dialog.Show<MedicineDialog>("Editar medicamento", parameters, options);  
+        throw new NotImplementedException();
     }
+
 }

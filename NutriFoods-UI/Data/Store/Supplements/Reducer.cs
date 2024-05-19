@@ -23,4 +23,10 @@ public class Reducer
         
         return new SupplementState(supplements: updatedList);
     }
+
+    [ReducerMethod]
+    public static SupplementState Initialize(SupplementState state, InitializeSupplementAction action)
+    {
+        return new SupplementState(action.Supplements);
+    }
 }
